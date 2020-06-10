@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>1405FamilyMap</name>
+		<Style id='Style2-line-1'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7fe36263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-1-hover'>
+			<LineStyle>
+				<color>7fe36263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-1-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-1</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-1-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>home to Walker River</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> home to Walker River<br>
+	<b>description:</b> 1<br>
+	<b>date:</b> May 16, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>May 16, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-119.818783,39.522581,0.0 -119.819273,39.504283,0.0 -119.811971,39.500668,0.0 -119.811194,39.477713,0.0 -119.795656,39.477147,0.0 -119.794926,39.47302,0.0 -119.791106,39.472737,0.0 -119.782089,39.454179,0.0 -119.767801,39.443309,0.0 -119.746656,39.415998,0.0 -119.756972,39.401093,0.0 -119.753374,39.378915,0.0 -119.756126,39.370668,0.0 -119.785275,39.357748,0.0 -119.792617,39.345756,0.0 -119.80661,39.339822,0.0 -119.827366,39.307771,0.0 -119.803972,39.208376,0.0 -119.764163,39.196442,0.0 -119.740848,39.172791,0.0 -119.744767,39.150073,0.0 -119.770654,39.148652,0.0 -119.779831,39.071249,0.0 -119.780674,38.959007,0.0 -119.651284,38.852861,0.0 -119.560676,38.745542,0.0 -119.546433,38.673263,0.0 -119.485617,38.517319,0.0 -119.451933,38.512391,0.0 -119.463868,38.465836,0.0 -119.448976,38.424342,0.0 -119.453315,38.396296,0.0</coordinates></LineString></Placemark>
+		<Style id='Style2-line-2'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7fe46263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-2-hover'>
+			<LineStyle>
+				<color>7fe46263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-2-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-2</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-2-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>beautiful 395 to Bristlecone Pines and back</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> beautiful 395 to Bristlecone Pines and back<br>
+	<b>description:</b> 3<br>
+	<b>date:</b> May 17, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E4</value>
+				</Data>
+				<Data name='date'>
+					<value>May 17, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-119.452458,38.398316,0.0 -119.449792,38.344145,0.0 -119.421043,38.357542,0.0 -119.32921,38.340663,0.0 -119.281416,38.2591,0.0 -119.224319,38.25975,0.0 -119.230471,38.215471,0.0 -119.21793,38.197394,0.0 -119.191666,38.179314,0.0 -119.179001,38.078366,0.0 -119.160774,38.085639,0.0 -119.167459,38.064946,0.0 -119.144711,37.99078,0.0 -119.108276,37.949071,0.0 -119.083189,37.85897,0.0 -119.054031,37.814395,0.0 -118.979975,37.755897,0.0 -118.917046,37.642782,0.0 -118.815794,37.616905,0.0 -118.772784,37.584326,0.0 -118.647632,37.558496,0.0 -118.625603,37.529488,0.0 -118.583679,37.514628,0.0 -118.571921,37.439978,0.0 -118.546865,37.412191,0.0 -118.464661,37.378104,0.0 -118.394165,37.376978,0.0 -118.395297,37.336126,0.0 -118.349186,37.235532,0.0 -118.290138,37.175637,0.0 -118.271367,37.175573,0.0 -118.251508,37.188396,0.0 -118.240224,37.214617,0.0 -118.153152,37.260392,0.0 -118.151608,37.284024,0.0 -118.167665,37.295358,0.0 -118.170163,37.306008,0.0 -118.180382,37.313261,0.0 -118.179788,37.320924,0.0 -118.188464,37.32763,0.0 -118.186927,37.335975,0.0 -118.188214,37.335429,0.0</coordinates></LineString></Placemark>
+		<Style id='Style2-line-3'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7fe56263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-3-hover'>
+			<LineStyle>
+				<color>7fe56263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-3-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-3</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-3-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>side trip to the Vis Cen</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> side trip to the Vis Cen<br>
+	<b>description:</b> 4<br>
+	<b>date:</b> May 18, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-3-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E5</value>
+				</Data>
+				<Data name='date'>
+					<value>May 18, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-118.186927,37.333791,0.0 -118.188692,37.335726,0.0 -118.182708,37.342084,0.0 -118.184878,37.346532,0.0 -118.18115,37.348263,0.0 -118.184565,37.354313,0.0 -118.181027,37.355383,0.0 -118.188204,37.358335,0.0 -118.18886,37.363372,0.0 -118.18657,37.367204,0.0 -118.185104,37.368847,0.0 -118.183208,37.368921,0.0 -118.184164,37.377573,0.0 -118.181558,37.382713,0.0 -118.177915,37.383833,0.0</coordinates></LineString></Placemark>
+		<Style id='Style2-line-4'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7f5a7fbf</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-4-hover'>
+			<LineStyle>
+				<color>7f5a7fbf</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-4-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-4</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-4-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>side trip to Looney Beans</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> side trip to Looney Beans<br>
+	<b>description:</b> 6<br>
+	<b>date:</b> May 19, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-4-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#BF7F5A</value>
+				</Data>
+				<Data name='date'>
+					<value>May 19, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-118.917046,37.640607,0.0 -118.967514,37.6455,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>side trip to Reversed Creek CG</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> side trip to Reversed Creek CG<br>
+	<b>description:</b> 8<br>
+	<b>date:</b> May 20, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-4-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#BF7F5A</value>
+				</Data>
+				<Data name='date'>
+					<value>May 20, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-119.054031,37.812225,0.0 -119.063387,37.798628,0.0 -119.064975,37.790633,0.0 -119.082956,37.772385,0.0 -119.083514,37.770766,0.0</coordinates></LineString></Placemark>
+		<Style id='Style2-line-5'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7fe16263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-5-hover'>
+			<LineStyle>
+				<color>7fe16263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-5-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-5</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-5-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>take two, long way to San Rafael</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> take two, long way to San Rafael<br>
+	<b>description:</b> 10<br>
+	<b>date:</b> May 23, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-5-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E1</value>
+				</Data>
+				<Data name='date'>
+					<value>May 23, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-119.818783,39.522581,0.0 -119.824397,39.51913,0.0 -119.826088,39.526607,0.0 -119.830527,39.528787,0.0 -119.857549,39.526383,0.0 -119.905408,39.514018,0.0 -119.985362,39.513687,0.0 -119.999395,39.5091,0.0 -119.993019,39.483905,0.0 -120.011235,39.445315,0.0 -120.034577,39.427412,0.0 -120.027695,39.376772,0.0 -120.096959,39.380665,0.0 -120.171681,39.342048,0.0 -120.232484,39.480945,0.0 -120.36917,39.590076,0.0 -120.417483,39.602175,0.0 -120.454005,39.636762,0.0 -120.463726,39.625612,0.0 -120.471385,39.626096,0.0 -120.483268,39.615428,0.0 -120.53469,39.6216,0.0 -120.552474,39.63305,0.0 -120.57235,39.628327,0.0 -120.585548,39.618956,0.0 -120.600116,39.612492,0.0 -120.613403,39.624334,0.0</coordinates></LineString></Placemark>
+		<Style id='Style2-line-6'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7fe26263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-6-hover'>
+			<LineStyle>
+				<color>7fe26263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-6-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-6</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-6-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>busy holiday driving</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> busy holiday driving<br>
+	<b>description:</b> 12<br>
+	<b>date:</b> May 24, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-6-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E2</value>
+				</Data>
+				<Data name='date'>
+					<value>May 24, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-120.600116,39.612492,0.0 -120.60894,39.60754,0.0 -120.608597,39.576321,0.0 -120.648766,39.562559,0.0 -120.743523,39.568911,0.0 -120.779915,39.550912,0.0 -120.852013,39.560177,0.0 -120.968399,39.515166,0.0 -121.009941,39.518609,0.0 -121.019554,39.502981,0.0 -121.003418,39.501127,0.0 -121.038094,39.495298,0.0 -121.04702,39.458993,0.0 -121.070709,39.437784,0.0 -121.107445,39.418956,0.0 -121.136284,39.39004,0.0 -121.14624,39.392693,0.0 -121.171303,39.360847,0.0 -121.219025,39.382345,0.0 -121.26297,39.360582,0.0 -121.324425,39.36244,0.0 -121.350174,39.318628,0.0 -121.369057,39.31305,0.0 -121.393089,39.27851,0.0 -121.398926,39.253525,0.0 -121.413002,39.22986,0.0 -121.46553,39.220285,0.0 -121.483383,39.213635,0.0 -121.510162,39.214433,0.0 -121.577454,39.149765,0.0 -121.586037,39.148966,0.0 -121.587067,39.141511,0.0 -121.606636,39.137783,0.0 -121.622429,39.132723,0.0 -121.645775,39.132723,0.0 -121.646118,39.127397,0.0 -121.672211,39.127131,0.0 -121.671524,38.969286,0.0 -121.719589,38.839708,0.0 -121.714096,38.810553,0.0 -121.720276,38.8044,0.0 -121.727142,38.792359,0.0 -121.728859,38.684438,0.0 -121.750832,38.678006,0.0 -121.766968,38.619016,0.0 -121.770058,38.519967,0.0 -121.981888,38.352696,0.0 -122.01828,38.337078,0.0 -122.036133,38.291823,0.0 -122.071838,38.249505,0.0 -122.151489,38.207702,0.0 -122.210541,38.161016,0.0 -122.218437,38.140767,0.0 -122.252426,38.141577,0.0 -122.297745,38.114571,0.0 -122.405205,38.156157,0.0 -122.447777,38.151567,0.0 -122.543907,38.081609,0.0 -122.530861,38.055391,0.0 -122.543564,38.008607,0.0 -122.520561,37.979386,0.0 -122.522278,37.969102,0.0 -122.532234,37.968561,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>winding way to Harbin</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> winding way to Harbin<br>
+	<b>description:</b> 14<br>
+	<b>date:</b> May 27, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>May 27, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.555923,38.080528,0.0 -122.597122,38.17991,0.0 -122.628708,38.24573,0.0 -122.709732,38.306103,0.0 -122.708359,38.345964,0.0 -122.668533,38.349196,0.0 -122.694626,38.404101,0.0 -122.686386,38.431001,0.0 -122.689133,38.448211,0.0 -122.661667,38.472944,0.0 -122.657547,38.550313,0.0 -122.588882,38.579306,0.0 -122.608109,38.591114,0.0 -122.598495,38.607213,0.0 -122.598495,38.641545,0.0 -122.593002,38.68015,0.0 -122.628365,38.737883,0.0 -122.61549,38.751807,0.0 -122.617312,38.752493,0.0 -122.615358,38.757998,0.0 -122.626215,38.77222,0.0 -122.630398,38.778494,0.0 -122.647286,38.783161,0.0 -122.659779,38.791423,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>Harbin to Lake Mendocino, over Clear Lake</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> Harbin to Lake Mendocino, over Clear Lake<br>
+	<b>description:</b> 16<br>
+	<b>date:</b> May 28, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>May 28, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.61549,38.751807,0.0 -122.56485,38.793162,0.0 -122.627335,38.858424,0.0 -122.604675,38.887292,0.0 -122.622871,38.938315,0.0 -122.603989,39.001577,0.0 -122.666817,39.026652,0.0 -122.716599,39.021584,0.0 -122.750244,39.040253,0.0 -122.7705,39.037853,0.0 -122.803802,39.100226,0.0 -122.863541,39.125799,0.0 -122.89959,39.161213,0.0 -122.952461,39.174522,0.0 -122.988167,39.158018,0.0 -123.127213,39.245017,0.0 -123.149529,39.23704,0.0 -123.153648,39.232253,0.0 -123.166351,39.231721,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>101 through the redwoods</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> 101 through the redwoods<br>
+	<b>description:</b> 18<br>
+	<b>date:</b> May 29, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>May 29, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-123.17125,39.23246,0.0 -123.18141,39.237818,0.0 -123.203932,39.242109,0.0 -123.293873,39.307744,0.0 -123.355034,39.40635,0.0 -123.354466,39.467805,0.0 -123.572462,39.824211,0.0 -123.672655,39.829679,0.0 -123.714529,39.850319,0.0 -123.715217,39.869901,0.0 -123.794214,39.973786,0.0 -123.782983,40.04099,0.0 -123.804724,40.139731,0.0 -123.771385,40.194135,0.0 -123.81712,40.22043,0.0 -123.840692,40.258205,0.0 -123.872525,40.270294,0.0 -123.934014,40.339585,0.0 -123.919999,40.361931,0.0 -123.935971,40.393034,0.0 -124.085333,40.461507,0.0 -124.102996,40.502229,0.0 -124.148912,40.527236,0.0 -124.156758,40.591641,0.0 -124.215092,40.625492,0.0 -124.200645,40.668918,0.0 -124.215037,40.719113,0.0 -124.185459,40.780716,0.0 -124.142851,40.780704,0.0 -124.140072,40.774447,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>winding 299</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> winding 299<br>
+	<b>description:</b> 20<br>
+	<b>date:</b> Jun 2, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Jun 2, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.140072,40.774447,0.0 -124.118794,40.784473,0.0 -124.086525,40.785133,0.0 -124.086352,40.807422,0.0 -124.073815,40.834387,0.0 -124.080329,40.835838,0.0 -124.081642,40.898259,0.0 -124.069104,40.910671,0.0 -123.955296,40.882826,0.0 -123.918874,40.901153,0.0 -123.896156,40.948013,0.0 -123.877102,40.945618,0.0 -123.863545,40.932329,0.0 -123.836604,40.924224,0.0 -123.827522,40.908334,0.0 -123.80592,40.902231,0.0 -123.812283,40.925901,0.0 -123.792552,40.926741,0.0 -123.771393,40.897134,0.0 -123.712813,40.907195,0.0 -123.663086,40.944247,0.0 -123.628445,40.939786,0.0 -123.604703,40.890022,0.0 -123.565397,40.890313,0.0 -123.482872,40.848,0.0 -123.488633,40.835244,0.0 -123.479296,40.812102,0.0 -123.454459,40.791795,0.0 -123.421974,40.782883,0.0 -123.389767,40.800222,0.0 -123.311562,40.77713,0.0 -123.258137,40.739962,0.0 -123.195268,40.733716,0.0 -123.140253,40.763899,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>Redding</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> Redding<br>
+	<b>description:</b> 22<br>
+	<b>date:</b> Jun 3, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Jun 3, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-123.140253,40.763899,0.0 -123.134471,40.769547,0.0 -123.10397,40.765832,0.0 -123.096528,40.75944,0.0 -123.090803,40.768907,0.0 -123.069971,40.762252,0.0 -123.050526,40.726257,0.0 -122.975134,40.743826,0.0 -122.939562,40.731712,0.0 -122.92288,40.713234,0.0 -122.93176,40.686099,0.0 -122.942009,40.678748,0.0 -122.94053,40.648427,0.0 -122.897278,40.653123,0.0 -122.880797,40.668224,0.0 -122.830661,40.67342,0.0 -122.752035,40.651459,0.0 -122.736947,40.630958,0.0 -122.699178,40.65444,0.0 -122.694704,40.667216,0.0 -122.650399,40.66905,0.0 -122.613751,40.647245,0.0 -122.582606,40.648872,0.0 -122.479897,40.589554,0.0 -122.435189,40.580853,0.0 -122.388056,40.58137,0.0 -122.378882,40.505233,0.0 -122.298108,40.44591,0.0 -122.282681,40.454424,0.0 -122.281147,40.436735,0.0 -122.266569,40.436811,0.0 -122.241892,40.455924,0.0 -122.24128,40.473768,0.0 -122.185783,40.474009,0.0 -122.130276,40.485713,0.0 -122.08106,40.479845,0.0 -122.030387,40.511272,0.0 -121.974898,40.495883,0.0 -121.957462,40.506972,0.0 -121.935009,40.506509,0.0 -121.926531,40.497138,0.0 -121.89334,40.488286,0.0 -121.650278,40.444865,0.0 -121.463516,40.49501,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>touristing and home</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> touristing and home<br>
+	<b>description:</b> 24<br>
+	<b>date:</b> Jun 4, 2014
+</div>
+]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Jun 4, 2014</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-121.464844,40.497092,0.0 -121.525273,40.459423,0.0 -121.525224,40.379944,0.0 -121.387939,40.262761,0.0 -121.276581,40.250484,0.0 -121.220095,40.309401,0.0 -120.95317,40.326309,0.0 -120.726379,40.418228,0.0 -120.591431,40.392581,0.0 -120.371556,40.170093,0.0 -120.166035,40.090064,0.0 -120.13786,40.058236,0.0 -120.018855,39.937848,0.0 -120.012779,39.89212,0.0 -120.041022,39.859034,0.0 -120.038446,39.774947,0.0 -120.030306,39.701756,0.0 -119.971414,39.649685,0.0 -119.916002,39.627896,0.0 -119.852382,39.612424,0.0 -119.826365,39.589465,0.0 -119.832656,39.57842,0.0 -119.824515,39.568698,0.0 -119.826712,39.555104,0.0 -119.822403,39.550227,0.0 -119.814327,39.525746,0.0 -119.819559,39.524296,0.0 -119.818783,39.522581,0.0</coordinates></LineString></Placemark>
+	</Document>
+</kml>

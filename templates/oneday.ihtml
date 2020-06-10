@@ -1,0 +1,48 @@
+<article class="jumbotron jumbotron-fluid" id="main_item">
+	<h1><a href="?page=log&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h1>
+
+	<h2>{PRETTY_DATE}</h2>
+	
+	<hr />
+
+	<p>Today is day <b>{ORDINAL}</b> of the trip. I drove <b>{MILES}</b> miles today, for a total of <b>{CUMMILES}</b> miles so far.</p>
+	
+	<dl>
+		<dt>Here is a short description of the day:</dt>
+		<dd>{DAY_NAME}<br />{DAY_DESC}</dd>
+	</dl>
+	
+	<p>I started the day at {AM_STOP}. I ended the day at {PM_STOP}.</p>
+	
+	<dl class="{NIGHT_VIS}">
+		<dt>Here is a short description of the evening:</dt>
+		<dd>{NIGHT_DESC}</dd> 
+	</dl>
+
+	<p {VIS_CLASS_TXT}>Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span>.</p>
+
+{PAGER_BAR}
+	
+</article>        
+
+{LINK_BAR}
+
+<style type="text/css" media="screen">
+#main_item h1 a 			{ color: {BOLDCOLOR}; }
+#main_item h1 a:hover { color: {LINKCOLOR}; }
+
+article.jumbotron	{
+  padding-bottom: 1em;
+}
+
+dl { margin-bottom: .5em; }
+dt { font-weight: normal; }
+dd {
+	font-style: italic;
+	padding: .5em 1.5em;
+}
+
+span {
+	font-size: 120%;
+}
+</style>

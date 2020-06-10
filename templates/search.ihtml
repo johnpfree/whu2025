@@ -1,0 +1,191 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		console.log('ready');
+    $('[data-toggle="collapse"]').click(function(){
+			console.log('click', this, $(this).attr('class'), 'href', $(this).attr('href'));
+					
+			var section = $(this).attr('href');
+			
+			var sectKey = section.substr(9);
+			if (sectKey == 1) return;		// no ajax for this one
+			if (sectKey == 4) return;		// no ajax for this one
+			
+			var sectElem = section + ">div>div";
+			var sectUrl = "?page=ajax&type=search&key=" + sectKey;
+
+			console.log('this: ', section, sectElem, sectUrl);
+		
+      $.ajax({url: sectUrl, success: function(result){
+          $(sectElem).html(result);
+      }});
+			
+			console.log('done');
+    });
+	});
+	
+</script>
+
+<div class="container" id="main_item">
+  <h2>Finding Stuff</h2>
+
+  <div id="srch-spots" class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading" data-toggle="collapse" href="#collapse1">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse1">Find Spots near a location</a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse">  <!-- in -->
+				<form role="form" id="radius_srch" data-toggle="validator">
+					<div class="panel-body">
+				    <div class="form-group row">
+				      <div class="col-sm-6">
+					      <label for="search_term" class="col-form-label">Location:</label>
+				        <input type="text" class="form-control" name="search_term" id="search_term" placeholder="City, State or ZIP" required>
+				      </div>
+				      <div class="col-sm-3">
+					      <label for="search_radius" class="col-form-label">Radius:</label>
+				        <input type="number" class="form-control" name="search_radius" id="search_radius" placeholder="Miles" max="200" required>
+				      </div>
+				      <div class="col-sm-2" id="search_near">         
+				        <button type="submit" name="search_near_loc" class="btn btn-primary">&nbsp; Find Spots &nbsp;</button>
+				      </div>
+				    </div>
+	        </div>
+				</form>
+      </div>
+    </div>
+		
+    <div class="panel panel-default">
+      <div class="panel-heading" data-toggle="collapse" href="#collapseSpLoc">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapseSpLoc">Find Spots by State / Region:</a>
+        </h4>
+      </div>
+      <div id="collapseSpLoc" class="panel-collapse collapse">
+        <div class="panel-body">
+			    <div class="row">
+			    </div>
+        </div>
+      </div>
+    </div>
+		
+    <div class="panel panel-default">
+      <div class="panel-heading" data-toggle="collapse" href="#collapseSpType">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapseSpType">Find Spots by Type of Campground</a>
+        </h4>
+      </div>
+      <div id="collapseSpType" class="panel-collapse collapse">
+        <div class="panel-body">
+			    <div class="row">
+			    </div>
+        </div>
+      </div>
+    </div>
+
+	  <div class="panel panel-default">
+	    <div class="panel-heading" data-toggle="collapse" href="#collapseSpKey">
+	      <h4 class="panel-title">
+					<a data-toggle="collapse" href="#collapseSpKey">Find Spots by Keyword:</a>
+				</h4>
+	    </div>
+	    <div id="collapseSpKey" class="panel-collapse collapse">
+	      <div class="panel-body">
+					<div class="row">
+					</div>
+	      </div>
+	    </div>
+	  </div>
+	
+	  <div class="panel panel-default">
+	    <div class="panel-heading" data-toggle="collapse" href="#collapse4">
+	      <h4 class="panel-title">
+					<a data-toggle="collapse" href="#collapse4">List all Non-Camping Spots:</a>
+				</h4>
+	    </div>
+	    <div id="collapse4" class="panel-collapse collapse">
+	      <div class="panel-body">
+					<div class="row">
+						<div class="col-xs-4"><button class="btn btn-outline-success" type="button"><a href="?page=spots&type=type&key=HOTSPR">Hot Springs</a></button></div>
+						<div class="col-xs-4"><button class="btn btn-outline-success" type="button"><a href="?page=spots&type=type&key=NWR">Wildlife Refuges</a></button></div>
+						<div class="col-xs-4"><button class="btn btn-outline-success" type="button"><a href="?page=spots&type=type&key=LODGE">Lodging</a></button></div>
+						<!-- <div class="col-xs-4"><a href="?page=spots&type=type&key=HOTSPR">Hot Springs</a></div>
+						<div class="col-xs-4"><a href="?page=spots&type=type&key=NWR">Wildlife Refuges</a></div>
+						<div class="col-xs-4"><a href="?page=spots&type=type&key=LODGE">Lodging</a></div> -->
+					</div>
+	      </div>
+	    </div>
+	  </div>
+
+  </div>
+  <div id="srch-pics" class="panel-group">
+	
+	  <div class="panel panel-default">
+	    <div class="panel-heading" data-toggle="collapse" href="#collapsePicPlace">
+	      <h4 class="panel-title">
+					<a data-toggle="collapse" href="#collapsePicPlace">Find Pictures by Place:</a>
+				</h4>
+	    </div>
+	    <div id="collapsePicPlace" class="panel-collapse collapse">
+        <div class="panel-body">
+			    <div class="row">
+			    </div>
+        </div>
+	    </div>
+	  </div>
+
+	  <div class="panel panel-default">
+	    <div class="panel-heading" data-toggle="collapse" href="#collapsePicCat">
+	      <h4 class="panel-title">
+					<a data-toggle="collapse" href="#collapsePicCat">Find Pictures by Keyword:</a>
+				</h4>
+	    </div>
+	    <div id="collapsePicCat" class="panel-collapse collapse">
+	      <div class="panel-body">
+			    <div class="row">
+			    </div>
+	      </div>
+	    </div>
+	  </div>
+		
+  </div>
+</div>
+	
+<style type="text/css" media="screen">
+	#main_item form {		margin: 0;	}
+	#main_item form .form-group {		margin: 0;	}
+	
+	#search_near { padding: 12px 0 0 40px; text-align: center; }
+	
+#collapse4 .col-xs-4 {
+	text-align: center;
+}
+
+#srch-spots>.panel-default>.panel-heading { 
+	background-color: {SPOTS_BACK};
+	color: {SPOTS_FORE};
+}
+#srch-pics>.panel-default>.panel-heading { 
+	background-color: {PICS_BACK};
+	color: {PICS_FORE};
+}
+
+.panel-default>.panel-heading a:hover { 
+	color: {BOLDCOLOR};
+}
+
+.row>.btn, .row>div>.btn {
+	margin: 4px;
+	background-color: {BACKCOLOR};
+	border: 2px solid {LINKHOVER};
+	{SANS_FONT};
+}
+
+label {
+	color: {LINKHOVER};
+	{SANS_FONT};
+}
+button[type="submit"] { color: {LINKHOVER};}
+input { border: 1px solid {LINKHOVER}; }
+</style>

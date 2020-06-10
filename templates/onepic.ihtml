@@ -1,0 +1,75 @@
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$(document).keydown(function(event) {
+		console.log("keyCode:", event.keyCode);
+		if (event.keyCode == 37)
+			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={P_KEY}";
+		else if (event.keyCode == 39)
+			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={N_KEY}";
+	});
+});
+</script>
+
+<div class="jumbotron jumbotron-fluid" id="main_item">
+
+	<div class="row" id="pichead">
+		<div class="col-sm-8">
+			<h3>{VIS_NAME}</h3>
+		</div>
+		<div class="col-sm-4">
+			<h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3>
+		</div>
+	</div>
+	
+	<div class="row" id="thepic">
+		<img class="img-rounded img-responsive" src='{REL_PICPATH}pix/iPhoto/{WF_IMAGES_PATH}/{WF_IMAGES_FILENAME}' border="0" />	
+	</div>
+
+	
+{PAGER_BAR}
+	<div class="row">
+		<div class="col-sm-9">
+			<ul id="picdetails">
+				<li>Taken on: <a href="?page=day&type=date&key={DATE}"><b>{PRETTIEST_DATE}</b></a> at <b>{PIC_TIME}</b>,</li>
+				<li>Whu place: <b>{PIC_PLACE}</b></li>
+				<li>With my: <b>{PIC_CAMERA}</b></li>
+				<li class="{GPS_VIS}">geolocation: <b>{GPS_LAT}, {GPS_LON}</b></li>
+				<li>
+					Keywords:<br />
+					&bull; 
+		<!-- BEGIN rows -->
+					<a href="?page=pics&type=cat&key={WF_CATEGORIES_ID}">{WF_CATEGORIES_TEXT}</a> &bull; 
+		<!-- END rows -->
+				</li>
+				<li class="{STORY_VIS}">Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
+				<li>{PICFILE_NAME}</li>			
+			</ul>
+    </div>
+		<div class="col-sm-3">
+			{MAP_INSET}
+		</div>
+	</div>
+</div>
+
+<style type="text/css" media="screen">
+	#thepic {
+		border: 1px solid #999;
+		padding: 1em;
+	}
+	#pichead div:nth-child(2) {	
+		text-align: right;	
+		vertical-align: middle;
+	}
+	#main_item img {
+		margin: 0 auto;
+		width: 100%;
+	}
+	#main_item iframe {
+		width: 100%;
+		min-height: 700px;
+	}
+/*	ul { padding-left: 1em; }*/
+	#picdetails b { white-space: nowrap; }
+</style>

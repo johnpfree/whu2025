@@ -1,0 +1,81 @@
+<div id="mapinsert"></div>
+
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+
+<script type="text/javascript" charset="utf-8">
+
+L.mapbox.accessToken = '{MAPBOX_TOKEN}';
+
+console.log('type0', (typeof map == 'object'));
+if (typeof map != 'object') {
+	
+	var map = L.mapbox.map('mapinsert')
+			.setView([{PT_lat}, {PT_lon}], 12)
+			.addLayer(L.mapbox.styleLayer('mapbox://styles/johnpfree/ckapev8jm05g41jlnxn69u2pt')); /* my outdoors style */
+	}
+
+/*
+June 2020, upgraded classic styles (I hope)
+	this is old code:
+	var map = L.mapbox.map('mapinsert', 'mapbox.streets')
+			.setView([{PT_lat}, {PT_lon}], 12);
+	}
+*/
+		
+map._onResize();			// force window to completely render
+
+console.log('mapbox.map', map);
+
+var markers = [
+	{
+		type: 'Feature',
+			zIndexOffset: 100, 
+		geometry: {
+				type: 'Point',
+				coordinates: [{PT_lon}, {PT_lat}]
+		},
+		properties: {
+				title: '<div class="title">{PT_name}</div>',
+				description: '<div class="desc">{PT_desc}</div>',
+				'marker-symbol': 'star',
+				'marker-color': '#8c54ba'
+		}
+	}
+];
+
+if ({WEATHER_MARK})	
+{
+	markers.push({
+		type: 'Feature',
+			zIndexOffset: 20, 
+		geometry: {
+				type: 'Point',
+				coordinates: [{W_LON}, {W_LAT}]
+		},
+		properties: {
+				title: '<div class="title">Weather Station</div>',
+				description: '<div class="desc">{W_CITY}, {W_STATE}</div>',
+				'marker-symbol': 'w',
+				'marker-color': '#18AADB'
+		}
+	});
+}
+
+var markersLayer = L.mapbox.featureLayer().addTo(map);
+markersLayer.setGeoJSON(markers);
+console.log('markers', markers);
+</script>
+
+<style type="text/css" media="screen">
+#mapinsert {
+	border: 1px solid #3A5950;
+	width: 100%;
+	padding-bottom: 90%;
+}
+.desc:first-letter {
+  text-transform: uppercase;
+}
+
+</style>

@@ -1,0 +1,34 @@
+
+
+
+
+=-=-=-=-=-= git notes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Basic:
+git status
+git diff -w
+git commit -am "fiddling with fonts, lock in small changes before I clean up styling."
+git push origin unflick
+	 
+https://github.com/johnpfree/newWhu
+
+https://rawgit.com/johnpfree/newWhu/master/css/whuBase.css
+
+Normal usage, can do locally w/o internet:
+git add file
+git -m "comment" files
+
+.gitignore for ignoring this and host?
+* More on global ignores: https://help.github.com/articles/ignoring-files
+* Comprehensive set of ignores on GitHub: https://github.com/github/gitignore
+
+-- .gitignore won't ignore it if you already stupidly committed it. This will let you ignore it.
+git rm --cached css/normalize.min.css
+-- dtto for a directory
+git rm --cached -r resources
+
+->-Starting-<-
+git init
+git add .
+git add .gitignore
+(then clean s--t up BEFORE commit with git reset and either deleting or adding to .gitignore )

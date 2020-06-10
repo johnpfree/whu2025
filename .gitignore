@@ -1,0 +1,7 @@
+.htaccess
+php_error.log
+*.sql
+libraries
+resources
+triplogs/*.numbers
+js/vendor

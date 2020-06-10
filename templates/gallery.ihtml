@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="./css/justifiedGallery.min.css" />
+<script src="./libraries/jquery.justifiedGallery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
+
+<div class="jumbotron jumbotron-fluid" id="main_item">
+	<div class="row" id="pichead">
+		<div class="{DATE_GAL_VIS} col-lg-12">
+			<h1><a href="?page=pics&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h1>
+		</div>
+		<div class="{CAT_GAL_VIS} col-lg-12">
+			<h1>{TRIP_NAME}</h1>
+		</div>
+	</div>
+	
+	<div>{PAGER_BAR}</div>
+	
+	<div class="clearfix" id="thegal">
+		<div class="content">
+		  <div id="thegallery">
+<!-- BEGIN rows -->
+		      <a href="{IMG_FULL}" data-title="{PIC_DESC}"  data-max-width="540"
+					data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
+					data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
+<!-- END rows -->
+		  </div>
+		</div><!-- content -->
+	</div><!-- thegal -->
+
+  <script>
+		console.log('jQuery.fn.jquery=', jQuery.fn.jquery);
+	  $("#thegallery").justifiedGallery({
+			margins: 6,
+			border: 6,
+	  });
+		$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+			console.log('e', event);
+	    event.preventDefault();
+	    $(this).ekkoLightbox({
+				alwaysShowClose: true,
+	      onShown: function() {
+	     		console.log('Checking our the events huh?', this);
+	      }
+	    });
+		});
+  </script>
+
+{LINK_BAR}
+</div>
+
+<style type="text/css" media="screen">
+	.modal-content {  }
+	.modal-footer {  }
+	.justified-gallery > a > .caption {
+		line-height: 1.3em;
+	}
+	#middle { 
+		font-size: 22px;
+	}	
+	#main_item h1 a 			{ color: {BOLDCOLOR}; }
+	#main_item h1 a:hover { color: {LINKCOLOR}; }
+</style>
+
+
+

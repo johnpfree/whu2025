@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>1508EurekaMap</name>
+		<Style id='Style2-line-1'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7fe36263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-1-hover'>
+			<LineStyle>
+				<color>7fe36263</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-1-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-1</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-1-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>Line 1</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> Line 1<br>
+	<b>description:</b> 1<br>
+	<b>date:</b> Aug 17, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 17, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-119.816894,39.520992,0.0 -119.802333,39.57184,0.0 -119.848279,39.612097,0.0 -119.943399,39.631684,0.0 -120.034523,39.704069,0.0 -120.038937,39.775506,0.0 -120.036689,39.862947,0.0 -120.015191,39.914541,0.0 -120.144897,40.069762,0.0 -120.385114,40.178393,0.0 -120.647392,40.41611,0.0 -120.682093,40.419924,0.0 -120.759363,40.413256,0.0 -120.909544,40.450067,0.0 -121.040743,40.529547,0.0 -121.185558,40.653796,0.0 -121.308538,40.649386,0.0 -121.398981,40.701914,0.0 -121.400986,40.676472,0.0 -121.424732,40.680707,0.0 -121.431362,40.675142,0.0 -121.441081,40.675174,0.0 -121.443309,40.669151,0.0 -121.450106,40.668255,0.0 -121.450295,40.667619,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 2</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 2<br>
+	<b>description:</b> 2<br>
+	<b>date:</b> Aug 18, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 18, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-121.443309,40.669151,0.0 -121.481776,40.623049,0.0 -121.551444,40.586177,0.0 -121.577797,40.545113,0.0 -121.981201,40.50127,0.0 -122.292813,40.558323,0.0 -122.348485,40.584588,0.0 -122.388468,40.585995,0.0 -122.389033,40.583727,0.0 -122.391076,40.587905,0.0 -122.451312,40.584123,0.0 -122.655866,40.670916,0.0 -122.938075,40.652253,0.0 -122.931519,40.731649,0.0 -123.052946,40.724645,0.0 -123.083463,40.769922,0.0 -123.247097,40.734259,0.0 -123.342983,40.784222,0.0 -123.446503,40.78782,0.0 -123.640137,40.94049,0.0 -123.751453,40.90749,0.0 -123.900433,40.942782,0.0 -123.952967,40.88251,0.0 -124.07959,40.898982,0.0 -124.084752,40.824963,0.0 -124.117288,40.809512,0.0 -124.151872,40.802886,0.0 -124.136238,40.791979,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 6</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 6<br>
+	<b>description:</b> 3<br>
+	<b>date:</b> Aug 22, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 22, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.086463,40.892774,0.0 -124.125542,40.930572,0.0 -124.117654,41.022046,0.0 -124.156494,41.103157,0.0 -123.99533,41.370834,0.0 -124.031537,41.502369,0.0 -124.096277,41.59783,0.0 -124.117198,41.693274,0.0 -124.192196,41.761009,0.0 -124.151665,41.80288,0.0 -124.134119,41.917924,0.0 -124.203647,41.950922,0.0 -124.203391,41.999556,0.0 -124.264979,42.054435,0.0 -124.271204,42.055143,0.0 -124.261979,42.070381,0.0 -124.249708,42.073839,0.0 -124.230314,42.065459,0.0 -124.200447,42.080746,0.0 -124.193518,42.109942,0.0 -124.195858,42.123472,0.0 -124.189439,42.122932,0.0 -124.183075,42.126959,0.0 -124.178105,42.128145,0.0 -124.172963,42.131781,0.0 -124.175702,42.137195,0.0 -124.173935,42.141018,0.0 -124.17734,42.140402,0.0 -124.178299,42.138958,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 7</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 7<br>
+	<b>description:</b> 4<br>
+	<b>date:</b> Aug 23, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 23, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.271204,42.055143,0.0 -124.298947,42.057805,0.0 -124.344763,42.10958,0.0 -124.360428,42.185285,0.0 -124.421797,42.329148,0.0 -124.416584,42.355982,0.0 -124.424275,42.39806,0.0 -124.414112,42.428475,0.0 -124.429495,42.427978,0.0 -124.432573,42.43367,0.0 -124.38652,42.565472,0.0 -124.418449,42.681426,0.0 -124.447611,42.687986,0.0 -124.470784,42.731879,0.0 -124.4981,42.745499,0.0 -124.46085,42.897409,0.0 -124.468123,42.897394,0.0 -124.468359,42.904296,0.0 -124.496276,42.904532,0.0 -124.49633,42.903155,0.0 -124.501528,42.903119,0.0 -124.502585,42.901574,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 8</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 8<br>
+	<b>description:</b> 5<br>
+	<b>date:</b> 08/24/2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>08/24/2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.468359,42.904296,0.0 -124.467097,42.911476,0.0 -124.455012,42.911544,0.0 -124.414149,43.004181,0.0 -124.41399,43.119614,0.0 -124.396802,43.117847,0.0 -124.392666,43.157801,0.0 -124.352108,43.187229,0.0 -124.314889,43.192227,0.0 -124.254953,43.286276,0.0 -124.219658,43.289796,0.0 -124.196001,43.348622,0.0 -124.213347,43.365302,0.0 -124.222467,43.413923,0.0 -124.218014,43.539484,0.0 -124.188298,43.580376,0.0 -124.181888,43.624761,0.0 -124.189718,43.641467,0.0 -124.187981,43.662346,0.0 -124.18301,43.669381,0.0 -124.175807,43.674367,0.0 -124.1796,43.675658,0.0 -124.186054,43.675708,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 9</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 9<br>
+	<b>description:</b> 6<br>
+	<b>date:</b> Aug 25, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 25, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.175807,43.674367,0.0 -124.159298,43.67534,0.0 -124.140678,43.689988,0.0 -124.111749,43.697183,0.0 -124.098511,43.716038,0.0 -124.109802,43.724467,0.0 -124.110822,43.741512,0.0 -124.125579,43.75161,0.0 -124.126606,43.765427,0.0 -124.143429,43.772302,0.0 -124.152708,43.811586,0.0 -124.145508,43.850375,0.0 -124.113122,43.903123,0.0 -124.107478,43.968731,0.0 -124.095243,44.052314,0.0 -124.118729,44.13787,0.0 -124.112205,44.275811,0.0 -124.110118,44.29483,0.0 -124.10013,44.309179,0.0 -124.104734,44.312665,0.0 -124.094647,44.347601,0.0 -124.087818,44.379733,0.0 -124.088197,44.382845,0.0 -124.088731,44.380619,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 10</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 10<br>
+	<b>description:</b> 7<br>
+	<b>date:</b> Aug 25, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 25, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.088197,44.382845,0.0 -124.083818,44.413833,0.0 -124.067072,44.427161,0.0 -124.07444,44.436231,0.0 -124.083124,44.494121,0.0 -124.071207,44.520659,0.0 -124.073996,44.530267,0.0 -124.065108,44.589794,0.0 -124.049377,44.617355,0.0 -124.062075,44.62759,0.0 -124.051948,44.63906,0.0 -124.064482,44.687657,0.0 -124.052811,44.748684,0.0 -124.07341,44.774524,0.0 -124.060709,44.804122,0.0 -124.06517,44.827874,0.0 -124.054205,44.833766,0.0 -124.025367,44.888825,0.0 -124.008879,44.896066,0.0 -124.005432,44.912791,0.0 -124.021904,44.937325,0.0 -124.013883,44.95266,0.0 -124.017534,44.965079,0.0 -124.007107,44.982841,0.0 -124.00629,44.991375,0.0 -124.009209,44.996854,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 11</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 11<br>
+	<b>description:</b> 8<br>
+	<b>date:</b> Aug 26, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 26, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.00629,44.991375,0.0 -123.98447,45.003462,0.0 -123.95715,45.023313,0.0 -123.901993,45.00218,0.0 -123.715966,45.071417,0.0 -123.508657,45.049424,0.0 -123.342013,45.102652,0.0 -123.224147,45.191127,0.0 -123.131413,45.201919,0.0 -123.063339,45.233941,0.0 -122.992275,45.295588,0.0 -122.907358,45.3224,0.0 -122.739803,45.439594,0.0 -122.679229,45.472201,0.0 -122.66529,45.524055,0.0 -122.568227,45.533055,0.0 -122.559029,45.549726,0.0 -122.502193,45.542736,0.0 -122.448462,45.539483,0.0 -122.430952,45.541991,0.0 -122.418313,45.539799,0.0 -122.418378,45.537246,0.0 -122.407006,45.538392,0.0 -122.406921,45.537197,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 12</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 12<br>
+	<b>description:</b> 9<br>
+	<b>date:</b> Aug 27, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 27, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.407006,45.538392,0.0 -122.39147,45.540533,0.0 -122.399326,45.533307,0.0 -122.398769,45.486744,0.0 -122.39403,45.470194,0.0 -122.339597,45.42897,0.0 -122.271511,45.396386,0.0 -122.250709,45.395798,0.0 -122.16714,45.365979,0.0 -122.050642,45.378517,0.0 -121.88245,45.306909,0.0 -121.79607,45.311433,0.0 -121.735721,45.298218,0.0 -121.717963,45.284024,0.0 -121.668537,45.163826,0.0 -121.564407,45.114238,0.0 -121.512012,45.046125,0.0 -121.424186,44.866786,0.0 -121.321117,44.78785,0.0 -121.279971,44.766359,0.0 -121.233187,44.76356,0.0 -121.226578,44.759411,0.0 -121.226332,44.763762,0.0 -121.216939,44.76289,0.0 -121.210979,44.764455,0.0 -121.207224,44.769619,0.0 -121.208124,44.770442,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 13</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 13<br>
+	<b>description:</b> 10<br>
+	<b>date:</b> Aug 28, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 28, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-121.226578,44.759411,0.0 -121.23716,44.735474,0.0 -121.224872,44.718159,0.0 -121.174823,44.720838,0.0 -121.12618,44.651266,0.0 -121.135254,44.606113,0.0 -121.182457,44.518792,0.0 -121.200707,44.402082,0.0 -121.176816,44.380398,0.0 -121.166486,44.281232,0.0 -121.302795,44.097448,0.0 -121.305821,44.086932,0.0 -121.305033,44.077905,0.0 -121.308964,44.06376,0.0 -121.314912,44.058374,0.0 -121.314453,44.051764,0.0 -121.307099,44.051513,0.0 -121.306441,44.040157,0.0 -121.344378,43.979901,0.0 -121.351547,43.913723,0.0 -121.409741,43.85476,0.0 -121.47596,43.708587,0.0 -121.613292,43.541019,0.0 -121.687045,43.476271,0.0 -121.78482,43.229195,0.0 -121.820103,43.083782,0.0 -121.841759,42.728409,0.0 -121.860533,42.66725,0.0 -121.874909,42.664088,0.0 -121.879384,42.646708,0.0 -121.861553,42.658265,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 14</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 14<br>
+	<b>description:</b> 11<br>
+	<b>date:</b> Aug 29, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 29, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-121.879384,42.646708,0.0 -121.871514,42.441628,0.0 -121.812973,42.383401,0.0 -121.829778,42.345296,0.0 -121.810195,42.263659,0.0 -121.775187,42.231917,0.0 -121.782246,42.224323,0.0 -121.766837,42.215884,0.0 -121.757952,42.218886,0.0 -121.756493,42.21116,0.0 -121.75787,42.17002,0.0 -121.667511,42.072528,0.0 -121.606847,42.027474,0.0 -121.618481,42.007724,0.0 -121.678565,42.008115,0.0 -121.707745,42.000325,0.0 -121.560287,41.998284,0.0 -121.557369,41.972486,0.0 -121.564749,41.970934,0.0 -121.56543,41.912439,0.0 -121.552391,41.825316,0.0 -121.562465,41.762375,0.0 -121.508032,41.714282,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 15</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 15<br>
+	<b>description:</b> 12<br>
+	<b>date:</b> Aug 30, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 30, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-121.503189,41.718223,0.0 -121.508032,41.714282,0.0 -121.454322,41.692769,0.0 -121.429138,41.66432,0.0 -121.361584,41.678363,0.0 -121.296791,41.649795,0.0 -121.25782,41.670091,0.0 -121.1483,41.534539,0.0 -120.976713,41.496168,0.0 -120.878792,41.440667,0.0 -120.955252,41.375401,0.0 -120.887665,41.28245,0.0 -120.945053,41.187181,0.0 -120.88822,41.066202,0.0 -120.746956,40.921036,0.0 -120.758092,40.856996,0.0 -120.71022,40.737633,0.0 -120.756518,40.699452,0.0 -120.795231,40.688843,0.0 -120.835533,40.655639,0.0 -120.848923,40.598574,0.0 -120.843248,40.566433,0.0 -120.811496,40.546807,0.0 -120.809441,40.552157,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 16</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 16<br>
+	<b>description:</b> 15<br>
+	<b>date:</b> Aug 31, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 31, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-120.790558,40.539895,0.0 -120.772018,40.514843,0.0 -120.676918,40.443812,0.0 -120.672111,40.420554,0.0</coordinates></LineString></Placemark>
+		<Style id='Style2-line-2'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>7f5a7fbf</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-2-hover'>
+			<LineStyle>
+				<color>7f5a7fbf</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-2-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-2</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-2-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>day 16 explore</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> day 16 explore<br>
+	<b>description:</b> 14<br>
+	<b>date:</b> Aug 31, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#BF7F5A</value>
+				</Data>
+				<Data name='date'>
+					<value>Aug 31, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-120.813904,40.543809,0.0 -120.792961,40.543548,0.0 -120.772362,40.553983,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>to SHS</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> to SHS<br>
+	<b>description:</b> 16<br>
+	<b>date:</b> Sep 1, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Sep 1, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-120.038937,39.775506,0.0 -120.19661,39.809064,0.0 -120.392304,39.821194,0.0 -120.371704,39.755241,0.0 -120.408783,39.701376,0.0 -120.423203,39.614152,0.0 -120.370331,39.590345,0.0 -120.342179,39.583995,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>Line 17</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> Line 17<br>
+	<b>description:</b> 17<br>
+	<b>date:</b> Sep 2, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Sep 2, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-120.370331,39.590345,0.0 -120.370331,39.577644,0.0 -120.229569,39.477546,0.0 -120.170517,39.336953,0.0 -120.081253,39.388448,0.0 -120.039368,39.369872,0.0 -120.032525,39.427938,0.0 -119.994049,39.513577,0.0 -119.898615,39.513341,0.0 -119.826507,39.528937,0.0 -119.816894,39.520992,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>Butt lake!</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> Butt lake!<br>
+	<b>description:</b> 18<br>
+	<b>date:</b> Sep 4, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Sep 4, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-120.423203,39.614152,0.0 -120.438996,39.676013,0.0 -120.620957,39.76527,0.0 -120.623703,39.786379,0.0 -120.708847,39.871804,0.0 -120.779572,39.880762,0.0 -120.958099,39.942384,0.0 -120.980072,40.044437,0.0 -120.907288,40.127441,0.0 -120.960846,40.166806,0.0 -121.165466,40.20405,0.0 -121.180573,40.157361,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>Chester</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> Chester<br>
+	<b>description:</b> 19<br>
+	<b>date:</b> Sep 5, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Sep 5, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-121.165466,40.20405,0.0 -121.25679,40.275859,0.0 -121.234818,40.302571,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>lassen</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="info-window">
+	<b>name:</b> lassen<br>
+	<b>description:</b> <br>
+	<b>date:</b> Sep 7, 2015
+</div>]]></description>
+			<styleUrl>#Style2-line-1-map</styleUrl>
+			<ExtendedData>
+				<Data name='color'>
+					<value>#6362E3</value>
+				</Data>
+				<Data name='date'>
+					<value>Sep 7, 2015</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-121.25679,40.275859,0.0 -121.267776,40.259093,0.0 -121.398926,40.259093,0.0 -121.423645,40.308854,0.0 -121.499176,40.362765,0.0 -121.541061,40.349161,0.0 -121.523209,40.398333,0.0 -121.539688,40.450605,0.0 -121.520462,40.44747,0.0 -121.525269,40.467323,0.0 -121.47789,40.475158,0.0 -121.47171,40.461054,0.0 -121.437378,40.465756,0.0 -121.422272,40.498659,0.0 -121.457606,40.507538,0.0 -121.530075,40.568589,0.0 -121.543121,40.537808,0.0 -121.577797,40.545113,0.0</coordinates></LineString></Placemark>
+	</Document>
+</kml>

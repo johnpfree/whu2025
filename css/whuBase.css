@@ -1,0 +1,71 @@
+/* ================================= 
+  Base Styles
+==================================== */
+
+body {
+  font: 16px/26px Helvetica, Helvetica Neue, Arial;
+  margin: 0;
+	min-height: 100vh;
+/*	display: flex;
+	flex-direction: column;
+}
+.container {
+    flex-grow: 1;
+}
+.row {
+    flex: 1;*/
+}
+
+/* ================================= 
+  shared 
+==================================== */
+
+#thegal>p strong {
+	position: absolute;
+	color: #f0f;
+	font-size: 200%;
+}
+#thegal>p strong>img {
+	border: 0;		
+}
+
+
+/* un-jumbo jumbotron a bit: */
+.jumbotron { 
+	background-color: transparent; 		/* un-color jumbotrons */
+	padding-top: 0;
+}
+.jumbotron p {	font: inherit;	}
+.jumbotron h1 { font-size: 36px;}
+
+#main_item hr {
+	height: 4px;
+}
+
+.panel { 
+	background-color: transparent; 
+}
+
+.hideme { display: none; }
+.squareme {	object-fit: cover; }
+
+/* ================================= 
+  Media Queries
+==================================== */
+
+// Small devices (landscape phones, 544px and up)
+@media (min-width: 544px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+}
+

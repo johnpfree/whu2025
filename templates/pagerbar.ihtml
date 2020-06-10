@@ -1,0 +1,23 @@
+<!-- Prev - uplink - Next -->
+<ul class="pager">
+  <li class="previous"><a {P_VIS} href="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={P_KEY}"><i class="glyphicon glyphicon-circle-arrow-left"></i> {P_LAB}</a></li>
+	<li id="middle" {M_VIS}>{M_LAB}</li>
+  <li class="next">    <a {N_VIS} href="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={N_KEY}">{N_LAB} <i class="glyphicon glyphicon-circle-arrow-right"></i></a></li>
+</ul>
+
+<style type="text/css" media="screen">
+.pager li>a  { 
+	padding: 2px 11px;
+}
+.pager li>a, .pager li>span  { 
+	background-color: {BOLDCOLOR}; 
+	color: white;
+}
+.pager li>a:hover  { 
+	background-color: {LINKHOVER}; 
+	color: {BOLDCOLOR};
+}
+#middle { 
+	display: inline-block; 
+}
+</style>

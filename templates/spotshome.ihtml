@@ -1,0 +1,56 @@
+<div class="jumbotron jumbotron-fluid" id="main_item_sm">
+	<h2>{TITLE}</h2>
+<!-- BEGIN rows -->
+	<button class="btn btn-outline-success" type="button"><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_SHORT}</a></button>
+<!-- END rows -->
+</div>
+
+<div class="jumbotron jumbotron-fluid" id="main_item_lg">
+	<h2>{TITLE}</h2>
+	<table class="table table-hover" id="spotstable">
+		<thead>
+			<tr>
+				<td align="right">name</td>
+				<td>part of</td>
+				<td>where</td>
+				<td>type</td>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- BEGIN lg_rows -->
+			<tr>
+				<td align="right"><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_NAME}</a></td>
+				<td>{SPOT_PART_OF}</td>
+				<td>{SPOT_WHERE}</td>
+				<td>{SPOT_TYPE}</td>
+			</tr>
+			<!-- END lg_rows -->
+		</tbody>
+	</table>
+</div>
+
+<style type="text/css" media="screen">
+
+.jumbotron h2 {
+	color: {BOLDCOLOR};
+}
+
+@media (max-width: 700px)  {	
+	#main_item_lg { display: none;}
+}
+@media (min-width: 701px)  {	
+	#main_item_sm { display: none;}
+}
+
+#main_item_sm button {
+	background-color: #D3F2E9;
+	border: 2px solid #3A5950;
+	margin: .4em .2em;
+}
+#main_item_sm button a {
+	color: #f75035;
+}
+
+thead { border-bottom: 2px solid #3A5950;	}
+
+</style>

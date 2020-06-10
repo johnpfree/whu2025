@@ -1,0 +1,21 @@
+<!-- Linkbar -->
+<div class="row" id="linkbar">
+	<div class="col-xs-4" style="background-color: {BACK1}"><h3>{LINK1}</h3></div>
+	<div class="col-xs-4" style="background-color: {BACK2}"><h3>{LINK2}</h3></div>
+	<div class="col-xs-4" style="background-color: {BACK3}"><h3>{LINK3}</h3></div>
+</div>
+<style type="text/css" media="screen">
+	#linkbar {
+		margin-top: 20px;
+	}
+	#linkbar>div {
+		padding: 30px 0px;
+		text-align: center;
+		border-radius: 6px;
+		border: 2px solid {BORDERCOLOR};
+	}
+	#linkbar>div>h3 {
+		margin: 0;
+		font-size: 28px;
+	}
+</style>

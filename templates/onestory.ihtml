@@ -1,0 +1,152 @@
+<div class="jumbotron jumbotron-fluid" id="main_item">
+	<h1><a href="?page=txts&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h1>
+
+{PAGER_BAR}
+	
+	<h2>{POST_TITLE}</h2>
+
+	<div class=entry-content>{POST_CONTENT}</div>
+
+{PAGER_BAR}
+{LINK_BAR}
+
+<style type="text/css" media="screen">
+
+.jumbotron {
+	padding-bottom: 0px;
+}
+
+.entry-content {  
+	padding: 10px;
+	overflow: scroll;
+	overflow-x: hidden;
+	width: 100%;
+	max-height: 60vw;
+	border: 1px solid {BOLDCOLOR};
+}
+.whuspotdesc {
+	clear: both;
+	border: 2px solid {BOLDCOLOR};
+	background-color: {BACKCOLOR};
+	padding: .8em .8em 0;
+	margin-bottom: 1em;
+}
+
+@media (max-width: 700px)  {	
+	.pager:nth-of-type(1) { display: none; }
+	.entry-content { max-height: 90vw; }
+}
+
+	/* ----------------------- from Wordpress ----------------------------- */
+.entry-content img {
+	max-width: 100%; /* Fluid images for posts, comments, and widgets */
+}
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}
+.entry-content img,
+img.wp-post-image {
+	/* Add fancy borders to all WordPress-added images but not things like badges and icons and the like */
+	border-radius: 3px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.wp-caption {
+	max-width: 100%; /* Keep wide captions from overflowing their container. */
+}
+.wp-caption:hover {
+	border: 2px solid #80003B;
+	text-shadow: 0 0 2px #999;
+	background-color: {LINKHOVER};
+}
+.wp-caption .wp-caption-text {
+	font-style: italic;
+	font-size: 90%;
+	text-align: center;
+	line-height: 1.5;
+	color: #757575;
+	margin: 6px 0 0;
+}
+p.wp-caption-text {
+	margin: 0;				/* eliminate space under inset photos */
+}
+.whupic {           /* see media query below dfor mobile! */
+	padding: 6px;
+	margin: 6px 8px;
+	text-align: center;
+	width: 220px;
+	border: 2px solid {BOLDCOLOR};
+}
+
+h5 {
+	font-size: 12pt;
+}
+
+.entry-content {
+	margin: 18px 0 20px;
+	line-height: 1.714285714;
+}
+.entry-content h3 {
+	margin: 18px 0 8px;
+	font-size: 2rem;
+	line-height: 1.714285714;
+	clear: both;			/* so heading doesn't float with pic layout */
+	text-decoration: none;
+}
+.entry-content p {
+	margin: 0 0 18px; 	/* less space btwn paragraphs */
+	line-height: 1.714285714;
+}
+.entry-content ol {
+	margin: 0 0 24px;
+	margin: 0 0 1.714285714rem;
+	line-height: 1.714285714;
+}
+.entry-content ul ul,
+.entry-content ol ol,
+.entry-content ul ol,
+.entry-content ol ul {
+	margin-bottom: 0;
+}
+.entry-content ul, 
+.entry-content ol {
+	margin: -8px 0 4px;
+}
+.entry-content li {
+	margin: 0 0 0 20px;		/* shorten left margin */
+}
+.entry-content blockquote {
+	margin-bottom: 24px;
+	margin-bottom: 1.714285714rem;
+	padding: 24px;
+	padding: 1.714285714rem;
+	font-style: italic;
+}
+.entry-content blockquote p:last-child {
+	margin-bottom: 0;
+}
+
+/*
+ remove nl2br() styling 
+	Note here and the filter() in class.Geo, I have removed the nl2br, and instead replace TWO nls with <p></p>.
+	Much better.  Now only paragrah breaks are spaced.
+	*/
+.wfwpparaspace {}
+.entry-content ul, 
+.entry-content ol {
+	margin: .7em 0;
+}
+
+
+@media (max-width: 785px)  {	
+	
+	.whupic {
+		margin: -2px 6px;
+		width: 160px;
+	}
+}
+
+</style>

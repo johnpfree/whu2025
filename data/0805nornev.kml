@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>May 08 - NW Nevada</name>
+		<description><![CDATA[four day (Excellent!) tour of northern Nevada in early spring.  Snow still in the hills, gravel still very sharp, really fun.]]></description>
+		<Folder>
+			<name>Untitled layer</name>
+			<Placemark>
+				<name>big chunk of driving to get started</name>
+				<description><![CDATA[blasting down I-80, the (not) mighty Humboldt River Valley to Winnemucca]]></description>
+				<styleUrl>#line-0000FF-5</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-119.788055,39.50616,0.0 -119.781189,39.534762,0.0 -119.70702999999999,39.52946,0.0 -119.66583299999999,39.509339,0.0 -119.485931,39.573675,0.0 -119.22088600000001,39.613094,0.0 -118.98742700000001,39.825413,0.0 -118.708649,39.963438,0.0 -118.64685099999998,40.063359,0.0 -118.46008300000001,40.185168,0.0 -118.30627,40.35073,0.0 -118.25134,40.60978,0.0 -118.060455,40.681679,0.0 -117.90526999999999,40.8969,0.0 -117.74047,40.98404,0.0</coordinates>
+				</LineString>
+			</Placemark>
+			<Placemark>
+				<name>Winnemucca - Denio Jct - Sheldon</name>
+				<description><![CDATA[North outta Wimmemucca, lunch in Denio Junction, Tufferina Ponds, vast solitude]]></description>
+				<styleUrl>#line-0000FF-5</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-117.69653,41.01721,0.0 -117.68005000000001,41.18072,0.0 -117.71026000000002,41.32732,0.0 -117.78991,41.40153,0.0 -118.05907999999998,41.41595,0.0 -118.30078,41.47566,0.0 -118.4436,41.60312,0.0 -118.58367000000001,41.80817,0.0 -118.58917000000001,41.86547,0.0 -118.63311,41.9554,0.0 -118.70178000000001,41.93293,0.0 -118.74297999999999,41.90840000000001,0.0 -118.75122100000002,41.873651,0.0 -118.88786300000001,41.8941,0.0 -118.97438,41.915563,0.0 -119.029312,41.878253,0.0 -119.00733900000002,41.865981,0.0 -118.99498,41.864447,0.0 -119.002533,41.854731,0.0 -119.02793899999999,41.833758,0.0 -119.094543,41.810732,0.0 -119.10759,41.789745,0.0 -119.175568,41.799983,0.0 -119.24835200000001,41.78206500000001,0.0 -119.31667300000001,41.781297,0.0 -119.34585600000001,41.771824,0.0 -119.44061300000001,41.853196,0.0 -119.443359,41.91914,0.0 -119.477692,41.908409,0.0 -119.505844,41.84399,0.0 -119.60197400000001,41.858822,0.0</coordinates>
+				</LineString>
+			</Placemark>
+			<Placemark>
+				<name>Sheldon - Surprise Valley - Modoc</name>
+				<description><![CDATA[start 2PM because last night was soooo excellent!<br>vast nothingness, gravel roads, Cedarville, make the Ranger Station before closing, lovely woman's restaurant, wifi]]></description>
+				<styleUrl>#line-0000FF-5</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-119.602661,41.858311,0.0 -119.62051400000001,41.856777,0.0 -119.634933,41.845524,0.0 -119.66926599999998,41.833247,0.0 -119.67613200000001,41.786673,0.0 -119.767456,41.710855,0.0 -119.81208800000002,41.65701,0.0 -119.85397300000001,41.632894,0.0 -119.86908,41.631867,0.0 -119.86839300000001,41.610309,0.0 -119.891739,41.589256,0.0 -119.933624,41.605688,0.0 -119.95559699999998,41.608255,0.0 -119.968643,41.596959,0.0 -119.99473600000002,41.562546000000005,0.0 -120.12725800000001,41.5276,0.0 -120.202103,41.528114,0.0 -120.225449,41.53274,0.0 -120.268707,41.561004,0.0 -120.281067,41.562032,0.0 -120.29068,41.545589,0.0</coordinates>
+				</LineString>
+			</Placemark>
+			<Placemark>
+				<name>0509</name>
+				<description><![CDATA[Donuts in Alturas, great 2 hours in Wildlife Preserve - Cinnamon Teals, Lesser Sandhill Cranes, amazing.  Terrible decision to go around HoneyLake, cost me 50 miles and gas and aggravation.  Home for RiverFest!]]></description>
+				<styleUrl>#line-0000FF-5</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-120.287933,41.545075,0.0 -120.283127,41.562032,0.0 -120.340118,41.55638,0.0 -120.37033100000001,41.559463,0.0 -120.410156,41.560491,0.0 -120.441742,41.544561,0.0 -120.461655,41.541478,0.0 -120.483627,41.516804,0.0 -120.54267900000002,41.495721,0.0 -120.54267900000002,41.48852,0.0 -120.534439,41.482862,0.0 -120.52413900000002,41.444271,0.0 -120.544052,41.396385,0.0 -120.537872,41.367534,0.0 -120.51452599999999,41.348464,0.0 -120.50422700000001,41.309792,0.0 -120.50834700000001,41.140399,0.0 -120.46234,41.07728,0.0 -120.52551,40.92596,0.0 -120.39093000000001,40.82004,0.0 -120.28106,40.67022,0.0 -120.24536,40.620200000000004,0.0 -120.28038,40.446425,0.0 -120.26046799999999,40.398856,0.0 -120.238495,40.390489,0.0 -120.24055500000001,40.352824,0.0 -120.175323,40.296287,0.0 -119.889679,40.172053000000005,0.0 -119.84436,40.125866,0.0 -119.905472,40.092781,0.0 -120.03868099999998,40.09068,0.0 -120.078506,40.113264,0.0 -120.10322600000002,40.045489,0.0 -120.02014000000001,39.89498,0.0 -120.05035,39.86126,0.0 -120.037994,39.707187,0.0 -119.94323,39.6353,0.0 -119.82513,39.607800000000005,0.0 -119.78942,39.54853000000001,0.0 -119.78942,39.50404,0.0</coordinates>
+				</LineString>
+			</Placemark>
+			<Placemark>
+				<name>0509 shoulda gone this way</name>
+				<styleUrl>#line-CC33CC-5-nodesc</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-120.29342699999998,40.395718,0.0 -120.30990600000001,40.391535000000005,0.0 -120.31402600000001,40.378982,0.0 -120.394363,40.382644,0.0 -120.40603599999999,40.365904,0.0 -120.425262,40.358056,0.0 -120.425262,40.317232,0.0 -120.480194,40.308854,0.0 -120.48980700000001,40.280573,0.0 -120.373077,40.169429,0.0 -120.164337,40.09068,0.0 -120.11764500000001,40.040232,0.0</coordinates>
+				</LineString>
+			</Placemark>
+		</Folder>
+		<Style id='line-0000FF-5-normal'>
+			<LineStyle>
+				<color>ffFF0000</color>
+				<width>5</width>
+			</LineStyle>
+		</Style>
+		<Style id='line-0000FF-5-highlight'>
+			<LineStyle>
+				<color>ffFF0000</color>
+				<width>8.0</width>
+			</LineStyle>
+		</Style>
+		<StyleMap id='line-0000FF-5'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#line-0000FF-5-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#line-0000FF-5-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='line-CC33CC-5-nodesc-normal'>
+			<LineStyle>
+				<color>ffCC33CC</color>
+				<width>5</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<Style id='line-CC33CC-5-nodesc-highlight'>
+			<LineStyle>
+				<color>ffCC33CC</color>
+				<width>8.0</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text><![CDATA[<h3>$[name]</h3>]]></text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='line-CC33CC-5-nodesc'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#line-CC33CC-5-nodesc-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#line-CC33CC-5-nodesc-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+	</Document>
+</kml>

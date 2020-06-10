@@ -1,0 +1,86 @@
+<h2>Stories for: {TRIP_NAME}</h2>
+
+<!-- BEGIN rows -->
+<hr />
+	<div class="row">
+	  <div class="col-sm-2">
+			<img class="story-image img-rounded img-responsive squareme {USE_IMAGE}" src='{REL_PICPATH}pix/iPhoto/{WF_IMAGES_PATH}/{PIC_NAME}' border="0" />
+			<img class="story-image img-rounded img-responsive squareme {USE_FLICK}" src='{FLICK_URL}' border="0" />
+		</div>
+	  <div class="col-sm-10">
+			<div class="row">
+			  <div class="col-lg-7">
+					<a class="story-title" href="{STORY_LINK}">{STORY_TITLE}</a>
+				</div>
+			  <div class="col-lg-5">
+					<p class="story-dates">{STORY_DATES}</p>
+				</div>
+				<div class="col-lg-12">
+					{STORY_EXCERPT}
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- END rows -->
+{LINK_BAR}
+
+<style type="text/css" media="screen">
+/*	[class*="col-sm-"] {
+		border: 1px solid #f00;
+	}
+	[class*="col-md-"] {
+		border: 1px solid #0f0;
+	}
+	[class*="col-lg-"] {
+		border: 1px solid #f0f;
+	}*/
+#the_content hr {
+	margin: 18px 0 4px;
+	height: 2px;
+	background-color: #684F22;
+}	
+.story-title {
+	font-size: 160%;
+	{SANS_FONT};
+}
+.story-dates {
+	text-align: right;
+	vertical-align: top;
+	font-size: 120%;
+	{SANS_FONT};
+}
+.XXstory-image {
+	float: left;
+	margin: 0 .6em -5px 15px;
+}
+.story-part {
+	margin: 0 0 10px 15px;
+}
+	
+.hideme { display: none; }
+.squareme {
+	object-fit: cover;
+	width: 120px;
+	height: 120px;
+}
+
+@media (max-width: 999px)  {	
+	.squareme {
+		width: 95px;
+		height: 95px;
+	}
+}
+@media (min-width: 972px)  {	
+	.squareme {
+		width: 130px;
+		height: 130px;
+	}
+}
+
+/*@media (max-width: 785px)  {
+	#the_content div[class^="col-"] {
+		margin-bottom: .4em;
+	}
+}*/
+
+</style>
