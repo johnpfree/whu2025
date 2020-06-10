@@ -1,119 +1,133 @@
+		<style type="text/css" media="screen">
+			#whubanner {
+				font-size: 18pt;
+				text-align: center;
+				padding-top: 30px;
+				margin-bottom: 30px;
+			}
+			#homebanner {
+				margin-bottom: 30px;
+			}
+			.cardrowhead {
+				text-align: center;
+			}
+			.cardrow {
+				margin-bottom: 20px;
+				text-align: center;
+			}
+			.cardrow>.col {
+				border: 1px solid #999;
+/*				height: 60px;*/
+			}
+			footer {
+				margin-top: 200px;
+			}
+		</style>				
+	</head>
+	<body>
+	<div id="the_content" class="container">
+					
+		  <div class="row">
+		    <div id="homebanner" class="col">
+					<img src="../cloudyhands.com/pix/iPhoto/1710Utah/IMG_5379.jpg" width="100%" alt="IMG 5379">
+		    </div>
+		  </div>
+			
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>Recent Trips</h2>
+		    </div>
+		  </div>
+		  <div class="row cardrow">
+		    <div class="col">
+					<article>
+						<img src="../cloudyhands.com/pix/iPhoto/2002Nevada/IMG_5340.jpg" width="100%" alt="IMG xxx">
+						<h3>Central Nevada Escape</h3>
+						<h4>Started with one plan, did a different plan. Great little trip</h4>
+					</article>
+		    </div>
+		    <div class="col">
+					<article>
+						<img src="../cloudyhands.com/pix/iPhoto/1910IdahoUtah/IMG_4881.jpg" width="100%" alt="IMG xxx">
+						<h4>Hot Springs then Winter</h4>
+						<h5>Idaho hot springs, get caught by a winter storm</h5>
+					</article>
+		    </div>
+		    <div class="col">
+		      3 of 3
+		    </div>
+		  </div>
+			
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>Epic Trips</h2>
+		    </div>
+		  </div>
+		  <div class="row cardrow">
+		    <div class="col">
+		      1 of 3
+		    </div>
+		    <div class="col">
+					<article>
+						<img src="../cloudyhands.com/pix/iPhoto/1607Louisville/IMG_0750.jpg" width="100%" alt="IMG xxx">
+						<h4>July 2016 50th Reunion</h4>
+						<h5>Portland - Boise - Milwaukee - Indianapolis - Louisville -... then what?</h5>
+					</article>
+		    </div>
+		    <div class="col">
+		      3 of 3
+		    </div>
+		  </div>
 
-<div class="jumbotron jumbotron-fluid" id="main_item">
-	<h1 class="text-center">W H U F U</h1>
-	<div class="container">
-		<div id="card-row" class="row">
-			<div class="card text-center col-xs-6 col-md-3">
-				<a href="?page=pics&type=id&key=26">
-	        <h4 class="card-title"><b>{N_PIC}</b> Images.</h4>
-					<img class="card-img-top" src="./resources/site-images/whupix.jpg" alt="pictures">
-	        <a href="?page=vids&type=home"><h6 class="card-subtitle text-muted"><b>{N_VID}</b> Videos</h6></a>
-				</a>
-      </div> <!--/card-->
-			<div class="card text-center col-xs-6 col-md-3">
-				<a href="?page=map&type=id&key=26">
-	          <h4 class="card-title"><b>{N_MAP}</b> Maps.</h4>
-					<img class="card-img-top" src="./resources/site-images/whumap.jpg" alt="map">
-				</a>
-      </div> <!--/card-->
-			<div class="card text-center col-xs-6 col-md-3">
-				<a href="{WP_PATH}/?page_id=567">
-	        <h4 class="card-title"><b>{N_TXT}</b> Stories.</h4>
-					<img class="card-img-top" src="./resources/site-images/whutxt.jpg" alt="stories">
-				</a>
-			</div> <!--/card-->
-			<div class="card text-center col-xs-6 col-md-3">
-				<a href="?page=spots&type=home">
-	        <h4 class="card-title"><b>{N_SPO}</b> Spots.</h4>
-					<img class="card-img-top" src="./resources/site-images/whulog.jpg" alt="spots">
-          <h6 class="card-subtitle text-muted"><a href="?page=spots&type=home">campgrounds</a>, <a href="?page=spots&type=type&key=HOTSPR">hot springs</a>, <a href="?page=spots&type=type&key=NWR">wildlife refuges</a> and more</h6>
-				</a>
-      </div> <!--/card-->
-	  </div> <!--/row--> 
-		
-		<hr />
-		
-		<div id="bigrow" class="row">
-			<div id="pane-1" class="col-md-4">
-				<div class="first-let">It's all organized around <b>trips</b>.  A trip has:</div>
-				<ul>
-					<li>a <a href="?page=map&type=id&key=26"><i>map</i></a>, </li>
-					<li>a <a href="?page=log&type=id&key=26"><i>triplog</i></a> of the days of the trip, </li>
-					<li>a <a href="?page=txts&type=id&key=26"><i>story</i></a> or two or ten, </li>
-					<li>and a bunch of <a href="?page=pics&type=id&key=26"><i>pictures</i></a>. </li>	
-				</ul>
-				<p>There is almost sure to be something interesting for you here, the trick is helping you find it!</p>
-			</div> 
-			<div id="pane-2" class="col-md-8">
-				<div class="first-let">Finding what you want in WHUFU:</div>
-				<ul id="findlist">
-					<li><a href="?page=search&type=home">Spot Search</a> &ndash; Our crack Marketing Research team has determined that most casual browsers just want to find cool places - places to camp, hot springs, that sort of thing. For that we have a <a href="?page=search&type=home">boatload of ways</a> to search through the hundreds of spots.</li>
-					<li><a href="?page=search&type=home">Area Search</a> &ndash; Alternatively you can search for all the spots near your home, or any other place.</li>
-					<li>Text Search &ndash; The "search text" box in the header will search for text in all stories, picture labels, maps and trip logs. Friends can type their names in there to see if I've said anything mean about them. Enter the name of a town or a beach, or <em>hot springs</em> or <em>fishing</em> or whatever strikes your fancy.</li>
-				</ul>
-			</div> 
-		</div>  <!--/bigrow-->		
-		
+		  <div class="row cardrow">
+				<div class="card text-center col-xs-6 col-md-4">
+					<a href="?page=pics&type=id&key=26">
+		        <h4 class="card-title"><b>10004</b> Images.</h4>
+						<img class="card-img-top" src="./resources/site-images/whupix.jpg" alt="pictures">
+		        <a href="?page=vids&type=home"><h6 class="card-subtitle text-muted"><b>25</b> Videos</h6></a>
+					</a>
+		    </div>
+				<div class="card text-center col-xs-6 col-md-4">
+					<a href="?page=map&type=id&key=26">
+		          <h4 class="card-title"><b>30</b> Maps.</h4>
+						<img class="card-img-top" src="./resources/site-images/whumap.jpg" alt="map">
+					</a>
+	      </div> <!--/card-->
+				<div class="card text-center col-xs-6 col-md-4">
+					<a href="../wptest/?page_id=567">
+		        <h4 class="card-title"><b>208</b> Stories.</h4>
+						<img class="card-img-top" src="./resources/site-images/whutxt.jpg" alt="stories">
+					</a>
+				</div> <!--/card-->
+		  </div>
+		</div>
 	</div><!--/container-->
 </div> 
 
-<style type="text/css" media="screen">
+	</div> <!-- #the_content -->
 
-#main_item h1 {	
-	color: {BOLDCOLOR};	
-	padding-bottom: .4em;	
-	letter-spacing: 1.2em;
-}
-.first-let::first-letter {
-  font-size: 160%;
-/*  font: 160% skolar-1, skolar-2, Georgia, "Times New Roman", serif;*/
-	padding-right: .1em;
-}
-.first-let {
-}
-
-#card-row>div:nth-child(1) { background-color: #FFFFE7; }
-#card-row>div:nth-child(2) { background-color: #dbecdc; }
-#card-row>div:nth-child(3) { background-color: #FFFFD4; }
-#card-row>div:nth-child(4) { background-color: #f0f0f0; }
-
-#card-row>div { 
-/*  height: 234px;*/
-	height: 26vh;
-	
-	padding: 10px;
-	border: 2px solid #3A5950;
-	border-radius: 18px;
-}
-
-.card-img-top {
-  width: 85%;
-/*	padding-bottom: 90%;*/
-/*  width: 210px;
-  height: 140px;*/
-}
-
-#bigrow {	
-	margin-top: 20px;
-	{SANS_FONT};
-}
-
-#pane-1 li {
-	list-style-type: square;
-}
-#biglist li,#findlist li {}
-
-@mxxxxedia (max-width: 786px)  {
-	#card-row img { border: 1px solid #000;}
-	#card-row>div {
-	  height: 100px;
-		padding: 6px;
-	}
-	.card-img-top {
-	  width: 50px;
-	  height: 50px;
-	}
-}
-
-
-</style>
+	<footer>
+	  <div class="container">
+			<div class="row" id="main-footer">
+				<div class="col-sm-3" class="my_name">
+					Whufu 3.0 &copy; 2010 &ndash; 2018
+				</div>
+				<div class="col-sm-2" class="my_name">
+					John P Freeman
+				</div>
+				<div class="col-sm-2">
+		      <a href="https://twitter.com/johnpfreem" target="_blank"><span class="genericon genericon-twitter"></span></a>
+		      <a href="https://www.facebook.com/johnpfree" target="_blank"><span class="genericon genericon-facebook-alt"></span></a>
+		      <a href="http://www.whufu.com/wpwhu/" target="_blank"><span class="genericon genericon-wordpress"></span></a>
+		      <a href="https://www.youtube.com/channel/UC9TfELP0fNmd49-cwLJHgRg" target="_blank"><span class="genericon genericon-youtube"></span></a>
+		      <a href="https://www.instagram.com/johnpfree/" target="_blank"><span class="genericon genericon-instagram"></span></a>
+		      <a href="https://www.flickr.com/photos/142792707@N04/" target="_blank"><span class="genericon genericon-flickr"></span></a>
+				</div>
+				<div class="col-sm-2">
+					<a href="http://www.cloudyhands.com/">cloudyhands.com</a> 
+				</div>
+			</div>
+		</div>
+	</footer> 
+</body>
+</html>

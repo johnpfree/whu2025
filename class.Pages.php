@@ -5,18 +5,6 @@
 class ViewWhu extends ViewBase  // ViewDbBase
 {	
 	var $file = "UNDEF";
-	var $curpal = NULL;
-	const pals =	array(
-			"search" => array('boldcolor' => '#D76824', 'bordercolor' => '#999999', 'linkcolor' => '#6D1D00', 'linkhover' => '#87371A', 'bbackcolor' => '#f4e3d9', 'backcolor' => '#C1B0A6'),
-			"spot" => 	array('boldcolor' => '#464646', 'bordercolor' => '#d0d0d0', 'linkcolor' => '#54736A', 'linkhover' => '#b0b0b0', 'bbackcolor' => '#f0f0f0', 'backcolor' => '#d5dFdF'),
-		// FFE8BB
-			"txt" => 		array('boldcolor' => '#4E3508', 'bordercolor' => '#684F22', 'linkcolor' => '#81683B', 'linkhover' => '#9B8255', 'bbackcolor' => '#fffff0', 'backcolor' => '#FFFFD4'), 
-			"map" => 		array('boldcolor' => '#6C7200', 'bordercolor' => '#868C1A', 'linkcolor' => '#33A672', 'linkhover' => '#afd6b1', 'bbackcolor' => '#dbecdc'), 
-			"pic" => 		array('boldcolor' => '#4B3E0C', 'bordercolor' => '#655826', 'linkcolor' => '#1B4F24', 'linkhover' => '#6A5835', 'bbackcolor' => '#FFFFE7'),
-			"log" =>		array('boldcolor' => '#004151', 'bordercolor' => '#007383', 'linkcolor' => '#005A6A', 'linkhover' => '#33A6B6', 'bbackcolor' => '#E5FFFF'), 
-			"deflt" => 	array('boldcolor' => '#3A5950', 'bordercolor' => '#e9f0ee', 'linkcolor' => '#b30000', 'linkhover' => '#593A43', 'bbackcolor' => '#d7e5e1'), 
-			// "deflt" => 	array('boldcolor' => '#3A5950', 'bordercolor' => '#e9f0ee', 'linkcolor' => '#593A43', 'linkhover' => '#a7c5bc', 'bbackcolor' => '#d7e5e1'),
-		);
 	var $sansFont = "font-family: Roboto, Arial, sans-serif";
 	// var $sansFont = "font-family: 'Montserrat', sans-serif";
 	
@@ -76,27 +64,9 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		if (isset($pagemap[$page]))					// map pages
 			$page = $pagemap[$page];
 
-		foreach (self::pals as $k => $v)
-		{
-			// dumpVar($k, "pt= $page, k");
-			if (strpos($page, $k) !== false) {
-				$this->curPal = new StyleProps($v, $k);
-				break;
-			}
-		}	
-		if (!isset($this->curPal))
-			$this->curPal = new StyleProps(self::pals['deflt'], 'default');
-		
 		$this->template->set_var('SANS_FONT', 	$this->sansFont);				// sometimes the serifs don't look good
 
-		$this->template->set_var('BBACKCOLOR', 	$this->curPal->pageBackColor());
-		$this->template->set_var('BODYCOLOR', 	$this->curPal->pageLineColor());
-		$this->template->set_var('BACKCOLOR', 	$this->curPal->contBackColor());
-		$this->template->set_var('BORDERCOLOR', $this->curPal->borderColor());
-		$this->template->set_var('BOLDCOLOR', 	$this->curPal->boldFontColor());
-		$this->template->set_var('LINKCOLOR', 	$this->curPal->linkColor()    );
-		$this->template->set_var('LINKHOVER', 	$this->curPal->linkHover()    );
-		$this->template->set_var('PAL_NAME', 	$this->curPal->palette);
+		$this->template->set_var('BOLDCOLOR', 0);				// just white for now
 	}
 	
 	function tripLinkBar($page, $id)
@@ -272,6 +242,27 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		}
 	}
 }
+
+// New stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+class HomeHome extends ViewWhu
+{
+	var $file = "homehome.ihtml";
+	function showPage()	
+	{		
+		$site = $this->build('Trips');
+		$this->template->set_var('N_MAP', $site->numMaps());
+		$this->template->set_var('N_TXT', $site->numPosts());
+		$this->template->set_var('N_PIC', $site->numPics());
+		$this->template->set_var('N_VID', $site->numVids());
+		$this->template->set_var('N_SPO', $site->numSpots());
+
+		$this->template->set_var('WP_PATH', WP_PATH);
+		parent::showPage();
+	}
+}
+
+// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 class SpotsHome extends ViewWhu
 {
@@ -1293,9 +1284,9 @@ class TripStoryByDate extends TripStory
 	}
 }
 
-class HomeHome extends ViewWhu
+class Home0Home extends ViewWhu
 {
-	var $file = "homehome.ihtml";
+	var $file = "home0home.ihtml";
 	function showPage()	
 	{		
 		$site = $this->build('Trips');

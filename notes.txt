@@ -27,8 +27,13 @@ git rm --cached css/normalize.min.css
 -- dtto for a directory
 git rm --cached -r resources
 
-->-Starting-<-
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+->-Starting-<-  https://help.github.com/en/github/importing-your-projects-to-github/adding-an-existing-project-to-github-using-the-command-line
 git init
 git add .
 git add .gitignore
 (then clean s--t up BEFORE commit with git reset and either deleting or adding to .gitignore )
+git commit -m "First commit"
+git remote add origin https://github.com/johnpfree/whu2020.git
+git push -u origin master
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 

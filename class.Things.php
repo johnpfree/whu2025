@@ -388,6 +388,8 @@
 
 			for ($i = 1; $i < 10; $i++) 
 			{
+				if (!isset($wps[$idx + $i]))		// test for the very very last date in whufu, for which there is no next
+					break;
 				$prvpics = $this->build('WhuPics', array('date' => $d0 = $wps[$idx + $i]));
 				if ($dc = $prvpics->size() > 0)
 					break;

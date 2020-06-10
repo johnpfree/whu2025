@@ -169,8 +169,13 @@ $curtype = $props->get('type');
 
 switch ("$curpage$curtype") 
 {
+	// New stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 	case 'homehome':		$page = new HomeHome($props);			break;		
+
+	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+	case 'home0home':		$page = new Home0Home($props);			break;		
 	
 	case 'spotid':			$page = new OneSpot($props);			break;	
 	case 'daydate':			$page = new OneDay($props);			break;	
@@ -199,6 +204,7 @@ switch ("$curpage$curtype")
 	case 'txtdate':			$page = new TripStoryByDate($props);	break;
 	
 	case 'tripshome':		$page = new AllTrips($props);				break;	
+	case 'spotshome':		$page = new SpotsHome($props);			break;
 	case 'spotshome':		$page = new SpotsHome($props);			break;
 	case 'spotstype':		$page = new SpotsTypes($props);			break;
 	case 'spotskey':		$page = new SpotsKeywords($props);	break;		// for a keyword (from a spot OR the search page)
