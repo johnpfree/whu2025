@@ -1,133 +1,68 @@
 		<style type="text/css" media="screen">
-			#whubanner {
-				font-size: 18pt;
-				text-align: center;
-				padding-top: 30px;
-				margin-bottom: 30px;
+			a h4,a h5 {
+				color: black;
 			}
+			a:hover h4,a:hover h5 {
+			}
+			
 			#homebanner {
 				margin-bottom: 30px;
+				text-decoration: none;
 			}
+
 			.cardrowhead {
 				text-align: center;
+				margin: 20px 0 20px;
+				border-top: 1px solid #999;
+				border-bottom: 1px solid #999;
 			}
-			.cardrow {
-				margin-bottom: 20px;
-				text-align: center;
-			}
-			.cardrow>.col {
-				border: 1px solid #999;
-/*				height: 60px;*/
-			}
-			footer {
-				margin-top: 200px;
+			.cardrowhead h2 {
+				margin: 0;
 			}
 		</style>				
-	</head>
-	<body>
-	<div id="the_content" class="container">
-					
+		<div id="the_content" class="container">
 		  <div class="row">
 		    <div id="homebanner" class="col">
-					<img src="../cloudyhands.com/pix/iPhoto/1710Utah/IMG_5379.jpg" width="100%" alt="IMG 5379">
+					<img src="{REL_PICPATH}pix/iPhoto/{BANNER_FOLDER}/{BANNER_FILE}" width="100%" alt="Whu Banner">
 		    </div>
 		  </div>
-			
+		
 		  <div class="row">
 		    <div class="col cardrowhead">
 					<h2>Recent Trips</h2>
 		    </div>
 		  </div>
 		  <div class="row cardrow">
+<!-- BEGIN rec_rows -->
 		    <div class="col">
-					<article>
-						<img src="../cloudyhands.com/pix/iPhoto/2002Nevada/IMG_5340.jpg" width="100%" alt="IMG xxx">
-						<h3>Central Nevada Escape</h3>
-						<h4>Started with one plan, did a different plan. Great little trip</h4>
-					</article>
-		    </div>
-		    <div class="col">
-					<article>
-						<img src="../cloudyhands.com/pix/iPhoto/1910IdahoUtah/IMG_4881.jpg" width="100%" alt="IMG xxx">
-						<h4>Hot Springs then Winter</h4>
-						<h5>Idaho hot springs, get caught by a winter storm</h5>
-					</article>
-		    </div>
-		    <div class="col">
-		      3 of 3
-		    </div>
+					<a href="?page=trip&type=id&key={TRIP_ID}">						
+						<article>
+							<img src="{REL_PICPATH}/pix/iPhoto/{PIC_FOLDER}/{PIC_FILE}" width="100%" alt="{TRIP_TITLE}">
+							<h4>{TRIP_TITLE}</h4>
+							<h5>{TRIP_DESC}</h5>
+						</article>
+					</a>		    
+				</div>
+<!-- END rec_rows -->
 		  </div>
-			
+		
 		  <div class="row">
 		    <div class="col cardrowhead">
 					<h2>Epic Trips</h2>
 		    </div>
 		  </div>
 		  <div class="row cardrow">
+<!-- BEGIN epic_rows -->
 		    <div class="col">
-		      1 of 3
-		    </div>
-		    <div class="col">
-					<article>
-						<img src="../cloudyhands.com/pix/iPhoto/1607Louisville/IMG_0750.jpg" width="100%" alt="IMG xxx">
-						<h4>July 2016 50th Reunion</h4>
-						<h5>Portland - Boise - Milwaukee - Indianapolis - Louisville -... then what?</h5>
-					</article>
-		    </div>
-		    <div class="col">
-		      3 of 3
-		    </div>
-		  </div>
-
-		  <div class="row cardrow">
-				<div class="card text-center col-xs-6 col-md-4">
-					<a href="?page=pics&type=id&key=26">
-		        <h4 class="card-title"><b>10004</b> Images.</h4>
-						<img class="card-img-top" src="./resources/site-images/whupix.jpg" alt="pictures">
-		        <a href="?page=vids&type=home"><h6 class="card-subtitle text-muted"><b>25</b> Videos</h6></a>
-					</a>
-		    </div>
-				<div class="card text-center col-xs-6 col-md-4">
-					<a href="?page=map&type=id&key=26">
-		          <h4 class="card-title"><b>30</b> Maps.</h4>
-						<img class="card-img-top" src="./resources/site-images/whumap.jpg" alt="map">
-					</a>
-	      </div> <!--/card-->
-				<div class="card text-center col-xs-6 col-md-4">
-					<a href="../wptest/?page_id=567">
-		        <h4 class="card-title"><b>208</b> Stories.</h4>
-						<img class="card-img-top" src="./resources/site-images/whutxt.jpg" alt="stories">
-					</a>
-				</div> <!--/card-->
-		  </div>
-		</div>
-	</div><!--/container-->
-</div> 
-
-	</div> <!-- #the_content -->
-
-	<footer>
-	  <div class="container">
-			<div class="row" id="main-footer">
-				<div class="col-sm-3" class="my_name">
-					Whufu 3.0 &copy; 2010 &ndash; 2018
+					<a href="?page=trip&type=id&key={TRIP_ID}">						
+						<article>
+							<img src="{REL_PICPATH}/pix/iPhoto/{PIC_FOLDER}/{PIC_FILE}" width="100%" alt="{TRIP_TITLE}">
+							<h4>{TRIP_TITLE}</h4>
+							<h5>{TRIP_DESC}</h5>
+						</article>
+					</a>		    
 				</div>
-				<div class="col-sm-2" class="my_name">
-					John P Freeman
-				</div>
-				<div class="col-sm-2">
-		      <a href="https://twitter.com/johnpfreem" target="_blank"><span class="genericon genericon-twitter"></span></a>
-		      <a href="https://www.facebook.com/johnpfree" target="_blank"><span class="genericon genericon-facebook-alt"></span></a>
-		      <a href="http://www.whufu.com/wpwhu/" target="_blank"><span class="genericon genericon-wordpress"></span></a>
-		      <a href="https://www.youtube.com/channel/UC9TfELP0fNmd49-cwLJHgRg" target="_blank"><span class="genericon genericon-youtube"></span></a>
-		      <a href="https://www.instagram.com/johnpfree/" target="_blank"><span class="genericon genericon-instagram"></span></a>
-		      <a href="https://www.flickr.com/photos/142792707@N04/" target="_blank"><span class="genericon genericon-flickr"></span></a>
-				</div>
-				<div class="col-sm-2">
-					<a href="http://www.cloudyhands.com/">cloudyhands.com</a> 
-				</div>
-			</div>
-		</div>
-	</footer> 
-</body>
-</html>
+				{ROW_SEP}
+<!-- END epic_rows -->
+		  </div>		
+		</div> <!-- #the_content -->

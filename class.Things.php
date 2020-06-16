@@ -1089,6 +1089,22 @@
 		function getRecord($parm)	//  tripid. folder, date
 		{
 			// dumpVar($parm, "WhuPics parm");
+			
+			if (isset($parm['faves'])) 
+			{
+				if ($parm['faves'] == 'panorama') {
+					$q = sprintf("select * from wf_favepics where wf_favepics_shape='%s'", $parm['faves']);
+					return $this->getAll($q);
+				}
+				if (!isset($parm['tripfold']))
+					jfdie('missing parm');
+				
+				$q = sprintf("select * from wf_favepics f JOIN wf_images i 
+												ON f.wf_images_id = i.wf_images_id 
+												WHERE f.wf_favepics_shape='%s' AND i.wf_images_path='%s'", $parm['faves'], $parm['tripfold']);
+				return $this->getAll($q);
+			}
+				
 			if ($this->isTextSearch($parm))						// for text search
 			{
 				$qterm = $parm['searchterm'];
@@ -1175,6 +1191,28 @@
 			}
 		}
 	}
+	class WhuFaves extends WhuPics						// 2020 addition to easiely grab favored pics
+	{
+		var $folder = NULL;
+		function getRecord($parm)
+		{
+			$where = isset($parm['shape']) ? sprintf(" AND f.wf_favepics_shape='%s'", $parm['shape']) : '';
+			$this->folder = isset($parm['folder']) ? $parm['folder'] : $parm;			
+
+			$q = "SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id WHERE wf_images_path='$this->folder'$where";
+			return $this->getAll($q);
+		}
+		function favorite()
+		{
+			$num = sizeof($this->data);
+			assert($num > 0, "At least one favorite!");
+				
+			$one = $this->data[mt_rand(0, $num - 1)];			// select a random one
+			return $this->build('Pic', $one);
+		}
+	}
+	
+	
 	class WhuVisuals extends WhuVisual 				// slightly hacky, but this is a collection of images AND videos
 	{
 		var $isCollection = true;

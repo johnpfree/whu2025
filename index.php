@@ -72,25 +72,6 @@ class WhuProps extends Properties
 	// collects the so-frequent date(fmt, strtotime(str)) in one place
 	function dateFromString($fmt, $str)		{ 		return date($fmt, strtotime($str)); 		}	
 }
-class StyleProps extends WhuProps 
-{
-	var $palette = 'UNSET';
-	function __construct($props, $over)		// little hack, second parm of Properties is an array, I overloading it to pass the palette name
-	{
-		$this->palette = $over;
-		dumpVar($over, "Set palette $over");
-		parent::__construct($props);
-	}
-
-	function pageBackColor() { return $this->getDefault("bbackcolor", "#fff"); }
-	function pageLineColor() { return $this->getDefault("bodycolor" , "#000"); }
-	function allFontColor()  { return $this->getDefault("fontcolor" , "#000"); }
-	function contBackColor() { return $this->getDefault("backcolor" , $this->pageBackColor()); }
-	function borderColor()	 { return $this->getDefault("bordercolor" , $this->pageLineColor()); }
-	function boldFontColor() { return $this->getDefault("boldcolor" , $this->borderColor()); }
-	function linkColor()     { return $this->getDefault("linkcolor" , $this->borderColor()); }
-	function linkHover()     { return $this->getDefault("linkhover" , $this->borderColor()); }
-}
 
 // ---------------- Template Class, for nothing just yet -------------
 
@@ -173,10 +154,10 @@ switch ("$curpage$curtype")
 
 	case 'homehome':		$page = new HomeHome($props);			break;		
 
+	case 'tripid':			$page = new OneTrip($props);		break;		
+
 	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-	case 'home0home':		$page = new Home0Home($props);			break;		
-	
 	case 'spotid':			$page = new OneSpot($props);			break;	
 	case 'daydate':			$page = new OneDay($props);			break;	
 

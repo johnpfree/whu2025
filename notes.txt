@@ -37,3 +37,12 @@ git commit -m "First commit"
 git remote add origin https://github.com/johnpfree/whu2020.git
 git push -u origin master
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+
+
+=-=-=-=-=-= git notes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+mysqldump -u jf -ptrailview --extended-insert=FALSE whu40 wf_favepics > update.txt
+
+- open Terminal: sshcl   (pwd: M!rtha22)
+mysql -u johnfree -h mydata.cloudyhands.com -ptrailview jf_whufu < update.txt
+mysql -u johnfree -h mydata.cloudyhands.com -ptrailview jf_whufu160612 < update.txt

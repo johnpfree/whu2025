@@ -13,8 +13,6 @@
 		</div>
 	</div>
 	
-	<div>{PAGER_BAR}</div>
-	
 	<div class="clearfix" id="thegal">
 		<div class="content">
 		  <div id="thegallery">
@@ -26,27 +24,32 @@
 		  </div>
 		</div><!-- content -->
 	</div><!-- thegal -->
-
-  <script>
-		console.log('jQuery.fn.jquery=', jQuery.fn.jquery);
-	  $("#thegallery").justifiedGallery({
-			margins: 6,
-			border: 6,
-	  });
-		$(document).on('click', '[data-toggle="lightbox"]', function(event) {
-			console.log('e', event);
-	    event.preventDefault();
-	    $(this).ekkoLightbox({
-				alwaysShowClose: true,
-	      onShown: function() {
-	     		console.log('Checking our the events huh?', this);
-	      }
-	    });
-		});
-  </script>
-
-{LINK_BAR}
 </div>
+
+<script>
+	// console.log('jQuery.fn.jquery=', jQuery.fn.jquery);
+	
+  $("#thegallery").justifiedGallery({
+		margins: 2,
+		border: -1,
+		maxRowsCount: 3,
+		lastRow: 'hide',
+  });
+	$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+		console.log('e', event);
+    event.preventDefault();
+    $(this).ekkoLightbox({
+			alwaysShowClose: true,
+      onShown: function() {
+     		console.log('Checking our the events huh?', this);
+      }
+    });
+	});
+	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
+		console.log('rowflush');
+		// exit;
+	});
+</script>
 
 <style type="text/css" media="screen">
 	.modal-content {  }
@@ -57,8 +60,6 @@
 	#middle { 
 		font-size: 22px;
 	}	
-	#main_item h1 a 			{ color: {BOLDCOLOR}; }
-	#main_item h1 a:hover { color: {LINKCOLOR}; }
 </style>
 
 

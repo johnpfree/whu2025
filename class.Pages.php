@@ -103,7 +103,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			else
 				$this->template->set_var("LINK$i", '-');
 
-			$this->template->set_var("BACK$i", self::pals[$paltag]['bbackcolor']);			
+			// $this->template->set_var("BACK$i", self::pals[$paltag]['bbackcolor']);
 			$i++;
 		}		
 	}
@@ -145,7 +145,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			else
 				$this->template->set_var("LINK$i", '-');
 
-			$this->template->set_var("BACK$i", self::pals[$paltag]['bbackcolor']);			
+			// $this->template->set_var("BACK$i", self::pals[$paltag]['bbackcolor']);
 			$i++;
 		}		
 	}
@@ -248,19 +248,103 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 class HomeHome extends ViewWhu
 {
 	var $file = "homehome.ihtml";
-	function showPage()	
-	{		
+	var $bannerIds = array(7964, 8062, 8097, 8098, 8111, 8236, 8238, 8294, 8306);
+	var $recents = array(61, 60, 59);
+	var $epics = array(56, 22, 14, 44, 26, 53);
+	function showPage()
+	{
+		$this->template->set_var('REL_PICPATH', iPhotoURL);
+
+		// $panos = $this->build('Pics', array('faves' => 'panorama'));
+		
+ 	 	$pic = $this->build('Pic', $this->bannerIds[array_rand($this->bannerIds)]);		// Pick a random banner
+		$this->template->set_var('BANNER_FOLDER', $pic->folder());
+		$this->template->set_var('BANNER_FILE', $pic->filename());
+
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'rec_row'));
+		$loop->do_loop($this->oneRow($this->recents));
+
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'epic_row'));
+		$loop->do_loop($this->oneRow($this->epics));
+				
+		
 		$site = $this->build('Trips');
-		$this->template->set_var('N_MAP', $site->numMaps());
 		$this->template->set_var('N_TXT', $site->numPosts());
 		$this->template->set_var('N_PIC', $site->numPics());
-		$this->template->set_var('N_VID', $site->numVids());
 		$this->template->set_var('N_SPO', $site->numSpots());
+		
+		parent::showPage();
+	}
+	function oneRow($ids)
+	{
+		for ($i = 0, $cells = array(); $i < sizeof($ids); $i++)
+		{
+	 	 	$trip = $this->build('Trip', $ids[$i]);
+			
+	 	 	$pics = $this->build('Faves', array('folder' => $trip->folder(), 'shape' => 'landscape'));
+			$pic = $pics->favorite();
+			// $pic->dump("PIC");			
+			$cell = array(
+				'trip_id' 		=> $trip->id(),
+				'trip_title' 	=> $trip->name(),
+				'trip_desc' 	=> $trip->desc(),
+				'pic_folder'	=> $pic->folder(),
+				'pic_file'		=> $pic->filename()
+			);
+			
+			$cell['row_sep'] = ($i == 2) ? '</div><div class="row cardrow">' : '';
+						
+			$cells[] = $cell;
+		}
+		// dumpVar($cells, "rows");
+		return $cells;
+	}
+}
+class OneTrip extends ViewWhu
+{
+	var $file = "triphome.ihtml";   
+	function showPage()	
+	{
+		$tripid = $this->key;
+ 	 	$trip = $this->build('DbTrip', $tripid);	
 
-		$this->template->set_var('WP_PATH', WP_PATH);
+		$pics = $this->build('Pics', array('faves' => 'portrait', 'tripfold' => $trip->folder()));
+		dumpVar($pics->size(), "portrait Faves");
+
+		$this->template->set_var('TRIP_TITLE', $this->caption = $trip->name());
+		
+		$days = $this->build('DbDays', $tripid);
+		// collect all the unique post ids and spot ids
+		for ($i = $prevPostId = 0, $spotList = $postList = $spotIds = array(); $i < $days->size(); $i++) 
+		{
+			$day = $this->build('DayInfo', $days->one($i));
+			if ($day->hasSpot() && !in_array($day->spotId(), $spotIds))
+			{				
+				$spot['spot_id'] = $spotIds[] = $day->spotId();
+				$spot['spot_name'] = $day->nightName();
+				$spot['spot_sep'] = ', ';
+				$spotList[] = $spot;
+			}
+			
+			$iPost = $day->postId();
+			if ($iPost != $prevPostId)
+			{
+				$post = $this->build('Post', array('quickid' => $prevPostId));
+				$postList[] = array('post_id' => $iPost, 'post_title' => $post->title());
+				$prevPostId = $iPost;
+			}
+		}		
+
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'stop_row'));
+		$loop->do_loop($spotList);
+
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'post_row'));
+		$loop->do_loop($postList);
+		
 		parent::showPage();
 	}
 }
+
 
 // Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -408,17 +492,10 @@ class OneTripLog extends ViewWhu
 		$this->template->set_var('TRIP_NAME', $this->caption = $trip->name());
 		
 		// whiffle the days for this trip 
-		for ($i = $iPost = $prevPostId = 0, $nodeList = array(); $i < $days->size(); $i++) 
+		for ($i = $prevPostId = 0, $spotList = array(); $i < $days->size(); $i++) 
 		{
 			// $day = new WhuDayInfo($days->one($i));
 			$day = $this->build('DayInfo', $days->one($i));
-
-			// easy stuff - date mileage name ...
-			$row = array('day_name' => $day->dayName(), 'miles' => $day->miles(), 'cum_miles' => number_format($day->cumulative()), 'day_number' => $i+1);
-			$row['nice_date'] = Properties::prettyShort($row['day_date'] = $day->date(), "M"); 
-			$row['short_date'] = Properties::prettyShortest($row['day_date']); 
-			$row['title_date'] = Properties::prettyDate($row['day_date']); 
-			$row['trip_year'] = substr($row['day_date'], 0, 4); 
 
 			// Stop or Spot?
 			$parms = array('day', 'date', $day->date());
@@ -1117,8 +1194,6 @@ class OneSpot extends ViewWhu
 		$this->template->set_var('SPWATER',  	$spot->water());
 		$this->template->set_var('SPDESC',  	$desc = $spot->htmldesc());
 
-		$this->template->set_var('DFLT_LINKCOLOR', self::pals['deflt']['linkcolor' ]);
-
 		$types = $spot->prettyTypes();
 		// dumpVar($types, "types"); exit;
 		$str = '';
@@ -1284,22 +1359,6 @@ class TripStoryByDate extends TripStory
 	}
 }
 
-class Home0Home extends ViewWhu
-{
-	var $file = "home0home.ihtml";
-	function showPage()	
-	{		
-		$site = $this->build('Trips');
-		$this->template->set_var('N_MAP', $site->numMaps());
-		$this->template->set_var('N_TXT', $site->numPosts());
-		$this->template->set_var('N_PIC', $site->numPics());
-		$this->template->set_var('N_VID', $site->numVids());
-		$this->template->set_var('N_SPO', $site->numSpots());
-
-		$this->template->set_var('WP_PATH', WP_PATH);
-		parent::showPage();
-	}
-}
 class About extends ViewWhu
 {
 	var $file = "about.ihtml";   
@@ -1319,10 +1378,10 @@ class Search extends ViewWhu
 	 
 	function showPage()	
 	{
-		$this->template->set_var('SPOTS_BACK', self::pals['spot']['linkcolor' ]);
-		$this->template->set_var('SPOTS_FORE', self::pals['spot']['backcolor' ]);
-		$this->template->set_var('PICS_BACK' , self::pals['pic'] ['linkhover' ]);
-		$this->template->set_var('PICS_FORE' , self::pals['pic'] ['bbackcolor']);
+		// $this->template->set_var('SPOTS_BACK', self::pals['spot']['linkcolor' ]);
+		// $this->template->set_var('SPOTS_FORE', self::pals['spot']['backcolor' ]);
+		// $this->template->set_var('PICS_BACK' , self::pals['pic'] ['linkhover' ]);
+		// $this->template->set_var('PICS_FORE' , self::pals['pic'] ['bbackcolor']);
 		parent::showPage();
 	}
 }
