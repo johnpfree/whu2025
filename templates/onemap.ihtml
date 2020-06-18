@@ -3,29 +3,20 @@
 <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 
-<div class="jumbotron jumbotron-fluid" id="main_item">
-	<h2>{MAP_NAME}</h2>
-	<div id='map'></div>
-{LINK_BAR}
-</div>
+<div id='map'></div>
 
 <style type="text/css" media="screen">
-h2 {
-	margin: 0 0 1em;
-	text-align: center;
-}
-#map {
-	width: 100%;
-	padding-bottom: 95%;  /*maintain aspect ratio*/
-}
+	#map {
+		width: 100%;
+		padding-bottom: 95%;  /*maintain aspect ratio*/
+	}
 
-.leaflet-popup-content {
-	color: {BOLDCOLOR};
-	background-color: {BBACKCOLOR};
-}
-.leaflet-popup-content a			 {	color: {LINKCOLOR};	}
-.leaflet-popup-content a:hover {	color: {LINKHOVER}; text-decoration: underline;	}
-
+	.leaflet-popup-content {
+		color: black;
+		background-color: yellow;
+	}
+	.leaflet-popup-content a			 {	color: green;	}
+	.leaflet-popup-content a:hover {	color: red; text-decoration: underline;	}
 </style>
 <script>
 L.mapbox.accessToken = '{MAPBOX_TOKEN}';
@@ -33,32 +24,13 @@ L.mapbox.accessToken = '{MAPBOX_TOKEN}';
 
 var map = L.mapbox.map('map')
 .addLayer(L.mapbox.styleLayer('mapbox://styles/johnpfree/ckapev8jm05g41jlnxn69u2pt')); /* my outdoors style */
-/*.addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));*/
-
-/*
-June 2020, upgraded classic styles (I hope)
-
-old comment:
-these eliminate annoying two-finger zoom on laptop, BUT also eliminate desired pinch zoom on mobile ... SIGH ...
-  touchZoom: false,
-  scrollWheelZoom: false
-*/
-
-/* pre 6/2020 code
-L.mapbox.tileLayer('mapbox.high-contrast').addTo(map);
-L.mapbox.styleLayer('mapbox://styles/johnpfree/cj7vzbf0y3pi52rqzqrij9dhn', {
-	attributionControl: false,
-}).addTo(map);
-
-mapbox://styles/johnpfree/ckapev8jm05g41jlnxn69u2pt   outdoors
-*/
 
 console.log('map', map);
 
 {JSON_INSERT}
 
 var markers = [
-<!-- BEGIN rows -->
+<!-- BEGIN node_rows -->
 	{
 		type: 'Feature',
 		geometry: {
@@ -72,7 +44,7 @@ var markers = [
 				'marker-color': '{MARKER_COLOR}'
 		}
 	},
-<!-- END rows -->
+<!-- END node_rows -->
 ];
 
 {LOOP_INSERT}

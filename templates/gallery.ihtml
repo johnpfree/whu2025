@@ -47,7 +47,7 @@
 	});
 	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
 		console.log('rowflush');
-		// exit;
+		:// exit;
 	});
 </script>
 

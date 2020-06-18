@@ -1,9 +1,11 @@
-
-
+=-=-=-=-=-= git notes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Geo - remove weather stuff
+Pages - Get TripHome mostly working, BOTH the map and the gallery!
+Things - Fave Pics needed it's own Thing. Exposed weakness of Collection hack, a Collection cant extend a collection.
+ihtmls - move some CSS into container, clean up map js files
 
 
 =-=-=-=-=-= git notes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 Basic:
 git status
 git diff -w
@@ -39,10 +41,7 @@ git push -u origin master
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
-=-=-=-=-=-= git notes =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
+=-=-=-=-=-= Updating one table on Server =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 mysqldump -u jf -ptrailview --extended-insert=FALSE whu40 wf_favepics > update.txt
-
 - open Terminal: sshcl   (pwd: M!rtha22)
 mysql -u johnfree -h mydata.cloudyhands.com -ptrailview jf_whufu < update.txt
-mysql -u johnfree -h mydata.cloudyhands.com -ptrailview jf_whufu160612 < update.txt

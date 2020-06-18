@@ -300,21 +300,90 @@ class HomeHome extends ViewWhu
 		return $cells;
 	}
 }
+
 class OneTrip extends ViewWhu
 {
 	var $file = "triphome.ihtml";   
+	var $loopfile = 'mapBoundsLoop.js';
+	var $marker_color = '#535900';	// '#8c54ba';
 	function showPage()	
 	{
 		$tripid = $this->key;
- 	 	$trip = $this->build('DbTrip', $tripid);	
+ 	 	$trip = $this->build('Trip', $tripid);	
 
-		$pics = $this->build('Pics', array('faves' => 'portrait', 'tripfold' => $trip->folder()));
-		dumpVar($pics->size(), "portrait Faves");
+		// - - - Header PICS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		$pics = $this->build('Faves', array('folder' => $trip->folder()));
+		$pics->getSome(12);
+		
+		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
+		{
+			$pic = $pics->one($i);
+			// dumpVar(sprintf("id %s, %s: %s", $pic->id(), $pic->filename(), $pic->caption()), "$i Gallery");
+			
+			$row = array('PIC_ID' => $pic->id(), 'WF_IMAGES_PATH' => $pic->folder(), 'PIC_NAME' => $pic->filename());
+			$row['PIC_DESC'] = htmlspecialchars($pic->caption());
+
+			$row['img_full'] = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
+			$thumb = $pic->thumbImage();
+			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
+			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
+				dumpVar($row['PIC_NAME'], "binpic fail");
+				$row['img_thumb'] = $row['img_full'];
+			}
+			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
+				dumpVar($ratio, "ratio");
+				// dumpVar($pic->thumbSize, "$i pic->thumbSize");
+				$row['img_thumb'] = $row['img_full'];
+			}
+			$rows[] = $row;
+		}
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
+		$loop->do_loop($rows);
 
 		$this->template->set_var('TRIP_TITLE', $this->caption = $trip->name());
 		
+		// - - - MAP - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		$this->template->setFile('TRIP_MAP', 'onemap.ihtml');		
+		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
+		$this->template->set_var('PAGE_VAL', 'day');
+		$this->template->set_var('TYPE_VAL', 'date');
+		$this->template->set_var('MARKER_COLOR', $this->marker_color);
+
+		$this->template->set_var("KML_FILE", $trip->gMapPath());
+		$this->template->setFile('JSON_INSERT', 'mapkml.js');
+		$this->template->set_var("CONNECT_DOTS", 'false');		// no polylines
+		$this->template->setFile('LOOP_INSERT', $this->loopfile);
+				
+ 	 	$days = $this->build('DbDays', $tripid);
+		for ($i = 0, $rows = array(), $prevname = '@'; $i < $days->size(); $i++)
+		{
+			$day = $this->build('DayInfo', $days->one($i));
+
+			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), //'point_loc' => $day->town(), 
+										'point_name' => addslashes($day->nightName()), 'key_val' => $day->date(), 
+										'link_text' => Properties::prettyDate($day->date()));
+						
+			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
+				$eventLog[] = "NO POSITION! $i row";
+				$eventLog[] = $row;
+				continue;
+			}
+			if ($row['point_name'] == $prevname) {											// skip if I'm at the same place as yesterday
+				// $eventLog[] = "skipping same $i: {$row['point_name']}";
+				continue;                       
+			}
+			$prevname = $row['point_name'];
+// dumpVar($row, "$i - row");
+			$rows[] = $row;
+		}
+		// dumpVar($rows, "rows");
+		$loop = new Looper($this->template, array('parent' => 'TRIP_MAP', 'noFields' => true, 'one' =>'node_row', 'none_msg' => ""));
+		$loop->do_loop($rows);
+		
+		// - - - Days and Posts - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		
+		// whiffle thru the days and collect all the unique post ids and spot ids
 		$days = $this->build('DbDays', $tripid);
-		// collect all the unique post ids and spot ids
 		for ($i = $prevPostId = 0, $spotList = $postList = $spotIds = array(); $i < $days->size(); $i++) 
 		{
 			$day = $this->build('DayInfo', $days->one($i));
@@ -324,13 +393,13 @@ class OneTrip extends ViewWhu
 				$spot['spot_name'] = $day->nightName();
 				$spot['spot_sep'] = ', ';
 				$spotList[] = $spot;
-			}
-			
+			}			
 			$iPost = $day->postId();
+			// dumpVar($prevPostId, "$i, iP=$iPost, prevPost");
 			if ($iPost != $prevPostId)
 			{
-				$post = $this->build('Post', array('quickid' => $prevPostId));
-				$postList[] = array('post_id' => $iPost, 'post_title' => $post->title());
+				$post = $this->build('Post', array('quickid' => $iPost));
+				$postList[] = array('post_title' => $post->title(), 'post_link' => $this->makeWpPostLink($iPost));
 				$prevPostId = $iPost;
 			}
 		}		

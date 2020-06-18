@@ -120,7 +120,7 @@
 			$this->assert(isset($this->data[$i]), "this->data[$i] is NOT set!");
 			$pclass = get_parent_class($this);
 			// dumpVar($pclass, "pclass");
-			// $this->props->dump();
+			// $this->props->dump("one($i)");
 			return $this->build($pclass, $this->data[$i]);
 		}
 		function size() { return sizeof($this->data);  }
@@ -129,7 +129,7 @@
 		function random($num)						// chops the data array down to a maximum of $num items (unchanged if there aren't $num items)
 		{	
 			shuffle($this->data);
-			dumpVar(sizeof($this->data), "random($num) size in");
+			// dumpVar(sizeof($this->data), "random($num) size in");
 			$this->data = array_slice($this->data, 0, $num);
 			// dumpVar(sizeof($this->data), "size out");
 		}
@@ -1162,6 +1162,7 @@
 				$trip = $this->build('DbTrip', $parm['tripid']);
 				$folder = $trip->folder();
 			}
+			jfdie("WHY?");
 			return $this->getAll($q = "select * from wf_images where wf_images_path='$folder' order by wf_images_localtime");
 			WhuThing::getRecord($parm);		// FAIL
 		}
@@ -1191,8 +1192,9 @@
 			}
 		}
 	}
-	class WhuFaves extends WhuPics						// 2020 addition to easiely grab favored pics
+	class WhuFaves extends WhuPic						// 2020 addition to easiely grab favored pics
 	{
+		var $isCollection = true;
 		var $folder = NULL;
 		function getRecord($parm)
 		{
@@ -1200,6 +1202,7 @@
 			$this->folder = isset($parm['folder']) ? $parm['folder'] : $parm;			
 
 			$q = "SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id WHERE wf_images_path='$this->folder'$where";
+			// dumpVar($parm, "q=$q, parm");
 			return $this->getAll($q);
 		}
 		function favorite()
@@ -1210,8 +1213,13 @@
 			$one = $this->data[mt_rand(0, $num - 1)];			// select a random one
 			return $this->build('Pic', $one);
 		}
+		function getSome($num)				/// return $num pics
+		{
+			if ($num <= $this->size())
+				$this->random($num);			
+			dumpVar($this->size(), "num=$num, this->size()");
+		}
 	}
-	
 	
 	class WhuVisuals extends WhuVisual 				// slightly hacky, but this is a collection of images AND videos
 	{
