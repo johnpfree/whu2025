@@ -12,23 +12,30 @@ $(document).ready(function() {
 });
 </script>
 
-<div class="jumbotron jumbotron-fluid" id="main_item">
+<div class="container">		
+
+  <div class="row">
+    <div class="col cardrowhead">
+			<h2>{VIS_NAME}</h2>
+    </div>
+  </div>
 
 	<div class="row" id="pichead">
-		<div class="col-sm-8">
-			<h3>{VIS_NAME}</h3>
-		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-5">
 			<h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3>
 		</div>
+		<div class="col-sm-7">
+			<h3><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3>
+		</div>
 	</div>
+	
 	
 	<div class="row" id="thepic">
-		<img class="img-rounded img-responsive" src='{REL_PICPATH}pix/iPhoto/{WF_IMAGES_PATH}/{WF_IMAGES_FILENAME}' border="0" />	
+    <div class="col">
+			<img class="img-rounded img-responsive" src='{REL_PICPATH}pix/iPhoto/{WF_IMAGES_PATH}/{WF_IMAGES_FILENAME}' />	
+		</div>
 	</div>
-
 	
-{PAGER_BAR}
 	<div class="row">
 		<div class="col-sm-9">
 			<ul id="picdetails">
@@ -47,24 +54,20 @@ $(document).ready(function() {
 				<li>{PICFILE_NAME}</li>			
 			</ul>
     </div>
-		<div class="col-sm-3">
-			{MAP_INSET}
-		</div>
 	</div>
 </div>
 
 <style type="text/css" media="screen">
 	#thepic {
-		border: 1px solid #999;
 		padding: 1em;
+		margin: 0 auto;
+	}
+	#thepic img {
+		width: 100%;
 	}
 	#pichead div:nth-child(2) {	
 		text-align: right;	
 		vertical-align: middle;
-	}
-	#main_item img {
-		margin: 0 auto;
-		width: 100%;
 	}
 	#main_item iframe {
 		width: 100%;

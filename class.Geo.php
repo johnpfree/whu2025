@@ -241,23 +241,6 @@ class AjaxCode
 HTML;
 }
 
-class SpotWeather extends AjaxCode 		// ?page=weather&lat=xx%&lon=xx
-{
-	var $type = 'place';
-	function result($props)
-	{
-		$info = getWeatherInfo(1, $props->get('lat'), $props->get('lon'));
-		// dumpVar($info, "info");
-
-		$templ = new Template('./templates');
-		$templ->set_file('main', 'weatherpane.ihtml');
-		
-		$templ->set_var($info);
-
-		return $templ->parse('MAIN', 'main');
-	}
-}
-
 class SpotLocation extends AjaxCode 
 {
 	var $type = 'place';

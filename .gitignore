@@ -1,5 +1,6 @@
 .htaccess
 php_error.log
+notes*.txt
 *.sql
 libraries
 resources

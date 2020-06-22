@@ -2,8 +2,10 @@
 
 	class WhuThing extends DbWhufu
 	{
+		const ISCOLLECTION = false;		// these two go together in collection management:
+		var $unitClass = '';
+
 		var $data = NULL;
-		var $isCollection = false;
 		var $hasData = true;
 		function __construct($p, $key = NULL)
 		{
@@ -32,7 +34,10 @@
 			if ($val !== false) return;
 			jfdie($txt);
 		}
-		function assertIsCollection()  { $this->assert($this->isCollection, "NOT a Collection");  }
+		function assertIsCollection()  { 
+			$this->assert($this::ISCOLLECTION == true, "NOT a Collection");
+			$this->assert($this->unitClass != '', "Collection must have unit parent");
+		}
 
 		// --------- generalized get()
 		function dbValue($key)   
@@ -116,12 +121,13 @@
 		// --------- collections
 		function one($i)		// one() creates an object from the collection daya and returns it
 		{
+			// dumpVar(get_class($this), "class");
+			// dumpVar($this->unitClass, "this->unitClass");
+			// dumpVar(boolStr($this::ISCOLLECTION), "this::ISCOLLECTION");
 			$this->assertIsCollection();
 			$this->assert(isset($this->data[$i]), "this->data[$i] is NOT set!");
-			$pclass = get_parent_class($this);
-			// dumpVar($pclass, "pclass");
-			// $this->props->dump("one($i)");
-			return $this->build($pclass, $this->data[$i]);
+			
+			return $this->build($this->unitClass, $this->data[$i]);
 		}
 		function size() { return sizeof($this->data);  }
 		function isEmpty() { return $this->size() == 0;  }
@@ -401,7 +407,9 @@
 	}
 
 	class WhuDbDays extends WhuDbDay {
-		var $isCollection = true;
+		const ISCOLLECTION = true;		// these two go together in collection management:
+		var $unitClass = 'WhuDbDay';
+
 		function getRecord($parm)			// trip id
 		{
 			if ($this->isTextSearch($parm))						// for text search
@@ -657,7 +665,9 @@
 	}
 	class WhuDbSpots extends WhuDbSpot 
 	{
-		var $isCollection = true;
+		const ISCOLLECTION = true;		// these two go together in collection management:
+		var $unitClass = 'WhuDbSpot';
+		
 		function getRecord($searchterms = array())
 		{
 			if ($this->isSpotArray($searchterms))		// already have a list?
@@ -778,7 +788,9 @@
 	}
 	class WhuDbSpotDays extends WhuDbSpotDay			//  So far this can be a collection of days for a date, or of days for a Spot
 	{
-		var $isCollection = true;
+		const ISCOLLECTION = true;		// these two go together in collection management:
+		var $unitClass = 'WhuDbSpotDay';
+
 		function getRecord($key)
 		{
 			if ($this->isDate($key))
@@ -902,7 +914,9 @@
 	}
 	class WhuPosts extends WhuPost 
 	{
-		var $isCollection = true;
+		const ISCOLLECTION = true;		// these two go together in collection management:
+		var $unitClass = 'WhuPost';
+
 		function getRecord($parm)
 		{			if ($this->isTextSearch($parm))						// for text search
 			{
@@ -927,7 +941,7 @@
 				return $key;
 			return $this->getOne("select * from wf_images where wf_images_id=$key");	
 		}
-		function kind()			{ return "UNKNONM"; }
+		function kind()			{ return "UNKNOWN"; }
 		function filename()	{ return $this->dbValue('wf_images_filename'); }
 		function id()				{ return $this->dbValue('wf_images_id'); }
 		function caption()	{ return $this->dbValue('wf_images_text'); }
@@ -1004,7 +1018,9 @@
 	}
 	class WhuVideos extends WhuVideo
 	{
-		var $isCollection = true;
+		const ISCOLLECTION = true;		// these two go together in collection management:
+		var $unitClass = 'WhuVideo';
+
 		function getRecord($parm)	//  tripid. folder, date
 		{
 			// dumpVar($parm, "WhuPics parm");
@@ -1030,10 +1046,6 @@
 				return $key;
 			return $this->getOne("select * from wf_images where wf_images_id=$key");	
 		}
-
-		function flickToken()	{ jfdie("WhuPic-flickToken"); return $this->dbValue('fl_images_id'); }
-		// function flickToken()	{ return $this->dbValue('fl_images_id'); }
-		function isFlick()		{ return $this->flickToken() != ''; }
 		function kind()				{ return "picture"; }
 		function isPano()
 		{
@@ -1084,7 +1096,9 @@
 	}
 	class WhuPics extends WhuPic 
 	{
-		var $isCollection = true;
+		const ISCOLLECTION = true;
+		var $unitClass = 'WhuPic';
+
 		var $picsDate = '';
 		function getRecord($parm)	//  tripid. folder, date
 		{
@@ -1134,7 +1148,7 @@
 
 				$timeQuery = "SELECT * from wf_images  WHERE DATE(wf_images_localtime)='%s' and TIME(wf_images_localtime) %s SEC_TO_TIME(3600 * %s)";
 			 	$q = sprintf($timeQuery, $tonight, ">", $day->dayend());
-				// dumpVar($q, "q pm");
+				dumpVar($q, "q pm");
 				$pmpics = $this->getAll($q);
 
 				$tomorrow = Properties::sqlDate("$tonight +1 day");
@@ -1142,7 +1156,7 @@
 				if (!$day->hasData)          // I sometimes make spot_day entries for times I'm not on a trip, so handle it
 					return $pmpics;
 			 	$q = sprintf($timeQuery, $tomorrow, "<", $day->daystart());
-				// dumpVar($q, "q am");
+				dumpVar($q, "q am");
 				return array_merge($pmpics, $this->getAll($q));
 			}
 			
@@ -1192,17 +1206,40 @@
 			}
 		}
 	}
-	class WhuFaves extends WhuPic						// 2020 addition to easiely grab favored pics
+	class WhuFaves extends WhuPics						// 2020 addition to easiely grab favored pics
 	{
-		var $isCollection = true;
 		var $folder = NULL;
-		function getRecord($parm)
+		function getRecord($parms)		// July 2020 switch to "type key" model
 		{
-			$where = isset($parm['shape']) ? sprintf(" AND f.wf_favepics_shape='%s'", $parm['shape']) : '';
-			$this->folder = isset($parm['folder']) ? $parm['folder'] : $parm;			
+			// dumpVar($parms, "parms");
+			$props = new SubProps(array("type" => 'folder'), $parms);
 
-			$q = "SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id WHERE wf_images_path='$this->folder'$where";
-			// dumpVar($parm, "q=$q, parm");
+			switch ($props->get('type')) 
+			{
+				case 'pics': 				// cull the favorites our of a collection
+				{
+					$pics = $props->get('data');
+					for ($i = 0, $faves = array(); $i < $pics->size(); $i++)
+					{
+						$fave = $this->getOne($q = sprintf("SELECT * FROM wf_favepics where wf_images_id=%s", $pics->one($i)->id()));
+						// dumpVar(boolStr($fave), "$i, $q fave");
+						if ($fave)
+							$faves[] = $fave;
+					}
+					return $faves;
+					break;
+				}				
+				case 'folder': 				// cull the favorites our of a collection
+				default:  {			// folder
+					$where = sprintf("i.wf_images_path='%s'", $props->get('data'));
+					break;
+				}				
+			}
+			// can safely assume (??!!?) that there already is a where clause
+			$where .= $props->isProp('shape') ? sprintf(" AND f.wf_favepics_shape='%s'", $props->get('shape')) : '';
+
+			$q = "SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id WHERE $where";
+			// dumpVar($parms, "q=$q, parm");
 			return $this->getAll($q);
 		}
 		function favorite()
@@ -1213,11 +1250,20 @@
 			$one = $this->data[mt_rand(0, $num - 1)];			// select a random one
 			return $this->build('Pic', $one);
 		}
-		function getSome($num)				/// return $num pics
+		function getSome($num, $notFaves = NULL)				/// return $num pics, param 2 is for when you don't ahve enough
 		{
-			if ($num <= $this->size())
-				$this->random($num);			
-			dumpVar($this->size(), "num=$num, this->size()");
+			$this->random($num);
+			// dumpVar($this->size(), "num=$num, this->size()");
+
+			if ($num <= $this->size() || $notFaves == NULL)				// got enough, we're done OR what's all we got and we're done
+				return;
+			
+			// dumpVar($notFaves->size(), "shuffle notFaves->size()");
+			shuffle($notFaves->data);
+			$pics = array_slice($notFaves->data, 0, $num - $this->size());
+			// dumpVar($num - $this->size(), "non-faves");
+			$this->data = array_merge($this->data, $pics);
+			shuffle($this->data);
 		}
 	}
 	

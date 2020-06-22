@@ -45,24 +45,6 @@ var markers = [
 	}
 ];
 
-if ({WEATHER_MARK})	
-{
-	markers.push({
-		type: 'Feature',
-			zIndexOffset: 20, 
-		geometry: {
-				type: 'Point',
-				coordinates: [{W_LON}, {W_LAT}]
-		},
-		properties: {
-				title: '<div class="title">Weather Station</div>',
-				description: '<div class="desc">{W_CITY}, {W_STATE}</div>',
-				'marker-symbol': 'w',
-				'marker-color': '#18AADB'
-		}
-	});
-}
-
 var markersLayer = L.mapbox.featureLayer().addTo(map);
 markersLayer.setGeoJSON(markers);
 console.log('markers', markers);

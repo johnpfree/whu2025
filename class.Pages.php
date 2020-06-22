@@ -69,6 +69,36 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		$this->template->set_var('BOLDCOLOR', 0);				// just white for now
 	}
 	
+	function headerGallery($pics)
+	{
+		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
+		{
+			$pic = $pics->one($i);
+			// dumpVar(sprintf("id %s, %s: %s", $pic->id(), $pic->filename(), $pic->caption()), "$i Gallery");
+		
+			$row = array('PIC_ID' => $pic->id(), 'WF_IMAGES_PATH' => $pic->folder(), 'PIC_NAME' => $pic->filename());
+			$row['PIC_DESC'] = htmlspecialchars($pic->caption());
+
+			$imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
+			$thumb = $pic->thumbImage();
+			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
+			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
+				dumpVar($row['PIC_NAME'], "binpic fail");
+				$row['img_thumb'] = $imageLink;
+			}
+			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
+				dumpVar($ratio, "ratio");
+				// dumpVar($pic->thumbSize, "$i pic->thumbSize");
+				$row['img_thumb'] = $imageLink;
+			}
+			$rows[] = $row;
+		}
+		// dumpVar($rows[0], "rows[0]");
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
+		$loop->do_loop($rows);		
+	}
+	
+	
 	function tripLinkBar($page, $id)
 	{
 		$allfour = array(
@@ -194,7 +224,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	function addDollarSign($s)	{ return "&#36;$s"; }
 	
 	// 	array('zoom' => 7, 'lat' => $center->lat, 'lon' => $center->lon, 'name' => 'Center of the area for this story');
-	function setLittleMap($coords, $weathermark = 'false')
+	function setLittleMap($coords)
 	{
 // dumpVar($coords, "setLittleMap");
 		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
@@ -207,7 +237,6 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			return false;
 		}
 		$this->template->setFile('MAP_INSET', 'mapInset.ihtml');		
-		$this->template->set_var('WEATHER_MARK', $weathermark);
 		foreach ($coords as $k => $v) 
 		{
 			$this->template->set_var("PT_$k", addslashes($v));
@@ -281,7 +310,7 @@ class HomeHome extends ViewWhu
 		{
 	 	 	$trip = $this->build('Trip', $ids[$i]);
 			
-	 	 	$pics = $this->build('Faves', array('folder' => $trip->folder(), 'shape' => 'landscape'));
+			$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'landscape'));
 			$pic = $pics->favorite();
 			// $pic->dump("PIC");			
 			$cell = array(
@@ -310,37 +339,12 @@ class OneTrip extends ViewWhu
 	{
 		$tripid = $this->key;
  	 	$trip = $this->build('Trip', $tripid);	
+		$this->template->set_var('TRIP_TITLE', $this->caption = $trip->name());
 
 		// - - - Header PICS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		$pics = $this->build('Faves', array('folder' => $trip->folder()));
+		$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder()));
 		$pics->getSome(12);
-		
-		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
-		{
-			$pic = $pics->one($i);
-			// dumpVar(sprintf("id %s, %s: %s", $pic->id(), $pic->filename(), $pic->caption()), "$i Gallery");
-			
-			$row = array('PIC_ID' => $pic->id(), 'WF_IMAGES_PATH' => $pic->folder(), 'PIC_NAME' => $pic->filename());
-			$row['PIC_DESC'] = htmlspecialchars($pic->caption());
-
-			$row['img_full'] = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
-			$thumb = $pic->thumbImage();
-			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
-			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
-				dumpVar($row['PIC_NAME'], "binpic fail");
-				$row['img_thumb'] = $row['img_full'];
-			}
-			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
-				dumpVar($ratio, "ratio");
-				// dumpVar($pic->thumbSize, "$i pic->thumbSize");
-				$row['img_thumb'] = $row['img_full'];
-			}
-			$rows[] = $row;
-		}
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
-		$loop->do_loop($rows);
-
-		$this->template->set_var('TRIP_TITLE', $this->caption = $trip->name());
+		$this->headerGallery($pics);
 		
 		// - - - MAP - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		$this->template->setFile('TRIP_MAP', 'onemap.ihtml');		
@@ -414,6 +418,143 @@ class OneTrip extends ViewWhu
 	}
 }
 
+class OneSpot extends ViewWhu
+{
+	var $file = "onespot.ihtml";   
+	function showPage()	
+	{
+		$spotid = $this->props->get('key');
+ 	 	$spot = $this->build('DbSpot', $spotid);	
+		
+		$this->template->set_var('SPOT_NAME', 	$this->caption = $spot->name());
+		$this->template->set_var('SPOT_ID', 		$spot->id());
+		$this->template->set_var('SPOT_TOWN', 	$spot->town());
+		$this->template->set_var('SPOT_PARTOF', $spot->partof());
+		$this->template->set_var('SPOT_PLACE',  $spot->place());
+		$this->template->set_var('SPOT_NUM',  	$visits = $spot->visits());
+		
+		$this->template->set_var('SPLAT',  	$spot->lat());
+		$this->template->set_var('SPLON',  	$spot->lon());
+		$this->template->set_var('SPBATH',  	$spot->bath());
+		$this->template->set_var('SPWATER',  	$spot->water());
+		$this->template->set_var('SPDESC',  	$desc = $spot->htmldesc());
+
+		if ($visits == 'never')
+		{
+			$this->template->set_var('DAYS_INFO', 'hideme');								// NO Days!
+		}
+		else
+		{
+			$this->template->set_var('DAYS_INFO', '');											// yes, there are days
+
+			$keys = $spot->keywords();							// -------------------- keywords
+			for ($i = 0, $rows = array(), $keylist = ''; $i < sizeof($keys); $i++) 
+			{
+				// dumpVar($keys[$i], "keys[$i]");
+				$rows[] = array('spot_key' => $keys[$i]);
+				$keylist .= $keys[$i] . ', ';
+			}
+			// dumpVar($rows, "rows");
+			$loop = new Looper($this->template, array('parent' => 'the_content', 'one' => 'keyrow', 'none_msg' => "no keywords", 'noFields' => true));
+			$loop->do_loop($rows);
+
+			// ------------------------------------------------------- collect Day info, AND Pic/Faves info, because pics are by day
+			$days = $this->build('DbSpotDays', $spot->id());								
+			for ($i = $count = 0, $rows = array(); $i < $days->size(); $i++)
+			{
+				$day = $days->one($i);
+				// $day->dump($i);
+				$date = $day->date();
+
+				// collect evening and morning pictures for each day
+				if ($i == 0) {
+					$pics = $this->build('Pics', array('night' => $date));
+					dumpVar($pics->size(), "000 pics->size()");
+				}
+				else {
+					$pics->add($this->build('Pics', array('night' => $date)));
+					dumpVar($pics->size(), "$i. pics->size()");
+				}
+
+				$row = array('stay_date' => $date = $day->date());
+				$row['nice_date'] = Properties::prettyDate($date);
+				$row['spdaydesc'] = $day->htmldesc();
+				if ($row['spdaydesc'] == $desc || $row['spdaydesc'] == '') 			// don't repeat the main desc
+					$row['spdaydesc'] = "<em>(see main description above)</em>";
+
+				if (($cost = $day->cost()) > 0)
+				{
+					$costs = $this->addDollarSign($cost);
+					if ($day->senior() > 0 && $day->senior() != $cost)
+						$costs .= ' | '.$this->addDollarSign($day->senior());
+				}
+				else
+					$costs = "free!";
+				$row['spcosts'] = $costs;
+				if ($day->tripId() > 0)
+				{
+					$row['use_link'] = '';
+					$row['not_link'] = 'hideme';
+				}
+				else
+				{
+					$row['use_link'] = 'hideme';
+					$row['not_link'] = '';
+				}
+				// dumpVar($row, "$i row");
+				$rows[] = $row;
+			}
+			
+			$faves = $this->build('Faves', array('type' => 'pics', 'data' => $pics));			// cull out the favorites
+			dumpVar($faves->size(), "N faves->size()");
+			$faves->getSome(12, $pics);		
+			$this->headerGallery($pics);
+		}
+
+		parent::showPage();
+	}
+}
+
+class OnePhoto extends ViewWhu
+{
+	var $file = "onepic.ihtml";   
+	function showPage()	
+	{
+		parent::showPage();
+ 	 	$vis = $this->build('Visual', $visid = $this->key);		
+		
+		$this->template->set_var('COLLECTION_NAME', Properties::prettyDate($date = $vis->date()));
+		$this->template->set_var('DATE', $date);
+		$this->template->set_var('PRETTIEST_DATE', WhuProps::verboseDate($date));
+		$this->template->set_var('PIC_TIME', Properties::prettyTime($vis->time()));
+		$this->template->set_var('PIC_CAMERA', $vis->cameraDesc());
+		$this->template->set_var('PIC_PLACE', $vis->place());
+		$this->template->set_var('PICFILE_NAME', $vis->filename());
+		$this->template->set_var('WF_IMAGES_PATH', $vis->folder());
+		$this->template->set_var('WF_IMAGES_FILENAME', $vis->filename());
+		$this->template->set_var('VIS_NAME', $name = $vis->caption());
+		$this->template->set_var('REL_PICPATH', iPhotoURL);
+		$this->template->set_var('VID_SPOT_VIS', 'hideme');
+		
+ 	 	$trip = $this->build('Trip', $date);
+		$this->template->set_var('TRIP_NAME', $trip->name());
+		$this->template->set_var('TRIP_ID', $trip->id());
+		
+ 	 	$day = $this->build('DayInfo', $date);
+		$this->template->set_var('WPID', $wpid = $day->postId());
+		if ($wpid > 0)
+		{
+			$this->template->set_var('STORY', $this->build('Post', array('quickid' => $wpid))->title());
+			// $this->template->set_var('STORY', $this->build('Post', $wpid)->title());
+			$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
+			$this->template->set_var("STORY_VIS", '');
+		}
+		else
+			$this->template->set_var('STORY_VIS', 'hideme');
+	
+		$this->caption = sprintf("%s on %s", $vis->kind(), Properties::prettyShort($date));
+	}
+}
 
 // Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -1121,72 +1262,6 @@ class NearMap extends SpotMap
 	function markerColor($i) { return $this->marker_color; }
 }
 
-class OnePhoto extends ViewWhu
-{
-	var $file = "onepic.ihtml";   
-	function showPage()	
-	{
-		parent::showPage();
- 	 	$vis = $this->build('Visual', $visid = $this->key);		
-		
-		$this->template->set_var('COLLECTION_NAME', Properties::prettyDate($date = $vis->date()));
-		$this->template->set_var('DATE', $date);
-		$this->template->set_var('PRETTIEST_DATE', WhuProps::verboseDate($date));
-		$this->template->set_var('PIC_TIME', Properties::prettyTime($vis->time()));
-		$this->template->set_var('PIC_CAMERA', $vis->cameraDesc());
-		$this->template->set_var('PIC_PLACE', $vis->place());
-		$this->template->set_var('PICFILE_NAME', $vis->filename());
-		$this->template->set_var('WF_IMAGES_PATH', $vis->folder());
-		$this->template->set_var('WF_IMAGES_FILENAME', $vis->filename());
-		$this->template->set_var('VIS_NAME', $name = $vis->caption());
-		$this->template->set_var('REL_PICPATH', iPhotoURL);
-		$this->template->set_var('VID_SPOT_VIS', 'hideme');
-		
- 	 	$day = $this->build('DayInfo', $date);
-		$this->template->set_var('WPID', $wpid = $day->postId());
-		if ($wpid > 0)
-		{
-			$this->template->set_var('STORY', $this->build('Post', array('quickid' => $wpid))->title());
-			// $this->template->set_var('STORY', $this->build('Post', $wpid)->title());
-			$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
-			$this->template->set_var("STORY_VIS", '');
-		}
-		else
-			$this->template->set_var('STORY_VIS', 'hideme');
-
-		// Details info	- keywords
-		$keys = $this->build('Categorys', array('picid' => $visid));
-		for ($i = 0, $rows = array(); $i < $keys->size(); $i++)
-		{
-			$key = $keys->one($i);	
-			$row = array('WF_CATEGORIES_ID' => $key->id(), 'WF_CATEGORIES_TEXT' => $key->name());
-			$rows[] = $row;
-		}
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
-		$loop->do_loop($rows);
-	
- 	 	$vis = $this->build('Pic', $vis);			// NOTE I am recasting my generic vis to a picture
-		$gps = $vis->latlon();
-		if ($vis->cameraDoesGeo())
-			$gps['geo'] = true;
-		if ($this->setLittleMap(array_merge($gps, array('name' => Properties::prettyDate($vis->date()), 'desc' => $name))))
-		{
-			$this->template->set_var('GPS_VIS', '');
-			$this->template->set_var('GPS_LAT', $gps['lat']);
-			$this->template->set_var('GPS_LON', $gps['lon']);
-		}
-		else
-			$this->template->set_var('GPS_VIS', 'hideme');
-
-		$this->caption = sprintf("%s on %s", $vis->kind(), Properties::prettyShort($date));
-
-		$pageprops = array();
-		$pageprops['pkey'] = $vis->prev()->id();
-		$pageprops['nkey'] = $vis->next()->id();
-		$this->pagerBar('vis', 'id', $pageprops);		
-	}
-}
-
 class OneDay extends ViewWhu
 {
 	var $file = "oneday.ihtml";   
@@ -1238,154 +1313,6 @@ class OneDay extends ViewWhu
 
 		$this->dayLinkBar('day', $dayid);		
 		$this->meta_desc = sprintf("WHUFU log for %s &ndash; slept at %s", $this->caption, $day->nightName());		
-		parent::showPage();
-	}
-}
-
-class OneSpot extends ViewWhu
-{
-	var $file = "onespot.ihtml";   
-	function showPage()	
-	{
-		$spotid = $this->props->get('key');
- 	 	$spot = $this->build('DbSpot', $spotid);		
-
-		$this->template->set_var('SPOT_NAME', 	$this->caption = $spot->name());
-		$this->template->set_var('SPOT_ID', 		$spot->id());
-		$this->template->set_var('SPOT_TOWN', 	$spot->town());
-		$this->template->set_var('SPOT_PARTOF', $spot->partof());
-		$this->template->set_var('SPOT_PLACE',  $spot->place());
-		$this->template->set_var('SPOT_NUM',  	$visits = $spot->visits());
-		
-		$this->template->set_var('SPLAT',  	$spot->lat());
-		$this->template->set_var('SPLON',  	$spot->lon());
-		$this->template->set_var('SPBATH',  	$spot->bath());
-		$this->template->set_var('SPWATER',  	$spot->water());
-		$this->template->set_var('SPDESC',  	$desc = $spot->htmldesc());
-
-		$types = $spot->prettyTypes();
-		// dumpVar($types, "types"); exit;
-		$str = '';
-		foreach ($types as $k => $v) 
-		{
-			$str .= $v . ', ';
-		}		
-		$this->template->set_var('SPOT_TYPES', $types = substr($str, 0, -2));
-		
-		//----------------------------- weather tab ---------------
-		$info = getWeatherInfo(($this->props->get("weather") != 1), $spot->lat(), $spot->lon());
-		// dumpVar($info, "info");
-		$this->template->set_var($info);
-
-		if ($visits == 'never')
-		{
-			$this->template->set_var('DAYS_INFO', 'hideme');								// NO Days!
-		}
-		else
-		{
-			$this->template->set_var('DAYS_INFO', '');											// yes, there are days
-
-			$keys = $spot->keywords();																			// ---------- keywords
-			for ($i = 0, $rows = array(), $keylist = ''; $i < sizeof($keys); $i++) 
-			{
-				// dumpVar($keys[$i], "keys[$i]");
-				$rows[] = array('spot_key' => $keys[$i]);
-				$keylist .= $keys[$i] . ', ';
-			}
-			// dumpVar($rows, "rows");
-			$loop = new Looper($this->template, array('parent' => 'the_content', 'one' => 'keyrow', 'none_msg' => "no keywords", 'noFields' => true));
-			$loop->do_loop($rows);
-
-			// ------------------------------------------------------------ days loop NOTE that I collect pictures in this loop also
-			$days = $this->build('DbSpotDays', $spot->id());								
-			for ($i = $count = 0, $rows = array(); $i < $days->size(); $i++)
-			{
-				$day = $days->one($i);
-				// $day->dump($i);
-				$row = array('stay_date' => $date = $day->date());
-				$row['nice_date'] = Properties::prettyDate($date);
-				$row['spdaydesc'] = $day->htmldesc();
-				if ($row['spdaydesc'] == $desc || $row['spdaydesc'] == '') 			// don't repeat the main desc
-					$row['spdaydesc'] = "<em>(see main description above)</em>";
-
-				if (($cost = $day->cost()) > 0)
-				{
-					$costs = $this->addDollarSign($cost);
-					if ($day->senior() > 0 && $day->senior() != $cost)
-						$costs .= ' | '.$this->addDollarSign($day->senior());
-				}
-				else
-					$costs = "free!";
-				$row['spcosts'] = $costs;
-				if ($day->tripId() > 0)
-				{
-					$row['use_link'] = '';
-					$row['not_link'] = 'hideme';
-				}
-				else
-				{
-					$row['use_link'] = 'hideme';
-					$row['not_link'] = '';
-				}
-				// dumpVar($row, "$i row");
-				$rows[] = $row;
-
-				// collect evening and morning pictures for each day
-				if ($i == 0) {
-					$pics = $this->build('Pics', array('night' => $date));
-					dumpVar($pics->size(), "000 pics->size()");
-				}
-				else {
-					$pics->add($this->build('Pics', array('night' => $date)));
-					dumpVar($pics->size(), "$i. pics->size()");
-				}
-			}
-			$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
-			$loop->do_loop($rows);
-		
-			//----------------------------- pictures tab ---------------
-			$this->template->set_var('REL_PICPATH', iPhotoURL);
-			$pics->random(9);
-			dumpVar($pics->size(), "pics->size()");
-			
-			
-			for ($i = 0, $rows = array(); $i < $pics->size(); $i++)
-			{
-				$pic = $pics->one($i);
-				$use_image = $use_binpic = $use_vidtmb = $use_flick = 'hideme';		// hide everbody, then un-hide one
-				$row = array('gal_date' => $day->date(), 'wf_images_path' => $pic->folder(), 'pic_name' => $pic->filename(), 'pic_id' => $pic->id(), 'pano_symb' => '');
-
-				if ($pic->isVideo())
-				{
-					$use_vidtmb = '';
-					$vid = $this->build('Video', $pic);
-					// dumpVar($vid->token(), "vid->token()");
-					$row = array_merge(array('vis_page' => 'vid', 'pic_id' => $vid->id(), 'vid_token' => $vid->token(), 'bin_pic' => ''), $row);
-				}
-				else
-				{
-					$row['binpic'] = $pic->thumbImage();
-					if (strlen($row['binpic']) > 100) {			// hack to show the slow image if the thumbnail fails on server
-						$use_binpic = '';
-					} else {
-						$use_image = '';
-					}
-				}
-
-				$row['use_image'] = $use_image;
-				$row['use_binpic'] = $use_binpic;
-				$row['use_vidtmb'] = $use_vidtmb;
-				$row['use_flick'] = $use_flick;
-				$row['pano_symb'] = $pic->picPanoSym();
-				// dumpVar($row, "$i row");
-				$rows[] = $row;
-			}
-			$loop = new Looper($this->template, array('parent' => 'the_content', 'one' => 'picrow', 'none_msg' => "no pics!", 'noFields' => true));
-			$loop->do_loop($rows);
-		}
-
-		$this->setLittleMap(array('lat' => $spot->lat(), 'lon' => $spot->lon(), 'name' => $spot->name(), 'desc' => $spot->town()));
-		$this->meta_desc = sprintf("Description of the WHUFU Spot %s: %s &ndash; %s &ndash; %s &ndash; %s", $this->caption, $spot->town(), $spot->partof(), $types, substr($keylist, 0, -2));		
 		parent::showPage();
 	}
 }
