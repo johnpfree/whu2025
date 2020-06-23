@@ -1,23 +1,13 @@
 <table id="tripstable" border="0" cellspacing="5" cellpadding="5">
-
-<!-- BEGIN triptype_rows -->
-	<tr class="clickable" data-toggle="collapse" data-target=".{GROUPTAG}">		
-		<td class="tbut" colspan="20"> 
-      <div class="panel-heading" data-toggle="collapse" href="#collapseT">
-				<button type="button" class="btn btn-block" data-toggle="collapse" href="#collapseT">{TYPE_NAME}</button>
-      </div>
-		</td>
-	</tr>
-	<!-- BEGIN trip_rows -->
-	<tr class="collapse {SHOWTAG} {GROUPTAG}">
+<!-- BEGIN trip_rows -->
+	<tr>
 		<td align="right"><a href="?page=log&type=id&key={TRIP_ID}" title="Trip Log">{TRIP_NAME}</a></td>
 		<td> &nbsp; </td>		
 		<td>{TXTS_LINK}</td>
 		<td>{MAP_LINK}</td>
 		<td>{PICS_LINK} {VIDS_LINK}</td>
 	</tr>
-	<!-- END trip_rows -->
-<!-- END triptype_rows -->	
+<!-- END trip_rows -->
 </table>
 
 <style type="text/css" media="screen">

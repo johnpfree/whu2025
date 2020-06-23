@@ -332,7 +332,7 @@ class HomeHome extends ViewWhu
 
 class OneTrip extends ViewWhu
 {
-	var $file = "triphome.ihtml";   
+	var $file = "onetrip.ihtml";   
 	var $loopfile = 'mapBoundsLoop.js';
 	var $marker_color = '#535900';	// '#8c54ba';
 	function showPage()	
@@ -510,6 +510,11 @@ class OneSpot extends ViewWhu
 			$faves->getSome(12, $pics);		
 			$this->headerGallery($pics);
 		}
+		
+		// ------------------------------------------------------- spot type
+		$str = '';
+		foreach ($spot->prettyTypes() as $k => $v) { $str .= $v . ', '; }		
+		$this->template->set_var('SPOT_TYPES', $types = substr($str, 0, -2));
 
 		parent::showPage();
 	}
@@ -554,6 +559,34 @@ class OnePhoto extends ViewWhu
 	
 		$this->caption = sprintf("%s on %s", $vis->kind(), Properties::prettyShort($date));
 	}
+}
+
+class AllTrips extends ViewWhu
+{
+	var $file = "tripslist.ihtml";   
+	function showPage()	
+	{
+		dumpVar(WP_PATH, "WP_PATH");
+		$this->template->set_var('WP_PATH', WP_PATH);
+
+		$trips = $this->build('Trips');
+		for ($i = 0, $rows = array(); $i < $trips->size(); $i++) 
+		{
+			$trip = $trips->one($i);
+			$row = array("TRIP_DATE" => $trip->startDate(), "TRIP_ID" => $trip->id(), "TRIP_NAME" => $trip->name());
+			$row['TXTS_LINK'] = (new WhutxtsidLink($trip))->url();
+			$row['MAP_LINK' ] = (new WhumapidLink ($trip))->url();
+			$row['PICS_LINK'] = (new WhupicsidLink($trip))->url();
+			$row['VIDS_LINK'] = (new WhuvidsidLink($trip))->url();
+			// dumpVar($row, "row"); exit;
+			$rows[] = $row;
+		}
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'trip_row'));
+		$loop->do_loop($rows);
+		
+		parent::showPage();
+	}
+	function getCaption()	{	return "Browse All Trips";	}
 }
 
 // Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -639,55 +672,6 @@ class SpotsPlaces extends SpotsHome
 		$cat = $this->build('Category', $this->key);	
 		$this->title = sprintf("Spots in: <i>%s</i>", $cat->name());
 		parent::showPage();
-	}
-}
-
-class AllTrips extends ViewWhu
-{
-	var $file = "tripslist.ihtml";   
-	function showPage()	
-	{
-		parent::showPage();
-		dumpVar(WP_PATH, "WP_PATH");
-		$this->template->set_var('WP_PATH', WP_PATH);
-		
-		$tripTypes = array(
-			array('tag' => 'main' , 'SHOWTAG' => 'in', 'TYPE_NAME' => 'Big Trips'),
-			array('tag' => 'eka'  , 'SHOWTAG' => '', 'TYPE_NAME' => 'Eureka Trips'),
-			array('tag' => 'small', 'SHOWTAG' => '', 'TYPE_NAME' => 'Short Trips')
-		);
-		
-		$loop = new TripLooper($this);	
-		$loop->do_loop($tripTypes);
-	}
-	function getCaption()	{	return "Browse All Trips";	}
-}
-class TripLooper extends MultiLooper
-{
-	var $viewHandle;				// need this for the build() function below
-	function __construct($t)
-	{
-		$this->viewHandle = $t;
-		parent::__construct(2, $t->template, NULL, 	// third param is db, but don't need it here
-				array('triptype_row', 'trip_row'), array('noFields' => true, 'noFields1' => true, 'parent' => 'the_content'));
-	}
-	function getInner($item)
-	{		
-		$this->template->set_var("GROUPTAG", ($tag = $item['tag']));
-		$trips = $this->viewHandle->build('Trips', array('filter' => $tag));
-		for ($i = 0, $rows = array(); $i < $trips->size(); $i++) 
-		{
-			$trip = $trips->one($i);
-			$row = array("TRIP_DATE" => $trip->startDate(), "TRIP_ID" => $trip->id(), "TRIP_NAME" => $trip->name());
-			$row['TXTS_LINK'] = (new WhutxtsidLink($trip))->url();
-			$row['MAP_LINK' ] = (new WhumapidLink ($trip))->url();
-			$row['PICS_LINK'] = (new WhupicsidLink($trip))->url();
-			$row['VIDS_LINK'] = (new WhuvidsidLink($trip))->url();
-
-			// dumpVar($row, "row"); exit;
-			$rows[] = $row;
-		}
-		return $rows;
 	}
 }
 

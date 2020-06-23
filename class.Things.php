@@ -35,8 +35,7 @@
 			jfdie($txt);
 		}
 		function assertIsCollection()  { 
-			$this->assert($this::ISCOLLECTION == true, "NOT a Collection");
-			$this->assert($this->unitClass != '', "Collection must have unit parent");
+			$this->assert($this->unitClass != '', "Np parent class set for this collection");
 		}
 
 		// --------- generalized get()
@@ -213,7 +212,7 @@
 		{}
 		function hasWhuPics()
 		{
-			$pics = $this->build('Pics', array('tripid' => $this->id())); 
+			$pics = $this->build('Pics', array('type' => 'tripid', 'data' => $this->id())); 
 			return $pics->size() > 0;
 		}
 		function hasVideos()
@@ -265,9 +264,14 @@
 	}
 	class WhuTrips extends WhuTrip 
 	{
-		var $isCollection = true;
+		var $unitClass = 'WhuTrip';
+		
 		function getRecord($parms)
 		{
+			// 2020 just do this
+			return $this->getAll("select * from wf_trips ORDER BY wf_trips_start DESC");	
+
+
 			// little hack to create a Trips object w/o data to hang those numXX() fcns off of. They don't need any trip data.
 			if ($parms == '')	
 				return true;
@@ -282,8 +286,6 @@
 				$qProps->set('where', "WHERE wf_trips_sort='$filter'");
 			}
 			// $q = sprintf("select * from wf_trips WHERE wf_trips_types REGEXP 'show' ORDER BY %s %s", $qProps->get('orderby'), $qProps->get('order'));
-			$q = sprintf("select * from wf_trips %s ORDER BY %s %s", $qProps->get('where'), $qProps->get('orderby'), $qProps->get('order'));
-			return $this->getAll($q);	
 		}
 		
 		// good a place as any to put the global queries for home page
@@ -665,7 +667,6 @@
 	}
 	class WhuDbSpots extends WhuDbSpot 
 	{
-		const ISCOLLECTION = true;		// these two go together in collection management:
 		var $unitClass = 'WhuDbSpot';
 		
 		function getRecord($searchterms = array())
@@ -941,7 +942,7 @@
 				return $key;
 			return $this->getOne("select * from wf_images where wf_images_id=$key");	
 		}
-		function kind()			{ return "UNKNOWN"; }
+		function kind()			{ return "UNKNONM"; }
 		function filename()	{ return $this->dbValue('wf_images_filename'); }
 		function id()				{ return $this->dbValue('wf_images_id'); }
 		function caption()	{ return $this->dbValue('wf_images_text'); }
@@ -1096,13 +1097,22 @@
 	}
 	class WhuPics extends WhuPic 
 	{
-		const ISCOLLECTION = true;
 		var $unitClass = 'WhuPic';
-
 		var $picsDate = '';
-		function getRecord($parm)	//  tripid. folder, date
+		function getRecord($parm)			// July 2020 transition to "type data" model -- tripid. folder, date
 		{
 			// dumpVar($parm, "WhuPics parm");
+			switch ($parm['type']) {
+				case 'tripid':
+				{
+					$trip = $this->build('DbTrip', $parm['data']);
+					$folder = $trip->folder();
+					return $this->getAll($q = "select * from wf_images where wf_images_path='$folder' order by wf_images_localtime");
+				}
+				default:
+					# code...
+					break;
+			}
 			
 			if (isset($parm['faves'])) 
 			{
@@ -1222,7 +1232,7 @@
 					for ($i = 0, $faves = array(); $i < $pics->size(); $i++)
 					{
 						$fave = $this->getOne($q = sprintf("SELECT * FROM wf_favepics where wf_images_id=%s", $pics->one($i)->id()));
-						// dumpVar(boolStr($fave), "$i, $q fave");
+						dumpVar(boolStr($fave), "$i, $q fave");
 						if ($fave)
 							$faves[] = $fave;
 					}
@@ -1253,17 +1263,18 @@
 		function getSome($num, $notFaves = NULL)				/// return $num pics, param 2 is for when you don't ahve enough
 		{
 			$this->random($num);
-			// dumpVar($this->size(), "num=$num, this->size()");
+			dumpVar($this->size(), "num=$num, this->size()");
 
 			if ($num <= $this->size() || $notFaves == NULL)				// got enough, we're done OR what's all we got and we're done
 				return;
 			
-			// dumpVar($notFaves->size(), "shuffle notFaves->size()");
+			dumpVar($notFaves->size(), "shuffle notFaves->size()");
 			shuffle($notFaves->data);
 			$pics = array_slice($notFaves->data, 0, $num - $this->size());
-			// dumpVar($num - $this->size(), "non-faves");
+			dumpVar($num - $this->size(), "non-faves");
 			$this->data = array_merge($this->data, $pics);
 			shuffle($this->data);
+			dumpVar($this->size(), "num=$num, this->size()");
 		}
 	}
 	

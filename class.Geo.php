@@ -30,7 +30,7 @@ class WhuLink
 	function url()
 	{
 		$curkey  = $this->props->get('key');
-		// dumpVar($this->pagetype, "curkey=$curkey this->pagetype");
+		dumpVar($this->pagetype, "curkey=$curkey this->pagetype");
 		switch ($this->pagetype) {
 			case 'txtdate':
 				$day = new WhuDbDay($this->props, $curkey);
