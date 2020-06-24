@@ -915,7 +915,6 @@
 	}
 	class WhuPosts extends WhuPost 
 	{
-		const ISCOLLECTION = true;		// these two go together in collection management:
 		var $unitClass = 'WhuPost';
 
 		function getRecord($parm)
@@ -1102,7 +1101,9 @@
 		function getRecord($parm)			// July 2020 transition to "type data" model -- tripid. folder, date
 		{
 			// dumpVar($parm, "WhuPics parm");
-			switch ($parm['type']) {
+			$props = new SubProps(array("type" => ''), $parm);
+			switch ($props->get('type')) 
+			{
 				case 'tripid':
 				{
 					$trip = $this->build('DbTrip', $parm['data']);
@@ -1221,24 +1222,38 @@
 		var $folder = NULL;
 		function getRecord($parms)		// July 2020 switch to "type key" model
 		{
-			// dumpVar($parms, "parms");
+			dumpVar($parms, "parms");
 			$props = new SubProps(array("type" => 'folder'), $parms);
-
 			switch ($props->get('type')) 
 			{
-				case 'pics': 				// cull the favorites our of a collection
+				case 'pics': 							// type=pics, data = the pics you wish to cull for favorites
 				{
 					$pics = $props->get('data');
 					for ($i = 0, $faves = array(); $i < $pics->size(); $i++)
 					{
 						$fave = $this->getOne($q = sprintf("SELECT * FROM wf_favepics where wf_images_id=%s", $pics->one($i)->id()));
-						dumpVar(boolStr($fave), "$i, $q fave");
+						// dumpVar(boolStr($fave), "$i, $q fave");
 						if ($fave)
 							$faves[] = $fave;
 					}
 					return $faves;
 					break;
-				}				
+				}
+				case 'tripdates': 		// type=tripdates, start=, end= - favorites for a trip. given start and end (trip obj eists in caller, so use it)
+				{					
+					 $q = sprintf("SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id 
+						 								where DATE(i.wf_images_localtime) between '%s' and '%s'", $props->get('start'), $props->get('end'));
+					 dumpVar($q, "q");
+					 return $this->getAll($q);
+				}	
+				case 'oneday':		 		// type=oneday, date= - favorites for a date
+				{					
+					 $q = sprintf("SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id 
+						 								where DATE(i.wf_images_localtime)='%s'", $props->get('date'));
+					 dumpVar($q, "q");
+					 return $this->getAll($q);
+				}	
+							
 				case 'folder': 				// cull the favorites our of a collection
 				default:  {			// folder
 					$where = sprintf("i.wf_images_path='%s'", $props->get('data'));

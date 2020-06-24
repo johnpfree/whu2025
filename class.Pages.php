@@ -87,7 +87,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 				$row['img_thumb'] = $imageLink;
 			}
 			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
-				dumpVar($ratio, "ratio");
+				// dumpVar($ratio, "ratio");
 				// dumpVar($pic->thumbSize, "$i pic->thumbSize");
 				$row['img_thumb'] = $imageLink;
 			}
@@ -508,7 +508,7 @@ class OneSpot extends ViewWhu
 			$faves = $this->build('Faves', array('type' => 'pics', 'data' => $pics));			// cull out the favorites
 			dumpVar($faves->size(), "N faves->size()");
 			$faves->getSome(12, $pics);		
-			$this->headerGallery($pics);
+			$this->headerGallery($faves);
 		}
 		
 		// ------------------------------------------------------- spot type
@@ -589,29 +589,38 @@ class AllTrips extends ViewWhu
 	function getCaption()	{	return "Browse All Trips";	}
 }
 
-// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-class SpotsHome extends ViewWhu
+class SpotsList extends ViewWhu
 {
 	var $file = "spotshome.ihtml";
 	var $searchterms = array('CAMP' => 'wf_spots_types', 'usfs' => 'wf_spots_status', 'usnp' => 'wf_spots_status');
 	var $title = "Spots";
 	function showPage()	
 	{
-		parent::showPage();
-		
+		$spottypes = array(
+					'LODGE'		=> 'Lodging',
+					'HOTSPR'	=> 'Hot Springs',
+					'NWR'			=> 'Wildlife Refuges',
+					'CAMP'		=> 'Camping Places',
+					);
+					
+		if (null !== ($title = @$spottypes[$this->key])) {
+			$this->searchterms = array($this->key => 'wf_spots_types');
+		}
+		else
+			return;
+
 		$spots = $this->build('DbSpots', $this->searchterms);
 		
 		$maxrows = 60;
 		if ($spots->size() > $maxrows)
 		{
 			shuffle($spots->data);
-			$this->template->set_var("TITLE", "A Random Selection of " . $this->title);
+			$this->template->set_var("TITLE", "A Random Selection of " . $title);
 		}
 		else
-			$this->template->set_var("TITLE", $this->title);
+			$this->template->set_var("TITLE", $title);
 		$this->caption = "Browse " . $this->title;
-		
+
 		for ($i = 0, $rows = array(); $i < min($maxrows, $spots->size()); $i++)
 		{
 			$spot = $spots->one($i);
@@ -625,27 +634,139 @@ class SpotsHome extends ViewWhu
  				);
 			$rows[] = $row;
 		}
-		// do loop twice, for mobile version and for full version
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
-		$loop->do_loop($rows);
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'lg_row'));
 		$loop->do_loop($rows);		
-	}
-}
-class SpotsTypes extends SpotsHome
-{
-	function showPage()	
-	{
-		$spottypes = array(
-					'LODGE'		=> 'Lodging',
-					'HOTSPR'	=> 'Hot Springs',
-					'NWR'			=> 'Wildlife Refuges',
-					);
-		$this->title = $spottypes[$this->key];
-		$this->searchterms = array($this->key => 'wf_spots_types');
+	
 		parent::showPage();
 	}
 }
+
+class OneTripLog extends ViewWhu
+{
+	var $file = "triplog.ihtml";   
+	function showPage()	
+	{
+		$tripid = $this->key;
+ 	 	$trip = $this->build('DbTrip', $tripid);	
+		$days = $this->build('DbDays', $tripid);
+		$this->template->set_var('TRIP_NAME', $this->caption = $trip->name());
+		
+		// whiffle the days for this trip 
+		for ($i = $iPost = $prevPostId = 0, $nodeList = array(); $i < $days->size(); $i++) 
+		{
+			// $day = new WhuDayInfo($days->one($i));
+			$day = $this->build('DayInfo', $days->one($i));
+
+			// easy stuff - date mileage name ...
+			$row = array('day_name' => $day->dayName(), 'miles' => $day->miles(), 'cum_miles' => number_format($day->cumulative()), 'day_number' => $i+1);
+			$row['nice_date'] = Properties::prettyShort($row['day_date'] = $day->date(), "M"); 
+			$row['short_date'] = Properties::prettyShortest($row['day_date']); 
+			$row['title_date'] = Properties::prettyDate($row['day_date']); 
+			$row['trip_year'] = substr($row['day_date'], 0, 4); 
+
+			// Stop or Spot?
+			$parms = array('day', 'date', $day->date());
+			if ($day->hasSpot())
+				$parms = array('spot', 'id', $day->spotId());
+			// $parms = $day->hasSpot() ? array('spot', 'id', $day->spotId()) : array('stop', 'date', $day->date());
+			$j = 0;
+			foreach (array('SDPAGE', 'SDTYPE', 'SDKEY') as $v)
+			{
+				$row[$v] = $parms[$j++];
+			}
+			$row['stop_name'] = $day->nightName();				
+			$row['stop_desc'] = $day->baseExcerpt($day->nightDesc(), 30);
+			
+			$row['PIC_LINK'] = (($npic = $day->pics()->size()) > 0) ? (new WhuLink('pics', 'date', $day->date(), "[$npic]", "today's images"))->url() : '';
+			
+			// which post?
+			$row['wp_id'] = $day->postId();
+			if ($row['wp_id'] > 0) 
+			{
+				if ($prevPostId != $row['wp_id']) {
+					$prevPostId = $row['wp_id'];
+			// dumpVar($row, "$i row, pp=$prevPostId");
+					$post = $this->build('Post', array('quickid' => $prevPostId));
+					$pName = $post->baseExcerpt($post->title(), 25);
+					$iPost++;
+				}			
+				$row['day_post'] = $pName;
+				$row['story_link'] = $this->makeWpPostLink($prevPostId, $row['day_date']);
+				$row['POST_CLASS'] = '';
+			}
+			else
+				$row['POST_CLASS'] = "class='hidden'";
+			// if ($i > 5)			exit;
+			$nodeList[] = $row;		
+		}		
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));                                
+		$loop->do_loop($nodeList);
+		
+		$faves = $this->build('Faves', array('type' => 'tripdates', 'start' => $trip->startDate(), 'end' => $trip->endDate()));
+		$faves->getSome(12);
+		$this->headerGallery($faves);
+
+		parent::showPage();
+	}
+}
+
+class OneDay extends ViewWhu
+{
+	var $file = "oneday.ihtml";   
+	function showPage()	
+	{
+		$dayid = $this->key;
+ 	 	$day = $this->build('DayInfo', $dayid);
+
+		$this->caption = Properties::prettyDate($date = $day->date());
+		$this->template->set_var('DATE', $date);
+		$this->template->set_var('PRETTY_DATE', WhuProps::verboseDate($date));
+		
+		$this->template->set_var('ORDINAL', $day->day());
+		$this->template->set_var('MILES', $day->miles());
+		$this->template->set_var('CUMMILES', $day->cumulative());
+		
+		$this->template->set_var('WPID', $wpid = $day->postId());
+		if ($wpid > 0)
+			$this->template->set_var('STORY', $this->build('Post', array('quickid' => $wpid))->title());
+			// $this->template->set_var('STORY', $this->build('Post', $wpid)->title());
+		$this->template->set_var("VIS_CLASS_TXT", $day->hasStory() ? '' : "class='hidden'");
+		$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
+		
+		$this->template->set_var('DAY_NAME', $day->dayName());
+		$this->template->set_var('DAY_DESC', $day->dayDesc());
+		$this->template->set_var('PM_STOP', $day->nightNameUrl());
+		
+		$this->template->set_var('NIGHT_DESC', $desc = $day->nightDesc());
+		$this->template->set_var('NIGHT_VIS', ($desc == '') ? 'hideme' : '');
+		
+		// do next|prev nav - as long as I have yesterday, show where I woke up today
+		$pageprops = array();
+		$navday = $this->build('DbDay', $d = $day->yesterday());
+		if ($navday->hasData)			// for the first day of the trip, there is no yesterday
+		{
+			$this->template->set_var('AM_STOP', $this->build('DayInfo', $d)->nightNameUrl());
+			$pageprops['plab'] = 'yesterday';
+			$pageprops['pkey'] = $d;
+		}
+		else {
+			$this->template->set_var('AM_STOP', 'home');
+		}
+		$trip = $this->build('DbTrip', $id = $day->tripId());
+		$this->template->set_var("TRIP_ID", $id);
+		$this->template->set_var("TRIP_NAME", $trip->name());
+		
+		$faves = $this->build('Faves', array('type' => 'oneday', 'date' => $date));
+		$faves->getSome(12, $this->build('Pics', array(	'date' => $date)));
+		$this->headerGallery($faves);
+
+		parent::showPage();
+	}
+}
+
+// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+class SpotsHome {}
 class SpotsCamps extends SpotsHome
 {
 	function showPage()	
@@ -671,72 +792,6 @@ class SpotsPlaces extends SpotsHome
 		$this->searchterms = array('wf_categories_id' => $this->key, 'kids' => 1);
 		$cat = $this->build('Category', $this->key);	
 		$this->title = sprintf("Spots in: <i>%s</i>", $cat->name());
-		parent::showPage();
-	}
-}
-
-class OneTripLog extends ViewWhu
-{
-	var $file = "triplog.ihtml";   
-	function showPage()	
-	{
-		$tripid = $this->key;
- 	 	$trip = $this->build('DbTrip', $tripid);	
-		$days = $this->build('DbDays', $tripid);
-		$this->template->set_var('TRIP_NAME', $this->caption = $trip->name());
-		
-		// whiffle the days for this trip 
-		for ($i = $prevPostId = 0, $spotList = array(); $i < $days->size(); $i++) 
-		{
-			// $day = new WhuDayInfo($days->one($i));
-			$day = $this->build('DayInfo', $days->one($i));
-
-			// Stop or Spot?
-			$parms = array('day', 'date', $day->date());
-			if ($day->hasSpot())
-				$parms = array('spot', 'id', $day->spotId());
-			// $parms = $day->hasSpot() ? array('spot', 'id', $day->spotId()) : array('stop', 'date', $day->date());
-			$j = 0;
-			foreach (array('SDPAGE', 'SDTYPE', 'SDKEY') as $v)
-			{
-				$row[$v] = $parms[$j++];
-			}
-			$row['stop_name'] = $day->nightName();				
-			$row['stop_desc'] = $day->baseExcerpt($day->nightDesc(), 30);
-
-			if (($npic = $day->pics()->size()) > 0) 
-			{
-				$picu = new WhuLink('pics', 'date', $day->date(), "[$npic]", "today's images");
-				$row['PIC_LINK'] = $picu->url();			// pic link
-			}
-			else
-				$row['PIC_LINK'] = '';
-			
-			// which post?
-			$row['wp_id'] = $day->postId();
-			if ($row['wp_id'] > 0) 
-			{
-				if ($prevPostId != $row['wp_id']) {
-					$prevPostId = $row['wp_id'];
-			// dumpVar($row, "$i row, pp=$prevPostId");
-					$post = $this->build('Post', array('quickid' => $prevPostId));
-					$pName = $post->baseExcerpt($post->title(), 25);
-					$iPost++;
-				}			
-				$row['day_post'] = $pName;
-				$row['story_link'] = $this->makeWpPostLink($prevPostId, $row['day_date']);
-				$row['POST_CLASS'] = '';
-			}
-			else
-				$row['POST_CLASS'] = "class='hidden'";
-			// if ($i > 5)			exit;
-			$nodeList[] = $row;		
-		}		
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));                                
-		$loop->do_loop($nodeList);
-
-		$this->tripLinkBar('log', $tripid);	
-		$this->meta_desc = sprintf("Mileage log for the WHUFU trip: '%s &ndash; %s'", $this->caption, $trip->desc());		
 		parent::showPage();
 	}
 }
@@ -1244,61 +1299,6 @@ class NearMap extends SpotMap
 		return array($centerRow);
 	}
 	function markerColor($i) { return $this->marker_color; }
-}
-
-class OneDay extends ViewWhu
-{
-	var $file = "oneday.ihtml";   
-	function showPage()	
-	{
-		$dayid = $this->key;
- 	 	$day = $this->build('DayInfo', $dayid);
-
-		$this->caption = Properties::prettyDate($date = $day->date());
-		$this->template->set_var('DATE', $date);
-		$this->template->set_var('PRETTY_DATE', WhuProps::verboseDate($date));
-		
-		$this->template->set_var('ORDINAL', $day->day());
-		$this->template->set_var('MILES', $day->miles());
-		$this->template->set_var('CUMMILES', $day->cumulative());
-		
-		$this->template->set_var('WPID', $wpid = $day->postId());
-		if ($wpid > 0)
-			$this->template->set_var('STORY', $this->build('Post', array('quickid' => $wpid))->title());
-			// $this->template->set_var('STORY', $this->build('Post', $wpid)->title());
-		$this->template->set_var("VIS_CLASS_TXT", $day->hasStory() ? '' : "class='hidden'");
-		$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
-		
-		$this->template->set_var('DAY_NAME', $day->dayName());
-		$this->template->set_var('DAY_DESC', $day->dayDesc());
-		$this->template->set_var('PM_STOP', $day->nightNameUrl());
-		
-		$this->template->set_var('NIGHT_DESC', $desc = $day->nightDesc());
-		$this->template->set_var('NIGHT_VIS', ($desc == '') ? 'hideme' : '');
-		
-		// do next|prev nav - as long as I have yesterday, show where I woke up today
-		$pageprops = array();
-		$navday = $this->build('DbDay', $d = $day->yesterday());
-		if ($navday->hasData)			// for the first day of the trip, there is no yesterday
-		{
-			$this->template->set_var('AM_STOP', $this->build('DayInfo', $d)->nightNameUrl());
-			$pageprops['plab'] = 'yesterday';
-			$pageprops['pkey'] = $d;
-		}
-		else {
-			$this->template->set_var('AM_STOP', 'home');
-		}		
-
-		$pageprops['nlab'] = 'tomorrow';       
-		$navday = $this->build('DbDay', $d = $day->tomorrow());
-		if ($navday->hasData)			// day after the last day has no data
-			$pageprops['nkey'] = $d;
-		$this->pagerBar('day', 'date', $pageprops);		
-
-		$this->dayLinkBar('day', $dayid);		
-		$this->meta_desc = sprintf("WHUFU log for %s &ndash; slept at %s", $this->caption, $day->nightName());		
-		parent::showPage();
-	}
 }
 
 class TripStory extends ViewWhu

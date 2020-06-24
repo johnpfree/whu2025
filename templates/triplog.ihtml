@@ -1,45 +1,71 @@
-<table class="table table-hover" id="triptable">
-	<col style="width:2%">
-	<col style="width:8%">
-	<col style="width:25%">
-	<col style="width:5%">
-	<col style="width:7%">
-	<col style="width:28%">
-	<col style="width:5%">
-	<col style="width:20%">
-	<thead>
-		<tr>
-			<td class="table-caption" colspan="11"><h1>{TRIP_NAME}</h1></td>
-		</tr>
-		<tr id=triptablehead>
-			<td class="smalldev">{TRIP_YEAR}</td>
-			<td class="largedev">day</td>
-			<td class="largedev" align=right>date</td>
-			<td>stop</td>
-			<td class="dropout">miles</td>
-			<td>total</td>
-			<td class="dropout">summary of the day</td>
-			<td><img src="./resources/icons/glyphicons-12-camera.png" width="26" height="20" title="Pictures"></td>
-			<td style='padding-left: 3em;'><img src="./resources/icons/glyphicons-331-blog.png"  width="21" height="23" title="Story"></td>
-		</tr>
-	</thead>
-	<tbody>
-		<!-- BEGIN rows -->
-		<tr>
-			<td class="smalldev"><a href="?page=day&type=date&key={DAY_DATE}" title="date">{SHORT_DATE}</a></td>
-			<td class="largedev">{DAY_NUMBER}</td>
-			<td class="largedev" align=right><a href="?page=day&type=date&key={DAY_DATE}" title="{TITLE_DATE}">{NICE_DATE}</a></td>
-			<td><a href="?page={SDPAGE}&type={SDTYPE}&key={SDKEY}" title="today's stop">{STOP_NAME}</a></td>
-			<td class="dropout">{MILES}</td>
-			<td>{CUM_MILES}</td>
-			<td class="dropout">{DAY_NAME}</td>
-			<td>{PIC_LINK}</td>
-			<td><a {POST_CLASS} href="{STORY_LINK}" title="today's story">{DAY_POST}</a></td>
-		</tr>
-		<!-- END rows -->
-	</tbody>
-</table>
-{LINK_BAR}
+
+		<div class="container">		
+		  <div class="row no-gutters">
+			  <div id="thegallery">
+	<!-- BEGIN header_rows -->
+			      <a href="{IMG_FULL}" data-title="{PIC_DESC}"  data-max-width="540"
+						data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
+						data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
+	<!-- END header_rows -->
+			  </div>
+		  </div>			
+
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>{TRIP_NAME}</h2>
+		    </div>
+		  </div>
+
+			<table class="table table-hover" id="triptable">
+				<col style="width:2%">
+				<col style="width:8%">
+				<col style="width:25%">
+				<col style="width:5%">
+				<col style="width:7%">
+				<col style="width:28%">
+				<col style="width:5%">
+				<col style="width:20%">
+				<thead>
+					<tr id=triptablehead>
+						<td class="smalldev">{TRIP_YEAR}</td>
+						<td class="largedev">day</td>
+						<td class="largedev" align=right>date</td>
+						<td>stop</td>
+						<td class="dropout">miles</td>
+						<td>total</td>
+						<td class="dropout">summary of the day</td>
+						<td><img src="./resources/icons/glyphicons-12-camera.png" width="26" height="20" title="Pictures"></td>
+						<td style='padding-left: 3em;'><img src="./resources/icons/glyphicons-331-blog.png"  width="21" height="23" title="Story"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- BEGIN rows -->
+					<tr>
+						<td class="smalldev"><a href="?page=day&type=date&key={DAY_DATE}" title="date">{SHORT_DATE}</a></td>
+						<td class="largedev">{DAY_NUMBER}</td>
+						<td class="largedev" align=right><a href="?page=day&type=date&key={DAY_DATE}" title="{TITLE_DATE}">{NICE_DATE}</a></td>
+						<td><a href="?page={SDPAGE}&type={SDTYPE}&key={SDKEY}" title="today's stop">{STOP_NAME}</a></td>
+						<td class="dropout">{MILES}</td>
+						<td>{CUM_MILES}</td>
+						<td class="dropout">{DAY_NAME}</td>
+						<td>{PIC_LINK}</td>
+						<td><a {POST_CLASS} href="{STORY_LINK}" title="today's story">{DAY_POST}</a></td>
+					</tr>
+					<!-- END rows -->
+				</tbody>
+			</table>
+	  </div>
+
+<script>
+	  $("#thegallery").justifiedGallery({
+		margins: 0,
+		border: -1,
+	  });
+	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
+		console.log('rowflush');
+		exit;
+	});
+</script>
 
 
 <style type="text/css" media="screen">

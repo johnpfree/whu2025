@@ -155,10 +155,23 @@ switch ("$curpage$curtype")
 	case 'homehome':		$page = new HomeHome($props);			break;		
 
 	case 'tripid':			$page = new OneTrip($props);		break;		
+	case 'spotid':			$page = new OneSpot($props);			break;	
+	case 'tripshome':		$page = new AllTrips($props);				break;
+
+	case 'spotslist':		$page = new SpotsList($props);			break;
+	// case 'spotslist':		{
+	// 	switch ($props->get('key')) {
+	// 		case 'NWR':			$page = new SpotsNWR($props);			break;
+	// 		case 'HOTSPR':	$page = new SpotsHOTSPR($props);			break;
+	// 		case 'CAMP':		$page = new SpotsCamp($props);			break;
+	// 	}
+	// }
+	
+	case 'logid':				$page = new OneTripLog($props);		break;		
+	
 
 	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-	case 'spotid':			$page = new OneSpot($props);			break;	
 	case 'daydate':			$page = new OneDay($props);			break;	
 
 	case 'picsid':			$page = new TripPictures($props);		break;	
@@ -174,7 +187,6 @@ switch ("$curpage$curtype")
 	case 'vidsdate':		$page = new DateVideos($props);		break;	
 	case 'vidscat':			$page = new CatVideos($props);		break;	
 
-	case 'logid':				$page = new OneTripLog($props);		break;		
 	case 'mapid':				$page = new OneMap($props);			break;	
 	case 'mapdate':			$page = new DateMap($props);			break;	
 	case 'mapspot':			$page = new SpotMap($props);			break;	
@@ -184,8 +196,6 @@ switch ("$curpage$curtype")
 	case 'txtwpid':			$page = new TripStory($props);				break;
 	case 'txtdate':			$page = new TripStoryByDate($props);	break;
 	
-	case 'tripshome':		$page = new AllTrips($props);				break;	
-	case 'spotshome':		$page = new SpotsHome($props);			break;
 	case 'spotshome':		$page = new SpotsHome($props);			break;
 	case 'spotstype':		$page = new SpotsTypes($props);			break;
 	case 'spotskey':		$page = new SpotsKeywords($props);	break;		// for a keyword (from a spot OR the search page)
