@@ -1222,19 +1222,20 @@
 		var $folder = NULL;
 		function getRecord($parms)		// July 2020 switch to "type key" model
 		{
-			dumpVar($parms, "parms");
+			// dumpVar($parms, "parms");
 			$props = new SubProps(array("type" => 'folder'), $parms);
 			switch ($props->get('type')) 
 			{
 				case 'pics': 							// type=pics, data = the pics you wish to cull for favorites
 				{
 					$pics = $props->get('data');
+
 					for ($i = 0, $faves = array(); $i < $pics->size(); $i++)
 					{
 						$fave = $this->getOne($q = sprintf("SELECT * FROM wf_favepics where wf_images_id=%s", $pics->one($i)->id()));
 						// dumpVar(boolStr($fave), "$i, $q fave");
 						if ($fave)
-							$faves[] = $fave;
+							$faves[] = $pics->one($i)->data;
 					}
 					return $faves;
 					break;
@@ -1250,7 +1251,7 @@
 				{					
 					 $q = sprintf("SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id 
 						 								where DATE(i.wf_images_localtime)='%s'", $props->get('date'));
-					 dumpVar($q, "q");
+					 // dumpVar($q, "q");
 					 return $this->getAll($q);
 				}	
 							
@@ -1286,10 +1287,8 @@
 			dumpVar($notFaves->size(), "shuffle notFaves->size()");
 			shuffle($notFaves->data);
 			$pics = array_slice($notFaves->data, 0, $num - $this->size());
-			dumpVar($num - $this->size(), "non-faves");
 			$this->data = array_merge($this->data, $pics);
 			shuffle($this->data);
-			dumpVar($this->size(), "num=$num, this->size()");
 		}
 	}
 	

@@ -12,7 +12,7 @@
 		<link rel="icon" type="image/png" sizes="16x16 32x32" href="resources/favicon/boxes.png">
 
 		<link rel="stylesheet" href="css/normalize.min.css">		
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>		
 		<script src="js/main.js"></script>    
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -21,8 +21,6 @@
 		
 		<link rel="stylesheet" href="./css/justifiedGallery.min.css" />
 		<script src="./libraries/jquery.justifiedGallery.min.js"></script>
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
 
 		<link href="css/genericons.css" rel="stylesheet">
 		<link href="css/whuBase.css" rel="stylesheet">
@@ -57,6 +55,9 @@
 			.cardrowhead h2 {
 				margin: 0;
 			}
+			.navbar {
+				padding: 0;
+			}
 		</style>				
 	</head>
 	<body>
@@ -72,17 +73,23 @@
 			    <div class="col">2020</div>
 		  	</div>
 			</a>
-			<div class="row" id="main-menu">
-		    <div class="col"><a href="?page=trips&type=home">Trips</a></div>
-		    <div class="col"><a href="?page=spots&type=list&key=home">Overnights</a></div>
-		    <div class="col"><a href="?page=spots&type=list&key=HOTSPR">Hot Springs</a></div>
-		    <div class="col"><a href="?page=spots&type=list&key=NWR">Wildlife Refuges</a></div>
-		    <div class="col"><a href="?page=about&type=home">About</a></div>
-		    <div class="col"><a href="?page=search&type=home">Search</a></div>
-			</div>
-  	</div>
+			<nav id="main-menu" class="navbar navbar-expand-sm justify-content-center navbar-light" style="">
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="collapsibleNavbar">				
+				  <div class="row collapse navbar-collapse" id="collapsibleNavbar">				
+				    <div class="col nav-item"><a class="nav-link" href="?page=trips&type=home">Trips</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=spots&type=list&key=home">Overnights</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=spots&type=list&key=HOTSPR">Hot Springs</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=spots&type=list&key=NWR">Wildlife Refuges</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=about&type=home">About</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=search&type=home">Search</a></div>
+		  		</div>
+		  	</div>
+			</nav>
+		</div>
 	</header>
-
 
 	<div id="the_content" class="container">
 {THE_CONTENT}
@@ -125,13 +132,6 @@
 	}
   footer a {  
 		color: #a7c5bc;
-	}
-
-	#main-menu {
-		color: black;
-		border-top: 2px solid black;
-		margin-top: 8px;
-		padding-top: 8px;
 	}
 	#main-footer {
 		border-top: 2px solid black;

@@ -475,7 +475,7 @@ class OneSpot extends ViewWhu
 					$pics->add($this->build('Pics', array('night' => $date)));
 					dumpVar($pics->size(), "$i. pics->size()");
 				}
-
+				
 				$row = array('stay_date' => $date = $day->date());
 				$row['nice_date'] = Properties::prettyDate($date);
 				$row['spdaydesc'] = $day->htmldesc();
@@ -504,10 +504,9 @@ class OneSpot extends ViewWhu
 				// dumpVar($row, "$i row");
 				$rows[] = $row;
 			}
-			
 			$faves = $this->build('Faves', array('type' => 'pics', 'data' => $pics));			// cull out the favorites
-			dumpVar($faves->size(), "N faves->size()");
-			$faves->getSome(12, $pics);		
+			dumpVar($faves->size(), "All N faves->size()");
+			$faves->getSome(12, $pics);	
 			$this->headerGallery($faves);
 		}
 		

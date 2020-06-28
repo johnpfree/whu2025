@@ -49,11 +49,22 @@
 
 <script>
 	  $("#thegallery").justifiedGallery({
-		margins: 0,
-		border: -1,
+			margins: 0,
+			border: -1,
+			maxRowsCount: 1,
+			// maxRowHeight: 130,
 	  });
 	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
-		console.log('rowflush');
+		console.log('rowflusxyxh', e);
 		exit;
+		// console.log('this.settings', this.settings);
+		// this.updateSettings({maxRowsCount: 1});
 	});
+	// $('#thegallery').justifiedGallery().on('jg.complete jg.resize', function (e) {
+	// 	console.log('complete jg.resize', e);
+	// 	controller = this.data('jg.controller');
+	// 	console.log('qqcontroller', controller);
+	// });
+
+
 </script>

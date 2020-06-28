@@ -4,5 +4,7 @@ php_error.log
 *.sql
 libraries
 resources
+css
+templates/feedback.csv
 triplogs/*.numbers
 js/vendor
