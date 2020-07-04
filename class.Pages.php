@@ -589,7 +589,7 @@ class AllTrips extends ViewWhu
 
 class SpotsList extends ViewWhu
 {
-	var $file = "spotshome.ihtml";
+	var $file = "spotslist.ihtml";
 	var $searchterms = array('CAMP' => 'wf_spots_types', 'usfs' => 'wf_spots_status', 'usnp' => 'wf_spots_status');
 	var $title = "Spots";
 	function showPage()	
