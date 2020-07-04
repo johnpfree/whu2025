@@ -22,14 +22,8 @@
 
 		<div class="container">		
 		  <div class="row no-gutters">
-			  <div id="thegallery">
-	<!-- BEGIN header_rows -->
-			      <a href="{IMG_FULL}" data-title="{PIC_DESC}"  data-max-width="540"
-						data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
-						data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
-	<!-- END header_rows -->
-			  </div>
-		  </div>			
+{HEADER_GALLERY}
+ 		  </div>			
 
 		  <div class="row">
 		    <div class="col cardrowhead">
@@ -38,11 +32,11 @@
 		  </div>
 
 		  <div id="trip" class="row cardrow">
-		    <div class="col-7">
+		    <div class="col-md-7">
 {TRIP_MAP}
 		    </div>
 				
-		    <div class="col-5">
+		    <div class="col-md-5">
 					<h5>Stories</h5>	
 					<ul id="postlist">
 <!-- BEGIN post_rows -->
@@ -59,14 +53,3 @@
 		    </div>
 	    </div>
 		</div>
-
-<script>
-	  $("#thegallery").justifiedGallery({
-		margins: 0,
-		border: -1,
-	  });
-	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
-		console.log('rowflush');
-		exit;
-	});
-</script>

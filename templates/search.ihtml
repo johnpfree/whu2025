@@ -1,32 +1,40 @@
-<script type="text/javascript">
-	$(document).ready(function(){
-		console.log('ready');
-    $('[data-toggle="collapse"]').click(function(){
-			console.log('click', this, $(this).attr('class'), 'href', $(this).attr('href'));
-					
-			var section = $(this).attr('href');
-			
-			var sectKey = section.substr(9);
-			if (sectKey == 1) return;		// no ajax for this one
-			if (sectKey == 4) return;		// no ajax for this one
-			
-			var sectElem = section + ">div>div";
-			var sectUrl = "?page=ajax&type=search&key=" + sectKey;
-
-			console.log('this: ', section, sectElem, sectUrl);
-		
-      $.ajax({url: sectUrl, success: function(result){
-          $(sectElem).html(result);
-      }});
-			
-			console.log('done');
-    });
-	});
-	
-</script>
-
+<style>
+	.input-group-btn {
+		border: 1px solid #999;
+	}
+	.fa-lg {
+		line-height: normal;
+	}
+	#text-search {
+		width: 50%;
+		padding: 6px 0;
+	}
+</style>
 <div class="container" id="main_item">
-  <h2>Finding Stuff</h2>
+
+  <div class="row">
+	  <div class="col-3">
+	  </div>	
+	  <div class="col-6 cardrowhead">
+		  <form class="form-group">
+			  <div text-search class="input-group">
+			    <input type="text" class="form-control" id="search_text" name="search_text" placeholder="Search for this text">
+			    <div class="input-group-btn">
+			      <button class="btn btn-default" type="submit" name="do_text_search">
+							<i class="fa fa-search fa-lg"></i>
+			      </button>
+			    </div>			
+			  </div>
+			</form>
+	  </div>	
+	  <div class="col-3">
+	  </div>	
+  </div>	
+
+<hr>
+	  <div class="col">
+			<p>Search for this text in every story and story title, spot name, description, and location, picture caption, trip name, and day description</p>
+	  </div>	
 
   <div id="srch-spots" class="panel-group">
     <div class="panel panel-default">

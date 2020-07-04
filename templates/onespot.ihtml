@@ -1,17 +1,6 @@
-<link rel="stylesheet" href="./css/justifiedGallery.min.css" />
-<script src="./libraries/jquery.justifiedGallery.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
-
 		<div class="container">
 		  <div class="row no-gutters">
-			  <div id="thegallery">
-	<!-- BEGIN header_rows -->
-			      <a href="?page=pic&type=id&key={PIC_ID}" data-title="{PIC_DESC}"  data-max-width="540"
-						data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
-						data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
-	<!-- END header_rows -->
-			  </div>
+{HEADER_GALLERY}
 		  </div>			
 		  <div class="row">
 		    <div class="col cardrowhead">
@@ -20,7 +9,7 @@
 		  </div>
 			
 			<div class="row">
-				<div class="col-sm-8">
+				<div class="col">
 					<div class="row">
 						<div class="col-sm-12">
 							<p>{SPOT_TOWN} &bull; {SPOT_PARTOF} &bull; {SPOT_TYPES} &bull; {SPOT_PLACE}</p>
@@ -48,8 +37,7 @@
 							&bull; 
 						</div>
 			
-						<div class="">Notes on each visit (posted cost | senior cost):
-						</div>
+						<h4>Notes on each visit (posted cost | senior cost):</h4>
 						<div id="day_list" class="list_item">
 							<!-- BEGIN rows -->
 								<span class="{USE_LINK}" style="white-space: nowrap;"><a href="?page=day&type=date&key={STAY_DATE}">{NICE_DATE}</a> ({SPCOSTS})</span>
@@ -61,17 +49,6 @@
 				</div>		
 			</div>	
 
-<script>
-	  $("#thegallery").justifiedGallery({
-		margins: 0,
-		border: -1,
-	  });
-	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
-		console.log('rowflush');
-		exit;
-	});
-</script>
-
 <style type="text/css" media="screen">
 
 .list_head {
@@ -79,6 +56,10 @@
 }
 .list_item {
 	padding: .5em 1em 1em;
+}
+h4 {
+	margin: 0;
+	border-top: 1px solid #999;
 }
 #descr {
 	padding: .8em 1em;
@@ -96,8 +77,8 @@
   text-transform: uppercase;
 }
 #day_list {
-	padding: .8em 1em;
-	margin: .6em 0;
+	padding: 8px 1em;
+	margin: 0 0 .6em 0;
 	overflow: scroll;
 	overflow-x: hidden;
 	width: 100%;

@@ -2,13 +2,7 @@
 
 		<div class="container">		
 		  <div class="row no-gutters">
-			  <div id="thegallery">
-	<!-- BEGIN header_rows -->
-			      <a href="{IMG_FULL}" data-title="{PIC_DESC}"  data-max-width="540"
-						data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
-						data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
-	<!-- END header_rows -->
-			  </div>
+{HEADER_GALLERY}
 		  </div>			
 
 		  <div class="row">
@@ -34,7 +28,7 @@
 			<p {VIS_CLASS_TXT}>Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span>.</p>
 		</div>
 
-<style type="text/css" media="screen">
+<style type="text/css" media="screen">	
 	dl { margin-bottom: .5em; }
 	dt { font-weight: normal; }
 	dd {
@@ -46,25 +40,3 @@
 		font-size: 120%;
 	}
 </style>
-
-<script>
-	  $("#thegallery").justifiedGallery({
-			margins: 0,
-			border: -1,
-			maxRowsCount: 1,
-			// maxRowHeight: 130,
-	  });
-	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
-		console.log('rowflusxyxh', e);
-		exit;
-		// console.log('this.settings', this.settings);
-		// this.updateSettings({maxRowsCount: 1});
-	});
-	// $('#thegallery').justifiedGallery().on('jg.complete jg.resize', function (e) {
-	// 	console.log('complete jg.resize', e);
-	// 	controller = this.data('jg.controller');
-	// 	console.log('qqcontroller', controller);
-	// });
-
-
-</script>

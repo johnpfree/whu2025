@@ -214,13 +214,14 @@ switch ("$curpage$curtype")
 		echo "No Page Handler: <b>$curpage$curtype</b>";
 		exit;
 }
+$savepage = $page;									// hack for Wordpress pages
+$page->key = $props->get('key');		// just for convenience, everyone needs it
 
 $templates = array("main" => 'container.ihtml', "the_content" => $page->file);
 $page->startPage($templates);
-$page->setStyle($curpage);
-$savepage = $page;									// hack for Wordpress pages
-$page->key = $props->get('key');		// just for convenience, everyone needs it
+$page->preShowPage();
 $page->showPage();
+
 if (!is_object($page))
 {
 	$page = $savepage;

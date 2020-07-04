@@ -18,7 +18,11 @@ class ViewWhu extends ViewBase  // ViewDbBase
 		$pagetype = $this->props->get('page') . $this->props->get('type');
 dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>");
 	}
-	function showPage()	{}
+	function showPage()	{	}
+	function preShowPage()
+	{
+		$this->template->set_var('HEADER_GALLERY', '');		// default is no header gallery
+	}
 		
 	function isRunningOnServer() { return (HOST == 'cloudy'); }
 	
@@ -27,7 +31,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		$this->template->set_var('CAPTION'  , ($this->caption != '') ? $this->caption   : $this->getCaption());		
 		$this->template->set_var('META_DESC', $this->getMetaDesc());
 		dumpVar($this->getMetaDesc(), "this->getMetaDesc()");
-
+		
 		// set active menu
 		$page = $this->props->get('page');
 		foreach (array('home', 'trips', 'spots', 'about', 'vids', 'search') as $k => $v) 
@@ -58,19 +62,11 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		return sprintf("%s | %s | %s", $this->props->get('page'), $this->props->get('type'), $this->props->get('key'));	
 	}
 	function getMetaDesc()	{	return $this->meta_desc;	}
-	function setStyle($page)
-	{
-		$pagemap = array('day' => 'log', 'vis' => 'pic');
-		if (isset($pagemap[$page]))					// map pages
-			$page = $pagemap[$page];
-
-		$this->template->set_var('SANS_FONT', 	$this->sansFont);				// sometimes the serifs don't look good
-
-		$this->template->set_var('BOLDCOLOR', 0);				// just white for now
-	}
 	
 	function headerGallery($pics)
 	{
+		$this->template->setFile('HEADER_GALLERY', 'headerGallery.ihtml');		
+		
 		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
 		{
 			$pic = $pics->one($i);
@@ -82,7 +78,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			$imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			$thumb = $pic->thumbImage();
 			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
-			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
+			if (1){//strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
 				dumpVar($row['PIC_NAME'], "binpic fail");
 				$row['img_thumb'] = $imageLink;
 			}
@@ -94,7 +90,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			$rows[] = $row;
 		}
 		// dumpVar($rows[0], "rows[0]");
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
+		$loop = new Looper($this->template, array('parent' => 'HEADER_GALLERY', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
 		$loop->do_loop($rows);		
 	}
 	
@@ -236,7 +232,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 					// "<i class=smaller><br />No geolocation data for this picture.</i>");
 			return false;
 		}
-		$this->template->setFile('MAP_INSET', 'mapInset.ihtml');		
+		$this->template->setFile('MAP_INSET', 'mapInset.ihtml');
 		foreach ($coords as $k => $v) 
 		{
 			$this->template->set_var("PT_$k", addslashes($v));
@@ -423,7 +419,7 @@ class OneSpot extends ViewWhu
 	var $file = "onespot.ihtml";   
 	function showPage()	
 	{
-		$spotid = $this->props->get('key');
+		$spotid = $this->key;
  	 	$spot = $this->build('DbSpot', $spotid);	
 		
 		$this->template->set_var('SPOT_NAME', 	$this->caption = $spot->name());
@@ -504,6 +500,9 @@ class OneSpot extends ViewWhu
 				// dumpVar($row, "$i row");
 				$rows[] = $row;
 			}
+			$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
+			$loop->do_loop($rows);
+
 			$faves = $this->build('Faves', array('type' => 'pics', 'data' => $pics));			// cull out the favorites
 			dumpVar($faves->size(), "All N faves->size()");
 			$faves->getSome(12, $pics);	
@@ -759,6 +758,33 @@ class OneDay extends ViewWhu
 		$faves->getSome(12, $this->build('Pics', array(	'date' => $date)));
 		$this->headerGallery($faves);
 
+		parent::showPage();
+	}
+}
+
+class About extends ViewWhu
+{
+	var $file = "about.ihtml";   
+	var $caption   = "All about WHUFU";		
+	var $meta_desc = "All about WHUFU";		
+	function showPage()	
+	{
+		$site = $this->build('Trips');
+		$this->template->set_var('N_TXT', $site->numPosts());
+		$this->template->set_var('N_PIC', $site->numPics());
+		$this->template->set_var('N_SPO', $site->numSpots());
+
+		parent::showPage();
+	}
+}
+class Search extends ViewWhu
+{
+	var $file = "search.ihtml";   
+	var $caption = "Find Spots. Browse Pictures"; 
+	var $meta_desc = "Searching for WHUFU Campgrounds, Hot Springs, Refuges";		
+	 
+	function showPage()	
+	{
 		parent::showPage();
 	}
 }
@@ -1338,32 +1364,6 @@ class TripStoryByDate extends TripStory
 	}
 }
 
-class About extends ViewWhu
-{
-	var $file = "about.ihtml";   
-	var $caption   = "All about WHUFU";		
-	var $meta_desc = "All about WHUFU";		
-	function showPage()	
-	{
-		$this->template->set_var('WP_PATH', WP_PATH);
-		parent::showPage();
-	}
-}
-class Search extends ViewWhu
-{
-	var $file = "search.ihtml";   
-	var $caption = "Find Spots. Browse Pictures"; 
-	var $meta_desc = "Searching for WHUFU Campgrounds, Hot Springs, Image Tags";		
-	 
-	function showPage()	
-	{
-		// $this->template->set_var('SPOTS_BACK', self::pals['spot']['linkcolor' ]);
-		// $this->template->set_var('SPOTS_FORE', self::pals['spot']['backcolor' ]);
-		// $this->template->set_var('PICS_BACK' , self::pals['pic'] ['linkhover' ]);
-		// $this->template->set_var('PICS_FORE' , self::pals['pic'] ['bbackcolor']);
-		parent::showPage();
-	}
-}
 class SearchResults extends ViewWhu
 {
 	var $file = "searchresults.ihtml";   

@@ -19,11 +19,8 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 		
-		<link rel="stylesheet" href="./css/justifiedGallery.min.css" />
-		<script src="./libraries/jquery.justifiedGallery.min.js"></script>
-
-		<link href="css/genericons.css" rel="stylesheet">
 		<link href="css/whuBase.css" rel="stylesheet">
+		<link rel="stylesheet" href="libraries/font-awesome-4.7.0/css/font-awesome.min.css">
 
 		<link rel="apple-touch-icon" href="apple-touch-icon.png">
 		
@@ -32,6 +29,12 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 		
 		<style type="text/css" media="screen">
+			
+			a { color: #017034; }
+			a:hover { color: #db644c; text-decoration: none; }
+			h2 a { color: #2d537d; }
+			h2 a:hover { color: #db644c; }
+			
 			#whubanner {
 				color: black;
 				font-size: 18pt;
@@ -40,7 +43,7 @@
 				margin-bottom: 8px;
 			}
 			a:hover #whubanner {
-				color: green;
+				color: #db644c;
 			}
 			#main-menu {
 				text-align: center;
@@ -58,7 +61,25 @@
 			.navbar {
 				padding: 0;
 			}
-		</style>				
+			
+			footer {
+				color: #a7c5bc;
+				padding: 1rem 0;
+				text-align: center;
+			}
+		  footer a {  
+				color: #a7c5bc;
+			}
+			#main-footer {
+				border-top: 2px solid black;
+				margin-top: 8px;
+				padding-top: 8px;
+			}
+			#main-footer>div:nth-child(1) { color: #8C4646; font-size: 110%; }
+			#main-footer>div:nth-child(2) { color: #f75035; font-size: 110%; }
+			#foot-wp a { color: #017034; }
+		</style>
+				
 	</head>
 	<body>
 	<header>	
@@ -99,56 +120,31 @@
 	  <div class="container">
 			<div class="row" id="main-footer">
 				<div class="col-sm-3" class="my_name">
-					Whufu 2020 &copy; 2010 &ndash; 2020
+					Whufu 2020 &copy; &nbsp; 2010&ndash;2020
 				</div>
 				<div class="col-sm-3" class="my_name">
 					John P Freeman
 				</div>
 				<div class="col-sm-3">
-		      <a href="https://twitter.com/johnpfreem" target="_blank"><span class="genericon genericon-twitter"></span></a>
+		      <a href="https://twitter.com/johnpfreem" target="_blank"><span class="fa fa-twitter"></span></a>
+						&nbsp;
+		      <a href="https://www.facebook.com/johnpfree" target="_blank"><span class="fa fa-facebook"></span></a>
 					&nbsp;
-		      <a href="https://www.facebook.com/johnpfree" target="_blank"><span class="genericon genericon-facebook-alt"></span></a>
+		      <a href="http://www.whufu.com/wpwhu/" target="_blank"><span class="fa fa-wordpress"></span></a>
 					&nbsp;
-		      <a href="http://www.whufu.com/wpwhu/" target="_blank"><span class="genericon genericon-wordpress"></span></a>
+		      <a href="https://www.youtube.com/channel/UC9TfELP0fNmd49-cwLJHgRg" target="_blank"><span class="fa fa-youtube-play"></span></a>
 					&nbsp;
-		      <a href="https://www.youtube.com/channel/UC9TfELP0fNmd49-cwLJHgRg" target="_blank"><span class="genericon genericon-youtube"></span></a>
+		      <a href="https://www.instagram.com/johnpfree/" target="_blank"><span class="fa fa-instagram"></span></a>
 					&nbsp;
-		      <a href="https://www.instagram.com/johnpfree/" target="_blank"><span class="genericon genericon-instagram"></span></a>
-					&nbsp;
-		      <a href="https://www.flickr.com/photos/142792707@N04/" target="_blank"><span class="genericon genericon-flickr"></span></a>
+		      <a href="https://www.flickr.com/photos/142792707@N04/" target="_blank"><span class="fa fa-flickr"></span></a>
 				</div>
-				<div class="col-sm-3">
+				<div id="foot-wp" class="col-sm-3">
 					<a href="http://www.cloudyhands.com/wptest/">Other Writing</a> 
 				</div>
 			</div>
 		</div>
 	</footer> 
-
-<style type="text/css" media="screen">
-	footer {
-		color: #a7c5bc;
-		padding: 1rem 0;
-		text-align: center;
-	}
-  footer a {  
-		color: #a7c5bc;
-	}
-	#main-footer {
-		border-top: 2px solid black;
-		margin-top: 8px;
-		padding-top: 8px;
-	}
-	#main-footer>div:nth-child(1) { color: #f75035; font-size: 110%; }
-	#main-footer>div:nth-child(2) { color: #f75035; font-size: 110%; }
-
-	.genericon {
-		vertical-align: middle;
-	}
-	
-</style>
 	<script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-1.12.0.min.js"><\/script>')</script>
-  <!-- <script src="js/vendor/tether.min.js"></script> -->
-	{GOOGLE_ANALYTICS}
-		
+	{GOOGLE_ANALYTICS}		
 </body>
 </html>
