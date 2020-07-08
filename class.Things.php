@@ -1347,7 +1347,7 @@
 	}
 	class WhuCategorys extends WhuCategory 
 	{
-		var $isCollection = true;
+		var $unitClass = 'WhuCategory';
 		function getRecord($parm)	//  picid
 		{
 			if ($parm == 'all') 

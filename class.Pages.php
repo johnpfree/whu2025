@@ -78,7 +78,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			$imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			$thumb = $pic->thumbImage();
 			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
-			if (1){//strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
+			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
 				dumpVar($row['PIC_NAME'], "binpic fail");
 				$row['img_thumb'] = $imageLink;
 			}
@@ -518,47 +518,6 @@ class OneSpot extends ViewWhu
 	}
 }
 
-class OnePhoto extends ViewWhu
-{
-	var $file = "onepic.ihtml";   
-	function showPage()	
-	{
-		parent::showPage();
- 	 	$vis = $this->build('Visual', $visid = $this->key);		
-		
-		$this->template->set_var('COLLECTION_NAME', Properties::prettyDate($date = $vis->date()));
-		$this->template->set_var('DATE', $date);
-		$this->template->set_var('PRETTIEST_DATE', WhuProps::verboseDate($date));
-		$this->template->set_var('PIC_TIME', Properties::prettyTime($vis->time()));
-		$this->template->set_var('PIC_CAMERA', $vis->cameraDesc());
-		$this->template->set_var('PIC_PLACE', $vis->place());
-		$this->template->set_var('PICFILE_NAME', $vis->filename());
-		$this->template->set_var('WF_IMAGES_PATH', $vis->folder());
-		$this->template->set_var('WF_IMAGES_FILENAME', $vis->filename());
-		$this->template->set_var('VIS_NAME', $name = $vis->caption());
-		$this->template->set_var('REL_PICPATH', iPhotoURL);
-		$this->template->set_var('VID_SPOT_VIS', 'hideme');
-		
- 	 	$trip = $this->build('Trip', $date);
-		$this->template->set_var('TRIP_NAME', $trip->name());
-		$this->template->set_var('TRIP_ID', $trip->id());
-		
- 	 	$day = $this->build('DayInfo', $date);
-		$this->template->set_var('WPID', $wpid = $day->postId());
-		if ($wpid > 0)
-		{
-			$this->template->set_var('STORY', $this->build('Post', array('quickid' => $wpid))->title());
-			// $this->template->set_var('STORY', $this->build('Post', $wpid)->title());
-			$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
-			$this->template->set_var("STORY_VIS", '');
-		}
-		else
-			$this->template->set_var('STORY_VIS', 'hideme');
-	
-		$this->caption = sprintf("%s on %s", $vis->kind(), Properties::prettyShort($date));
-	}
-}
-
 class AllTrips extends ViewWhu
 {
 	var $file = "tripslist.ihtml";   
@@ -724,13 +683,17 @@ class OneDay extends ViewWhu
 		$this->template->set_var('MILES', $day->miles());
 		$this->template->set_var('CUMMILES', $day->cumulative());
 		
-		$this->template->set_var('WPID', $wpid = $day->postId());
-		if ($wpid > 0)
+		if ($day->hasStory())
+		{
+			$this->template->set_var("VIS_CLASS_TXT", "");
+			$this->template->set_var('WPID', $wpid = $day->postId());
+			assert($wpid > 0, "should have post id");			
 			$this->template->set_var('STORY', $this->build('Post', array('quickid' => $wpid))->title());
-			// $this->template->set_var('STORY', $this->build('Post', $wpid)->title());
-		$this->template->set_var("VIS_CLASS_TXT", $day->hasStory() ? '' : "class='hidden'");
-		$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
-		
+			$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
+		}
+		else
+			$this->template->set_var("VIS_CLASS_TXT", "class='hidden'");
+
 		$this->template->set_var('DAY_NAME', $day->dayName());
 		$this->template->set_var('DAY_DESC', $day->dayDesc());
 		$this->template->set_var('PM_STOP', $day->nightNameUrl());
@@ -739,17 +702,28 @@ class OneDay extends ViewWhu
 		$this->template->set_var('NIGHT_VIS', ($desc == '') ? 'hideme' : '');
 		
 		// do next|prev nav - as long as I have yesterday, show where I woke up today
-		$pageprops = array();
 		$navday = $this->build('DbDay', $d = $day->yesterday());
+		
 		if ($navday->hasData)			// for the first day of the trip, there is no yesterday
 		{
 			$this->template->set_var('AM_STOP', $this->build('DayInfo', $d)->nightNameUrl());
-			$pageprops['plab'] = 'yesterday';
-			$pageprops['pkey'] = $d;
+			$this->template->set_var('P_VIS', '');
+			$this->template->set_var('P_KEY', $d);
 		}
 		else {
 			$this->template->set_var('AM_STOP', 'home');
+			$this->template->set_var('P_VIS', 'hidden');
 		}
+		$navday = $this->build('DbDay', $d = $day->tomorrow());
+		if ($navday->hasData)			// check for the very last day
+		{
+			$this->template->set_var('N_VIS', '');
+			$this->template->set_var('N_KEY', $d);
+		}
+		else {
+			$this->template->set_var('N_VIS', 'hidden');
+		}
+
 		$trip = $this->build('DbTrip', $id = $day->tripId());
 		$this->template->set_var("TRIP_ID", $id);
 		$this->template->set_var("TRIP_NAME", $trip->name());
@@ -759,6 +733,59 @@ class OneDay extends ViewWhu
 		$this->headerGallery($faves);
 
 		parent::showPage();
+	}
+}
+
+
+class OnePhoto extends ViewWhu
+{
+	var $file = "onepic.ihtml";   
+	function showPage()	
+	{
+		parent::showPage();
+ 	 	$vis = $this->build('Visual', $visid = $this->key);		
+		
+		$this->template->set_var('COLLECTION_NAME', Properties::prettyDate($date = $vis->date()));
+		$this->template->set_var('DATE', $date);
+		$this->template->set_var('PRETTIEST_DATE', WhuProps::verboseDate($date));
+		$this->template->set_var('PIC_TIME', Properties::prettyTime($vis->time()));
+		$this->template->set_var('PIC_CAMERA', $vis->cameraDesc());
+		$this->template->set_var('PIC_PLACE', $vis->place());
+		$this->template->set_var('PICFILE_NAME', $vis->filename());
+		$this->template->set_var('WF_IMAGES_PATH', $vis->folder());
+		$this->template->set_var('WF_IMAGES_FILENAME', $vis->filename());
+		$this->template->set_var('VIS_NAME', $name = $vis->caption());
+		$this->template->set_var('REL_PICPATH', iPhotoURL);
+		$this->template->set_var('VID_SPOT_VIS', 'hideme');
+		
+ 	 	$trip = $this->build('Trip', $date);
+		$this->template->set_var('TRIP_NAME', $trip->name());
+		$this->template->set_var('TRIP_ID', $trip->id());
+		
+ 	 	$day = $this->build('DayInfo', $date);
+		$this->template->set_var('WPID', $wpid = $day->postId());										// is there a story?
+		if ($wpid > 0)
+		{
+			$this->template->set_var('STORY', $this->build('Post', array('quickid' => $wpid))->title());
+			// $this->template->set_var('STORY', $this->build('Post', $wpid)->title());
+			$this->template->set_var('STORY_LINK', $this->makeWpPostLink($wpid));
+			$this->template->set_var("STORY_VIS", '');
+		}
+		else
+			$this->template->set_var('STORY_VIS', 'hideme');
+		
+		$keys = $this->build('Categorys', array('picid' => $visid));
+		for ($i = 0, $rows = array(); $i < $keys->size(); $i++)
+		{
+			$key = $keys->one($i);
+			$row = array('WF_CATEGORIES_ID' => $key->id(), 'WF_CATEGORIES_TEXT' => $key->name());
+			$rows[] = $row;
+		}
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
+		$loop->do_loop($rows);
+		
+	
+		$this->caption = sprintf("%s on %s", $vis->kind(), Properties::prettyShort($date));
 	}
 }
 
@@ -1416,43 +1443,6 @@ class SearchResults extends ViewWhu
 
 		// $q = sprintf("select * from %sposts where post_status='publish' AND post_title LIKE %s OR post_content LIKE %s and post_type='post'", $this->tablepref, $term, $term);
 		parent::showPage();
-	}
-}
-class ContactForm extends ViewWhu
-{
-	var $file = "contact.ihtml";   
-	function showPage()	
-	{
-		$this->template->set_var("HIDE_THANKS", 'hideme');
-		$this->template->set_var("HIDE_FORM", '');
-		
-		$x1 = rand(2, 9);
-		$x2 = rand(2, 9);
-		dumpVar($x1 * $x2, "$x1 * $x2");
-		$this->template->set_var('MATH_Q', "$x1 * $x2");
-		$this->template->set_var('MATH_A', $x1 * $x2);
-
-		$this->template->set_var('FROM_P', $this->props->get('fromp'));
-		$this->template->set_var('FROM_T', $this->props->get('fromt'));
-		$this->template->set_var('FROM_K', $this->props->get('fromk'));
-		$this->template->set_var('FROM_I', $this->props->get('fromi'));
-
-		parent::showPage();
-	}
-}
-class ContactThanks extends ContactForm
-{
-	function showPage()	
-	{
-		$this->template->set_var("HIDE_THANKS", '');
-		$this->template->set_var("HIDE_FORM", 'hideme');
-		
-		$this->template->set_var('FROM_P', $this->props->get('fromp'));
-		$this->template->set_var('FROM_T', $this->props->get('fromt'));
-		$this->template->set_var('FROM_K', $this->props->get('fromk'));
-		$this->template->set_var('FROM_I', $this->props->get('fromi'));
-
-		ViewWhu::showPage();
 	}
 }
 ?>

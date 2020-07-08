@@ -6,36 +6,54 @@
 		  </div>			
 
 		  <div class="row">
-		    <div class="col cardrowhead">
-					<h2><a href="?page=log&type=id&key={TRIP_ID}">{TRIP_NAME}</a> &bull; {PRETTY_DATE}</h2>
+		    <div class="col-lg cardrowhead">
+					<h2 title="Trip Name"><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h2>
+		    </div>
+		    <div class="col-lg cardrowhead">
+					<h2 title="Today's Date">{PRETTY_DATE}</h2>
 		    </div>
 		  </div>
 
-			<p>Today is day <b>{ORDINAL}</b> of the trip. I drove <b>{MILES}</b> miles today, for a total of <b>{CUMMILES}</b> miles so far.</p>
+		  <div class="row">
+		    <div class="col">
+			    <div id="next" class="{N_VIS} navlinks float-right"><a href="?page=day&type=date&key={N_KEY}">tomorrow <i class="fa fa-arrow-circle-o-right"></i></a></div>
+			    <div id="next" class="navlinks float-right"><a href="?page=log&type=id&key={TRIP_ID}">trip <i class="fa fa-arrow-circle-o-up"></i> log</a></div>
+			    <div id="prev" class="{P_VIS} navlinks float-right"><a href="?page=day&type=date&key={P_KEY}"><i class="fa fa-arrow-circle-o-left"></i> yesterday</a></div>
+					
+					<p>Today is day <b>{ORDINAL}</b> of the trip. I drove <b>{MILES}</b> miles today, for a total of <b>{CUMMILES}</b> miles so far.</p>
 	
-			<dl>
-				<dt>Here is a short description of the day:</dt>
-				<dd>{DAY_NAME}<br />{DAY_DESC}</dd>
-			</dl>
+					<dl>
+						<dt>Here is a short description of the day:</dt>
+						<dd>{DAY_NAME}<br />{DAY_DESC}</dd>
+					</dl>
 	
-			<p>I started the day at {AM_STOP}. I ended the day at {PM_STOP}.</p>
+					<p>I started the day at {AM_STOP}. I ended the day at {PM_STOP}.</p>
 	
-			<dl class="{NIGHT_VIS}">
-				<dt>Here is a short description of the evening:</dt>
-				<dd>{NIGHT_DESC}</dd> 
-			</dl>
+					<dl class="{NIGHT_VIS}">
+						<dt>Here is a short description of the evening:</dt>
+						<dd>{NIGHT_DESC}</dd> 
+					</dl>
 
-			<p {VIS_CLASS_TXT}>Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span>.</p>
+					<p {VIS_CLASS_TXT}>Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span>.</p>
+		    </div>
+		  </div>
 		</div>
 
-<style type="text/css" media="screen">	
-	dl { margin-bottom: .5em; }
+<style type="text/css" media="screen">
+	.navlinks {
+		border: 2px solid #e3d4c6;
+	  border-radius: 8px;
+		padding: 4px 9px;
+		margin: 0 0 6px 12px;
+		background-color: #f7e8e0;
+	}
+	
+	dl { margin-bottom: 0; }
 	dt { font-weight: normal; }
 	dd {
 		font-style: italic;
-		padding: .5em 1.5em;
+		padding: .5em 1.5em 0;		
 	}
-
 	span {
 		font-size: 120%;
 	}

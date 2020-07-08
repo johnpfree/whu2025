@@ -16,16 +16,13 @@ $(document).ready(function() {
 
   <div class="row">
     <div class="col cardrowhead">
-			<h2>{VIS_NAME}</h2>
-    </div>
-  </div>
-
-	<div class="row" id="pichead">
-		<div class="col-sm-5">
-			<h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3>
+			<h3 title="Date"><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3>
 		</div>
-		<div class="col-sm-7">
-			<h3><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3>
+    <div class="col cardrowhead">
+			<h2 title="Image Label">{VIS_NAME}</h2>
+    </div>
+    <div class="col cardrowhead">
+			<h3 title="Trip Name"><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3>
 		</div>
 	</div>
 	
@@ -65,10 +62,9 @@ $(document).ready(function() {
 	#thepic img {
 		width: 100%;
 	}
-	#pichead div:nth-child(2) {	
-		text-align: right;	
-		vertical-align: middle;
-	}
+	.cardrowhead>h3 { margin: 3px 0; }
+/*	.cardrowhead  div:nth-child(3) { margin-top: 3px;}*/
+
 	#main_item iframe {
 		width: 100%;
 		min-height: 700px;

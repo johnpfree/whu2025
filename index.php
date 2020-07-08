@@ -168,22 +168,21 @@ switch ("$curpage$curtype")
 	// }
 	
 	case 'logid':				$page = new OneTripLog($props);		break;		
+	case 'daydate':			$page = new OneDay($props);			break;	
 	
+	case 'searchhome':	$page = new Search($props);					break;
+	case 'abouthome':		$page = new About($props);					break;	
 
 	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-	case 'daydate':			$page = new OneDay($props);			break;	
 
 	case 'picsid':			$page = new TripPictures($props);		break;	
 	case 'picsdate':		$page = new DateGallery($props);		break;
 	case 'picscat':			$page = new CatGallery($props);		break;	
 	case 'picid':				// legacy, still used in Wordpress e.g.
 	case 'visid':				$page = new OnePhoto($props);		break;	
-
 	case 'vidshome':		$page = new VideoGallery($props);		break;	
 	case 'vidsid':			$page = new TripVideos($props);		break;	
 	case 'vidid':				$page = new OneVideo($props);		break;	
-	
 	case 'vidsdate':		$page = new DateVideos($props);		break;	
 	case 'vidscat':			$page = new CatVideos($props);		break;	
 
@@ -202,13 +201,8 @@ switch ("$curpage$curtype")
 	case 'spotscamp':		$page = new SpotsCamps($props);			break;		// type of campground (usfs, usnp, state)
 	case 'spotsplace':	$page = new SpotsPlaces($props);		break;		// state/region
 	
-	case 'searchhome':	$page = new Search($props);					break;
 	case 'resultstext':	$page = new SearchResults($props);	break;
 
-	case 'abouthome':		$page = new About($props);					break;	
-	case 'contacthome':	$page = new ContactForm($props);		break;	
-	case 'contactthx':	$page = new ContactThanks($props);	break;	
-	
 	default: 
 		dumpVar("$curpage$curtype", "Unknown page/type:");
 		echo "No Page Handler: <b>$curpage$curtype</b>";

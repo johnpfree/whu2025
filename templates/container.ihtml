@@ -35,6 +35,8 @@
 			h2 a { color: #2d537d; }
 			h2 a:hover { color: #db644c; }
 			
+			.hidden { display: none; }
+			
 			#whubanner {
 				color: black;
 				font-size: 18pt;
@@ -47,7 +49,7 @@
 			}
 			#main-menu {
 				text-align: center;
-				margin-bottom: 30px;
+				margin-bottom: 20px;
 			}
 			.cardrowhead {
 				text-align: center;
@@ -67,17 +69,15 @@
 				padding: 1rem 0;
 				text-align: center;
 			}
-		  footer a {  
-				color: #a7c5bc;
-			}
+		  footer a { opacity: 0.9; }
+			#foot-wp a { opacity: 1; }
 			#main-footer {
 				border-top: 2px solid black;
 				margin-top: 8px;
 				padding-top: 8px;
 			}
-			#main-footer>div:nth-child(1) { color: #8C4646; font-size: 110%; }
-			#main-footer>div:nth-child(2) { color: #f75035; font-size: 110%; }
-			#foot-wp a { color: #017034; }
+			#main-footer>div:nth-child(1) { color: #f75035; }
+			#main-footer>div:nth-child(2) { color: #f75035; }
 		</style>
 				
 	</head>
