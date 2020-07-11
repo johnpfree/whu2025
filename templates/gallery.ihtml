@@ -9,7 +9,7 @@
 			<h1><a href="?page=pics&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h1>
 		</div>
 		<div class="{CAT_GAL_VIS} col-lg-12">
-			<h1>{TRIP_NAME}</h1>
+			<h1>{TRIP_NAME}<span style="font-size: 40%; font-style: italic; float: right;">({RGMSG})</span></h1>
 		</div>
 	</div>
 	
@@ -52,8 +52,11 @@
 </script>
 
 <style type="text/css" media="screen">
-	.modal-content {  }
-	.modal-footer {  }
+	#main_item {
+		border-top: 2px solid #464;
+		padding-top: 6px;
+		margin-bottom: 10px;
+	}
 	.justified-gallery > a > .caption {
 		line-height: 1.3em;
 	}

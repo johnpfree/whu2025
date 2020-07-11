@@ -1,31 +1,24 @@
 
 <script type="text/javascript">
-$(document).ready(function() {
-	
-	$(document).keydown(function(event) {
-		console.log("keyCode:", event.keyCode);
-		if (event.keyCode == 37)
-			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={P_KEY}";
-		else if (event.keyCode == 39)
-			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={N_KEY}";
-	});
-});
+// $(document).ready(function() {
+//
+// 	$(document).keydown(function(event) {
+// 		console.log("keyCode:", event.keyCode);
+// 		if (event.keyCode == 37)
+// 			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={P_KEY}";
+// 		else if (event.keyCode == 39)
+// 			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={N_KEY}";
+// 	});
+// });
 </script>
 
 <div class="container">		
-
+	
   <div class="row">
-    <div class="col cardrowhead">
-			<h3 title="Date"><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3>
-		</div>
     <div class="col cardrowhead">
 			<h2 title="Image Label">{VIS_NAME}</h2>
     </div>
-    <div class="col cardrowhead">
-			<h3 title="Trip Name"><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3>
-		</div>
-	</div>
-	
+  </div>
 	
 	<div class="row" id="thepic">
     <div class="col">
@@ -33,8 +26,27 @@ $(document).ready(function() {
 		</div>
 	</div>
 	
+  <div id="underpic" class="row">
+    <div class="col-6">
+			<dl>
+			  <dt>trip:</dt>
+			  <dd><h3><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3></dd>
+			</dl>
+    </div>
+    <div class="col-4">
+			<dl>
+			  <dt>date:</dt>
+			  <dd><h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3></dd>
+			</dl>
+    </div>		
+    <div class="col-2">
+			<nav><a {P_VIS} href="?page=pic&type=id&key={PREVPIC}"><i class="fa fa-arrow-circle-o-left"></i> previous</a></nav>
+			<nav><a {N_VIS} href="?page=pic&type=id&key={NEXTPIC}">next <i class="fa fa-arrow-circle-o-right"></i></a></nav>
+    </div>		
+	</div>
+	
 	<div class="row">
-		<div class="col-sm-9">
+		<div class="col-sm-9 col-md-8">
 			<ul id="picdetails">
 				<li>Taken on: <a href="?page=day&type=date&key={DATE}"><b>{PRETTIEST_DATE}</b></a> at <b>{PIC_TIME}</b>,</li>
 				<li>Whu place: <b>{PIC_PLACE}</b></li>
@@ -51,24 +63,30 @@ $(document).ready(function() {
 				<li>{PICFILE_NAME}</li>			
 			</ul>
     </div>
+		<div id="mapcell" class="col-sm-3 col-md-4">
+			{MAP_INSET}
+    </div>
 	</div>
 </div>
 
 <style type="text/css" media="screen">
-	#thepic {
-		padding: 1em;
-		margin: 0 auto;
+	#mapcell {
 	}
 	#thepic img {
 		width: 100%;
 	}
-	.cardrowhead>h3 { margin: 3px 0; }
-/*	.cardrowhead  div:nth-child(3) { margin-top: 3px;}*/
-
-	#main_item iframe {
-		width: 100%;
-		min-height: 700px;
-	}
-/*	ul { padding-left: 1em; }*/
 	#picdetails b { white-space: nowrap; }
+	
+	#underpic {
+		margin: 20px 0 12px;
+	}
+	#underpic nav {
+		border: 2px solid #e3d4c6;
+	  border-radius: 8px;
+		padding: 4px 9px;
+		margin: 0 0 6px 12px;
+		background-color: #f7e8e0;
+		text-align: center;
+	}
+	
 </style>

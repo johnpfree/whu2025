@@ -743,18 +743,20 @@ class OnePhoto extends ViewWhu
 	function showPage()	
 	{
 		parent::showPage();
- 	 	$vis = $this->build('Visual', $visid = $this->key);		
+ 	 	$pic = $this->build('Pic', $picid = $this->key);		
 		
-		$this->template->set_var('COLLECTION_NAME', Properties::prettyDate($date = $vis->date()));
+		$this->template->set_var('COLLECTION_NAME', Properties::prettyDate($date = $pic->date()));
+		$this->caption = sprintf("%s on %s", $pic->kind(), Properties::prettyShort($date));
+
 		$this->template->set_var('DATE', $date);
 		$this->template->set_var('PRETTIEST_DATE', WhuProps::verboseDate($date));
-		$this->template->set_var('PIC_TIME', Properties::prettyTime($vis->time()));
-		$this->template->set_var('PIC_CAMERA', $vis->cameraDesc());
-		$this->template->set_var('PIC_PLACE', $vis->place());
-		$this->template->set_var('PICFILE_NAME', $vis->filename());
-		$this->template->set_var('WF_IMAGES_PATH', $vis->folder());
-		$this->template->set_var('WF_IMAGES_FILENAME', $vis->filename());
-		$this->template->set_var('VIS_NAME', $name = $vis->caption());
+		$this->template->set_var('PIC_TIME', Properties::prettyTime($pic->time()));
+		$this->template->set_var('PIC_CAMERA', $pic->cameraDesc());
+		$this->template->set_var('PIC_PLACE', $pic->place());
+		$this->template->set_var('PICFILE_NAME', $pic->filename());
+		$this->template->set_var('WF_IMAGES_PATH', $pic->folder());
+		$this->template->set_var('WF_IMAGES_FILENAME', $pic->filename());
+		$this->template->set_var('VIS_NAME', $name = $pic->caption());
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
 		$this->template->set_var('VID_SPOT_VIS', 'hideme');
 		
@@ -774,7 +776,7 @@ class OnePhoto extends ViewWhu
 		else
 			$this->template->set_var('STORY_VIS', 'hideme');
 		
-		$keys = $this->build('Categorys', array('picid' => $visid));
+		$keys = $this->build('Categorys', array('picid' => $picid));
 		for ($i = 0, $rows = array(); $i < $keys->size(); $i++)
 		{
 			$key = $keys->one($i);
@@ -784,8 +786,22 @@ class OnePhoto extends ViewWhu
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
 		$loop->do_loop($rows);
 		
-	
-		$this->caption = sprintf("%s on %s", $vis->kind(), Properties::prettyShort($date));
+		$gps = $pic->latlon();
+		if ($pic->cameraDoesGeo())
+			$gps['geo'] = true;
+		if ($this->setLittleMap(array_merge($gps, array('name' => Properties::prettyDate($pic->date()), 'desc' => $name))))
+		{
+			$this->template->set_var('GPS_VIS', '');
+			$this->template->set_var('GPS_LAT', $gps['lat']);
+			$this->template->set_var('GPS_LON', $gps['lon']);
+		}
+		else
+			$this->template->set_var('GPS_VIS', 'hideme');
+		
+		$this->template->set_var('PREVPIC', $id = $pic->prev()->id());
+		$this->template->set_var('P_VIS', ($id == 0) ? 'class="hidden"' : '');
+		$this->template->set_var('NEXTPIC', $id = $pic->next()->id());
+		$this->template->set_var('N_VIS', ($id == 0) ? 'class="hidden"' : '');
 	}
 }
 
@@ -1144,7 +1160,7 @@ class CatGallery extends Gallery
 		$this->template->set_var('LINK_BAR', '');
 		
 		// do stuff below so I can create the message before the call
-		$this->pics = $this->build('Pics', (array('cat' => $this->key))); 
+		$this->pics = $this->build('Pics', (array('type' => 'cat', 'data' => $this->key)));  //, 'max' => $this->key
 		if (($size = $this->pics->size()) > $this->maxGal)
 		{
 // <span class="genericon genericon-shuffle"></span>

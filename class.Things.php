@@ -2,9 +2,7 @@
 
 	class WhuThing extends DbWhufu
 	{
-		const ISCOLLECTION = false;		// these two go together in collection management:
 		var $unitClass = '';
-
 		var $data = NULL;
 		var $hasData = true;
 		function __construct($p, $key = NULL)
@@ -409,8 +407,7 @@
 	}
 
 	class WhuDbDays extends WhuDbDay {
-		const ISCOLLECTION = true;		// these two go together in collection management:
-		var $unitClass = 'WhuDbDay';
+		var $unitClass = 'WhuDbDay';			// what class is this a collection for?
 
 		function getRecord($parm)			// trip id
 		{
@@ -789,8 +786,7 @@
 	}
 	class WhuDbSpotDays extends WhuDbSpotDay			//  So far this can be a collection of days for a date, or of days for a Spot
 	{
-		const ISCOLLECTION = true;		// these two go together in collection management:
-		var $unitClass = 'WhuDbSpotDay';
+		var $unitClass = 'WhuDbSpotDay';			// what class is this a collection for?
 
 		function getRecord($key)
 		{
@@ -958,7 +954,7 @@
 											'iPhone4S' => 'iPhone 4S', 'iPhone6S' => 'iPhone 6S', 'iPhone7' => 'iPhone 7' );
 			return (isset($names[$this->camera()])) ? $names[$this->camera()] : "unknown";
 		}
-		function cameraDoesGeo() { 	return (strpos('iPhone', $this->camera()) !== false); }		// only iPhones do geolocation
+		function cameraDoesGeo() { return (strpos($this->camera(), 'iPhone') !== false); }		// only iPhones do geolocation
 		function place() 		{ 
 			if (($pid = $this->dbValue('wf_place_id')) == 0)
 				return '';
@@ -984,13 +980,13 @@
 		{
 			$q = sprintf("select * from wf_images where wf_images_localtime > '%s%s'%s order by wf_images_localtime ASC LIMIT 3", $this->date(), $this->time(), $this->whereClause);
 			$items = $this->getAll($q);
-			// dumpVar($items, "Pitems $q");
-			$this->prvnxt = array('next' => $this->build('Pic', $items[0]));
-			
+			$record = (sizeof($items) > 0) ? $items[0] : array('wf_images_id' => 0);	// make a NULL picture: a Picture obj with wf_images_id = 0
+			$this->prvnxt = array('next' => $this->build('Pic', $record));
+
 			$q = sprintf("select * from wf_images where wf_images_localtime < '%s%s'%s order by wf_images_localtime DESC LIMIT 3", $this->date(), $this->time(), $this->whereClause);
 			$items = $this->getAll($q);
-			// dumpVar($items, "Nitems $q");
-			$this->prvnxt['prev'] = $this->build('Pic', $items[0]);
+			$record = (sizeof($items) > 0) ? $items[0] : array('wf_images_id' => 0);	// make a NULL picture: a Picture obj with wf_images_id = 0
+			$this->prvnxt['prev'] = $this->build('Pic', $record);
 		}
 	}		
 	class WhuVideo extends WhuVisual 
@@ -1018,8 +1014,7 @@
 	}
 	class WhuVideos extends WhuVideo
 	{
-		const ISCOLLECTION = true;		// these two go together in collection management:
-		var $unitClass = 'WhuVideo';
+		var $unitClass = 'WhuVideo';			// what class is this a collection for?
 
 		function getRecord($parm)	//  tripid. folder, date
 		{
@@ -1037,8 +1032,7 @@
 	
 	class WhuPic extends WhuVisual 
 	{
-		var $prvnxt = NULL;
-		function getRecord($key)		// key = pic id
+		function getRecord($key)			
 		{
 			if (is_object($key) && (get_class($key) == 'WhuVisual'))		// cast a Visual to a Pic
 				return $key->data;
@@ -1110,6 +1104,14 @@
 					$folder = $trip->folder();
 					return $this->getAll($q = "select * from wf_images where wf_images_path='$folder' order by wf_images_localtime");
 				}
+				case 'cat':
+				{
+					$q = sprintf("select i.* from wf_images i join wf_idmap im on i.wf_images_id=im.wf_id_1 where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s AND i.wf_resources_id=0", $parm['data']);
+					$ret = $this->getAll($q);
+					if (isset($parm['max']))
+						return $this->random($parm['max']);
+					return $ret;
+				}
 				default:
 					# code...
 					break;
@@ -1169,15 +1171,6 @@
 			 	$q = sprintf($timeQuery, $tomorrow, "<", $day->daystart());
 				dumpVar($q, "q am");
 				return array_merge($pmpics, $this->getAll($q));
-			}
-			
-			if (isset($parm['cat'])) 
-			{
-				$q = sprintf("select i.* from wf_images i join wf_idmap im on i.wf_images_id=im.wf_id_1 where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s", $parm['cat']);
-				$ret = $this->getAll($q);
-				if (isset($parm['max']))
-					return $this->random($parm['max']);
-				return $ret;
 			}
 			
 			if (isset($parm['folder'])) 
@@ -1294,7 +1287,7 @@
 	
 	class WhuVisuals extends WhuVisual 				// slightly hacky, but this is a collection of images AND videos
 	{
-		var $isCollection = true;
+		var $unitClass = 'WhuVisual';			// what class is this a collection for?
 		function getRecord($parm)
 		{
 			// dumpVar($parm, "parm");
