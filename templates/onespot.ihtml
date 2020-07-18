@@ -37,7 +37,7 @@
 							&bull; 
 						</div>
 			
-						<h4>Notes on each visit (posted cost | senior cost):</h4>
+						<h4>Notes on each visit (posted cost &bull; senior cost):</h4>
 						<div id="day_list" class="list_item">
 							<!-- BEGIN rows -->
 								<span class="{USE_LINK}" style="white-space: nowrap;"><a href="?page=day&type=date&key={STAY_DATE}">{NICE_DATE}</a> ({SPCOSTS})</span>

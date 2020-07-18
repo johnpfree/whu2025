@@ -27,7 +27,7 @@
 
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2>{TRIP_TITLE}</h2>
+					<h2><a href="?page=log&type=id&key={TRIP_ID}">{TRIP_TITLE}</a></h2>
 		    </div>
 		  </div>
 

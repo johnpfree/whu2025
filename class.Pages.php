@@ -78,8 +78,8 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			$imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			$thumb = $pic->thumbImage();
 			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
-			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
-				dumpVar($row['PIC_NAME'], "binpic fail");
+			if (1){//strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
+				// dumpVar($row['PIC_NAME'], "binpic fail");
 				$row['img_thumb'] = $imageLink;
 			}
 			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
@@ -336,6 +336,7 @@ class OneTrip extends ViewWhu
 		$tripid = $this->key;
  	 	$trip = $this->build('Trip', $tripid);	
 		$this->template->set_var('TRIP_TITLE', $this->caption = $trip->name());
+		$this->template->set_var('TRIP_ID', $tripid);
 
 		// - - - Header PICS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 		$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder()));
@@ -407,7 +408,7 @@ class OneTrip extends ViewWhu
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'stop_row'));
 		$loop->do_loop($spotList);
 
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'post_row'));
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'post_row', 'none_msg' =>'No Stories for this trip'));
 		$loop->do_loop($postList);
 		
 		parent::showPage();
@@ -482,7 +483,7 @@ class OneSpot extends ViewWhu
 				{
 					$costs = $this->addDollarSign($cost);
 					if ($day->senior() > 0 && $day->senior() != $cost)
-						$costs .= ' | '.$this->addDollarSign($day->senior());
+						$costs .= ' &bull; '.$this->addDollarSign($day->senior());
 				}
 				else
 					$costs = "free!";
@@ -634,7 +635,8 @@ class OneTripLog extends ViewWhu
 			$row['stop_name'] = $day->nightName();				
 			$row['stop_desc'] = $day->baseExcerpt($day->nightDesc(), 30);
 			
-			$row['PIC_LINK'] = (($npic = $day->pics()->size()) > 0) ? (new WhuLink('pics', 'date', $day->date(), "[$npic]", "today's images"))->url() : '';
+			// $row['PIC_LINK'] = (($npic = $day->pics()->size()) > 0) ? (new WhuLink('pics', 'date', $day->date(), "[$npic]", "today's images"))->url() : '';
+			$this->picStuff($i, $day, $row);
 			
 			// which post?
 			$row['wp_id'] = $day->postId();
@@ -658,12 +660,42 @@ class OneTripLog extends ViewWhu
 		}		
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));                                
 		$loop->do_loop($nodeList);
-		
+			
 		$faves = $this->build('Faves', array('type' => 'tripdates', 'start' => $trip->startDate(), 'end' => $trip->endDate()));
 		$faves->getSome(12);
 		$this->headerGallery($faves);
 
 		parent::showPage();
+	}
+	function picStuff($i, $day, &$row) 
+	{
+		$row['PIC_LINK'] = (($npic = $day->pics()->size()) > 0) ? (new WhuLink('pics', 'date', $day->date(), "[$npic]", "today's images"))->url() : '';
+	}
+}
+class TestNewTripLog extends OneTripLog
+{
+	var $file = "testdayssummary.ihtml"; 
+	 
+	function picStuff($i, $day, &$row) 
+	{
+		$pics = $day->pics();
+		$pics->random(3);
+		for ($i = 0; $i < 3; $i++)
+		{
+			$pic = $pics->safeOne($i);
+			if ((BOOL)$pic == false)
+				$row["picshow_$i"] = ' hidden';
+			else {
+				$row["picshow_$i"] = '';
+				$row["picid_$i"] = $pic->id();
+				$row["pictitle_$i"] = $pic->caption();
+				$row["picfilename_$i"] = $pic->filename();
+				$row['picfolder'] = $pic->folder();
+			}
+		}		
+		
+		$row['day_desc'] = $day->dayDesc();
+		$row['week_day'] = $day->weekday();
 	}
 }
 
@@ -1078,7 +1110,7 @@ class Gallery extends ViewWhu
 	function showPage()	
 	{
 		$this->template->set_var('GAL_TYPE', $this->galtype);
-		$this->template->set_var('GAL_TITLE', $this->galleryTitle($this->key));
+		$this->template->set_var('GALLERY_TITLE', $this->galleryTitle($this->key));
 		$this->template->set_var('GAL_COUNT', $this->props->get('extra'));
 		$this->template->set_var('TODAY', $this->galleryTitle($this->key));
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
@@ -1097,17 +1129,17 @@ class Gallery extends ViewWhu
 			$row = array('PIC_ID' => $pic->id(), 'WF_IMAGES_PATH' => $pic->folder(), 'PIC_NAME' => $pic->filename());
 			$row['PIC_DESC'] = htmlspecialchars($pic->caption());
 
-			$row['img_full'] = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
+			$imgPath = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			$thumb = $pic->thumbImage();
 			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
 			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
 				dumpVar($row['PIC_NAME'], "binpic fail");
-				$row['img_thumb'] = $row['img_full'];
+				$row['img_thumb'] = $imgPath;
 			}
 			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
 				dumpVar($ratio, "ratio");
 				// dumpVar($pic->thumbSize, "$i pic->thumbSize");
-				$row['img_thumb'] = $row['img_full'];
+				$row['img_thumb'] = $imgPath;
 			}
 			$rows[] = $row;
 		}
@@ -1126,7 +1158,6 @@ class DateGallery extends Gallery
 		$this->template->set_var("DATE_GAL_VIS", '');
 		$this->template->set_var("CAT_GAL_VIS" , 'hideme');
 
-		$this->dayLinkBar('pics', $this->key);
 		$this->meta_desc = sprintf("WHUFU Picture Gallery for %s", $this->galleryTitle($this->key));
 		parent::showPage();
 	}
@@ -1155,7 +1186,7 @@ class CatGallery extends Gallery
 		$this->template->set_var("CAT_GAL_VIS" , '');
 		
 		$this->template->set_var("TRIP_ID", $this->key);
-		$this->template->set_var("TRIP_NAME", $this->name = $cat->name());		// save name for caption call below
+		$this->template->set_var("GALLERY_TITLE", $this->name = $cat->name());		// save name for caption call below
 		$this->template->set_var("TODAY", '');
 		$this->template->set_var('LINK_BAR', '');
 		
@@ -1163,9 +1194,6 @@ class CatGallery extends Gallery
 		$this->pics = $this->build('Pics', (array('type' => 'cat', 'data' => $this->key)));  //, 'max' => $this->key
 		if (($size = $this->pics->size()) > $this->maxGal)
 		{
-// <span class="genericon genericon-shuffle"></span>
-
-			// $this->message = sprintf("A selection of %s out of %s &bull; <a href=\"?page=pics&type=cat&key=%s\">reselect</a>", $this->maxGal, $size, $this->key);			
 			$this->message = sprintf("A selection of %s out of %s, refresh to reselect.", $this->maxGal, $size, $this->key);			
 			$this->pics->random($this->maxGal);
 		}
@@ -1173,7 +1201,7 @@ class CatGallery extends Gallery
 		parent::showPage();
 	}
 	function getCaption()				{	return "Pictures for category: " . $this->name;	}
-	function galleryTitle($key)	{	return ''; }
+	function galleryTitle($key)	{	return $this->name; }
 	function getPictures($key)	{ return $this->pics; }	
 	function doNav() { $this->template->set_var('PAGER_BAR', ''); }
 }

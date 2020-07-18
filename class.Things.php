@@ -116,16 +116,21 @@
 		}
 	
 		// --------- collections
-		function one($i)		// one() creates an object from the collection daya and returns it
+		function one($i)		// one() creates an object from the collection data and returns it
 		{
 			// dumpVar(get_class($this), "class");
 			// dumpVar($this->unitClass, "this->unitClass");
 			// dumpVar(boolStr($this::ISCOLLECTION), "this::ISCOLLECTION");
 			$this->assertIsCollection();
-			$this->assert(isset($this->data[$i]), "this->data[$i] is NOT set!");
-			
+			$this->assert(isset($this->data[$i]), "this->data[$i] is NOT set!");			
 			return $this->build($this->unitClass, $this->data[$i]);
 		}
+		function safeOne($i)		// one() creates an object from the collection but fails gracefully
+		{
+			$this->assertIsCollection();
+			return ($this->exists($i)) ? $this->build($this->unitClass, $this->data[$i]) : FALSE;
+		}
+		function exists($i) { return isset($this->data[$i]); }
 		function size() { return sizeof($this->data);  }
 		function isEmpty() { return $this->size() == 0;  }
 		
@@ -332,6 +337,7 @@
 			$item = $this->getOne($q);
 			return $item['num'] + 1;
 		}
+		function weekday() { return date("l", strtotime($this->date())); }
 		
 		function miles()			{ return $this->dbValue('wf_days_miles'); }
 		function cumulative()	{ return $this->dbValue('wf_days_cum_miles'); }

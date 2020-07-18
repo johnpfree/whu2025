@@ -23,17 +23,20 @@
 		<link rel="stylesheet" href="libraries/font-awesome-4.7.0/css/font-awesome.min.css">
 
 		<link rel="apple-touch-icon" href="apple-touch-icon.png">
-		
-		<link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow&v1' rel='stylesheet' type='text/css' />
-		<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css' />
-		<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-		
+				
 		<style type="text/css" media="screen">
 			
 			a { color: #017034; }
 			a:hover { color: #db644c; text-decoration: none; }
 			h2 a { color: #2d537d; }
 			h2 a:hover { color: #db644c; }
+			
+/*			h2 { font-family: Tiempos Fine,serif; }*/
+			h2,h3,h4,h5 {
+/*				font-family: Montserrat, sans-serif;*/
+/*				font-family: Tiempos Fine,serif;      New Republic */
+				font-family: skolar-1, skolar-2, Georgia, "Times New Roman", serif;
+			}
 			
 			.hidden { display: none; }
 			

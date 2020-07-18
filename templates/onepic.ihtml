@@ -1,15 +1,15 @@
 
 <script type="text/javascript">
-// $(document).ready(function() {
-//
-// 	$(document).keydown(function(event) {
-// 		console.log("keyCode:", event.keyCode);
-// 		if (event.keyCode == 37)
-// 			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={P_KEY}";
-// 		else if (event.keyCode == 39)
-// 			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={N_KEY}";
-// 	});
-// });
+$(document).ready(function() {
+
+	$(document).keydown(function(event) {
+		console.log("keyCode:", event.keyCode);
+		if (event.keyCode == 37)
+			window.location="?page=pic&type=id&key={PREVPIC}";
+		else if (event.keyCode == 39)
+			window.location="?page=pic&type=id&key={NEXTPIC}";
+	});
+});
 </script>
 
 <div class="container">		
@@ -27,18 +27,18 @@
 	</div>
 	
   <div id="underpic" class="row">
-    <div class="col-6">
-			<dl>
-			  <dt>trip:</dt>
-			  <dd><h3><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3></dd>
-			</dl>
-    </div>
-    <div class="col-4">
+    <div class="col-5">
 			<dl>
 			  <dt>date:</dt>
 			  <dd><h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3></dd>
 			</dl>
     </div>		
+    <div class="col-5">
+			<dl>
+			  <dt>trip:</dt>
+			  <dd><h3><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3></dd>
+			</dl>
+    </div>
     <div class="col-2">
 			<nav><a {P_VIS} href="?page=pic&type=id&key={PREVPIC}"><i class="fa fa-arrow-circle-o-left"></i> previous</a></nav>
 			<nav><a {N_VIS} href="?page=pic&type=id&key={NEXTPIC}">next <i class="fa fa-arrow-circle-o-right"></i></a></nav>
