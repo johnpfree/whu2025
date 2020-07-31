@@ -503,6 +503,8 @@ class OneSpot extends ViewWhu
 			}
 			$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
 			$loop->do_loop($rows);
+			
+			$this->setLittleMap(array('lat' => $spot->lat(), 'lon' => $spot->lon(), 'name' => $spot->name(), 'desc' => $spot->town()));
 
 			$faves = $this->build('Faves', array('type' => 'pics', 'data' => $pics));			// cull out the favorites
 			dumpVar($faves->size(), "All N faves->size()");
@@ -616,11 +618,12 @@ class OneTripLog extends ViewWhu
 			$day = $this->build('DayInfo', $days->one($i));
 
 			// easy stuff - date mileage name ...
-			$row = array('day_name' => $day->dayName(), 'miles' => $day->miles(), 'cum_miles' => number_format($day->cumulative()), 'day_number' => $i+1);
+			$row = array('day_name' => $day->dayName(), 'miles' => $day->miles(), 'cum_miles' => number_format($day->cumulative()));
 			$row['nice_date'] = Properties::prettyShort($row['day_date'] = $day->date(), "M"); 
 			$row['short_date'] = Properties::prettyShortest($row['day_date']); 
 			$row['title_date'] = Properties::prettyDate($row['day_date']); 
 			$row['trip_year'] = substr($row['day_date'], 0, 4); 
+			$row['day_number'] = (($i < 9) ? 'day ' : '') . ($i + 1);
 
 			// Stop or Spot?
 			$parms = array('day', 'date', $day->date());

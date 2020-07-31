@@ -7,20 +7,18 @@
 
 		  <div class="row">
 		    <div class="col-lg cardrowhead">
-					<h2 title="Trip Name"><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h2>
-		    </div>
-		    <div class="col-lg cardrowhead">
 					<h2 title="Today's Date">{PRETTY_DATE}</h2>
 		    </div>
 		  </div>
 
 		  <div class="row">
-		    <div class="col">
-			    <div id="next" class="{N_VIS} navlinks float-right"><a href="?page=day&type=date&key={N_KEY}">tomorrow <i class="fa fa-arrow-circle-o-right"></i></a></div>
+		    <div id="daydeets" class="col">
+			    <div id="next" class="navlinks float-right {N_VIS}"><a href="?page=day&type=date&key={N_KEY}">tomorrow <i class="fa fa-arrow-circle-o-right"></i></a></div>
 			    <div id="next" class="navlinks float-right"><a href="?page=log&type=id&key={TRIP_ID}">trip <i class="fa fa-arrow-circle-o-up"></i> log</a></div>
-			    <div id="prev" class="{P_VIS} navlinks float-right"><a href="?page=day&type=date&key={P_KEY}"><i class="fa fa-arrow-circle-o-left"></i> yesterday</a></div>
+			    <div id="prev" class="navlinks float-right {P_VIS}"><a href="?page=day&type=date&key={P_KEY}"><i class="fa fa-arrow-circle-o-left"></i> yesterday</a></div>
 					
-					<p>Today is day <b>{ORDINAL}</b> of the trip. I drove <b>{MILES}</b> miles today, for a total of <b>{CUMMILES}</b> miles so far.</p>
+					<p>Today is day <b>{ORDINAL}</b> of the trip titled <a class="larger" href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a>.</p>
+					<p>I drove <b>{MILES}</b> miles today, for a total of <b>{CUMMILES}</b> miles so far.</p>
 	
 					<dl>
 						<dt>Here is a short description of the day:</dt>
@@ -47,10 +45,12 @@
 		margin: 0 0 6px 12px;
 		background-color: #f7e8e0;
 	}
-	
-	dl { margin-bottom: 0; }
-	dt { font-weight: normal; }
-	dd {
+	.larger {
+		font-size: 120%;
+	}
+	#daydeets dl { margin-bottom: 0; }
+	#daydeets dt { font-weight: normal; }
+	#daydeets dd {
 		font-style: italic;
 		padding: .5em 1.5em 0;		
 	}

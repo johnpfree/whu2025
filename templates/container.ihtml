@@ -31,10 +31,8 @@
 			h2 a { color: #2d537d; }
 			h2 a:hover { color: #db644c; }
 			
-/*			h2 { font-family: Tiempos Fine,serif; }*/
-			h2,h3,h4,h5 {
+			h2,h3,h4,h5,.headfont {
 /*				font-family: Montserrat, sans-serif;*/
-/*				font-family: Tiempos Fine,serif;      New Republic */
 				font-family: skolar-1, skolar-2, Georgia, "Times New Roman", serif;
 			}
 			
@@ -53,6 +51,7 @@
 			#main-menu {
 				text-align: center;
 				margin-bottom: 20px;
+				border-top: 2px solid black;
 			}
 			.cardrowhead {
 				text-align: center;

@@ -29,7 +29,7 @@ $(document).ready(function() {
   <div id="underpic" class="row">
     <div class="col-5">
 			<dl>
-			  <dt>date:</dt>
+			  <dt>day gallery:</dt>
 			  <dd><h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3></dd>
 			</dl>
     </div>		

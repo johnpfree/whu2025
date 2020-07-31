@@ -7,14 +7,13 @@
 					<h2>{SPOT_NAME}</h2>
 		    </div>
 		  </div>
-			
 			<div class="row">
 				<div class="col">
-					<div class="row">
-						<div class="col-sm-12">
-							<p>{SPOT_TOWN} &bull; {SPOT_PARTOF} &bull; {SPOT_TYPES} &bull; {SPOT_PLACE}</p>
-						</div>
-					</div>
+					<p style="font-size: 110%;">{SPOT_TOWN} &bull; {SPOT_PARTOF} &bull; {SPOT_TYPES} &bull; {SPOT_PLACE}</p>
+		    </div>
+		  </div>			
+			<div class="row">
+				<div class="col-7">
 					<p><i>Number of visits</i>: {SPOT_NUM}<br />
 						<i>GPS</i>: {SPLAT},{SPLON}<br />
 						<i>Bathroom</i>: {SPBATH} &bull; <i> Water: </i>{SPWATER}
@@ -36,8 +35,34 @@
 							<!-- END keyrows -->	
 							&bull; 
 						</div>
-			
-						<h4>Notes on each visit (posted cost &bull; senior cost):</h4>
+					</div>
+				</div>
+				<div class="col-5">
+					{MAP_INSET}
+					<div id="formbox">
+					  <form role="form" id="nearform" method="get" data-toggle="validator">
+							<div class="headfont" style="font-size: 130%; margin-top: 6px;">Find Spots near here:</div>
+					    <div class="row">
+					      <label for="search_radius" class="col-sm-12 col-form-label">Show all spots within:</label>
+					    </div>
+					    <div class="form-group row">
+					      <div class="col-sm-6">
+					        <input type="number" class="form-control" name="search_radius" id="search_radius" placeholder="Miles" max="200" required>
+					      </div>
+					      <div class="col-sm-6" id="search_near">         
+					        <button type="submit" name="search_near_spot" class="btn btn-primary">&nbsp; Find Spots &nbsp;</button>
+					      </div>
+					    </div>
+							<input type="hidden" name="page" value="map" />
+							<input type="hidden" name="type" value="spot" />
+							<input type="hidden" name="key" value="{SPOT_ID}" />
+					  </form>
+					</div>
+				</div>
+			</div>		
+			<div class="row">
+				<div class="col">			
+						<h4 style="padding-top: 4px; border-top: 1px solid #999;">Notes on each visit (posted cost &bull; senior cost):</h4>
 						<div id="day_list" class="list_item">
 							<!-- BEGIN rows -->
 								<span class="{USE_LINK}" style="white-space: nowrap;"><a href="?page=day&type=date&key={STAY_DATE}">{NICE_DATE}</a> ({SPCOSTS})</span>
@@ -57,18 +82,14 @@
 .list_item {
 	padding: .5em 1em 1em;
 }
-h4 {
-	margin: 0;
-	border-top: 1px solid #999;
-}
+
 #descr {
-	padding: .8em 1em;
+	padding: 10px 18px;
 	overflow: scroll;
 	overflow-x: hidden;
 	width: 100%;
 	max-height: 30vw;
-
-	background-color: #FFF;
+	background-color: #f8f8f8;
 }
 #descr>p {
 	margin-bottom: 0;
