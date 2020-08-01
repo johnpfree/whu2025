@@ -9,15 +9,14 @@
 		  </div>
 			<div class="row">
 				<div class="col">
-					<p style="font-size: 110%;">{SPOT_TOWN} &bull; {SPOT_PARTOF} &bull; {SPOT_TYPES} &bull; {SPOT_PLACE}</p>
+					<p style="font-size: 120%;">{SPOT_TOWN} &ndash; {SPOT_PARTOF} &nbsp; &nbsp;	<i style="font-size: 80%;">({SPOT_TYPES} &bull; {SPOT_PLACE})</i></p>
 		    </div>
 		  </div>			
 			<div class="row">
 				<div class="col-7">
-					<p><i>Number of visits</i>: {SPOT_NUM}<br />
-						<i>GPS</i>: {SPLAT},{SPLON}<br />
-						<i>Bathroom</i>: {SPBATH} &bull; <i> Water: </i>{SPWATER}
-					</p>
+					<p class="infoitem"><i>Number of visits</i>: {SPOT_NUM}</p>
+					<p class="infoitem"><i>GPS</i>: {SPLAT},{SPLON}</p>
+					<p class="infoitem"><i>Bathroom</i>: {SPBATH} &bull; <i> Water: </i>{SPWATER}</p>
 			
 					<div id="descr">
 						{SPDESC}
@@ -62,10 +61,10 @@
 			</div>		
 			<div class="row">
 				<div class="col">			
-						<h4 style="padding-top: 4px; border-top: 1px solid #999;">Notes on each visit (posted cost &bull; senior cost):</h4>
+						<h4 style="padding-top: 4px; border-top: 1px solid #999;">Notes on each visit <i>(posted cost &bull; senior cost)</i>:</h4>
 						<div id="day_list" class="list_item">
 							<!-- BEGIN rows -->
-								<span class="{USE_LINK}" style="white-space: nowrap;"><a href="?page=day&type=date&key={STAY_DATE}">{NICE_DATE}</a> ({SPCOSTS})</span>
+								<span class="{USE_LINK}" style="white-space: nowrap;"><a href="?page=day&type=date&key={STAY_DATE}">{NICE_DATE}</a> <i>({SPCOSTS})</i></span>
 								<span class="{NOT_LINK}" style="white-space: nowrap;">{NICE_DATE} ({SPCOSTS})</span>
 								<div class="day_desc">{SPDAYDESC}</div>
 								<!-- END rows -->	
@@ -75,7 +74,9 @@
 			</div>	
 
 <style type="text/css" media="screen">
-
+	.infoitem {
+		margin-bottom: 0;
+	}
 .list_head {
 	margin: 1em 0 0;
 }
@@ -85,6 +86,7 @@
 
 #descr {
 	padding: 10px 18px;
+	margin-top: 2px;
 	overflow: scroll;
 	overflow-x: hidden;
 	width: 100%;

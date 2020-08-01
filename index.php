@@ -167,8 +167,8 @@ switch ("$curpage$curtype")
 	// 	}
 	// }
 	
-	case 'logid':				$page = new OneTripLog($props);		break;		
-	case 'tlogid':			$page = new TestNewTripLog($props);		break;		
+	case 'tlogid':				$page = new OneTripLog($props);		break;		
+	case 'logid':			$page = new OneTripDays($props);		break;		
 	case 'daydate':			$page = new OneDay($props);			break;	
 	
 	case 'searchhome':	$page = new Search($props);					break;

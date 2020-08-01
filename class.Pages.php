@@ -675,9 +675,9 @@ class OneTripLog extends ViewWhu
 		$row['PIC_LINK'] = (($npic = $day->pics()->size()) > 0) ? (new WhuLink('pics', 'date', $day->date(), "[$npic]", "today's images"))->url() : '';
 	}
 }
-class TestNewTripLog extends OneTripLog
+class OneTripDays extends OneTripLog
 {
-	var $file = "testdayssummary.ihtml"; 
+	var $file = "tripdays.ihtml"; 
 	 
 	function picStuff($i, $day, &$row) 
 	{
