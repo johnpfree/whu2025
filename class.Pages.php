@@ -663,7 +663,7 @@ class OneTripLog extends ViewWhu
 		}		
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));                                
 		$loop->do_loop($nodeList);
-			
+
 		$faves = $this->build('Faves', array('type' => 'tripdates', 'start' => $trip->startDate(), 'end' => $trip->endDate()));
 		$faves->getSome(12);
 		$this->headerGallery($faves);
@@ -1227,7 +1227,7 @@ class OneMap extends ViewWhu
 
 		$tripid = $this->trip();		// local function		
  	 	$trip = $this->build('Trip', $tripid);		
-		$this->template->set_var('MAP_NAME', $this->name = $trip->name());
+		$this->template->set_var('TRIP_NAME', $this->name = $trip->name());
 		$this->caption = "Map for $this->name";
 		
 		if ($trip->hasMapboxMap())
@@ -1262,7 +1262,7 @@ dumpVar($fullpath, "Mapbox fullpath");
 										'point_name' => addslashes($day->nightName()), 'key_val' => $day->date(), 
 										'link_text' => Properties::prettyDate($day->date()));
 						
-						// dumpVar($row, "row $i");
+// dumpVar($row, "row $i");
 			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
 				$eventLog[] = "NO POSITION! $i row";
 				$eventLog[] = $row;
@@ -1274,11 +1274,9 @@ dumpVar($fullpath, "Mapbox fullpath");
 			}
 			$prevname = $row['point_name'];
 
-// dumpVar($row, "$i - row");
 			$rows[] = $row;
 		}
-		// dumpVar($rows, "rows");
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'none_msg' => "", 'noFields' => true));
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'one' =>'node_row', 'none_msg' => "", 'noFields' => true));
 		$loop->do_loop($rows);
 		
 		$this->tripLinkBar('map', $tripid);	
@@ -1366,7 +1364,7 @@ class SpotMap extends OneMap
 	function setTitle($rad) 
 	{ 
  	 	$this->spot = $this->build('DbSpot', $this->key);		
-		$this->template->set_var('MAP_NAME', $t = sprintf("Spots in a %s mile radius of %s", $rad, $this->name = $this->spot->name()));
+		$this->template->set_var('TRIP_NAME', $t = sprintf("Spots in a %s mile radius of %s", $rad, $this->name = $this->spot->name()));
 		$this->caption = $t;
 	}
 	function getSpots($rad) 
@@ -1381,7 +1379,7 @@ class NearMap extends SpotMap
 {
 	function setTitle($rad) 
 	{ 
-		$this->template->set_var('MAP_NAME', $t = sprintf("Spots in a %s mile radius of \"%s\"", $rad, $this->props->get('search_term')));
+		$this->template->set_var('TRIP_NAME', $t = sprintf("Spots in a %s mile radius of \"%s\"", $rad, $this->props->get('search_term')));
 	}
 	function getSpots($rad) 
 	{ 

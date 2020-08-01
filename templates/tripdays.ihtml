@@ -27,8 +27,6 @@
 				  <div class="row">
 						<div class="col-5">
 							{DAY_NUMBER}.
-							<br />
-							<a {POST_CLASS} href="{STORY_LINK}" title="today's story"><i class="fa fa-wordpress fa-lg" aria-hidden="true"></i></a>
 				    </div>
 						<div class="col-7">
 							<span>{MILES} miles</span>
@@ -47,11 +45,8 @@
 		    </div>
 		    <div class="col-2 listgal">	
 		      <a class="squareme{PICSHOW_0}" href="?page=pic&type=id&key={PICID_0}" max-width="540">
-						<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_0}" title="{PICTITLE_0}" /></a>
-		      <!-- <a class="squareme{PICSHOW_1}" href="?page=pic&type=id&key={PICID_1}" max-width="540">
-						<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_1}" title="{PICTITLE_1}" /></a> -->
-		      <!-- <a class="squareme{PICSHOW_2}" href="?page=pic&type=id&key={PICID_2}" max-width="540">
-						<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_2}" title="{PICTITLE_2}" /></a> -->
+						<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_0}" title="{PICTITLE_0}" />
+					</a>
 		    </div>
 		  </div>
 <!-- END rows -->			

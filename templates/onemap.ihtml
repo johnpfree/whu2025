@@ -3,7 +3,24 @@
 <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
 <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 
-<div id='map'></div>
+		<div class="container">		
+		  <div class="row no-gutters">
+{HEADER_GALLERY}
+		  </div>			
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>{TRIP_NAME}</h2>
+		    </div>
+		  </div>
+			
+		  <div class="row">
+		    <div class="col">
+					<div id='map'></div>
+		    </div>
+		  </div>
+	  </div>
+
+
 
 <style type="text/css" media="screen">
 	#map {
