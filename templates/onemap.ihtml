@@ -30,10 +30,13 @@
 
 	.leaflet-popup-content {
 		color: black;
-		background-color: yellow;
+		background-color: #fdfdd9;
+		padding: 10px;
+		border: 1px solid #c0c291;
+		border-radius: 8px;
 	}
-	.leaflet-popup-content a			 {	color: green;	}
-	.leaflet-popup-content a:hover {	color: red; text-decoration: underline;	}
+	.leaflet-popup-content a			 {	color: #56591e;	font-weight: bold; }
+	.leaflet-popup-content a:hover {	color: #db644c; text-decoration: underline;	}
 </style>
 <script>
 L.mapbox.accessToken = '{MAPBOX_TOKEN}';

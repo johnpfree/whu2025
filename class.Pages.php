@@ -94,131 +94,12 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		$loop->do_loop($rows);		
 	}
 	
-	
-	function tripLinkBar($page, $id)
-	{
-		$allfour = array(
-			"map" => "map",
-			"log" => "log",
-			"pics" => "pictures",
-			"txts" => "stories",
-			);
-		$this->template->setFile('LINK_BAR', 'linkbar.ihtml');
-		$trip = $this->build('Trip', $id);
-		$i = 1;
-		
-		foreach ($allfour as $k => $v) 
-		{
-			$paltag = $k;
-			if ($k == $page)	continue;
-			switch ($k) {
-				case 'pics':	$paltag = 'pic'; $gotSome = $trip->hasWhuPics();	break; // || $trip->hasFlicks();	break;
-				case 'txts':	
-					 $url = (new WhutxtsidLink($trip))->url($v);
-					 $this->template->set_var("LINK$i", ($url == '') ? '-' : $url);
-					 return;
-			 default:			$gotSome = TRUE;
-			}
-// dumpVar(boolStr($gotSome), "linkBar($page, $id) $k, $v");
-
-			if ($gotSome) 
-			{
-				$triplink = new WhuLink($k, 'id', $id, $v);			
-				$this->template->set_var("LINK$i", $triplink->url());
-			}
-			else
-				$this->template->set_var("LINK$i", '-');
-
-			// $this->template->set_var("BACK$i", self::pals[$paltag]['bbackcolor']);
-			$i++;
-		}		
-	}
-	function dayLinkBar($page, $date)
-	{
-		// dumpVar('xx', "dayLinkBar($page, $date)");
-		$allfour = array(
-			"map" => "map",
-			"day" => "day",
-			"pics" => "pictures",
-			"txt" => "story",
-			);
-		$this->template->setFile('LINK_BAR', 'linkbar.ihtml');
-		
-		$day = $this->build('DbDay', $date);
-		
-		$trip = $this->build('DbTrip', $id = $day->tripId());
-		$this->template->set_var("TRIP_ID", $id);
-		$this->template->set_var("TRIP_NAME", $trip->name());
-		
-		$i = 1;
-		foreach ($allfour as $k => $v) 
-		{
-			$paltag = $k;
-			if ($k == $page)	continue;
-
-			switch ($k) {
-				case 'pics':	$gotSome = $day->hasPics();	$paltag = 'pic'; break;
-				case 'txt':		$gotSome = $day->hasStory();	break;
-				case 'day':		$gotSome = true; $paltag = 'log'; 	break;
-				default:			$gotSome = true;
-			}
-			if ($gotSome) 
-			{			
-				// dumpVar($v, "WhuLink($k, 'date', $date, v");
-				$daylink = new WhuLink($k, 'date', $date, $v);			
-				$this->template->set_var("LINK$i", $daylink->url());
-			}
-			else
-				$this->template->set_var("LINK$i", '-');
-
-			// $this->template->set_var("BACK$i", self::pals[$paltag]['bbackcolor']);
-			$i++;
-		}		
-	}
-	function pagerBar($page, $type, $settings = array())
-	{
-		$props = array_merge(array('pager_tag' => 'PAGER_BAR', 'middle' => false, 'pkey' => 0, 'nkey' => 0, 'plab' => "previous", 'nlab' => "next"), $settings);
-		// dumpVar($props, "pager props");
-		
-		$ok = $this->template->setFile($props['pager_tag'], 'pagerbar.ihtml');
-
-		$this->template->set_var("PAGER_PAGE", $page);
-		$this->template->set_var("PAGER_TYPE", $type);
-		if ($props['pkey'] > 0)
-		{
-			$this->template->set_var("P_VIS", "");
-			$this->template->set_var("P_KEY", $props['pkey']);
-			$this->template->set_var("P_LAB", $props['plab']);
-		}
-		else 
-			$this->template->set_var("P_VIS", "class='hidden'");
-		
-		if ($props['nkey'] > 0)
-		{
-			$this->template->set_var("N_VIS", "");
-			$this->template->set_var("N_KEY", $props['nkey']);
-			$this->template->set_var("N_LAB", $props['nlab']);
-		}
-		else 
-			$this->template->set_var("N_VIS", "class='hidden'");
-		
-		// single picture nav needs an id parm, hack it into the key parm
-		// if (isset($props['nid']))
-		// {
-		// 	$this->template->set_var("P_KEY", sprintf("%s&id=%s", $props['pkey'], $props['pid']));
-		// 	$this->template->set_var("N_KEY", sprintf("%s&id=%s", $props['nkey'], $props['nid']));
-		// }
-			
-		if ($props['middle'])
-		{
-			$this->template->set_var("M_VIS", "");
-			$this->template->set_var("M_LAB", $props['mlab']);
-		}
-		else 
-			$this->template->set_var("M_VIS", "class='hidden'");
-	}
 	function addDollarSign($s)	{ return "&#36;$s"; }
-	
+	function spotLink($name, $id) { return sprintf("<a href='%s?page=spot&type=id&key=%s'>%s</a>", $this->whuUrl(), $id, $name); }
+	function whuUrl() { 	// cheeseball trick to use http locally and https on server
+		return sprintf("http%s://%s%s", (HOST == 'cloudy') ? 's' : '', $_SERVER['HTTP_HOST'], parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH));
+	}
+
 	// 	array('zoom' => 7, 'lat' => $center->lat, 'lon' => $center->lon, 'name' => 'Center of the area for this story');
 	function setLittleMap($coords)
 	{
@@ -344,7 +225,7 @@ class OneTrip extends ViewWhu
 		$this->headerGallery($pics);
 		
 		// - - - MAP - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		$this->template->setFile('TRIP_MAP', 'onemap.ihtml');		
+		$this->template->setFile('TRIP_MAP', 'mapInsetBig.ihtml');		
 		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
 		$this->template->set_var('PAGE_VAL', 'day');
 		$this->template->set_var('TYPE_VAL', 'date');
@@ -360,21 +241,27 @@ class OneTrip extends ViewWhu
 		{
 			$day = $this->build('DayInfo', $days->one($i));
 
-			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), //'point_loc' => $day->town(), 
-										'point_name' => addslashes($day->nightName()), 'key_val' => $day->date(), 
-										'link_text' => Properties::prettyDate($day->date()));
-						
+
+			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
+										// 'point_name' => addslashes($day->nightName())
+										'key_val' => $day->date(), 'link_text' => Properties::prettyDate($day->date()));
+
+			$spotName = $day->nightName();
+			$row['point_name'] = addslashes($day->hasSpot() ? $this->spotLink($spotName, $day->spotId()) : $spotName);
+						 
+// dumpVar($row, "row $i");
 			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
 				$eventLog[] = "NO POSITION! $i row";
 				$eventLog[] = $row;
 				continue;
 			}
-			if ($row['point_name'] == $prevname) {											// skip if I'm at the same place as yesterday
-				// $eventLog[] = "skipping same $i: {$row['point_name']}";
+			if ($spotName == $prevname) {											// skip if I'm at the same place as yesterday
+				// $eventLog[] = "skipping same $i: {$spotName}";
 				continue;                       
 			}
-			$prevname = $row['point_name'];
-// dumpVar($row, "$i - row");
+			$prevname = $spotName;
+
+			// dumpVar($row, "$i - row");
 			$rows[] = $row;
 		}
 		// dumpVar($rows, "rows");
@@ -430,8 +317,8 @@ class OneSpot extends ViewWhu
 		$this->template->set_var('SPOT_PLACE',  $spot->place());
 		$this->template->set_var('SPOT_NUM',  	$visits = $spot->visits());
 		
-		$this->template->set_var('SPLAT',  	$spot->lat());
-		$this->template->set_var('SPLON',  	$spot->lon());
+		$this->template->set_var('SPLAT',  	round($spot->lat(), 4));
+		$this->template->set_var('SPLON',  	round($spot->lon(), 4));
 		$this->template->set_var('SPBATH',  	$spot->bath());
 		$this->template->set_var('SPWATER',  	$spot->water());
 		$this->template->set_var('SPDESC',  	$desc = $spot->htmldesc());
@@ -965,7 +852,6 @@ class TripPictures extends ViewWhu
 		$this->template->set_var('NUM_DAYS', $days->size());
 		$this->template->set_var('NUM_PICS', $count);
 		
- 		$this->tripLinkBar('pics', $this->props->get('key'));
 		$this->meta_desc = "Image galleries for the WHUFU trip called '$this->caption'";		
 	}
 }
@@ -1088,7 +974,6 @@ class OneVideo extends ViewWhu
 		$pageprops['nkey'] = $vid->next()->id();
 		$pageprops['middle'] = true;		
 		$pageprops['mlab'] = '<a href="?page=vids&type=home">back to Videos page</a>';		
-		$this->pagerBar('vid', 'id', $pageprops);	
 	}
 	function getVideo() 
 	{
@@ -1174,7 +1059,6 @@ class DateGallery extends Gallery
 		$pageprops['plab'] = Properties::prettyDate($pageprops['pkey'] = $date->previousDayGal(), "M");
 		$pageprops['nlab'] = Properties::prettyDate($pageprops['nkey'] = $date->nextDayGal(), "M");
 		$pageprops['mlab'] = $this->galleryTitle($this->key);
-		$this->pagerBar('pics', 'date', $pageprops);		
 	}
 }
 class CatGallery extends Gallery
@@ -1223,12 +1107,17 @@ class OneMap extends ViewWhu
 		$this->template->set_var('MARKER_COLOR', $this->marker_color);
 		
 		// cheeseball trick to use http locally and https on server :<
-		$this->template->set_var('WHU_URL', sprintf("http%s://%s%s", (HOST == 'cloudy') ? 's' : '', $_SERVER['HTTP_HOST'], parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)));
+		$this->template->set_var('WHU_URL', $this->whuUrl());
 
 		$tripid = $this->trip();		// local function		
  	 	$trip = $this->build('Trip', $tripid);		
 		$this->template->set_var('TRIP_NAME', $this->name = $trip->name());
 		$this->caption = "Map for $this->name";
+
+		// - - - Header PICS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder()));
+		$pics->getSome(12);
+		$this->headerGallery($pics);
 		
 		if ($trip->hasMapboxMap())
 		{
@@ -1254,33 +1143,34 @@ dumpVar($fullpath, "Mapbox fullpath");
 		$this->template->setFile('LOOP_INSERT', $this->loopfile);
 		
  	 	$days = $this->build('DbDays', $tripid);
-		for ($i = 0, $rows = array(), $prevname = '@'; $i < $days->size(); $i++)
+		for ($i = 0, $rows = array(), $prevname = '*'; $i < $days->size(); $i++)
 		{
 			$day = $this->build('DayInfo', $days->one($i));
 
-			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), //'point_loc' => $day->town(), 
-										'point_name' => addslashes($day->nightName()), 'key_val' => $day->date(), 
-										'link_text' => Properties::prettyDate($day->date()));
-						
+			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
+										// 'point_name' => addslashes($day->nightName())
+										'key_val' => $day->date(), 'link_text' => Properties::prettyDate($day->date()));
+
+			$spotName = $day->nightName();
+			$row['point_name'] = addslashes($day->hasSpot() ? $this->spotLink($spotName, $day->spotId()) : $spotName);
+						 
 // dumpVar($row, "row $i");
 			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
 				$eventLog[] = "NO POSITION! $i row";
 				$eventLog[] = $row;
 				continue;
 			}
-			if ($row['point_name'] == $prevname) {											// skip if I'm at the same place as yesterday
-				// $eventLog[] = "skipping same $i: {$row['point_name']}";
+			if ($spotName == $prevname) {											// skip if I'm at the same place as yesterday
+				// $eventLog[] = "skipping same $i: {$spotName}";
 				continue;                       
 			}
-			$prevname = $row['point_name'];
+			$prevname = $spotName;
 
 			$rows[] = $row;
 		}
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'one' =>'node_row', 'none_msg' => "", 'noFields' => true));
 		$loop->do_loop($rows);
-		
-		$this->tripLinkBar('map', $tripid);	
-		
+				
 		if (sizeof($eventLog))
 			dumpVar($eventLog, "Event Log");
 		parent::showPage();
@@ -1396,44 +1286,6 @@ class NearMap extends SpotMap
 		return array($centerRow);
 	}
 	function markerColor($i) { return $this->marker_color; }
-}
-
-class TripStory extends ViewWhu
-{
-	var $file = "onestory.ihtml";   
-	function showPage()	
-	{
-		$postid = $this->key;
- 	 	$post = $this->build('Post', array('wpid' => $postid));	
-
-		$this->template->set_var('POST_TITLE', $this->caption = $post->title());
-		$this->template->set_var('POST_CONTENT', $post->content());
-		
-		$pageprops = array();
- 	 	$navpost = $this->build('Post', array('wpid' => $navid = $post->previous()));			
-		$pageprops['plab'] = $navpost->title();
-		$pageprops['pkey'] = $navid;
- 	 	$navpost = $this->build('Post', array('wpid' => $navid = $post->next()));			
-		$pageprops['nlab'] = $navpost->title();
-		$pageprops['nkey'] = $navid;
-		$this->pagerBar('txt', 'wpid', $pageprops);		
-		// $dates = $post->dates();
-		// $days = $this->build('DbDays', $dates);
-		// dumpVar($post->firstDate(), "post->firstDate()");
-		if ($this->props->get('type') != 'date')
-			$this->dayLinkBar('txt', $post->firstDate());		// if type==date we have already done linkbar
-		parent::showPage();
-	}
-}
-class TripStoryByDate extends TripStory
-{
-	function showPage()	
-	{
-		$this->dayLinkBar('txt', $this->key);				// the key is the magic value here
-		$day = $this->build('DbDay', $this->key);		// key here is the date
-		$this->key = $day->postId();
-		parent::showPage();
-	}
 }
 
 class SearchResults extends ViewWhu

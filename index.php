@@ -193,9 +193,6 @@ switch ("$curpage$curtype")
 	case 'mapnear':			$page = new NearMap($props);			break;	
 	case 'mapplace':		$page = new PlaceMap($props);			break;	
 	
-	case 'txtwpid':			$page = new TripStory($props);				break;
-	case 'txtdate':			$page = new TripStoryByDate($props);	break;
-	
 	case 'spotshome':		$page = new SpotsHome($props);			break;
 	case 'spotstype':		$page = new SpotsTypes($props);			break;
 	case 'spotskey':		$page = new SpotsKeywords($props);	break;		// for a keyword (from a spot OR the search page)

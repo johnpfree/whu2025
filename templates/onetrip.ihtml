@@ -34,6 +34,7 @@
 		  <div id="trip" class="row cardrow">
 		    <div class="col-md-7">
 {TRIP_MAP}
+					<div style="float: right"><a href="?page=map&type=id&key={TRIP_ID}">full map</a></div>
 		    </div>
 				
 		    <div class="col-md-5">

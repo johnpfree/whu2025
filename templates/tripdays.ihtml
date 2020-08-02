@@ -40,7 +40,7 @@
 		    </div>
 		    <div class="col-5">
 					<a style="float:right" {POST_CLASS} href="{STORY_LINK}" title="today's story"><i class="fa fa-wordpress fa-lg" aria-hidden="true"></i></a>
-					<span>{DAY_NAME}</span>
+					<span>{DAY_NAME}</span><br />
 					<span>{DAY_DESC}</span>
 		    </div>
 		    <div class="col-2 listgal">	
