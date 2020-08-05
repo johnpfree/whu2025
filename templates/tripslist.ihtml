@@ -3,7 +3,7 @@
 	<tr>
 		<td align="right"><a href="?page=log&type=id&key={TRIP_ID}" title="Trip Log">{TRIP_NAME}</a></td>
 		<td> &nbsp; </td>		
-		<td>{TXTS_LINK}</td>
+		<td><a {WP_VIS} href="{WP_LINK}" title="go to Wordpress"><i class="fa fa-wordpress fa" aria-hidden="true"></i></a></td>
 		<td>{MAP_LINK}</td>
 		<td>{PICS_LINK} {VIDS_LINK}</td>
 	</tr>
@@ -11,6 +11,9 @@
 </table>
 
 <style type="text/css" media="screen">
+	#tripstable a {
+		color: #526b40;
+	}
 	#tripstable {
 		margin: 0 auto;
 	}

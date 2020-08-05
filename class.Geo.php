@@ -79,20 +79,19 @@ class WhuSimpleLink extends WhuLink
 class WhumapidLink extends WhuSimpleLink
 {
 	var $page = 'map';
-	var $myIcon = "<img src='./resources/icons/glyphicons-503-map.png' width='26' height='20' title='Map'>";
+	var $myIcon = '<i class="fa fa-map" aria-hidden="true"></i>';
 	function hasStuff() { return $this->trip->hasMap(); }
 }
 class WhuvidsidLink extends WhuSimpleLink
 {
 	var $page = 'vids';
-	var $myIcon = "<img src='./resources/icons/glyphicons-181-facetime-video.png' width='26' height='20' title='Videos'>";
+	var $myIcon = '<i class="fa fa-video-camera" aria-hidden="true"></i>';
 	function hasStuff() { return $this->trip->hasVideos(); }
 }
 class WhupicsidLink extends WhuSimpleLink
 {
 	var $page = 'pics';
-	var $cameraimg = "<img src='./resources/icons/glyphicons-12-camera.png' width='26' height='20' title='Pictures'>";
-	var $flickrimg = "<img src='./resources/icons/social-36-flickr.png' width='26' height='20' title='Flick Pics'>";
+	var $cameraimg = '<i class="fa fa-picture-o" aria-hidden="true"></i>';
 	function url()
 	{
 		$this->props->set('key', $this->trip->id());			// overload param 3
@@ -102,23 +101,6 @@ class WhupicsidLink extends WhuSimpleLink
 			return $this->canonicalWhu();
 		}
 		return '';
-	}
-}
-class WhutxtsidLink extends WhuLink
-{
-	function __construct($t)	{ $this->trip = $t; }
-	function url($txt = '')
-	{
-		$myIcon = "<img src='./resources/icons/glyphicons-331-blog.png' width='26' height='20' title='Map'>";
-		if (($wp_ref = $this->trip->wpReferenceId()) == 0)
-			return '';
-		// $this->trip->dump('WhutxtsidLink');
-		switch ($wp_ref[0]) {
-			case 'cat':			$link = ViewWhu::makeWpCatLink($wp_ref[1]);		break;
-			case 'post':		$link = ViewWhu::makeWpPostLink($wp_ref[1]);	break;			
-			default:				dumpVar($wp_ref, "BAD RETURN! wp_ref");		exit;
-		}
-		return sprintf("<a href='%s'>%s</a>", $link, ($txt == '') ? $myIcon : $txt);				//  target='_blank'
 	}
 }
 

@@ -229,12 +229,14 @@
 			$count = $this->getOne("select COUNT(wp_id) nposts from wf_days where wp_id>0 AND wf_trips_id=" . $this->id());		
 			return $count['nposts'] > 0;
 		}
-		function wpReferenceId() //	get the wp category id for this trip, UNLESS there's pnly one post, then return the post id
+		
+		//	return the wp category id for this trip, UNLESS there's pnly one post, then return the post id, on FAIL return ('none', 0)
+		function wpReferenceId() 
 		{
-			$posts = $this->getAll("select * from wf_days where wp_id>0 AND wf_trips_id=" . $this->id());
+			$posts = $this->getAll($q = "select * from wf_days where wp_id>0 AND wf_trips_id=" . $this->id());
 			if (sizeof($posts) == 0)
-				return 0;
-			// dumpVar($posts, "posts");
+				return array('none', 0);
+			// dumpVar(sizeof($posts), "$q posts");
 			$wpid = $posts[0]['wp_id'];
 			// dumpVar($wpid, "wpid");
 			
@@ -245,12 +247,9 @@
 
 			if ($cats[0]->name == 'Nor Cal' || $cats[0]->name == '395')
 				return array('post', $wpid);
-
-			if (sizeof($posts) == 1) {
-				dumpVar($posts, "SINGLE POST SLIPS THRU! posts");
-				exit;
-			}
-
+			
+			assert(sizeof($posts) > 1, "SINGLE POST SLIPS THRU! posts"); 
+			                      
 			return array('cat', $cats[0]->cat_ID);
 		}
 		

@@ -1,5 +1,15 @@
-<div class="jumbotron jumbotron-fluid" id="main_item">
-	<h2><span>pictures{AND_VIDS} for:</span> {GAL_TITLE}</h2>
+<div class="container">			
+  <div class="row">
+    <div class="col cardrowhead">
+			<h2 title="Image Label">{GAL_TITLE}
+				<span>
+					<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
+					<a href="?page=pics&type=map&key={TRIP_ID}">map</a> &bull; 
+					<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
+				</span>
+			</h2>
+    </div>
+  </div>
 	<p>{NUM_DAYS} days &bull; {NUM_PICS} pictures{NUM_VIDS}</p>
 	
 	<div class="clearfix" id="thegal">
@@ -13,15 +23,13 @@
 		</p>
 		<!-- END rows -->
 	</div>
-{LINK_BAR}
 </div>
 
 <style type="text/css" media="screen">
-h2>span { 
-	font-size: 80%;
-	font-weight: light;
-	font-style: italic;
-}
+	.cardrowhead span {
+		font-size: 70%;
+		padding-left: 40px;
+	}
 #thegal>p {
 	float: left;
 	text-align: center;
@@ -29,6 +37,7 @@ h2>span {
 }
 #thegal>p img {
 	border: 1px solid #3A5950;		
+	border-radius: 8px;
 }
 .squareme {	object-fit: cover; }
 .hideme { display: none; }

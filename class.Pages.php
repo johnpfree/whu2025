@@ -121,6 +121,21 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		return true;
 	}
 	
+	function makeTripWpLink($trip)
+	{
+		$wplink = $trip->wpReferenceId();	// always return an array 
+		// dumpVar($wplink, "wplink");
+		$this->template->set_var('WP_VIS', '');			// assume visible
+		switch ($wplink[0]) {
+			case 'cat':			$link = ViewWhu::makeWpCatLink($wplink[1]);		$txt = 'stories';	break;
+			case 'post':		$link = ViewWhu::makeWpPostLink($wplink[1]);	$txt = 'story';		break;			
+			case 'none':		$this->template->set_var('WP_VIS', "class='hidden'");	$link = $txt = '';	break;			
+			default:				dumpVar($wplink, "BAD RETURN! wp_ref");	exit;
+		}
+		$this->template->set_var('WP_LINK', $link);
+		$this->template->set_var('WP_TEXT', $txt);
+	}
+	
 	static function makeWpPostLink($wpid, $namelink = '') 
 	{ 
 		if ($namelink != '')
@@ -421,10 +436,11 @@ class AllTrips extends ViewWhu
 		{
 			$trip = $trips->one($i);
 			$row = array("TRIP_DATE" => $trip->startDate(), "TRIP_ID" => $trip->id(), "TRIP_NAME" => $trip->name());
-			$row['TXTS_LINK'] = (new WhutxtsidLink($trip))->url();
 			$row['MAP_LINK' ] = (new WhumapidLink ($trip))->url();
 			$row['PICS_LINK'] = (new WhupicsidLink($trip))->url();
 			$row['VIDS_LINK'] = (new WhuvidsidLink($trip))->url();
+			$this->makeTripWpLink($trip);					// Aug 20 use new WP link code
+
 			// dumpVar($row, "row"); exit;
 			$rows[] = $row;
 		}
@@ -658,7 +674,6 @@ class OneDay extends ViewWhu
 	}
 }
 
-
 class OnePhoto extends ViewWhu
 {
 	var $file = "onepic.ihtml";   
@@ -724,6 +739,94 @@ class OnePhoto extends ViewWhu
 		$this->template->set_var('P_VIS', ($id == 0) ? 'class="hidden"' : '');
 		$this->template->set_var('NEXTPIC', $id = $pic->next()->id());
 		$this->template->set_var('N_VIS', ($id == 0) ? 'class="hidden"' : '');
+	}
+}
+
+class OneMap extends ViewWhu
+{
+	var $file = "onemap.ihtml";
+	var $loopfile = 'mapBoundsLoop.js';
+	var $marker_color = '#535900';	// '#8c54ba';
+	function showPage()	
+	{
+		$eventLog = array();
+		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
+		$this->template->set_var('PAGE_VAL', 'day');
+		$this->template->set_var('TYPE_VAL', 'date');
+		$this->template->set_var('MARKER_COLOR', $this->marker_color);
+		$this->template->set_var('WHU_URL', $this->whuUrl());
+
+		$tripid = $this->trip();		// local function		
+ 	 	$trip = $this->build('Trip', $tripid);		
+		$this->template->set_var('TRIP_NAME', $this->name = $trip->name());
+		$this->template->set_var('TRIP_ID', $tripid);
+		$this->caption = "Map for $this->name";
+		$this->makeTripWpLink($trip);
+
+		// - - - Header PICS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder()));
+		$pics->getSome(12);
+		$this->headerGallery($pics);
+		
+		if ($trip->hasMapboxMap())
+		{
+			$filename = $trip->mapboxJson();
+			$fullpath = MAP_DATA_PATH . $filename;
+dumpVar($fullpath, "Mapbox fullpath");
+			$this->template->set_var("MAP_JSON", file_get_contents($fullpath));
+			$this->template->setFile('JSON_INSERT', 'mapjson.js');
+			$this->template->set_var("CONNECT_DOTS", 'false');		// no polylines
+		}	
+		else if ($trip->hasGoogleMap())
+		{
+			$this->template->set_var("KML_FILE", $trip->gMapPath());
+			$this->template->setFile('JSON_INSERT', 'mapkml.js');
+			$this->template->set_var("CONNECT_DOTS", 'false');		// no polylines
+		}	
+		else 			// NO map, do our connect the dots trick
+		{	
+			$this->template->set_var("JSON_INSERT", '');
+			$this->template->set_var("CONNECT_DOTS", 'true');		// there is no route map, so connect the dots with polylines
+		}
+		
+		$this->template->setFile('LOOP_INSERT', $this->loopfile);
+		
+ 	 	$days = $this->build('DbDays', $tripid);
+		for ($i = 0, $rows = array(), $prevname = '*'; $i < $days->size(); $i++)
+		{
+			$day = $this->build('DayInfo', $days->one($i));
+
+			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
+										// 'point_name' => addslashes($day->nightName())
+										'key_val' => $day->date(), 'link_text' => Properties::prettyDate($day->date()));
+
+			$spotName = $day->nightName();
+			$row['point_name'] = addslashes($day->hasSpot() ? $this->spotLink($spotName, $day->spotId()) : $spotName);
+						 
+// dumpVar($row, "row $i");
+			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
+				$eventLog[] = "NO POSITION! $i row";
+				$eventLog[] = $row;
+				continue;
+			}
+			if ($spotName == $prevname) {											// skip if I'm at the same place as yesterday
+				// $eventLog[] = "skipping same $i: {$spotName}";
+				continue;                       
+			}
+			$prevname = $spotName;
+
+			$rows[] = $row;
+		}
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'one' =>'node_row', 'none_msg' => "", 'noFields' => true));
+		$loop->do_loop($rows);
+				
+		if (sizeof($eventLog))
+			dumpVar($eventLog, "Event Log");
+		parent::showPage();
+	}
+	function getMetaDesc()	{	return "Map for the WHUFU trip called '$this->name'";	}
+	function trip()		{ 
+		return $this->key; 
 	}
 }
 
@@ -795,6 +898,8 @@ class TripPictures extends ViewWhu
 		
 		$trip = $this->build('Trip', $this->key);
 		$this->template->set_var('GAL_TITLE', $this->caption = $trip->name());
+		$this->template->set_var('TRIP_ID', $this->key);
+		$this->makeTripWpLink($trip);
 		
 		// $tripvids = $this->build('Vids', array('tripid' => $this->key));
 		if (($nvid = $trip->hasVideos()) == 0)		// hack: hasVideos returns the number
@@ -1093,93 +1198,6 @@ class CatGallery extends Gallery
 	function doNav() { $this->template->set_var('PAGER_BAR', ''); }
 }
 
-class OneMap extends ViewWhu
-{
-	var $file = "onemap.ihtml";
-	var $loopfile = 'mapBoundsLoop.js';
-	var $marker_color = '#535900';	// '#8c54ba';
-	function showPage()	
-	{
-		$eventLog = array();
-		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
-		$this->template->set_var('PAGE_VAL', 'day');
-		$this->template->set_var('TYPE_VAL', 'date');
-		$this->template->set_var('MARKER_COLOR', $this->marker_color);
-		
-		// cheeseball trick to use http locally and https on server :<
-		$this->template->set_var('WHU_URL', $this->whuUrl());
-
-		$tripid = $this->trip();		// local function		
- 	 	$trip = $this->build('Trip', $tripid);		
-		$this->template->set_var('TRIP_NAME', $this->name = $trip->name());
-		$this->caption = "Map for $this->name";
-
-		// - - - Header PICS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder()));
-		$pics->getSome(12);
-		$this->headerGallery($pics);
-		
-		if ($trip->hasMapboxMap())
-		{
-			$filename = $trip->mapboxJson();
-			$fullpath = MAP_DATA_PATH . $filename;
-dumpVar($fullpath, "Mapbox fullpath");
-			$this->template->set_var("MAP_JSON", file_get_contents($fullpath));
-			$this->template->setFile('JSON_INSERT', 'mapjson.js');
-			$this->template->set_var("CONNECT_DOTS", 'false');		// no polylines
-		}	
-		else if ($trip->hasGoogleMap())
-		{
-			$this->template->set_var("KML_FILE", $trip->gMapPath());
-			$this->template->setFile('JSON_INSERT', 'mapkml.js');
-			$this->template->set_var("CONNECT_DOTS", 'false');		// no polylines
-		}	
-		else 			// NO map, do our connect the dots trick
-		{	
-			$this->template->set_var("JSON_INSERT", '');
-			$this->template->set_var("CONNECT_DOTS", 'true');		// there is no route map, so connect the dots with polylines
-		}
-		
-		$this->template->setFile('LOOP_INSERT', $this->loopfile);
-		
- 	 	$days = $this->build('DbDays', $tripid);
-		for ($i = 0, $rows = array(), $prevname = '*'; $i < $days->size(); $i++)
-		{
-			$day = $this->build('DayInfo', $days->one($i));
-
-			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
-										// 'point_name' => addslashes($day->nightName())
-										'key_val' => $day->date(), 'link_text' => Properties::prettyDate($day->date()));
-
-			$spotName = $day->nightName();
-			$row['point_name'] = addslashes($day->hasSpot() ? $this->spotLink($spotName, $day->spotId()) : $spotName);
-						 
-// dumpVar($row, "row $i");
-			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
-				$eventLog[] = "NO POSITION! $i row";
-				$eventLog[] = $row;
-				continue;
-			}
-			if ($spotName == $prevname) {											// skip if I'm at the same place as yesterday
-				// $eventLog[] = "skipping same $i: {$spotName}";
-				continue;                       
-			}
-			$prevname = $spotName;
-
-			$rows[] = $row;
-		}
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'one' =>'node_row', 'none_msg' => "", 'noFields' => true));
-		$loop->do_loop($rows);
-				
-		if (sizeof($eventLog))
-			dumpVar($eventLog, "Event Log");
-		parent::showPage();
-	}
-	function getMetaDesc()	{	return "Map for the WHUFU trip called '$this->name'";	}
-	function trip()		{ 
-		return $this->key; 
-	}
-}
 class DateMap extends OneMap
 {
 	var $loopfile = 'mapCenteredLoop.js';

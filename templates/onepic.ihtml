@@ -12,11 +12,10 @@ $(document).ready(function() {
 });
 </script>
 
-<div class="container">		
-	
+<div class="container">			
   <div class="row">
     <div class="col cardrowhead">
-			<h2 title="Image Label">{VIS_NAME}</h2>
+			<h2 title="Picture caption">{VIS_NAME}</h2>
     </div>
   </div>
 	
@@ -61,6 +60,7 @@ $(document).ready(function() {
 				</li>
 				<li class="{STORY_VIS}">Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
 				<li>{PICFILE_NAME}</li>			
+				<li><a href="?page=map&type=id&key={TRIP_ID}">full map</a></li>			
 			</ul>
     </div>
 		<div id="mapcell" class="col-sm-3 col-md-4">
