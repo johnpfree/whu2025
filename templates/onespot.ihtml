@@ -4,7 +4,7 @@
 		  </div>			
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2>{SPOT_NAME}</h2>
+					<h2><img style="float: left" src="./resources/site-images/logFull.png" width="100" text="W H U F U">{SPOT_NAME}</h2>
 		    </div>
 		  </div>
 			<div class="row">

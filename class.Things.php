@@ -57,9 +57,6 @@
 		function isSpotRecord($key)				{	return (is_array($key) && isset($key['wf_spots_id']));	}
 		function isSpotDayRecord($key)		{	return (is_array($key) && isset($key['wf_spot_days_date']));	}
 		function isSpotDayParmsArray($key){	return (is_array($key) && isset($key['spotId']) && isset($key['date']));	}
-		function isSpotCatSearch($key)		{	return (is_array($key) && isset($key['wf_categories_id']));	}
-		function isSpotKeySearch($key)		{	return (is_array($key) && isset($key['wf_spot_days_keywords']));	}
-		function isSpotCampSearch($key)		{	return (is_array($key) && isset($key['camp_type']));	}
 		function isTripRecord($key)				{	return (is_array($key) && isset($key['wf_trips_id']));	}
 		function isPicRecord($key)				{	return (is_array($key) && isset($key['wf_images_id']));	}
 		function isCategoryRecord($key)		{	return (is_array($key) && isset($key['wf_categories_parent']));	}		// spots also have a cat id
@@ -141,9 +138,35 @@
 			$this->data = array_slice($this->data, 0, $num);
 			// dumpVar(sizeof($this->data), "size out");
 		}
-		// add more items to the collection
-		function add($more) { $this->data = array_merge($this->data, $more->data); }
+		function randomOne()					// get the size of the collection, get a random number in that range and return that one()
+		{
+			$num = $this->size();
+			// dumpVar($this->size(), "this->size() class=" . get_class($this));
+			// dumpVar(mt_rand(0, $this->size() - 1), "mt_rand(0, this->size() - 1)");
+			return ($num > 0) ? $this->one(mt_rand(0, $num - 1)) : NULL;
+		}
 		
+		// for favorite pics, get some, and optionally add non-favorites to get enough
+		function getSome($num, $notFaves = NULL)				/// return $num pics, param 2 is for when you don't ahve enough
+		{
+			$this->random($num);
+			dumpVar($this->size(), "num=$num, this->size()");
+
+			if ($num <= $this->size() || $notFaves == NULL)				// got enough, we're done OR what's all we got and we're done
+				return;
+			
+			dumpVar($notFaves->size(), "shuffle notFaves->size()");
+			shuffle($notFaves->data);
+			$pics = array_slice($notFaves->data, 0, $num - $this->size());
+			$this->data = array_merge($this->data, $pics);
+			shuffle($this->data);
+		}
+		
+		// add more items to the collection
+		function add($more) 
+		{
+			$this->data = array_merge($this->data, $more->data); 
+		}
 		function sortByField($data, $field)
 		{
 			$column = array_column($data, $field);
@@ -171,8 +194,40 @@
 				}
 			}
 		}
-	}
+	}	
 	
+	// ------------ I don't use sany of this stuff it turns out, at all!
+	class WhuUIThing extends WhuThing // dummy class solely for UI queries that don't need a real thing
+	{
+		function getRecord($key) { return array();	}
+		
+		var $spotstatuses = array(
+							'CAMP'		=> 'Sleeping Outside - Campgrounds , Boondocking, Parking Lots',
+							'LODGE'		=> 'Sleeping Inside - Hotels and Motels',
+							'HOTSPR'	=> 'Sleeping at a Hot Spring',
+							// 'HOUSE'		=> 'Friend\'s house',
+							);
+
+		function collectSpotTypes()
+		{
+			$types = $this->getAll("select distinct(wf_spots_status) from wf_spots");
+			for ($i = 0, $stats = array(); $i < sizeof($types); $i++) 
+			{
+				$statfield = explode(',', $types[$i]['wf_spots_status']);
+				for ($j = 0; $j < sizeof($statfield); $j++) 
+				{
+					$onestat = explode('=', trim($statfield[$j]));
+					if (empty($this->spotstatuses[$onestat[$j]]))							// skip all but the above types
+						continue;
+					if ($onestat[0] == '')																		// blank ones are NWRs
+						continue;
+					$stats[$onestat[0]][$onestat[1]] = 'x';
+				}
+			}
+			return $stats;
+		}
+	}
+		
 	class WhuDbTrip extends WhuThing 
 	{
 		function getRecord($key)
@@ -199,10 +254,6 @@
 		function fid()				{ return $this->dbValue('wf_trips_map_fid'); }
 		function mapboxId()		{ return $this->dbValue('wf_trips_extra'); }
 		// function isNewMap()		{ return (strlen($this->fid()) > 1); }
-		
-		// function flickToken() { jfdie("WhuDbTrip-flickToken"); return $this->dbValue('wf_trips_flickr'); }
-		// // function flickToken() { return $this->dbValue('wf_trips_flickr'); }
-		// function hasFlicks() { return ($this->flickToken() != ''); }
 	}
 	class WhuTrip extends WhuDbTrip 
 	{	
@@ -271,6 +322,8 @@
 		function getRecord($parms)
 		{
 			// 2020 just do this
+			if (is_array($parms))
+				return $parms;
 			return $this->getAll("select * from wf_trips ORDER BY wf_trips_start DESC");	
 
 
@@ -344,7 +397,7 @@
 		function lat()				{ return $this->dbValue('wf_days_lat'); }
 		function lon()				{ return $this->dbValue('wf_days_lon'); }		
 
-		function pics() 			{	return $this->build('WhuPics', array('date' => $this->date()));	}
+		function pics() 			{	return $this->build('WhuPics', array('type' => 'date', 'data' => $this->date()));	}
 		function hasPics() 		{	return $this->pics()->size() > 0;	}
 		function hasVideos()
 		{
@@ -356,13 +409,10 @@
 		function daystart()	{ return $this->dbValue('wf_days_daystart'); }
 		function dayend()  	{ return $this->dbValue('wf_days_dayend'); }
 		
-		function yesterday() {	return $this->anotherDate("-1");	}		// set of functions for getting the next and previous dates. Doesn't care if it's in a trip
+		// -------------------- functions for getting the next and previous dates. Doesn't care if it's in a trip
+		function yesterday() {	return $this->anotherDate("-1");	}		
 		function tomorrow()  {	return $this->anotherDate("1");	}
-		function anotherDate($offset)
-		{
-			$date = Properties::sqlDate($x = sprintf("%s $offset day", $this->date()));
-			return $date;
-		}
+		function anotherDate($offset) { return Properties::sqlDate(sprintf("%s $offset day", $this->date()));	}
 				
 		function previousDayGal() 				// set of functions for day gallery navigation - some days don't have pictures and must be skipped
 		{
@@ -645,6 +695,13 @@
 		function lon()		{ return $this->dbValue('wf_spots_lon'); }
 		function bath()		{ return $this->dbValue('wf_spots_bath'); }
 		function water()	{ return (($val = $this->dbValue('wf_spots_water')) == '') ? 'no' : $val; }
+		
+		function pics($parms = array())
+		{ 
+			$parms['type'] = 'spot';
+			$parms['data'] = $this->id();
+			return $this->build('Pics', $parms);	
+		}
 
 		function getInRadius($dist = 100.)		// returns an array of spot records, suitable for creating a DbSpots collection
 		{
@@ -671,86 +728,100 @@
 	{
 		var $unitClass = 'WhuDbSpot';
 		
-		function getRecord($searchterms = array())
+		function getRecord($parm)
 		{
-			if ($this->isSpotArray($searchterms))		// already have a list?
-				return $searchterms;
+			$this->parms = $parm;						// what kind of collection?
 			
-			if (is_string($searchterms))												// for text search
+			if ($this->isSpotArray($parm))		// already have a list?
+				return $parm;
+
+			if (is_string($parm))							// string parameter means text search
 			{
 				$q = "SELECT * FROM wf_spots s JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE 
-					s.wf_spots_name LIKE '$searchterms' OR 
-					s.wf_spots_partof LIKE '$searchterms' OR 
-					s.wf_spots_town LIKE '$searchterms' OR 
-					d.wf_spot_days_desc LIKE '$searchterms' 
+					s.wf_spots_name LIKE '$parm' OR 
+					s.wf_spots_partof LIKE '$parm' OR 
+					s.wf_spots_town LIKE '$parm' OR 
+					d.wf_spot_days_desc LIKE '$parm' 
 					GROUP BY s.wf_spots_id";
 				// dumpVar($q, "q");
 				return $this->getAll($q);
-			}
-			
+			}			
+			// July 2020 transition to "type data" model 
+			// dumpVar($parm, "WhuDbSpots parm");
+			switch ($parm['type'])
+			{
+				case 'type': {
+					$q = sprintf("select * FROM wf_spots WHERE wf_spots_types LIKE '%%%s%%'", $parm['data']);
+					dumpVar($q, "q");
+					return $this->getAll($q);
+				}
+				case 'partof': {
+					$q = sprintf("select * from wf_spots where wf_spots_partof like '%%%s%%'", $parm['data']);
+					dumpVar($q, "q");
+					return $this->getAll($q);
+				}
+				case 'place': {
+					$q = sprintf("select * FROM wf_spots WHERE wf_categories_id=%s", $parm['data']);			// spots for just this one place
+					// dumpVar($q, "q");
+					return $this->getAll($q);
+				}
+				case 'placekids': {				// spots with one of these place_ids or their children
+					$cats = $this->build('Categorys', array('type' => 'places', 'data' => $parm['data']));	// get cats and their children
+					for ($i = 0, $ret = array(); $i < $cats->size(); $i++)
+					{
+						$cat = $cats->one($i);
+						$q = sprintf("select * FROM wf_spots WHERE wf_categories_id=%s", $cat->id());			// gather spots for each cat
+						$ret = array_merge($ret, $this->getAll($q));
+					}
+					return $ret;
+				}
+				case 'keyword': {				// spots with a day with this keyword					
+					$clean = $this->real_escape_string($parm['data']);
+					$q = "select s.* from wf_spot_days d RIGHT OUTER JOIN wf_spots s ON s.wf_spots_id=d.wf_spots_id WHERE d.wf_spot_days_keywords LIKE '%$clean%' ORDER BY s.wf_spots_id";
+					// dumpVar($parm, "$q, searchterms");
+					$items = $this->getAll($q);	
+					for ($i = $id = 0, $ret = array(); $i < sizeof($items); $i++) 	// JOIN adds record for each day with the keyword => weed out duplicates
+					{
+						$item = $items[$i];
+						if ($id != $item['wf_spots_id'])
+							$ret[] = $item;
+						$id = $item['wf_spots_id'];
+					}
+					return $ret;
+				}
+			} 
+
 			// assume this is an array of search terms
 			$deflts = array(
 				'order'	=> 'wf_spots_name',
 				'where'	=> array(),
 			);
 			
-			if (sizeof($searchterms) == 0)			// show all
+			if (sizeof($parm) == 0)			// show all
 			{
 				$where = " WHERE " . $this->excludeString;
-			}
-			else if ($this->isSpotCampSearch($searchterms))
-			{
-				$q = sprintf("select * FROM wf_spots WHERE wf_spots_status LIKE '%%%s%%'", $searchterms['camp_type']);
-				$ret = $this->getAll($q);
-				// dumpVar(sizeof($ret), "$q -> ret=");
-				return $ret;
-			}
-			else if ($this->isSpotCatSearch($searchterms))
-			{
-				$q = sprintf("select * FROM wf_spots WHERE wf_categories_id=%s", ($id = $searchterms['wf_categories_id']));
-				$ret = $this->getAll($q);
-				// dumpVar(assizeof($ret), "$q -> ret=");
-				
-				if (isset($searchterms['kids'])) 
-				{
-					$q = sprintf("select * FROM wf_categories WHERE wf_categories_parent=%s", $id);
-					$items = $this->getAll($q);
-					for ($i = 0; $i < sizeof($items); $i++) 		// just do one level search, haven't implemented recursive
-					{
-						$q = sprintf("select * FROM wf_spots WHERE wf_categories_id=%s", $items[$i]['wf_categories_id']);
-						$ret = array_merge($ret, $this->getAll($q));
-					}
-				}
-				return $ret;
-			}
-			else if ($this->isSpotKeySearch($searchterms))
-			{
-				$clean = $this->real_escape_string($key = $searchterms['wf_spot_days_keywords']);
-				$q = "select s.* from wf_spot_days d RIGHT OUTER JOIN wf_spots s ON s.wf_spots_id=d.wf_spots_id WHERE d.wf_spot_days_keywords LIKE '%$clean%' ORDER BY s.wf_spots_name";
-				// dumpVar($searchterms, "$q, searchterms");
-				$items = $this->getAll($q);	
-				for ($i = $id = 0, $ret = array(); $i < sizeof($items); $i++) 	// JOIN adds record for each day with the keyword => weed out duplicates
-				{
-					$item = $items[$i];
-					if ($id != $item['wf_spots_id'])
-						$ret[] = $item;
-					$id = $item['wf_spots_id'];
-				}
-				// dumpVar($ret, "ret");
-				return $ret;
 			}
 			else
 			{
 				$where = "WHERE ";
-				foreach ($searchterms as $k => $v) 
+				foreach ($parm as $k => $v) 
 				{
 				 $where .= "$v LIKE '%$k%' OR ";
 				}
 			 $where = substr($where, 0, -3);
 			}	 
 			$q = sprintf("SELECT * FROM wf_spots %sORDER BY %s", $where, $deflts['order']);
-			// dumpVar($searchterms, "$q - st");
+			// dumpVar($parm, "$q - st");
 			return $this->getAll($q);
+		}
+		function pics($parms = array())			// cool query, but I don't use it turns out
+		{	
+			assert($this->parms['type'] == 'type', "Wrong kind of Spot collection");
+			
+			$q = sprintf("SELECT d.wf_spot_days_date, d.wf_spots_id, i.wf_images_id, i.wf_images_localtime, i.wf_images_filename, i.wf_images_path FROM wf_spot_days d JOIN wf_spots s ON d.wf_spots_id=s.wf_spots_id JOIN wf_images i ON d.wf_spot_days_date=DATE(i.wf_images_localtime) WHERE s.wf_spots_types LIKE '%%%s%%' AND i.wf_resources_id=0", $this->parms['data']);
+			$ret = $this->getAll($q);
+			dumpVar(sizeof($ret), "$q -> ret=");
+			return $this->build('WhuPics', array('type' => 'pics', 'data' => $ret));
 		}
 	}	
 	class WhuDbSpotDay extends WhuThing 
@@ -1109,14 +1180,52 @@
 					$folder = $trip->folder();
 					return $this->getAll($q = "select * from wf_images where wf_images_path='$folder' order by wf_images_localtime");
 				}
-				case 'cat':
+				case 'cat':	           //	-------------------- pics with this keyword
 				{
 					$q = sprintf("select i.* from wf_images i join wf_idmap im on i.wf_images_id=im.wf_id_1 where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s AND i.wf_resources_id=0", $parm['data']);
 					$ret = $this->getAll($q);
+					// dumpVar(sizeof($ret), "WhuPics $q N");
 					if (isset($parm['max']))
 						return $this->random($parm['max']);
 					return $ret;
 				}
+				case 'date':					//	-------------------- pics for an overnight - evening pics and morning pics for a date
+				{
+					$where = isset($parm['shape']) ? sprintf(" AND wf_images_shape='%s'", $parm['shape']) : '';
+					$this->picsDate = $parm['data'];			// little hack for grabbing a favorite
+					$q = sprintf("select * from wf_images where date(wf_images_localtime)='%s' AND wf_images_shape='lan' AND wf_resources_id=0 order by wf_images_localtime%s", $parm['data'], $where);
+				// dumpVar($parm, "parm $q");
+					return $this->getAll($q);
+				}
+				case 'night':					//	-------------------- pics for an overnight - evening pics and morning pics for a date
+				{
+					$tonight = $parm['data'];
+					$day = $this->build('WhuDbDay', $tonight);
+					if (!$day->hasData)			// handle spot_day entries for times I'm not on a trip
+						return array();
+
+					$timeQuery = "SELECT * from wf_images  WHERE DATE(wf_images_localtime)='%s' and TIME(wf_images_localtime) %s SEC_TO_TIME(3600 * %s)";
+				 	$q = sprintf($timeQuery, $tonight, ">", $day->dayend());
+					dumpVar($q, "q pm");
+					$pmpics = $this->getAll($q);
+
+					$tomorrow = Properties::sqlDate("$tonight +1 day");
+					$day = $this->build('WhuDbDay', $tomorrow);
+					if (!$day->hasData)			// handle spot_day entries for times I'm not on a trip
+						return $pmpics;
+				 	$q = sprintf($timeQuery, $tomorrow, "<", $day->daystart());
+					dumpVar($q, "q am");
+					return array_merge($pmpics, $this->getAll($q));
+				}
+				case 'spot':					//	-------------------- pics for an a spot - just evening after 4PM, don't hassle with morning
+				{
+					$where = isset($parm['shape']) ? sprintf(" AND wf_images_shape='%s'", $parm['shape']) : '';
+					$q = sprintf("SELECT d.wf_spot_days_date, d.wf_spots_id, i.* FROM wf_spot_days d JOIN wf_spots s ON d.wf_spots_id=s.wf_spots_id JOIN wf_images i ON d.wf_spot_days_date=DATE(i.wf_images_localtime) WHERE s.wf_spots_id = %s AND i.wf_resources_id=0 and TIME(wf_images_localtime) > SEC_TO_TIME(3600 * 15)%s", $parm['data'], $where);
+					$pics = $this->getAll($q);
+					// dumpVar(sizeof($pics), "WhuPics 'spot' $q pics->size()");
+					return $pics;
+				}
+				case 'pics': { return $parm['data']; }
 				default:
 					# code...
 					break;
@@ -1155,27 +1264,6 @@
 				$q = sprintf("select * from wf_images where date(wf_images_localtime)='%s' AND wf_resources_id=0 order by wf_images_localtime", $parm['date']);
 			// dumpVar($parm, "parm $q");
 				return $this->getAll($q);
-			}
-			
-			if (isset($parm['night'])) 			// night = evening pics and morning pics - for a spot
-			{
-				$tonight = $parm['night'];
-				$day = $this->build('WhuDbDay', $tonight);
-				if (!$day->hasData)						// I sometimes make spot_day entries for times I'm not on a trip, so handle it
-					return array();
-
-				$timeQuery = "SELECT * from wf_images  WHERE DATE(wf_images_localtime)='%s' and TIME(wf_images_localtime) %s SEC_TO_TIME(3600 * %s)";
-			 	$q = sprintf($timeQuery, $tonight, ">", $day->dayend());
-				dumpVar($q, "q pm");
-				$pmpics = $this->getAll($q);
-
-				$tomorrow = Properties::sqlDate("$tonight +1 day");
-				$day = $this->build('WhuDbDay', $tomorrow);
-				if (!$day->hasData)          // I sometimes make spot_day entries for times I'm not on a trip, so handle it
-					return $pmpics;
-			 	$q = sprintf($timeQuery, $tomorrow, "<", $day->daystart());
-				dumpVar($q, "q am");
-				return array_merge($pmpics, $this->getAll($q));
 			}
 			
 			if (isset($parm['folder'])) 
@@ -1274,20 +1362,6 @@
 			$one = $this->data[mt_rand(0, $num - 1)];			// select a random one
 			return $this->build('Pic', $one);
 		}
-		function getSome($num, $notFaves = NULL)				/// return $num pics, param 2 is for when you don't ahve enough
-		{
-			$this->random($num);
-			dumpVar($this->size(), "num=$num, this->size()");
-
-			if ($num <= $this->size() || $notFaves == NULL)				// got enough, we're done OR what's all we got and we're done
-				return;
-			
-			dumpVar($notFaves->size(), "shuffle notFaves->size()");
-			shuffle($notFaves->data);
-			$pics = array_slice($notFaves->data, 0, $num - $this->size());
-			$this->data = array_merge($this->data, $pics);
-			shuffle($this->data);
-		}
 	}
 	
 	class WhuVisuals extends WhuVisual 				// slightly hacky, but this is a collection of images AND videos
@@ -1313,19 +1387,20 @@
 	
 	class WhuCategory extends WhuThing 
 	{
-		var $rootRoot 	= 7;
-		var $placesRoot = 40;
-		var $catsRoot  	= 176;
+		var $rootRoot 		= 7;
+		var $placesRoot 	= 40;
+		var $piccatsRoot 	= 176;
 		const panoCat   = 155;
 		function getRecord($key)		// key = cat id
 		{
+			// dumpVar($key, "key");
 			if ($this->isCategoryRecord($key))
-				return $key;
+				return $key;			
 			return $this->getOne("select * from wf_categories where wf_categories_id=$key");	
 		}
-		function root() 				{ return $this->rootRoot; }
-		function placesRoot() 	{ return $this->placesRoot; }
-		function picCatsRoot() 	{ return $this->catsRoot; }
+		// function root() 				{ return $this->rootRoot; }
+		// function placesRoot() 	{ return $this->placesRoot; }
+		// function picCatsRoot() 	{ return $this->catsRoot; }
 
 		function id()				{ return $this->dbValue('wf_categories_id'); }
 		function name()			{ return $this->dbValue('wf_categories_text'); }
@@ -1334,29 +1409,57 @@
 		
 		function nPics()	
 		{ 
-			$q = sprintf("select COUNT(*) count from wf_idmap WHERE wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s", $this->id());
+			$q = sprintf("select COUNT(*) count from wf_idmap WHERE wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s AND i.wf_resources_id=0", $this->id());
 			$item = $this->getOne($q);
 			return $item['count'];
 		}
 		
-		function children() { return $this->build('Categorys', array('children' => $this->id())); }
+		function children() { return $this->build('Categorys', array('type' => 'children', 'data' => $this->id())); }
 		function depth()				{ return isset($this->data['depth']) ? $this->data['depth'] : 0; }
 		function setDepth($d)		{ $this->data['depth'] = $d; }
 	}
 	class WhuCategorys extends WhuCategory 
 	{
 		var $unitClass = 'WhuCategory';
-		function getRecord($parm)	//  picid
+		function getRecord($parm)	//  picid  			// Aug 2020 transition to "type data" model -- tripid. folder, date
 		{
+			// dumpVar($parm, "WhuCategorys parm");
+			$props = new SubProps(array("type" => ''), $parm);
+			switch ($props->get('type')) 
+			{
+				case 'piccats':
+				{
+					$this->traverse($this->build('Category', $this->piccatsRoot));
+					return $this->desc;
+				}
+				case 'places':			// data is an array of place ids (often just one, but in an array)
+				{
+					for ($i = 0, $ret = array(); $i < sizeof($parm['data']); $i++) 
+					{
+						$place = $parm['data'][$i];
+						$this->traverse($this->build('Category', $place));		// traverse() returns an array of category records data in $this->desc
+						$ret = array_merge($ret, $this->desc);								// collect them all
+						// dumpVar($this->desc, "$i. place=$place this->desc");
+					}
+					return $ret;
+				}
+				case 'children':
+				{
+					$q = sprintf("select * FROM wf_categories where wf_categories_parent=%s order by wf_categories_order", $parm['data']);
+					return $this->getAll($q);
+				}
+				case 'data':
+				{
+					return $parm['data'];
+				}
+				default:
+					break;
+			}
+
 			if ($parm == 'all') 
 			{				
 				return $this->getAll("select * from wf_categories");
 			}		
-			if (isset($parm['children'])) 
-			{				
-				$q = sprintf("select * FROM wf_categories where wf_categories_parent=%s order by wf_categories_order", $parm['children']);
-				return $this->getAll($q);
-			}
 			if (isset($parm['picid'])) 
 			{				
 				$q = sprintf("select * from wf_idmap i join wf_categories c on c.wf_categories_id=i.wf_id_2 where i.wf_type_1='pic' and i.wf_id_1=%s and i.wf_type_2='cat' order by i.wf_type_2", $parm['picid']);
@@ -1364,18 +1467,22 @@
 			}
 			WhuThing::getRecord($parm);		// FAIL
 		}
+		// NOTE: thw return hereis NOT a WhuCategories object (a wrapper on a categories array), rather it is an array of WhuCategory objects!
 		function traverse($root, $depth = 0)
 		{
 			if ($depth == 0)
-				$this->desc = array();
+				$this->desc = array($root->data);
 			$depth++;
-			// dumpVar(sizeof($this->desc), sprintf("dep=%s, root=%s,%s", $depth, $root->id(), $root->name()));
+			// dumpVar(sizeof($this->desc), sprintf("dep=%s, root=%s(%s),%s", $depth, $root->id(), $root->parent(), $root->name()));
+			// if (sizeof($this->desc) > 4) exit;
 			$cats = $root->children();
-			for ($i = 0, $rows = array(); $i < $cats->size(); $i++)
+			// dumpVar($cats->size(), "cats->size()");
+			for ($i = 0; $i < $cats->size(); $i++)
 			{
 				$cat = $cats->one($i);
+				// dumpVar($cat->data, "d,i  $depth,$i cat->data");
 				$cat->setDepth($depth);
-				$this->desc[] = $cat;
+				$this->desc[] = $cat->data;
 				$this->traverse($cat, $depth);
 			}
 		}

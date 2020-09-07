@@ -1,32 +1,45 @@
-<table id="tripstable" border="0" cellspacing="5" cellpadding="5">
-<!-- BEGIN trip_rows -->
-	<tr>
-		<td align="right"><a href="?page=log&type=id&key={TRIP_ID}" title="Trip Log">{TRIP_NAME}</a></td>
-		<td> &nbsp; </td>		
-		<td><a {WP_VIS} href="{WP_LINK}" title="go to Wordpress"><i class="fa fa-wordpress fa" aria-hidden="true"></i></a></td>
-		<td>{MAP_LINK}</td>
-		<td>{PICS_LINK} {VIDS_LINK}</td>
-	</tr>
-<!-- END trip_rows -->
-</table>
+
+		<div class="container">		
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>{PAGE_TITLE}<span style="font-size: 60%; font-style: italic;">go to <a href="?page=search&type=home&key=trips">search page</a> for more browsing</span></h2>
+		    </div>
+		  </div>
+		  <div class="row">
+				<table id="tripstable" border="0" cellspacing="5" cellpadding="5">
+				<!-- BEGIN trip_rows -->
+					<tr>
+						<td align="right"><a href="?page=log&type=id&key={TRIP_ID}" title="Trip Log">{TRIP_NAME}</a></td>
+						<td> &nbsp; </td>		
+						<td><a {WP_VIS} href="{WP_LINK}" title="story"><i class="fa fa-wordpress fa" aria-hidden="true"></i></a></td>
+						<td>{MAP_LINK}</td>
+						<td>{PICS_LINK} {VIDS_LINK}</td>
+					</tr>
+				<!-- END trip_rows -->
+				</table>
+	    </div>
+		</div>
+				
 
 <style type="text/css" media="screen">
-	#tripstable a {
-		color: #304f2a;
+	#triplists {
+		text-align: center;
+		border-bottom: 1px solid black;
+		padding-bottom: 6px;
+		margin-bottom: 16px;
 	}
+	#triplists p {
+		margin-bottom: 1px;
+	}
+
 	#tripstable {
 		margin: 0 auto;
+	}
+	#tripstable a {
+		color: #304f2a;
 	}
 	#tripstable td {
 		padding: 4px 6px;
 	}
-	a {	color: green;	}
 	
-	.tbut button {
-		background-color: #f4e3d9;
-		color: #D76824;
-		border: 2px solid #D76824;
-		font-size: 1.2em;
-		font-family: Roboto, Arial, sans-serif;
-	}
 </style>

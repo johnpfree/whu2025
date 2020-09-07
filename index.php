@@ -29,10 +29,22 @@ class WhuProps extends Properties
 	
 	static function verboseDate($str)				{	return date("l F j, Y", strtotime($str));	}
 	
-	function pagetypekey($page, $type = NULL, $key = NULL, $id = NULL)
+	function pagetypekey()
+	{
+		$numargs = func_num_args();
+		    echo "Number of arguments: $numargs \n";
+		    if ($numargs >= 2) {
+		        echo "Second argument is: " . func_get_arg(1) . "\n";
+		    }
+		    $arg_list = func_get_args();
+		    for ($i = 0; $i < $numargs; $i++) {
+		        echo "Argument $i is: " . $arg_list[$i] . "\n";
+		    }
+	}
+	function pagetypekeyX($page, $type = NULL, $key = NULL, $id = NULL)
 	{
 		$this->set('page', $page);
-		if ($type == NULL) return;
+		if ($type != NULL) return;
 		
 		$this->set('type', $type);
 		if ($key == NULL) return;
@@ -69,8 +81,27 @@ class WhuProps extends Properties
 		}
 		return $ret;
 	}
+	
+	function decodeSearchParms($curkey) 	// 0,1,2,3 == home, one, two, many cats
+	{
+		if (sizeof(explode(',', $curkey)) == 1 && intval($curkey) > 0)	return 1;
+		if (sizeof(explode(',', $curkey)) == 2)	return '2g';
+		if ($curkey == 'post') {
+			$this->checkedCats = $this->hasPrefix("CHK_", true);
+			// dumpVar($this->checkedCats, "this->checkedCats");
+			// dumpVar(sizeof($this->checkedCats), "sizeof this->checkedCats");
+			switch (sizeof($this->checkedCats)) {
+				case '1':			return '1p';
+				case '2':			return '2p';
+				default:			return 3;
+			}
+		}
+		assert(true, "bad search parms");
+		return 0;
+	}
+	
 	// collects the so-frequent date(fmt, strtotime(str)) in one place
-	function dateFromString($fmt, $str)		{ 		return date($fmt, strtotime($str)); 		}	
+	function dateFromString($fmt, $str)	{ return date($fmt, strtotime($str)); }	
 }
 
 // ---------------- Template Class, for nothing just yet -------------
@@ -94,59 +125,30 @@ $curpage = $props->get('page');
 $curtype = $props->get('type');
 $curkey  = $props->get('key');
 
-// do some redirecting for Ajax early before anything is written to page
-//
-if ($curpage == 'ajax') {
-	$page = new HomeHome($props);							// need a simple page object to run build()
-	switch ("$curtype$curkey") 
-	{
-		case 'searchSpLoc':			$ajax = new SpotLocation();	echo $ajax->result($page);	exit;
-		case 'searchSpType':		$ajax = new SpotType();			echo $ajax->result($page);	exit;
-		case 'searchSpKey':			$ajax = new SpotKey();			echo $ajax->result($page);	exit;
-		case 'searchPicPlace':	$ajax = new PicPlace();			echo $ajax->result($page);	exit;
-		case 'searchPicCat':		$ajax = new PicCat();				echo $ajax->result($page);	exit;
-	}
-	jfDie("unknown ajax key-$key");
-}
-
+// -------------------------------------------- handle submit requests
 $props->dump('props');
-// grab form requests and package them for the factory below
-if ($props->isProp('do_text_search'))	{				// text search
-	$props->pagetypekey('results', 'text', $props->get('search_text'));
-}
-else if ($props->isProp('comment_form')) 		// comment form
-{
-	/* July2017 - I have left the math thing in the form, but am now ignoring it in favor of the hidden field trick. 
-		The field has name="email", and if it contains stuff I kill the program. Hope this works.
-	Aug 2017 - didn't work. Juggling names: former real names are now dummy names, they all have value...
-	*/
-	if ($props->get('email') != '.')
-		exit;
-	if ($props->get('f_email') != '.')
-		exit;
-	if ($props->get('f_name') != '.')
-		exit;
-	// if ($props->get('cap') == $props->get('user_id'))			// ignore if the math isn't correct
-	{
-		$savecmt = new SaveForm($props);
-		$savecmt->write($_REQUEST, 'cloudy');	
-	}
-	$props->set('type', 'thx');
-}
-else if ($props->isProp('search_near_spot')) {		// form has the correct parms as hidden data, nothing to do here
-}
-else if ($props->isProp('search_near_loc')) {	
-	$props->pagetypekey('map', 'near', 'location');	
-}
-else if ($props->isProp('search_places')) {	
-	$props->pagetypekey('map', 'near', $props->get('search_radius'));	
-}
-else if ($props->isProp('search_types')) {	
-	$props->pagetypekey('map', 'near', $props->get('search_types'));	
-}
+// if ($props->isProp('submit'))	{
+// 	switch ($props->get('submit')) {
+// 		case 'tl_button_show': {
+//
+// 			break;
+// 		}
+// 		default:
+// 		echo "<h3>Unknown submit</h3>";
+// 			break;
+// 	}
+// }
+
+// if ($props->isProp('do_text_search'))	{				// text search
+// 	$props->pagetypekeyX('results', 'text', $props->get('search_text'));
+// }
+
+// END ----------------------------------------- handle submit requests
+
 
 $curpage = $props->get('page');	// again! in case the blocks above modified them
 $curtype = $props->get('type');
+$curkey = $props->get('key');
 
 switch ("$curpage$curtype") 
 {
@@ -154,18 +156,27 @@ switch ("$curpage$curtype")
 
 	case 'homehome':		$page = new HomeHome($props);			break;		
 
+	case 'tripshome':		$page = new AllTrips($props);				break;
+	case 'tripslist':		$page = new SomeTrips($props);	break;
+
 	case 'tripid':			$page = new OneTrip($props);		break;		
 	case 'spotid':			$page = new OneSpot($props);			break;	
-	case 'tripshome':		$page = new AllTrips($props);				break;
 
-	case 'spotslist':		$page = new SpotsList($props);			break;
-	// case 'spotslist':		{
-	// 	switch ($props->get('key')) {
-	// 		case 'NWR':			$page = new SpotsNWR($props);			break;
-	// 		case 'HOTSPR':	$page = new SpotsHOTSPR($props);			break;
-	// 		case 'CAMP':		$page = new SpotsCamp($props);			break;
-	// 	}
-	// }
+	case 'spotslist': {		//$page = new SpotsList($props);			break;
+		switch ($props->get('key'))
+		{
+			case 'NWR':			$page = new SpotsType($props, 'NWR');		break;
+			case 'HOTSPR':	$page = new SpotsType($props, 'HOTSPR');		break;
+			case 'CMP':			$page = new SpotsList($props);			break;
+			default:
+			case 'home':		$page = new SpotsSome($props);			break;
+		}
+		break;			
+	}
+	case 'spotslistplaces':	$page = new SpotsListPlaces($props);			break;
+	case 'spotslistkids': 	$page = new SpotsListChildren($props);			break;
+	case 'spotslisttype': 	$page = new SpotsListType($props);			break;
+	case 'spotskey':				$page = new SpotsKeywords($props);	break;		// for a keyword (from a spot OR the search page)
 	
 	case 'tlogid':				$page = new OneTripLog($props);		break;		
 	case 'logid':			$page = new OneTripDays($props);		break;		
@@ -178,7 +189,18 @@ switch ("$curpage$curtype")
 
 	case 'picsid':			$page = new TripPictures($props);		break;	
 	case 'picsdate':		$page = new DateGallery($props);		break;
-	case 'picscat':			$page = new CatGallery($props);		break;	
+	case 'picscat': {
+		switch ($props->decodeSearchParms($props->get('key')))
+		{
+			case 0: 		$page = new Search($props);							break;
+			case '1': 		$page = new CatOneGallery($props);			break;
+			case '1p': 	$page = new CatOnePostGallery($props);			break;
+			case '2g': 	$page = new CatTwoGetGallery($props);			break;
+			case '2p': 	$page = new CatTwoPostGallery($props);			break;
+			case 3: 		$page = new CatPostGallery($props);			break;
+		}
+		break;			
+	}
 	case 'picid':				// legacy, still used in Wordpress e.g.
 	case 'visid':				$page = new OnePhoto($props);		break;	
 	case 'vidshome':		$page = new VideoGallery($props);		break;	
@@ -195,7 +217,6 @@ switch ("$curpage$curtype")
 	
 	case 'spotshome':		$page = new SpotsHome($props);			break;
 	case 'spotstype':		$page = new SpotsTypes($props);			break;
-	case 'spotskey':		$page = new SpotsKeywords($props);	break;		// for a keyword (from a spot OR the search page)
 	case 'spotscamp':		$page = new SpotsCamps($props);			break;		// type of campground (usfs, usnp, state)
 	case 'spotsplace':	$page = new SpotsPlaces($props);		break;		// state/region
 	

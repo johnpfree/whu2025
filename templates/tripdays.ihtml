@@ -4,10 +4,10 @@
 	}
 	.listgal img {
 		width: 100%;
-		min-height: 70%;
+/*		min-height: 70%;
 		max-height: 60%;
 		object-fit: cover;
-/*		border: 1px solid red;*/
+*//*		border: 1px solid red;*/
 	}
 </style>
 
@@ -17,7 +17,15 @@
 		  </div>			
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2>{TRIP_NAME}</h2>
+					<h2>
+						<img style="float: left" src="./resources/site-images/logFull.png" width="100" text="W H U F U">
+						{TRIP_NAME}
+						<span>
+							<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 
+							<a href="?page=pics&type=id&key={TRIP_ID}">pictures</a> &bull; 
+							<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
+						</span>
+					</h2>
 		    </div>
 		  </div>
 			
@@ -44,9 +52,10 @@
 					<span>{DAY_DESC}</span>
 		    </div>
 		    <div class="col-2 listgal">	
-		      <a class="squareme{PICSHOW_0}" href="?page=pic&type=id&key={PICID_0}" max-width="540">
+		      <a class="{PICSHOW_0}" href="?page=pic&type=id&key={PICID_0}" max-width="540">
 						<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_0}" title="{PICTITLE_0}" />
 					</a>
+					<img class="{NOPIC_0}" style="opacity: 0.6" src="./resources/site-images/logLandscape.png" alt="no image available">
 		    </div>
 		  </div>
 <!-- END rows -->			

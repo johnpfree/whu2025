@@ -3,55 +3,94 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
 
-<div class="jumbotron jumbotron-fluid" id="main_item">
-	<div class="row" id="pichead">
-		<div class="{	} col-lg-12">
-			<h1><a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a></h1>
-		</div>
-		<div class="{CAT_GAL_VIS} col-lg-12">
-			<h1>{GALLERY_TITLE}<span style="font-size: 40%; font-style: italic; float: right;">({RGMSG})</span></h1>
-		</div>
-	</div>
-	
-	<div class="clearfix" id="thegal">
-		<div class="content">
-		  <div id="thegallery">
-<!-- BEGIN rows -->
-		      <a href="?page=pic&type=id&key={PIC_ID}" data-title="{PIC_DESC}"  data-max-width="540"
-					data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
-					data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
-<!-- END rows -->
+		<div class="container">		
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2 class="{DATE_GAL_VIS}"><a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a></h2>
+					<h2 class="{CAT_GAL_VIS}">{GALLERY_TITLE}<span style="font-size: 60%; font-style: italic;">({RGMSG})</span></h2>
+		    </div>
+		  </div>			
+			
+		  <div class="row {CAT_GAL_VIS1}" id="triplists">
+		    <div class="col-6" id="keytext">
+					<ul>
+				    <li>Refresh this page to see a different selection of <b>{GALLERY_TITLE}</b> pictures.</li>
+				    <li>Or view <b>{GALLERY_TITLE}</b> pictures that also have these keywords:</li>
+				    <li>Go to <a href="?page=search&type=home&key=pics">Search</a> page to browse all keywords:</li>
+					</ul>
+				</div>
+		    <div class="col-2">
+			    <p><a href="?page=pics&type=cat&key={CAT_0}" title="{LISTNAME_0}">{LISTNAME_0}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_1}" title="{LISTNAME_1}">{LISTNAME_1}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_2}" title="{LISTNAME_2}">{LISTNAME_2}</a></p>
+				</div>
+		    <div class="col-2">
+			    <p><a href="?page=pics&type=cat&key={CAT_3}" title="{LISTNAME_3}">{LISTNAME_3}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_4}" title="{LISTNAME_4}">{LISTNAME_4}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_5}" title="{LISTNAME_5}">{LISTNAME_5}</a></p>
+				</div>
+		    <div class="col-2">
+			    <p><a href="?page=pics&type=cat&key={CAT_6}" title="{LISTNAME_6}">{LISTNAME_6}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_7}" title="{LISTNAME_7}">{LISTNAME_7}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_8}" title="{LISTNAME_8}">{LISTNAME_8}</a></p>
+				</div>
 		  </div>
-		</div><!-- content -->
-	</div><!-- thegal -->
-</div>
+
+			<div class="clearfix" id="thegal">
+				<div class="content">
+				  <div id="thegallery">
+<!-- BEGIN rows -->
+				      <a href="?page=pic&type=id&key={PIC_ID}" data-title="{PIC_DESC}"  data-max-width="540"
+							data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
+							data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
+<!-- END rows -->
+				  </div>
+				</div><!-- content -->
+			</div><!-- thegal -->
+			
+		  <div class="row">
+		    <div class="col">
+		      <button class="float-right">
+						{AFTER_MESSAGE}
+		      </button>					
+		    </div>
+		  </div>			
+		</div>
 
 <script>
-	// console.log('jQuery.fn.jquery=', jQuery.fn.jquery);
-	
   $("#thegallery").justifiedGallery({
-		margins: 2,
+		margins: 3,
 		border: -1,
 		maxRowsCount: 3,
-		lastRow: 'hide',
+		// lastRow: 'hide',
   });
-	$(document).on('click', '[data-toggle="lightbox"]', function(event) {
-		console.log('e', event);
-    event.preventDefault();
-    $(this).ekkoLightbox({
-			alwaysShowClose: true,
-      onShown: function() {
-     		console.log('Checking our the events huh?', this);
-      }
-    });
-	});
-	$('#thegallery').justifiedGallery().on('jg.rowflush', function (e) {
-		console.log('rowflush');
-		:// exit;
-	});
+	// $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+	// 	console.log('e', event);
+	//     event.preventDefault();
+	//     $(this).ekkoLightbox({
+	// 		alwaysShowClose: true,
+	//       onShown: function() {
+	//      		console.log('Checking our the events huh?', this);
+	//       }
+	//     });
+	// });
 </script>
 
 <style type="text/css" media="screen">
+	#triplists {
+		text-align: center;
+		border-bottom: 1px solid black;
+		padding-bottom: 6px;
+		margin-bottom: 16px;
+	}
+	#triplists p {
+		margin-bottom: 1px;
+	}
+	#triplists li {
+		text-align: left;
+		list-style: none;
+	}
+
 	#main_item {
 		border-top: 2px solid #464;
 		padding-top: 6px;
@@ -60,9 +99,6 @@
 	.justified-gallery > a > .caption {
 		line-height: 1.3em;
 	}
-	#middle { 
-		font-size: 22px;
-	}	
 </style>
 
 

@@ -58,17 +58,18 @@ class WhuLink
 class WhuSimpleLink extends WhuLink
 {
 	var $type = 'id';
-	function __construct($parm = '')
+	function __construct($trip)
 	{
 		$defaults = array('classes' => '', 'params' => '', 'txt' => '', 'page' => $this->page, 'type' => $this->type, 'key' => '');
 		$this->props = new WhuProps($defaults);		// default settings
-		$this->trip = $parm;
+		$this->trip = $trip;
 	}
 	function url() 
 	{
 		$this->props->set('key', $this->trip->id());			// overload param 3
 		if ($this->hasStuff()) {
 			$this->props->set('txt', $this->myIcon);
+			$this->props->set('title', $this->title);
 			return $this->canonicalWhu();
 		}
 		else
@@ -79,18 +80,21 @@ class WhuSimpleLink extends WhuLink
 class WhumapidLink extends WhuSimpleLink
 {
 	var $page = 'map';
+	var $title = 'map for the trip';
 	var $myIcon = '<i class="fa fa-map" aria-hidden="true"></i>';
 	function hasStuff() { return $this->trip->hasMap(); }
 }
 class WhuvidsidLink extends WhuSimpleLink
 {
 	var $page = 'vids';
+	var $title = 'videos';
 	var $myIcon = '<i class="fa fa-video-camera" aria-hidden="true"></i>';
 	function hasStuff() { return $this->trip->hasVideos(); }
 }
 class WhupicsidLink extends WhuSimpleLink
 {
 	var $page = 'pics';
+	var $title = 'pictures';
 	var $cameraimg = '<i class="fa fa-picture-o" aria-hidden="true"></i>';
 	function url()
 	{
@@ -98,6 +102,7 @@ class WhupicsidLink extends WhuSimpleLink
 		if ($this->trip->hasWhuPics()) 
 		{
 			$this->props->set('txt', $this->cameraimg);
+			$this->props->set('title', 'pictures');
 			return $this->canonicalWhu();
 		}
 		return '';

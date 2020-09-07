@@ -70,6 +70,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
 		{
 			$pic = $pics->one($i);
+			// dumpVar($pic->data, "pic->data");
 			// dumpVar(sprintf("id %s, %s: %s", $pic->id(), $pic->filename(), $pic->caption()), "$i Gallery");
 		
 			$row = array('PIC_ID' => $pic->id(), 'WF_IMAGES_PATH' => $pic->folder(), 'PIC_NAME' => $pic->filename());
@@ -367,11 +368,11 @@ class OneSpot extends ViewWhu
 
 				// collect evening and morning pictures for each day
 				if ($i == 0) {
-					$pics = $this->build('Pics', array('night' => $date));
+					$pics = $this->build('Pics', array('type' => 'night', 'data' => $date));
 					dumpVar($pics->size(), "000 pics->size()");
 				}
 				else {
-					$pics->add($this->build('Pics', array('night' => $date)));
+					$pics->add($this->build('Pics', array('type' => 'night', 'data' => $date)));
 					dumpVar($pics->size(), "$i. pics->size()");
 				}
 				
@@ -426,12 +427,47 @@ class OneSpot extends ViewWhu
 class AllTrips extends ViewWhu
 {
 	var $file = "tripslist.ihtml";   
+	static $cats = array(
+			'tl_rcnt' => "Most recent", 
+			'tl_alll' => "All", 
+			'tl_east' => "Cross-country", 
+			'tl_ista' => "Overseas", 
+			'tl_fall' => "Fall", 
+			'tl_sprg' => "Spring", 
+			'tl_395e' => "Eastern Sierras", 
+			'tl_baya' => "Bay Area", 
+			'tl_euka' => "Eureka", 
+			'tl_noca' => "All Norcal", 
+			'tl_soca' => "So Cal", 
+			'tl_neva' => "Nevada", 
+			'tl_dsrt' => "All Southwest", 
+			'tl_oreg' => "Oregon", 
+			'tl_utah' => "Utah", 
+			'tl_idah' => "Idaho", 
+			'tl_colo' => "Colorado", 
+			'tl_mont' => "Montana", 
+			'tl_wyom' => "Wyoming", 
+			'tl_nwst' => "All Northwest", 
+		);
 	function showPage()	
 	{
-		dumpVar(WP_PATH, "WP_PATH");
-		$this->template->set_var('WP_PATH', WP_PATH);
+		dumpVar($this->key, "this->key");
 
-		$trips = $this->build('Trips');
+		if ($this->props->get("type") == 'home')
+		{			
+			$this->template->set_var('PAGE_TITLE', $this->pagetitle = "Some Trips");
+			$trips = $this->build('Trips');
+			$trips->random(15);
+		}
+		else 
+		{
+			$this->template->set_var('PAGE_TITLE',  $this->pagetitle = AllTrips::$cats[$this->key] . " Trips");
+			$trips = $this->trips;
+		}
+
+		$this->template->set_var('WP_PATH', WP_PATH);
+		dumpVar(WP_PATH, "WP_PATH");
+
 		for ($i = 0, $rows = array(); $i < $trips->size(); $i++) 
 		{
 			$trip = $trips->one($i);
@@ -439,7 +475,7 @@ class AllTrips extends ViewWhu
 			$row['MAP_LINK' ] = (new WhumapidLink ($trip))->url();
 			$row['PICS_LINK'] = (new WhupicsidLink($trip))->url();
 			$row['VIDS_LINK'] = (new WhuvidsidLink($trip))->url();
-			$this->makeTripWpLink($trip);					// Aug 20 use new WP link code
+			$this->makeTripWpLink($trip);					// Aug 20 use new WP link code for WP cell
 
 			// dumpVar($row, "row"); exit;
 			$rows[] = $row;
@@ -449,22 +485,131 @@ class AllTrips extends ViewWhu
 		
 		parent::showPage();
 	}
-	function getCaption()	{	return "Browse All Trips";	}
+	function getCaption()	{	return $this->pagetitle;	}
 }
-
+class SomeTrips extends AllTrips
+{
+	function showPage()	
+	{
+		$qwhere = '';  
+		$qorder = "ORDER BY wf_trips_start DESC";
+		switch ($this->key) {
+			case 'tl_rcnt':	{ $qorder .= " limit 12"; break;}
+			case 'tl_alll':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'epic'"; break;}
+			case 'tl_noca':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'norcal'"; break;}
+			case 'tl_nwst':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'northwest'"; break;}
+			case 'tl_dsrt':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'southwest'"; break;}
+			case 'tl_395e':	{ $qwhere = "WHERE wf_trips_2020 REGEXP '395'"; break;}
+			case 'tl_fall':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 9 AND 11;"; break;}
+			case 'tl_sprg':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 2 AND 5;"; break;}
+			case 'tl_alll':	break;
+		}
+		
+		$db = $this->build('Trips');		
+		$trips = $db->getAll("SELECT * from wf_trips $qwhere $qorder");
+		dumpVar(sizeof($trips), "key=$this->key, $qwhere $qorder-- trips");
+		
+		$this->trips = $this->build('Trips', $trips);		
+		
+		parent::showPage();
+	}
+}
 class SpotsList extends ViewWhu
 {
 	var $file = "spotslist.ihtml";
-	var $searchterms = array('CAMP' => 'wf_spots_types', 'usfs' => 'wf_spots_status', 'usnp' => 'wf_spots_status');
-	var $title = "Spots";
-	function showPage()	
-	{
-		$spottypes = array(
+	var $spottypes = array(
 					'LODGE'		=> 'Lodging',
 					'HOTSPR'	=> 'Hot Springs',
 					'NWR'			=> 'Wildlife Refuges',
 					'CAMP'		=> 'Camping Places',
 					);
+	
+	var $searchterms = array('CAMP' => 'wf_spots_types', 'usfs' => 'wf_spots_status', 'usnp' => 'wf_spots_status');
+	var $title = "Spots";
+	function showPage()	
+	{
+		$this->template->set_var('PAGE_TITLE', $this->caption);
+		
+		// ------------------------------------------------------- caller has already gotten the spots object
+		dumpVar($this->spots->size(), "this->spots->size()");
+		// for ($i = 0, $rows = array(); $i < min($maxrows, $this->spots->size()); $i++)
+		for ($i = 0, $rows = array(); $i < $this->spots->size(); $i++)
+		{
+			$spot = $this->spots->one($i);
+			$row = array(
+				'spot_id' 		=> $spot->id(), 
+				'spot_short' 	=> $spot->shortName(), 
+				'spot_name' 	=> $spot->name(),
+				'spot_where' 	=> $spot->town(),
+				'spot_type' 	=> $spot->types(),
+				'spot_place' 	=> $spot->place(),
+				'spot_part_of' 	=> $spot->partof(),
+				'spot_sep' 	=> ',',
+			);
+			if ($spot->partof() == 'private') {
+				$row["spot_part_of"] = $row["spot_sep"] = '';
+			}
+			$row["spot_desc"] = $spot->desc();
+			
+			$row["stripeme"] = ($i % 2) ? 'cell_stripe1' : 'cell_stripe0';
+				
+				// a bunch of grief for pictures:   pic one to show, collect all for banner. Don't mess with favorites
+			$spotpics = $spot->pics(array('shape' => 'lan'));
+			$pic = $spotpics->randomOne();
+			if ($pic == NULL) 
+			{
+				$row["picshow_0"] = ' hideme';
+				$row["nopic_0"] = '';
+				// $row["picshow_0"] = '';
+				// $row["picid_0"] = '';
+				// $row["pictitle_0"] = 'no pictures';
+				// $row["picfilename_0"] = $pic->filename();
+				// $row['picfolder'] }= $pic->folder();
+			}
+			else 
+			{
+				$row["picshow_0"] = '';
+				$row["nopic_0"] = ' hideme';
+				$row["picid_0"] = $pic->id();
+				$row["pictitle_0"] = $pic->caption();
+				$row["picfilename_0"] = $pic->filename();
+				$row['picfolder'] = $pic->folder();
+			}			
+			if ($i == 0)
+				$pics = $spotpics;				// start collection
+			else
+				$pics->add($spotpics);		// add to collection
+			// dumpVar($pics->size(), "$i pics->size(), ipic=$");
+			
+			$rows[] = $row;
+		}
+		dumpVar(sizeof($rows), "rows");
+		for ($i = 0, $rows1 = $rows2 = $rows3 = array(); $i < sizeof($rows); $i += 3) 
+		{
+			$rows1[] = $rows[$i];
+			$j = $i + 1;
+			if ($j < sizeof($rows))
+				$rows2[] = $rows[$j];
+			// dumpVar($rows[$j]['spot_name'], "$i: rows[$j][spot_name]");
+			$j++;
+			if ($j < sizeof($rows))
+				$rows3[] = $rows[$j];
+			// dumpVar($rows[$j]['spot_name'], "$i: rows[$j][spot_name]");
+		}
+		
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'lg1_row'));
+		$loop->do_loop($rows1);				
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'lg2_row'));
+		$loop->do_loop($rows2);				
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'lg3_row'));
+		$loop->do_loop($rows3);
+		
+		// $pics->getSome(12);
+		// $this->headerGallery($pics);
+
+		parent::showPage();
+		return;
+		//////
 					
 		if (null !== ($title = @$spottypes[$this->key])) {
 			$this->searchterms = array($this->key => 'wf_spots_types');
@@ -482,25 +627,134 @@ class SpotsList extends ViewWhu
 		}
 		else
 			$this->template->set_var("TITLE", $title);
-		$this->caption = "Browse " . $this->title;
-
-		for ($i = 0, $rows = array(); $i < min($maxrows, $spots->size()); $i++)
-		{
-			$spot = $spots->one($i);
-			$row = array(
-				'spot_id' 		=> $spot->id(), 
-				'spot_short' 	=> $spot->shortName(), 
-				'spot_name' 	=> $spot->name(),
-				'spot_part_of' => $spot->partof(),
-				'spot_where' 	=> $spot->town(),
-				'spot_type' 	=> $spot->types(),
- 				);
-			$rows[] = $row;
-		}
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'lg_row'));
-		$loop->do_loop($rows);		
-	
+		$this->caption = "Browse " . $this->title;	
+		
+		// $this->template->setFile('MAP_INSET', 'mapInset.ihtml');
+	}
+}
+class SpotsSome extends SpotsList					// list a subset of Camping spots
+{
+	function showPage()	
+	{
+		$this->caption = "Some Overnights";
+		$this->spots = $this->build('DbSpots', array('type' => 'type', 'data' => "CAMP"));
+		dumpVar($this->spots->size(), "this->spots->size()");		
+		$this->spots->random(21);
 		parent::showPage();
+	}
+}
+class SpotsListType extends SpotsList					// BLM, Park Service, etc
+{
+	function showPage()
+	{
+		$types = array(
+			'FS' => 'Forest Service campgrounds', 
+			'NPS' => 'National Park campgrounds', 
+			'BLM' => 'BLM campgrounds', 
+			'ACE' => 'Army Corps of Engineers campgrounds', 
+			'State' => 'State campgrounds', 
+			'County' => 'County/City campgrounds', 
+			'boondock' => 'Parking lots and other boondocking', 
+			'inside' => 'Hotels and Motels', 
+		);
+		$this->caption = $types[$this->key];
+
+		switch ($this->key) {
+			case 'FS':	case 'NPS':	case 'BLM':	
+										$parms = array('type' => 'partof', 'data' => $types[$this->key]);	break;
+			case 'ACE':		$parms = array('type' => 'partof', 'data' => 'Army Corps');	break;
+			case 'State':	$parms = array('type' => 'partof', 'data' => 'State Park');	break;
+			case 'inside':	$parms = array('type' => 'types', 'data' => 'LODGE');	break;
+			default; exit;
+		}
+		$this->spots = $this->build('DbSpots', $parms);
+
+		parent::showPage();
+	}
+}
+class SpotsType extends SpotsList					// list HOTSPR or NWR
+{
+	function __construct($p, $t)
+	{
+		$this->type = $t;
+		parent::__construct($p);
+	}
+	function showPage()	
+	{
+		$this->caption = $this->spottypes[$this->type];
+		$this->spots = $this->build('DbSpots', array('type' => 'type', 'data' => $this->type));
+		parent::showPage();
+	}
+}
+class SpotsListChildren extends SpotsList				// Place id(s) and all their descendents
+{
+	function showPage()
+	{
+		$labels = array(
+			"70" => "Oregon Coast", 
+			"108" => "Nevada", 
+			"112" => "Utah", 
+			"111" => "Idaho", 
+			"121" => "Colorado", 
+			"119,120" => "Montana/Wyoming", 
+			"103,173" => "Arizona/NewMexico", 
+			"89" => "Dakotas, Missouri, and the Corn Belt", 
+			"212," => "Texas, Oklahoma, Arkansas", 
+			"128" => "Istanbul Hotels", 
+			"208" => "North Sierras", 
+			"109" => "North Coast", 
+			"107" => "US 395 (Eastern Sierras)", 
+			"211" => "Central Valley", 
+			"106" => "Other Nor Cal", 
+			"105" => "So Cal", 
+			"80" => "Tennessee, North Carolina and South", 
+			"83,88" => "Kentucky, Virginia and North", 
+		);
+		assert(isset($labels[$this->key]), "unknown key, SpotsListChildren");
+		$this->caption = "Spots in {$labels[$this->key]}";
+
+		$placeids = explode(',', $this->key);
+		// dumpVar($placeids, "placeids");
+		$this->spots = $this->build('DbSpots', array('type' => 'placekids', 'data' => $placeids));	// all spots for thee ids and their descendants
+		parent::showPage();
+	}
+}
+class SpotsListPlaces extends SpotsList					// just Place id(s), NOT their descendents
+{
+	function showPage()
+	{
+		$labels = array(
+			"113,153,110" => "Oregon, Washington"
+		);
+		assert(isset($labels[$this->key]), "unknown key, SpotsListPlaces");
+		$this->caption = "Spots in {$labels[$this->key]}";
+
+	
+		$placeids = explode(',', $this->key);
+		dumpVar($placeids, "placeids");
+		$this->spots = $this->build('DbSpots', array('type' => 'place', 'data' => $placeids[0]));	// all spots the first id
+		for ($i = 1; $i < sizeof($placeids); $i++) 
+		{
+			$placeid = $placeids[$i];
+			$this->spots->add($this->build('DbSpots', array('type' => 'place', 'data' => $placeids[$i])));		// add spots for other ids
+		}
+		parent::showPage();
+	}
+}
+class SpotsKeywords extends SpotsList
+{
+	function showPage()	
+	{
+		$this->caption = sprintf("Spots with keyword: <i>%s</i>", $this->key);
+		$this->spots = $this->build('DbSpots', array('type' => 'keyword', 'data' => $this->key));
+		dumpVar($this->spots->size(), "this->spots->size()");		
+		$this->spots->random(21);
+		parent::showPage();
+
+
+		// $this->searchterms = array('wf_spot_days_keywords' => $this->key);
+		
+		
 	}
 }
 
@@ -510,9 +764,11 @@ class OneTripLog extends ViewWhu
 	function showPage()	
 	{
 		$tripid = $this->key;
- 	 	$trip = $this->build('DbTrip', $tripid);	
+ 	 	$trip = $this->build('Trip', $tripid);	
 		$days = $this->build('DbDays', $tripid);
 		$this->template->set_var('TRIP_NAME', $this->caption = $trip->name());
+		$this->template->set_var('TRIP_ID', $this->caption = $trip->id());
+		$this->makeTripWpLink($trip);					// Aug 20 use new WP link code for WP cell
 		
 		// whiffle the days for this trip 
 		for ($i = $iPost = $prevPostId = 0, $nodeList = array(); $i < $days->size(); $i++) 
@@ -541,7 +797,6 @@ class OneTripLog extends ViewWhu
 			$row['stop_name'] = $day->nightName();				
 			$row['stop_desc'] = $day->baseExcerpt($day->nightDesc(), 30);
 			
-			// $row['PIC_LINK'] = (($npic = $day->pics()->size()) > 0) ? (new WhuLink('pics', 'date', $day->date(), "[$npic]", "today's images"))->url() : '';
 			$this->picStuff($i, $day, $row);
 			
 			// which post?
@@ -585,20 +840,38 @@ class OneTripDays extends OneTripLog
 	function picStuff($i, $day, &$row) 
 	{
 		$pics = $day->pics();
-		$pics->random(3);
+		$pics->randomOne();
+		
 		for ($i = 0; $i < 3; $i++)
 		{
 			$pic = $pics->safeOne($i);
-			if ((BOOL)$pic == false)
-				$row["picshow_$i"] = ' hidden';
+			if ($pic == NULL) {
+				$row["picshow_0"] = ' hidden';
+				$row["nopic_0"] = '';
+			}
 			else {
-				$row["picshow_$i"] = '';
-				$row["picid_$i"] = $pic->id();
-				$row["pictitle_$i"] = $pic->caption();
-				$row["picfilename_$i"] = $pic->filename();
+				$row["picshow_0"] = '';
+				$row["nopic_0"] = ' hideme';
+				$row["picid_0"] = $pic->id();
+				$row["pictitle_0"] = $pic->caption();
+				$row["picfilename_0"] = $pic->filename();
 				$row['picfolder'] = $pic->folder();
 			}
 		}		
+		// $pics->random(3);						.. in case I go back to showing more than 1 picture
+		// for ($i = 0; $i < 3; $i++)
+		// {
+		// 	$pic = $pics->safeOne($i);
+		// 	if ((BOOL)$pic == false)
+		// 		$row["picshow_$i"] = ' hidden';
+		// 	else {
+		// 		$row["picshow_$i"] = '';
+		// 		$row["picid_$i"] = $pic->id();
+		// 		$row["pictitle_$i"] = $pic->caption();
+		// 		$row["picfilename_$i"] = $pic->filename();
+		// 		$row['picfolder'] = $pic->folder();
+		// 	}
+		// }
 		
 		$row['day_desc'] = $day->dayDesc();
 		$row['week_day'] = $day->weekday();
@@ -853,6 +1126,34 @@ class Search extends ViewWhu
 	 
 	function showPage()	
 	{
+		// $searchtype = array('spots' => 'SPOT_1');
+		$this->template->set_var('SHOW_1', ($this->key == 'spots') ? ' show' : '');
+		$this->template->set_var('SHOW_2', ($this->key == 'trips') ? ' show' : '');
+		$this->template->set_var('SHOW_3', ($this->key == 'pics' ) ? ' show' : '');
+		
+		
+		foreach (AllTrips::$cats as $k => $v) 
+		{
+			$this->template->set_var("LISTNAME_" . substr($k, 3), $v) . " Trips";
+		}
+		
+		// build huge string of picture keywords (categories). Not bothering to make it a template loop right now
+ 	 	$cats = $this->build('Categorys', array('type' => 'piccats'));
+		dumpVar(sizeof($cats->data), "cats->data");
+		for ($i = 0, $rows = array(), $str = ''; $i < $cats->size(); $i++)
+		{
+			$cat = $cats->one($i);
+
+			$str .= sprintf('<label class="form-check-label"><input class="form-check-input" type="checkbox" name="CHK_%s">%s</label>', $cat->id(), $cat->name());
+			// $row = array(parms);
+			// $rows[] = $row;
+		}
+		// $loop = new Looper($this->template, array('parent' => 'the_content'));
+		// $loop->do_loop($rows);
+		$this->template->set_var('PIC_CATS', $str);
+		  
+		////////////
+
 		parent::showPage();
 	}
 }
@@ -866,15 +1167,6 @@ class SpotsCamps extends SpotsHome
 	{
 		$this->title = WhuDbSpot::$CAMPTYPES[$this->key];
 		$this->searchterms = array('camp_type' => $this->key);
-		parent::showPage();
-	}
-}
-class SpotsKeywords extends SpotsHome
-{
-	function showPage()	
-	{
-		$this->title = sprintf("Spots with keyword: <i>%s</i>", $this->key);
-		$this->searchterms = array('wf_spot_days_keywords' => $this->key);
 		parent::showPage();
 	}
 }
@@ -1100,19 +1392,22 @@ class Gallery extends ViewWhu
 	var $file = "gallery.ihtml";   
 	var $galtype = "UNDEF";  
 	var $message = '';
+	var $afterMessage = '';
 	function showPage()	
 	{
 		$this->template->set_var('GAL_TYPE', $this->galtype);
-		$this->template->set_var('GALLERY_TITLE', $this->galleryTitle($this->key));
+		$this->template->set_var('GALLERY_TITLE', $this->galTitle);
 		$this->template->set_var('GAL_COUNT', $this->props->get('extra'));
-		$this->template->set_var('TODAY', $this->galleryTitle($this->key));
+		$this->template->set_var('TODAY', $this->galTitle);
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
 		$this->template->set_var('IPIC', 0);
 		$this->template->set_var('RGMSG', $this->message);	
+		$this->template->set_var('AFTER_MESSAGE', $this->afterMessage);	
 		
 		$this->doNav();			// do nav (or not)
 
 		$pics = $this->getPictures($this->key);
+		// dumpVar($pics->data, "picsics->data");
 				
 		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
 		{
@@ -1141,7 +1436,8 @@ class Gallery extends ViewWhu
 		
 		parent::showPage();
 	}
-	function galleryTitle($key)				{	return "Undefined!";	}
+	// function galleryTitle($key)				{	return "Undefined!";	}
+	function doNav() { }
 }
 class DateGallery extends Gallery
 {
@@ -1150,20 +1446,22 @@ class DateGallery extends Gallery
 	{
 		$this->template->set_var("DATE_GAL_VIS", '');
 		$this->template->set_var("CAT_GAL_VIS" , 'hideme');
-
-		$this->meta_desc = sprintf("WHUFU Picture Gallery for %s", $this->galleryTitle($this->key));
+		$this->template->set_var("CAT_GAL_VIS1" , 'hideme');
+		
+		$this->galTitle = Properties::prettyDate($this->key);
+		$this->meta_desc = sprintf("WHUFU Picture Gallery for %s", $this->galTitle);
 		parent::showPage();
 	}
 	function getPictures($key)	{ return $this->build('Pics', (array('date' => $key))); }
 	function getCaption()				{	return "Pictures for " . $this->key;	}
-	function galleryTitle($key)	{	return Properties::prettyDate($key); }
+	// function galleryTitle($key)	{	return Properties::prettyDate($key); }
 	function doNav()
 	{
-		$date = $this->build('DbDay', $this->key);
-		$pageprops = array('middle' => true);
-		$pageprops['plab'] = Properties::prettyDate($pageprops['pkey'] = $date->previousDayGal(), "M");
-		$pageprops['nlab'] = Properties::prettyDate($pageprops['nkey'] = $date->nextDayGal(), "M");
-		$pageprops['mlab'] = $this->galleryTitle($this->key);
+		// $date = $this->build('DbDay', $this->key);
+		// $pageprops = array('middle' => true);
+		// $pageprops['plab'] = Properties::prettyDate($pageprops['pkey'] = $date->previousDayGal(), "M");
+		// $pageprops['nlab'] = Properties::prettyDate($pageprops['nkey'] = $date->nextDayGal(), "M");
+		// $pageprops['mlab'] = $this->galleryTitle($this->key);
 	}
 }
 class CatGallery extends Gallery
@@ -1172,30 +1470,212 @@ class CatGallery extends Gallery
 	var $galtype = "cat";
 	function showPage()	
 	{
-		$cat = $this->build('Category', $this->key);
-
 		$this->template->set_var("DATE_GAL_VIS", 'hideme');
 		$this->template->set_var("CAT_GAL_VIS" , '');
+		parent::showPage();
 		
-		$this->template->set_var("TRIP_ID", $this->key);
-		$this->template->set_var("GALLERY_TITLE", $this->name = $cat->name());		// save name for caption call below
-		$this->template->set_var("TODAY", '');
-		$this->template->set_var('LINK_BAR', '');
+	}
+	function getPictures($key)	{ return $this->pics; }	
+}
+class CatOneGallery extends CatGallery
+{
+	function showPage()	
+	{
+		$this->template->set_var("CAT_GAL_VIS1" , '');
 		
+		dumpVar($this->key, "this->key");
+		$cat = $this->build('Category', $this->key);
+		$this->galTitle = $cat->name();
+		// dumpVar($cat, "cat");
+		//  		$items = $cat->getAll("SELECT * FROM wf_categories WHERE wf_categories_id=17");
+		// dumpVar($items, "items");
+		
+		$q = "CREATE TEMPORARY TABLE cat_pics select i.wf_images_id id, im.wf_id_2 cat, substring(i.wf_images_localtime, 1, 16) datetime, wf_images_filename, wf_images_path from wf_images i join wf_idmap im on i.wf_images_id=im.wf_id_1 where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=$this->key AND i.wf_resources_id=0;";
+		$cat->query($q);		
+		
+		$q = "SELECT count(im.wf_id_2) count, wc.wf_categories_id id, wc.wf_categories_text from cat_pics c join wf_idmap im on c.id=im.wf_id_1 JOIN wf_categories wc on wc.wf_categories_id=im.wf_id_2 where wf_type_1='pic' and wf_type_2='cat' group by wc.wf_categories_text order by count DESC";
+		$otherpics = $cat->getAll($q);
+		// dumpVar(sizeof($otherpics), "$q otherpics1");
+		// dumpVar($otherpics, "otherpics");
+		$thecat = array_shift($otherpics);
+		assert($thecat['id'] == $this->key, "most numerous!");
+
+		for ($i = 0; $i < sizeof($otherpics); $i++) 
+		{
+			$this->template->set_var("CAT_$i", sprintf("%s,%s", $otherpics[$i]['id'], $this->key));
+			$this->template->set_var("LISTNAME_$i", sprintf("%s(%s)", $otherpics[$i]['wf_categories_text'], $otherpics[$i]['count']));
+			if ($i > 8)
+				break;
+		}
+		for (; $i < 9; $i++) 
+		{
+			$this->template->set_var("LISTNAME_$i", '');
+			dumpVar($i, "skipping");
+		}
+
 		// do stuff below so I can create the message before the call
 		$this->pics = $this->build('Pics', (array('type' => 'cat', 'data' => $this->key)));  //, 'max' => $this->key
 		if (($size = $this->pics->size()) > $this->maxGal)
 		{
-			$this->message = sprintf("A selection of %s out of %s, refresh to reselect.", $this->maxGal, $size, $this->key);			
+			$this->message = sprintf("A selection of %s images, refresh to reselect", $size);			
 			$this->pics->random($this->maxGal);
 		}
+		dumpVar($this->pics->size(), "NEW this->pics->size()");
+		parent::showPage();
+	}		
+}
+class CatTwoGallery extends CatGallery
+{
+	var $afterMessage = "<a href='?page=search&type=home&key=pics'>Choose other keyword combos</a>";
+	function showPage()	
+	{
+		dumpVar($this->keys, "keys");
+		$mainkey = $this->keys[0];													// $this->keys must be supplied by one of the classes below
 		
+		$cat = $this->build('Category', $mainkey);
+		$this->template->set_var("TRIP_ID", $mainkey);
+		$this->template->set_var("TODAY", '');
+		
+		$q = "CREATE TEMPORARY TABLE cat_pics select i.wf_images_id id, im.wf_id_2 cat, substring(i.wf_images_localtime, 1, 16) datetime, wf_images_filename, wf_images_path from wf_images i join wf_idmap im on i.wf_images_id=im.wf_id_1 where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=$mainkey AND i.wf_resources_id=0;";
+		$cat->query($q);
+
+		$this->template->set_var("CAT_GAL_VIS1" , 'hideme');
+		$cat2 = $this->build('Category', $key2 = $this->keys[1]);
+		// dumpVar($cat2->data, "k2=$key2 cat2->data");
+		$this->galTitle = sprintf("<a href='?page=pics&type=cat&key=%s'>%s</a> and <a href='?page=pics&type=cat&key=%s'>%s</a>", $cat->id(), $cat->name(), $cat2->id(), $cat2->name());
+
+		$q = "select c.id, c.cat, im.wf_id_2, wc.wf_categories_text, i.* from cat_pics c JOIN wf_idmap im on c.id=im.wf_id_1 JOIN wf_categories wc on wc.wf_categories_id=im.wf_id_2 JOIN wf_images i ON c.id=i.wf_images_id where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=$key2";		
+		$otherpics = $cat->getAll($q);
+		// dumpVar(sizeof($otherpics), "$q otherpics2");
+		// dumpVar($otherpics, "otherpics");
+		$this->pics = $this->build('Pics', array('type' => 'pics', 'data' => $otherpics));
+		dumpVar($this->pics->size(), "this->pics->size()");
+		$this->message = "Images with both keywords";
+
 		parent::showPage();
 	}
-	function getCaption()				{	return "Pictures for category: " . $this->name;	}
-	function galleryTitle($key)	{	return $this->name; }
-	function getPictures($key)	{ return $this->pics; }	
-	function doNav() { $this->template->set_var('PAGER_BAR', ''); }
+	function getCaption()				{	return "Pictures for category: " . $this->galTitle;	}
+}
+class CatTwoGetGallery extends CatTwoGallery
+{
+	function showPage()	
+	{
+		$this->keys = explode(',', $this->key);							// submitted as a second chouce on the OneCat page
+		parent::showPage();
+	}
+}
+class CatOnePostGallery extends CatOneGallery
+{
+	function showPage()	
+	{
+		$this->key = $this->props->checkedCats[0];						// aubmitted from checkboxes in Search
+		dumpVar($this->props->checkedCats, "$this->key this->props->checkedCats");
+		parent::showPage();
+	}
+}
+class CatTwoPostGallery extends CatTwoGallery
+{
+	function showPage()	
+	{
+		$this->keys = $this->props->checkedCats;						// aubmitted from checkboxes in Search
+		parent::showPage();
+	}
+}
+
+class CatPostGallery extends CatGallery
+{
+	function showPage()	
+	{
+		$catids = array_slice($this->props->checkedCats, 0, 5);		// max of 5 categories
+
+		$this->template->set_var("TRIP_ID", $catids[0]);
+
+		$this->template->set_var("CAT_GAL_VIS1" , 'hideme');
+		
+		for ($i = 0, $cats = array(), $str = ''; $i < sizeof($catids); $i++) 
+		{
+			$cats[] = $cat = $this->build('Category', $catids[$i]);
+			$str .= sprintf(", <a href='?page=pics&type=cat&key=%s'>%s</a>", $cat->id(), $cat->name());
+		}
+		$this->galTitle = substr($str, 2);
+		dumpVar($this->galTitle, "this->galTitle");
+						
+		// do this the slow way
+		// collect picids for each category
+		for ($i = 0, $ids = array(); $i < sizeof($cats); $i++) 
+		{
+			$cat = $cats[$i];
+			// $cat->dump("cat $i");
+			$pics = $this->build('Pics', array('type' =>'cat', 'data' => $cat->id()));
+			for ($j = 0, $picids = array(); $j < sizeof($pics->data); $j++) 
+			{
+				$picids[] = $pics->data[$j]['wf_images_id'];
+				// dumpVar($pic, "$i, $j pic");
+				// exit;
+			}
+			$ids[] = $picids;
+			$str = implode(', ', $picids);
+			dumpVar($str, sprintf("IDs for Category %s, %s", $cat->id(), $cat->name()));
+		}
+		
+		dumpVar(sizeof($ids), "N ids");
+		for ($i = 1, $intersects = array(); $i < sizeof($ids); $i++) 
+		{
+			$intersects[] = array_intersect($ids[$i - 1], $ids[$i]);
+			// $intersects[] = $this->intersect($ids[$i - 1], $ids[$i]);
+		}
+dumpVar($intersects, "intersects");		
+		
+// 12 23 34 13 14 24
+// 12 23 34 45 13 14 15 24 25 35
+// 12 13 14 15 23 24 25 34 35 45
+
+		exit;
+		
+		// dumpVar($ids, "ids");
+		$inter01 = array();
+		for ($i = 0; $i < sizeof($ids[0]); $i++) 
+		{
+			if (in_array($ids[0][$i], $ids[1]))
+				$inter01[] = $ids[0][$i];
+		}
+		dumpVar($inter01, "inter 0-1");
+		$inter12 = array();
+		for ($i = 0; $i < sizeof($inter01); $i++) 
+		{
+			if (in_array($inter01[$i], $ids[2	]))
+				$inter12[] = $inter01[$i];
+		}
+		dumpVar($inter12, "inter 1-2");
+		
+		exit;
+		
+		
+		$search = $ids[0];
+		for ($i = 1; $i < sizeof($ids); $i++) 
+		{
+			$inter = array();
+			for ($j = 0; $j < sizeof($ids[$i]); $j++) 
+			{
+				if (in_array($ids[$i][$j], $search))
+					$inter[] = $ids[$i][$j];
+			}
+			dumpVar($inter, "inter");
+			$inter = $ids[$i];
+		}
+		
+		exit;
+
+		parent::showPage();
+	}
+	function intersect($list1, $list2) {
+		for ($i = 0, $inter = array(); $i < sizeof($list1); $i++) 
+		{
+			if (in_array($list1[$i], $list2))
+				$inter[] = $list1[$i];
+		}
+		return $inter;
+	}
 }
 
 class DateMap extends OneMap
