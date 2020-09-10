@@ -1,47 +1,33 @@
-<style>
-	.input-group-btn {
-		border: 1px solid #999;
-	}
-	.fa-lg {
-		line-height: normal;
-	}
-	#text-search {
-		width: 50%;
-		padding: 6px 0;
-	}
-</style>
 <div class="container">
 
-  <div class="row">
-	  <div class="col-6">
-			<h5>Simple text search:</h5>
-	  </div>	
-	  <div class="col-6">
-		  <form class="form-group">
+  <div id="text_search" class="row">
+	  <div class="col-md-5">
+		  <form class="form-group form-inline">
 			  <div text-search class="input-group">
+					<label for="search_text">Simple text search:</label>
 			    <input type="text" class="form-control" id="search_text" name="search_text" placeholder="Search for this text">
 			    <div class="input-group-btn">
 			      <button class="btn btn-default" type="submit" name="do_text_search">
 							<i class="fa fa-search fa-lg"></i>
 			      </button>
-			    </div>			
-			  </div>
+					</div>
+			   </div>			
 			</form>
 	  </div>	
-  </div>	
-  <div class="row" style="border-bottom: 2px solid #017034;">
-	  <div class="col">
-			<p><i>(searches place names, blog posts and titles, categories, image captions, descriptions)</i></p>
+	  <div class="col-md-7">
+					<i>(searches place names, blog posts and titles, categories, image captions, descriptions)</i>
 	  </div>	
   </div>	
-	
+
+<!-- spots / trips / pics -->
   <div id="accordion">
     <div style="margin-top: 10px;">
-      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapseOne">Browse Campgrounds</a>
-      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapseTwo">Browse Trips</a>
-      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapseThree">Search Image Keywords</a>
+      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse1">Browse Campgrounds</a>
+      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse2">Browse Trips</a>
+      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse3">Choose Image Keywords</a>
+      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse4">Browse Spot Keywords</a>
     </div>
-    <div id="collapseOne" class="collapse{SHOW_1}" data-parent="#accordion">
+    <div id="collapse1" class="collapse{SHOW_1}" data-parent="#accordion">
 		  <div id="spot_search" class="row whu_group">
 			  <div class="row">
 				  <div class="col">
@@ -115,30 +101,30 @@
 			  </div>	
 		  </div>	
     </div>
-    <div id="collapseTwo" class="collapse{SHOW_2}" data-parent="#accordion">
+    <div id="collapse2" class="collapse{SHOW_2}" data-parent="#accordion">
 		  <div id="trip_search" class="row whu_group">
-			    <div class="col-3">
+			    <div class="col-md-3">
 				    <p><a href="?page=trips&type=list&key=tl_rcnt" title="{LISTNAME_rcnt}">{LISTNAME_rcnt}</a></p>
 						<p><a href="?page=trips&type=list&key=tl_alll" title="{LISTNAME_alll}">{LISTNAME_alll}</a> &bull;    
 				    	 <a href="?page=trips&type=list&key=tl_east" title="{LISTNAME_east}">{LISTNAME_east}</a></p>
 							 <a href="?page=trips&type=list&key=tl_ista" title="{LISTNAME_ista}">{LISTNAME_ista}</a></p>
 					</div>
-			    <div class="col-2">
+			    <div class="col-md-2">
 				    <p><a href="?page=trips&type=list&key=tl_fall" title="{LISTNAME_fall}">{LISTNAME_fall}</a></p>
 				    <p><a href="?page=trips&type=list&key=tl_sprg" title="{LISTNAME_sprg}">{LISTNAME_sprg}</a></p>
 				    <p><a href="?page=trips&type=list&key=tl_395e" title="{LISTNAME_395e}">{LISTNAME_395e}</a></p>
 					</div>
-			    <div class="col-2">
+			    <div class="col-md-2">
 				    <p><a href="?page=trips&type=list&key=tl_baya" title="{LISTNAME_baya}">{LISTNAME_baya}</a></p>
 				    <p><a href="?page=trips&type=list&key=tl_euka" title="{LISTNAME_euka}">{LISTNAME_euka}</a></p>
 				    <p><a href="?page=trips&type=list&key=tl_noca" title="{LISTNAME_noca}">{LISTNAME_noca}</a></p>
 					</div>
-			    <div class="col-2">
+			    <div class="col-md-2">
 				    <p><a href="?page=trips&type=list&key=tl_soca" title="{LISTNAME_soca}">{LISTNAME_soca}</a></p>
 				    <p><a href="?page=trips&type=list&key=tl_neva" title="{LISTNAME_neva}">{LISTNAME_neva}</a></p>
 				    <p><a href="?page=trips&type=list&key=tl_dsrt" title="{LISTNAME_dsrt}">{LISTNAME_dsrt}</a></p>
 					</div>
-			    <div class="col-3">
+			    <div class="col-md-3">
 				    <p><a href="?page=trips&type=list&key=tl_oreg" title="{LISTNAME_oreg}">{LISTNAME_oreg}</a> &bull;
 							 <a href="?page=trips&type=list&key=tl_utah" title="{LISTNAME_utah}">{LISTNAME_utah}</a> &bull;
 							 <a href="?page=trips&type=list&key=tl_idah" title="{LISTNAME_idah}">{LISTNAME_idah}</a> &bull;
@@ -149,7 +135,7 @@
 					</div>
       </div>
     </div>
-		<div id="collapseThree" class="collapse{SHOW_3}" data-parent="#accordion">
+		<div id="collapse3" class="collapse{SHOW_3}" data-parent="#accordion">
 		  <div id="keyword_search" class="row whu_group">
 			  <div class="col">
 				  <form class="form-group" action="?page=pics&type=cat&key=post" method="post">
@@ -169,21 +155,16 @@
 			  </div>	
 		  </div>	
     </div>
+		<div id="collapse4" class="collapse{SHOW_4}" data-parent="#accordion">
+		  <div id="spotkey_search" class="row whu_group">
+			  <div class="col">
+					Look for spots by keyword:
+					<p>{SPOT_KEYS}</p>
+			  </div>	
+		  </div>	
+    </div>
   </div>
-	
-  <div class="row">
-	  <div class="col">
-				Campground Search
-	  </div>
-  </div>	
-  <div class="row">
-	  <div class="col">
-			Phone bars:
-			
-		</div>
-	</div>
-	
-	
+		
   <div id="map_search" class="row">
     <div class="col-4">
 			{MAP_INSET}
@@ -224,19 +205,16 @@
 			  </form>
 			</div>
     </div>
-	</div>
-	
+	</div>	
 </div>
-	
-	
-	
-<style type="text/css" media="screen">
 
-/*	#accordion>div>a:nth-child(2)
-	{
-    border-width: 4px;
-    border-color: #91c78d
-	}*/
+<style type="text/css" media="screen">
+	.input-group-btn {
+		border: 1px solid #999;
+	}
+	.fa-lg {
+		line-height: normal;
+	}
 
 	.whu_group {
 		margin-top: 20px;
@@ -254,35 +232,4 @@
 	}
 	#search_near { padding: 12px 0 0 40px; text-align: center; }
 	
-	.container hr {
-		border-top: 3px solid #575;
-		margin: 110px 0 10px;
-	}
-	
-#srch-spots>.panel-default>.panel-heading { 
-	background-color: {SPOTS_BACK};
-	color: {SPOTS_FORE};
-}
-#srch-pics>.panel-default>.panel-heading { 
-	background-color: {PICS_BACK};
-	color: {PICS_FORE};
-}
-
-.panel-default>.panel-heading a:hover { 
-	color: {BOLDCOLOR};
-}
-
-.row>.btn, .row>div>.btn {
-	margin: 4px;
-	background-color: {BACKCOLOR};
-	border: 2px solid {LINKHOVER};
-	{SANS_FONT};
-}
-
-label {
-	color: {LINKHOVER};
-	{SANS_FONT};
-}
-button[type="submit"] { color: {LINKHOVER};}
-input { border: 1px solid {LINKHOVER}; }
 </style>

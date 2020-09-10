@@ -526,9 +526,12 @@ class SpotsList extends ViewWhu
 	
 	var $searchterms = array('CAMP' => 'wf_spots_types', 'usfs' => 'wf_spots_status', 'usnp' => 'wf_spots_status');
 	var $title = "Spots";
+	var $searchParm = "spots";
+	
 	function showPage()	
 	{
 		$this->template->set_var('PAGE_TITLE', $this->caption);
+		$this->template->set_var('SEARCH_PARM', $this->searchParm);
 		
 		// ------------------------------------------------------- caller has already gotten the spots object
 		dumpVar($this->spots->size(), "this->spots->size()");
@@ -743,18 +746,15 @@ class SpotsListPlaces extends SpotsList					// just Place id(s), NOT their desce
 }
 class SpotsKeywords extends SpotsList
 {
+	var $searchParm = "spotkey";
 	function showPage()	
 	{
-		$this->caption = sprintf("Spots with keyword: <i>%s</i>", $this->key);
+		dumpVar($this->key, "this->key");
+		$this->caption = sprintf("Spots with keyword: <i>%s</i>", $niceKey = str_replace( '_', ' ', $this->key));
 		$this->spots = $this->build('DbSpots', array('type' => 'keyword', 'data' => $this->key));
 		dumpVar($this->spots->size(), "this->spots->size()");		
 		$this->spots->random(21);
 		parent::showPage();
-
-
-		// $this->searchterms = array('wf_spot_days_keywords' => $this->key);
-		
-		
 	}
 }
 
@@ -1127,11 +1127,12 @@ class Search extends ViewWhu
 	function showPage()	
 	{
 		// $searchtype = array('spots' => 'SPOT_1');
-		$this->template->set_var('SHOW_1', ($this->key == 'spots') ? ' show' : '');
-		$this->template->set_var('SHOW_2', ($this->key == 'trips') ? ' show' : '');
-		$this->template->set_var('SHOW_3', ($this->key == 'pics' ) ? ' show' : '');
+		$this->template->set_var('SHOW_1', ($this->key == 'spots'   ) ? ' show' : '');
+		$this->template->set_var('SHOW_2', ($this->key == 'trips'   ) ? ' show' : '');
+		$this->template->set_var('SHOW_3', ($this->key == 'pics'    ) ? ' show' : '');
+		$this->template->set_var('SHOW_4', ($this->key == 'spotkey' ) ? ' show' : '');
 		
-		
+		// populate the Trip categories
 		foreach (AllTrips::$cats as $k => $v) 
 		{
 			$this->template->set_var("LISTNAME_" . substr($k, 3), $v) . " Trips";
@@ -1151,8 +1152,19 @@ class Search extends ViewWhu
 		// $loop = new Looper($this->template, array('parent' => 'the_content'));
 		// $loop->do_loop($rows);
 		$this->template->set_var('PIC_CATS', $str);
-		  
-		////////////
+
+		// build huge string of Spot keywords. Again, don;t bothering to make it a template loop right now
+		// get the Spot keyword list from the dummy Thing
+		$keyObj = $this->build('UIThing', '');	
+		$keywords = $keyObj->getSpotKeywords();
+		// dumpVar($keywords, "keywords");
+		for ($i = 0, $str = ''; $i < sizeof($keywords); $i++) 
+		{
+			$keyword = $keywords[$i];
+			$str .= sprintf("<a href=?page=spots&type=key&key=%s>%s(%s)</a>, &nbsp;", $keyword[0], str_replace( '_', ' ', $keyword[0]), $keyword[1]);
+		}
+		$this->template->set_var('SPOT_KEYS', $str);
+		
 
 		parent::showPage();
 	}
@@ -1569,7 +1581,6 @@ class CatOnePostGallery extends CatOneGallery
 	function showPage()	
 	{
 		$this->key = $this->props->checkedCats[0];						// aubmitted from checkboxes in Search
-		dumpVar($this->props->checkedCats, "$this->key this->props->checkedCats");
 		parent::showPage();
 	}
 }
@@ -1581,7 +1592,6 @@ class CatTwoPostGallery extends CatTwoGallery
 		parent::showPage();
 	}
 }
-
 class CatPostGallery extends CatGallery
 {
 	function showPage()	

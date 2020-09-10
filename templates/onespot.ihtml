@@ -4,7 +4,7 @@
 		  </div>			
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2><img style="float: left" src="./resources/site-images/logFull.png" width="100" text="W H U F U">{SPOT_NAME}</h2>
+					<h2>{SPOT_NAME}</h2>
 		    </div>
 		  </div>
 			<div class="row">
@@ -13,7 +13,7 @@
 		    </div>
 		  </div>			
 			<div class="row">
-				<div class="col-7">
+				<div class="col-md-7">
 					<p class="infoitem"><i>Number of visits</i>: {SPOT_NUM}</p>
 					<p class="infoitem"><i>GPS</i>: {SPLAT},{SPLON}</p>
 					<p class="infoitem"><i>Bathroom</i>: {SPBATH} &bull; <i> Water: </i>{SPWATER}</p>
@@ -36,7 +36,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-5">
+				<div class="col-md-5">
 					{MAP_INSET}
 					<div id="formbox">
 					  <form role="form" id="nearform" method="get" data-toggle="validator">

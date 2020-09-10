@@ -6,7 +6,7 @@
 
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2>{PAGE_TITLE}<span style="font-size: 60%; font-style: italic;">go to <a href="?page=search&type=home&key=spots">search page</a> for more browsing</span></h2>
+					<h2>{PAGE_TITLE}<span style="font-size: 60%; font-style: italic;">go to <a href="?page=search&type=home&key={SEARCH_PARM}">search page</a> for more browsing</span></h2>
 		    </div>
 		  </div>
 			

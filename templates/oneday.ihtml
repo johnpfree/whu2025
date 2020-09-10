@@ -12,14 +12,18 @@
 		  </div>
 
 		  <div class="row">
-		    <div id="daydeets" class="col">
-			    <div id="next" class="navlinks float-right {N_VIS}"><a href="?page=day&type=date&key={N_KEY}">tomorrow <i class="fa fa-arrow-circle-o-right"></i></a></div>
-			    <div id="next" class="navlinks float-right"><a href="?page=log&type=id&key={TRIP_ID}">trip <i class="fa fa-arrow-circle-o-up"></i> log</a></div>
-			    <div id="prev" class="navlinks float-right {P_VIS}"><a href="?page=day&type=date&key={P_KEY}"><i class="fa fa-arrow-circle-o-left"></i> yesterday</a></div>
-					
+				<div id="daydeets" class="col-md-7">
 					<p>Today is day <b>{ORDINAL}</b> of the trip titled <a class="larger" href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a>.</p>
 					<p>I drove <b>{MILES}</b> miles today, for a total of <b>{CUMMILES}</b> miles so far.</p>
+				</div>
+		    <div style="text-align: right" class="col-md-5">
+			    <button id="prev" class="navlinks {P_VIS}"><a href="?page=day&type=date&key={P_KEY}"><i class="fa fa-arrow-circle-o-left"></i> yesterday</a></button>
+			    <button id="next" class="navlinks {N_VIS}"><a href="?page=day&type=date&key={N_KEY}">tomorrow <i class="fa fa-arrow-circle-o-right"></i></a></button>
+			    <button id="next" class="navlinks"><a href="?page=log&type=id&key={TRIP_ID}">trip <i class="fa fa-arrow-circle-o-up"></i> log</a></button>
+				</div>
+		  </div>
 	
+		  <div class="row">
 					<dl>
 						<dt>Here is a short description of the day:</dt>
 						<dd>{DAY_NAME}<br />{DAY_DESC}</dd>

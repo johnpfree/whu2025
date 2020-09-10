@@ -200,31 +200,37 @@
 	class WhuUIThing extends WhuThing // dummy class solely for UI queries that don't need a real thing
 	{
 		function getRecord($key) { return array();	}
-		
-		var $spotstatuses = array(
-							'CAMP'		=> 'Sleeping Outside - Campgrounds , Boondocking, Parking Lots',
-							'LODGE'		=> 'Sleeping Inside - Hotels and Motels',
-							'HOTSPR'	=> 'Sleeping at a Hot Spring',
-							// 'HOUSE'		=> 'Friend\'s house',
-							);
-
-		function collectSpotTypes()
+		function getSpotKeywords()
 		{
-			$types = $this->getAll("select distinct(wf_spots_status) from wf_spots");
-			for ($i = 0, $stats = array(); $i < sizeof($types); $i++) 
+			$items = $this->getAll("select * from wf_spot_days");
+			for ($i = 0, $str = ''; $i < sizeof($items); $i++) 
 			{
-				$statfield = explode(',', $types[$i]['wf_spots_status']);
-				for ($j = 0; $j < sizeof($statfield); $j++) 
+				$ret = array();
+				$vals = explode(',', $str = $items[$i]['wf_spot_days_keywords']);
+				if ($str == '')
+					continue;
+	// dumpVar($vals, "explode($str)");
+				for ($j = 0; $j < sizeof($vals); $j++) 
 				{
-					$onestat = explode('=', trim($statfield[$j]));
-					if (empty($this->spotstatuses[$onestat[$j]]))							// skip all but the above types
-						continue;
-					if ($onestat[0] == '')																		// blank ones are NWRs
-						continue;
-					$stats[$onestat[0]][$onestat[1]] = 'x';
+					if (isset($uniquekeys[$val = trim($vals[$j])]))
+						$uniquekeys[$val]++;
+					else
+						$uniquekeys[$val] = 1;
 				}
 			}
-			return $stats;
+			ksort($uniquekeys);
+			// dumpVar($uniquekeys, "uniquekeys");
+			
+			$rows = array();
+			foreach ($uniquekeys as $k => $v) 
+			{
+				// dumpVar($v, $k);
+				$kname = str_replace(' ', '_', $k);
+				$res = $this->getOne($q = "SELECT COUNT(DISTINCT(s.wf_spots_id)) num FROM wf_spot_days d JOIN wf_spots s ON d.wf_spots_id=s.wf_spots_id WHERE CONCAT(d.wf_spot_days_keywords, ',') LIKE '%$kname,%'");
+				// dumpVar($res, "$q res");
+				$rows[] = array($kname, $res['num']);
+			}
+			return $rows;
 		}
 	}
 		
