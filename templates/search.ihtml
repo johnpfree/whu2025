@@ -1,30 +1,49 @@
 <div class="container">
 
-  <div id="text_search" class="row">
-	  <div class="col-md-5">
-		  <form class="form-group form-inline">
-			  <div text-search class="input-group">
-					<label for="search_text">Simple text search:</label>
-			    <input type="text" class="form-control" id="search_text" name="search_text" placeholder="Search for this text">
-			    <div class="input-group-btn">
-			      <button class="btn btn-default" type="submit" name="do_text_search">
-							<i class="fa fa-search fa-lg"></i>
-			      </button>
-					</div>
-			   </div>			
-			</form>
-	  </div>	
-	  <div class="col-md-7">
-					<i>(searches place names, blog posts and titles, categories, image captions, descriptions)</i>
-	  </div>	
-  </div>	
+	<div id="text_search" class="container mt-3">
+		<h4>Simple word search:</h4>
+		<form class="form-group" action="?page=search&type=results&key=" method="post">
+			<div class="row">
+			  <div class="col-md-7">
+			    <div class="input-group mb-3">
+				    <input type="text" class="form-control" id="search_text" name="search_text" placeholder="Search for this text">
+			      <button type="submit" name="spotlist_find_place" class="btn btn-primary">Search</button>
+			    </div>
+		    </div>
+			  <div class="col-md-2">
+			    <div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" name="CHK_pic" checked>search images
+						</label>
+			    </div>
+			    <div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" name="CHK_spo" checked>search spots
+						</label>
+			    </div>
+		    </div>
+			  <div class="col-md-3">
+			    <div class="form-check">
+						<label class="form-check-label" title="Must faster to search stories in Wordpress">
+							<input class="form-check-input" type="checkbox" name="CHK_txt">search stories (very slow)
+						</label>
+			    </div>
+			    <div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" name="CHK_log" checked>search trip logs
+						</label>
+			    </div>					
+		    </div>
+	    </div>
+	  </form>
+	</div>
 
 <!-- spots / trips / pics -->
   <div id="accordion">
-    <div style="margin-top: 10px;">
-      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse1">Browse Campgrounds</a>
-      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse2">Browse Trips</a>
-      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse3">Choose Image Keywords</a>
+    <div id="buttonRow">
+      <a class="btn btn-outline-success mr-4" data-toggle="collapse" href="#collapse1">Browse Campgrounds</a>
+      <a class="btn btn-outline-success mr-4" data-toggle="collapse" href="#collapse2">Browse Trips</a>
+      <a class="btn btn-outline-success mr-4" data-toggle="collapse" href="#collapse3">Choose Image Keywords</a>
       <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse4">Browse Spot Keywords</a>
     </div>
     <div id="collapse1" class="collapse{SHOW_1}" data-parent="#accordion">
@@ -35,7 +54,7 @@
 				  </div>
 			  </div>	
 			  <div class="row">
-				  <div class="col-4">
+				  <div class="col-md-4">
 						<ul>
 							<li>Public Campgrounds</li>
 							<ul>
@@ -55,7 +74,7 @@
 							<li><a href="?page=spots&type=listkids&key=128">Istanbul Hotels</a></li>
 						</ul>	
 				  </div>
-				  <div class="col-4">
+				  <div class="col-md-4">
 						<ul>
 							<li>Regions</li>
 							<ul>
@@ -78,7 +97,7 @@
 							</ul>	
 						</ul>	
 				  </div>
-				  <div class="col-4">
+				  <div class="col-md-4">
 						<ul>
 							<li>Regions</li>
 							<ul>
@@ -165,55 +184,59 @@
     </div>
   </div>
 		
-  <div id="map_search" class="row">
-    <div class="col-4">
-			{MAP_INSET}
-			<div id="formbox">
-			  <form class="form-inline" role="form" id="nearform" method="get" data-toggle="validator">
-			    <div class="row">
-			      <label for="find_place" class="col  col-form-label">Starting location:</label>
-			    </div>
-			    <div class="form-group row">
-			      <div class="col">
-			        <input type="number" class="form-control" name="find_place" id="find_place" placeholder="place" required>
-			        <button type="submit" name="spotlist_find_place" class="btn btn-primary">Locate</button>
-			      </div>
-			    </div>
-			  </form>
-			</div>
-    </div>
-    <div class="col-4">
-			text search
-			{MAP_INSET}
-			<div id="formbox">
-			  <form class="form-inline" role="form" id="nearform" method="get" data-toggle="validator">
-					<div class="headfont" style="font-size: 130%; margin-top: 6px;">Find Spots near here:</div>
-			    <div class="row">
-			      <label for="search_radius" class="col-sm-12 col-form-label">Show all spots within:</label>
-			    </div>
-			    <div class="form-group row">
-			      <div class="col-sm-6">
-			        <input type="number" class="form-control" name="search_radius" id="search_radius" placeholder="Miles" max="200" required>
-			      </div>
-			      <div class="col-sm-6" id="search_near">         
-			        <button type="submit" name="search_near_spot" class="btn btn-primary">&nbsp; Find Spots &nbsp;</button>
-			      </div>
-			    </div>
-					<input type="hidden" name="page" value="map" />
-					<input type="hidden" name="type" value="spot" />
-					<input type="hidden" name="key" value="{SPOT_ID}" />
-			  </form>
-			</div>
-    </div>
-	</div>	
+
+	<div id="map_search" class="container mt-3">
+		<h4>Find all spots in an area:</h4>
+	  <p>Enter a location (town,state/zip code/address) and a radius to search for spots within an area.</p>
+	  <form action="/action_page.php">
+	    <div class="input-group mb-3">
+	      <div class="input-group-prepend">
+	        <span class="input-group-text">Starting location:</span>
+	      </div>
+	      <input type="text" class="form-control" name="find_place" id="find_place" placeholder="location" required>
+			
+	      <div class="input-group-prepend ml-4">
+	        <span class="input-group-text">Radius:</span>
+	      </div>
+	      <input type="number" class="form-control" name="radius" id="radius" placeholder="100" required>
+			
+	      <button type="submit" name="spotlist_find_place" class="btn btn-primary ml-4">Locate</button>
+	    </div>
+	  </form>
+	</div>
 </div>
 
 <style type="text/css" media="screen">
+	#main-menu {
+		margin-bottom: 0px;
+	}
+	
+	#buttonRow {
+		margin-top: 22px; 
+		text-align: center;
+		font-weight: bold;
+	}
+	#buttonRow a {
+    color: #017034;
+    border-color: #017034;
+    border-width: 2px;
+	}
+	.btn-primary {
+    background-color: #017034;
+    border-color: #017034;
+	}	
+	
 	.input-group-btn {
 		border: 1px solid #999;
 	}
 	.fa-lg {
 		line-height: normal;
+	}
+	#text_search {
+		padding: 22px 0 10px;
+		margin-bottom: 20px;
+		border-top: 2px solid #017034;
+		border-bottom: 2px solid #017034;
 	}
 
 	.whu_group {
@@ -225,11 +248,10 @@
 	.whu_group p {
 		width: 100%; 
 	}
-		
+
 	#map_search { 
 		margin-top: 20px; 
+		padding-top: 20px;
 		border-top: 2px solid #017034;
 	}
-	#search_near { padding: 12px 0 0 40px; text-align: center; }
-	
 </style>

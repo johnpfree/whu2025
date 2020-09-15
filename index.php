@@ -182,7 +182,9 @@ switch ("$curpage$curtype")
 	case 'logid':			$page = new OneTripDays($props);		break;		
 	case 'daydate':			$page = new OneDay($props);			break;	
 	
-	case 'searchhome':	$page = new Search($props);					break;
+	case 'searchhome':		$page = new Search($props);					break;
+	case 'searchresults':	$page = new SearchResults($props);	break;
+
 	case 'abouthome':		$page = new About($props);					break;	
 
 	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -220,7 +222,6 @@ switch ("$curpage$curtype")
 	case 'spotscamp':		$page = new SpotsCamps($props);			break;		// type of campground (usfs, usnp, state)
 	case 'spotsplace':	$page = new SpotsPlaces($props);		break;		// state/region
 	
-	case 'resultstext':	$page = new SearchResults($props);	break;
 
 	default: 
 		dumpVar("$curpage$curtype", "Unknown page/type:");

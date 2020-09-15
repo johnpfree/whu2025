@@ -183,18 +183,14 @@ class HomeHome extends ViewWhu
 		$this->template->set_var('BANNER_FOLDER', $pic->folder());
 		$this->template->set_var('BANNER_FILE', $pic->filename());
 
+		shuffle($this->recents);
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'rec_row'));
 		$loop->do_loop($this->oneRow($this->recents));
 
+		shuffle($this->epics);
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'epic_row'));
 		$loop->do_loop($this->oneRow($this->epics));
 				
-		
-		$site = $this->build('Trips');
-		$this->template->set_var('N_TXT', $site->numPosts());
-		$this->template->set_var('N_PIC', $site->numPics());
-		$this->template->set_var('N_SPO', $site->numSpots());
-		
 		parent::showPage();
 	}
 	function oneRow($ids)
@@ -1132,20 +1128,23 @@ class Search extends ViewWhu
 		$this->template->set_var('SHOW_3', ($this->key == 'pics'    ) ? ' show' : '');
 		$this->template->set_var('SHOW_4', ($this->key == 'spotkey' ) ? ' show' : '');
 		
-		// populate the Trip categories
+		return;
+		// key = spots -- has no code, it's all hard coded links!
+		// key = trips -- populate the Trip categories
 		foreach (AllTrips::$cats as $k => $v) 
 		{
 			$this->template->set_var("LISTNAME_" . substr($k, 3), $v) . " Trips";
 		}
 		
-		// build huge string of picture keywords (categories). Not bothering to make it a template loop right now
+		// key = pics -- build huge string of picture keywords (categories). Not bothering to make it a template loop right now
  	 	$cats = $this->build('Categorys', array('type' => 'piccats'));
 		dumpVar(sizeof($cats->data), "cats->data");
+		// dumpVar($cats->data[0], "cats->data[0]");
 		for ($i = 0, $rows = array(), $str = ''; $i < $cats->size(); $i++)
 		{
 			$cat = $cats->one($i);
 
-			$str .= sprintf('<label class="form-check-label"><input class="form-check-input" type="checkbox" name="CHK_%s">%s</label>', $cat->id(), $cat->name());
+			$str .= sprintf('<label class="form-check-label"><input class="form-check-input" type="checkbox" name="CHK_%s">%s (%s)</label>', $cat->id(), $cat->name(), $cat->npics());
 			// $row = array(parms);
 			// $rows[] = $row;
 		}
@@ -1153,7 +1152,7 @@ class Search extends ViewWhu
 		// $loop->do_loop($rows);
 		$this->template->set_var('PIC_CATS', $str);
 
-		// build huge string of Spot keywords. Again, don;t bothering to make it a template loop right now
+		// key = spotkey -- build huge string of Spot keywords. Again, don;t bothering to make it a template loop right now
 		// get the Spot keyword list from the dummy Thing
 		$keyObj = $this->build('UIThing', '');	
 		$keywords = $keyObj->getSpotKeywords();
@@ -1165,6 +1164,91 @@ class Search extends ViewWhu
 		}
 		$this->template->set_var('SPOT_KEYS', $str);
 		
+
+		parent::showPage();
+	}
+}
+class SearchResults extends ViewWhu
+{
+	var $file = "searchresults.ihtml";   
+	function showPage()	
+	{
+		$searchterm = $this->props->get('search_text');
+
+		$this->template->set_var('SEARCHTERM', $searchterm);
+		$qterm = sprintf("%%%s%%", $searchterm);
+		dumpVar($qterm, "qterm");
+		
+		$pics = $this->build('Pics', array('type' =>'textsearch', 'data' => $qterm)); // always show header
+		$pics->getSome(12);
+		$this->headerGallery($pics);
+
+		if ($this->props->get("CHK_pic") == "on")			// ---------------------------------- pictures
+		{
+			for ($i = 0, $days = array(); $i < $pics->size(); $i++)
+			{
+				$pic = $pics->one($i);
+				if (isset($days[$date = $pic->date()]))
+					$days[$date]++;
+				else
+					$days[$date] = 1;
+			}	
+			$str = '';
+			foreach ($days as $k => $v) 
+			{
+				$str .= sprintf("<li><a href='?page=pics&type=date&key=%s'>(%s) %s</a></li>", $k, $v, Properties::prettyDate($k));
+			}
+			$this->template->set_var('PICLIST', $str);			
+			$this->template->set_var('SHOW_pic', "");
+		}
+		else
+			$this->template->set_var('SHOW_pic', "class='hideme'");
+			
+		if ($this->props->get("CHK_spo") == "on")				// ---------------------------------- spots
+		{
+			$spots = $this->build('DbSpots', array('type' =>'textsearch', 'data' => $qterm));
+			for ($i = 0, $str = '', $rows = array(); $i < $spots->size(); $i++)
+			{
+				$spot = $spots->one($i);
+				$str .= sprintf("<li><a href='?page=spot&type=id&key=%s'>%s</a></li>", $spot->id(), $spot->name());
+			}
+			if ($str == '')
+				$str = "<b>$searchterm</b> not found in Spots.";
+			$this->template->set_var('SPOTLIST', $str);
+			$this->template->set_var('SHOW_spo', "");
+		}
+		else
+			$this->template->set_var('SHOW_spo', "class='hideme'");
+			
+		if ($this->props->get("CHK_log") == "on")				// ---------------------------------- logs
+		{
+			$days = $this->build('Dbdays', array('searchterm' => $qterm));
+			// $days = $this->build('Dbdays', array('type' =>'textsearch', 'data' => $qterm));
+			for ($i = 0, $str = '', $rows = array(); $i < $days->size(); $i++)
+			{
+				$day = $days->one($i);
+				$str .= sprintf("<li><a href='?page=day&type=date&key=%s'>%s</a></li>", $day->date(), Properties::prettyDate($day->date()));
+			}	
+			$this->template->set_var('DAYLIST', $str);
+			$this->template->set_var('SHOW_log', "");
+		}
+		else
+			$this->template->set_var('SHOW_log', "class='hideme'");
+
+		if ($this->props->get("CHK_txt") == "on")				// ---------------------------------- txts
+		{
+			$txts = $this->build('Posts', array('type' =>'textsearch', 'data' => $searchterm));
+			for ($i = 0, $str = '', $rows = array(); $i < $txts->size(); $i++)
+			{
+				$txt = $txts->one($i);
+				$str .= sprintf("<li><a href='%s'>%s &ndash; %s</a></li>", $this->makeWpPostLink($txt->wpid()), $txt->date(), $txt->title());
+				// $str .= sprintf("<a href='%s'>%s</a> &bull; ", $this->makeWpPostLink($txt->wpid()), $txt->title());
+			}	
+			$this->template->set_var('TXTLIST', $str);
+			$this->template->set_var('SHOW_txt', "");
+		}
+		else
+			$this->template->set_var('SHOW_txt', "class='hideme'");
 
 		parent::showPage();
 	}
@@ -1794,60 +1878,5 @@ class NearMap extends SpotMap
 		return array($centerRow);
 	}
 	function markerColor($i) { return $this->marker_color; }
-}
-
-class SearchResults extends ViewWhu
-{
-	var $file = "searchresults.ihtml";   
-	function showPage()	
-	{
-		$this->template->set_var('SEARCHTERM', $this->key);
-		$qterm = sprintf("%%%s%%", $this->key);
-		dumpVar($qterm, "qterm");
-		
-		$spots = $this->build('DbSpots', $qterm);
-		for ($i = 0, $str = '&bull; ', $rows = array(); $i < $spots->size(); $i++)
-		{
-			$spot = $spots->one($i);
-			$str .= sprintf("<a href='?page=spot&type=id&key=%s'>%s</a> &bull; ", $spot->id(), $spot->name());
-		}	
-		$this->template->set_var('SPOTLIST', $str);
-		
-		$days = $this->build('Dbdays', array('searchterm' => $qterm));
-		for ($i = 0, $str = '&bull; ', $rows = array(); $i < $days->size(); $i++)
-		{
-			$day = $days->one($i);
-			$str .= sprintf("<a href='?page=day&type=date&key=%s'>%s</a> &bull; ", $day->date(), Properties::prettyDate($day->date()));
-		}	
-		$this->template->set_var('DAYLIST', $str);
-		
-		$pics = $this->build('Pics', array('searchterm' => $qterm));
-		for ($i = 0, $days = array(); $i < $pics->size(); $i++)
-		{
-			$pic = $pics->one($i);
-			if (isset($days[$date = $pic->date()]))
-				$days[$date]++;
-			else
-				$days[$date] = 1;
-		}	
-		$str = '&bull;';
-		foreach ($days as $k => $v) 
-		{
-			$str .= sprintf("<a href='?page=pics&type=date&key=%s'>%s(%s)</a> &bull; ", $k, Properties::prettyDate($k), $v);
-		}
-		$this->template->set_var('PICLIST', $str);
-
-		$txts = $this->build('Posts', array('searchterm' => $this->key));
-		for ($i = 0, $str = '&bull; ', $rows = array(); $i < $txts->size(); $i++)
-		{
-			$txt = $txts->one($i);
-			$str .= sprintf("<a href='%s'>%s</a> &bull; ", $this->makeWpPostLink($txt->wpid()), $txt->title());
-			// $str .= sprintf("<a href='?page=txt&type=wpid&key=%s'>%s</a> &bull; ", $txt->wpid(), $txt->title());
-		}	
-		$this->template->set_var('TXTLIST', $str);
-
-		// $q = sprintf("select * from %sposts where post_status='publish' AND post_title LIKE %s OR post_content LIKE %s and post_type='post'", $this->tablepref, $term, $term);
-		parent::showPage();
-	}
 }
 ?>

@@ -741,17 +741,6 @@
 			if ($this->isSpotArray($parm))		// already have a list?
 				return $parm;
 
-			if (is_string($parm))							// string parameter means text search
-			{
-				$q = "SELECT * FROM wf_spots s JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE 
-					s.wf_spots_name LIKE '$parm' OR 
-					s.wf_spots_partof LIKE '$parm' OR 
-					s.wf_spots_town LIKE '$parm' OR 
-					d.wf_spot_days_desc LIKE '$parm' 
-					GROUP BY s.wf_spots_id";
-				// dumpVar($q, "q");
-				return $this->getAll($q);
-			}			
 			// July 2020 transition to "type data" model 
 			// dumpVar($parm, "WhuDbSpots parm");
 			switch ($parm['type'])
@@ -795,6 +784,18 @@
 					}
 					return $ret;
 				}
+				case 'textsearch':
+				{
+					$parm = $parm['data'];
+					$q = "SELECT * FROM wf_spots s JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE 
+						s.wf_spots_name LIKE '$parm' OR 
+						s.wf_spots_partof LIKE '$parm' OR 
+						s.wf_spots_town LIKE '$parm' OR 
+						d.wf_spot_days_desc LIKE '$parm' 
+						GROUP BY s.wf_spots_id";
+					// dumpVar($q, "q");
+					return $this->getAll($q);
+				}				
 			} 
 
 			// assume this is an array of search terms
@@ -972,19 +973,21 @@
 				$posts[] = array(
 					'wpid'		=> get_the_ID(),
 					'title' 	=> the_title('', '', false),					// false == return a string
+					// Sept 2020, try to speed this up a bit by only getting what I really need
 					'date'		=> the_date('Y-m-d', '', '', false), 	// false == return a string
-					'content' => $c,
-					// 'excerpt'	=> wp_trim_words($c, 60, ' ...' ),
-					'excerpt'	=> get_the_excerpt(),
-					'prev' 	 	=> get_permalink(get_adjacent_post(false,'',true)),			// remember, WP's default is newest to oldest
-					'next' 	 	=> get_permalink(get_adjacent_post(false,'',false)),
+					// 'content' => $c,
+					// // 'excerpt'	=> wp_trim_words($c, 60, ' ...' ),
+					// 'excerpt'	=> get_the_excerpt(),
+					// 'prev' 	 	=> get_permalink(get_adjacent_post(false,'',true)),			// remember, WP's default is newest to oldest
+					// 'next' 	 	=> get_permalink(get_adjacent_post(false,'',false)),
 				);
 			}
 			endwhile;
 			return $posts;
 		}
 		// straight outta Wordpress:
-		function the_content($more_link_text = null, $stripteaser = false) {
+		function the_content($more_link_text = null, $stripteaser = false) 
+		{
 			$content = get_the_content($more_link_text, $stripteaser);
 			$content = apply_filters('the_content', $content);
 			$content = str_replace(']]>', ']]&gt;', $content);
@@ -996,9 +999,10 @@
 		var $unitClass = 'WhuPost';
 
 		function getRecord($parm)
-		{			if ($this->isTextSearch($parm))						// for text search
+		{	
+			if ($parm['type'] == 'textsearch')							// for text search
 			{
-				return $this->doWPQuery("s={$parm['searchterm']}");
+				return $this->doWPQuery("s={$parm['data']}");
 			}
 			// if ($this->isWpCatSearch($parm))						// for text search
 			// {
@@ -1232,9 +1236,12 @@
 					return $pics;
 				}
 				case 'pics': { return $parm['data']; }
-				default:
-					# code...
-					break;
+				case 'textsearch':
+				{
+					$q = sprintf("SELECT * FROM wf_images WHERE wf_images_text LIKE '%s' OR wf_images_desc LIKE '%s' OR wf_images_filename LIKE '%s'", $parm['data'], $parm['data'], $parm['data']);
+					// dumpVar($q, "q");
+					return $this->getAll($q);
+				}
 			}
 			
 			if (isset($parm['faves'])) 
@@ -1252,14 +1259,6 @@
 				return $this->getAll($q);
 			}
 				
-			if ($this->isTextSearch($parm))						// for text search
-			{
-				$qterm = $parm['searchterm'];
-				$q = "SELECT * FROM wf_images WHERE wf_images_text LIKE '$qterm' OR wf_images_desc LIKE '$qterm' OR wf_images_filename LIKE '$qterm'";
-				// dumpVar($q, "q");
-				return $this->getAll($q);
-			}
-
 			if (isset($parm['clone'])) 
 				return $parm['clone'];
 
@@ -1415,7 +1414,7 @@
 		
 		function nPics()	
 		{ 
-			$q = sprintf("select COUNT(*) count from wf_idmap WHERE wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s AND i.wf_resources_id=0", $this->id());
+			$q = sprintf("select COUNT(*) count from wf_idmap WHERE wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s", $this->id());
 			$item = $this->getOne($q);
 			return $item['count'];
 		}
