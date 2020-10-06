@@ -28,36 +28,17 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	
 	function setCaption()		// also handy place for bookkeeping shared for all pages
 	{
-		$this->template->set_var('CAPTION'  , ($this->caption != '') ? $this->caption   : $this->getCaption());		
+		$this->template->set_var('CAPTION'  , ($this->caption != '') ? $this->caption : $this->getCaption());		
 		$this->template->set_var('META_DESC', $this->getMetaDesc());
 		dumpVar($this->getMetaDesc(), "this->getMetaDesc()");
 		
-		// set active menu
-		$page = $this->props->get('page');
-		foreach (array('home', 'trips', 'spots', 'about', 'vids', 'search') as $k => $v) 
-		{
-			$this->template->set_var("ACTIVE_$v", ($page == $v) ? "active" : '');
-		}
-		
-		// set "from" values for contact page
-		// DUH, do NOT set them when this IS the contach page
-		if ($page == 'contact') {
-			$this->template->set_var('FROM_I', $this->props->get('fromp'));
-			$this->template->set_var('FROM_T', $this->props->get('fromt'));
-			$this->template->set_var('FROM_K', $this->props->get('fromk'));
-			$this->template->set_var('FROM_I', $this->props->get('fromi'));
-		} else {
-			$this->template->set_var('FROM_P', $page);
-			$this->template->set_var('FROM_T', $this->props->get('type'));
-			$this->template->set_var('FROM_K', $this->props->get('key'));
-			$this->template->set_var('FROM_I', $this->props->get('id'));
-		}
 		if ($this->isRunningOnServer())
 			$this->template->setFile('GOOGLE_ANALYTICS', 'googleBlock.ihtml');
 		else
 			$this->template->set_var('GOOGLE_ANALYTICS', '');
 	}
-	function getCaption()	
+	function getCaption() { return $this->defaultCaption(); }
+	function defaultCaption()	
 	{
 		return sprintf("%s | %s | %s", $this->props->get('page'), $this->props->get('type'), $this->props->get('key'));	
 	}
@@ -66,7 +47,11 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	function headerGallery($pics)
 	{
 		$this->template->setFile('HEADER_GALLERY', 'headerGallery.ihtml');		
-		
+		$loop = new Looper($this->template, array('parent' => 'HEADER_GALLERY', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
+		$loop->do_loop($this->makeGalleryArray($pics));		
+	}
+	function makeGalleryArray($pics, $useThumbs = false)
+	{
 		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
 		{
 			$pic = $pics->one($i);
@@ -77,22 +62,26 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			$row['PIC_DESC'] = htmlspecialchars($pic->caption());
 
 			$imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
-			$thumb = $pic->thumbImage();
-			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
-			if (1){//strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
-				// dumpVar($row['PIC_NAME'], "binpic fail");
-				$row['img_thumb'] = $imageLink;
+			if ($useThumbs)
+			{
+				$thumb = $pic->thumbImage();
+				$row['IMG_THUMB'] = "data:image/jpg;base64,$thumb";
+				if (strlen($row['img_thumb']) < 100) {							// use the full image if the thumbnail fails on server
+					dumpVar($row['PIC_NAME'], "binpic fail");
+					$row['IMG_THUMB'] = $imageLink;
+				}
+				else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {	// thumb looks terrible for panorama, use full pic
+					// dumpVar($ratio, "ratio");
+					// dumpVar($pic->thumbSize, "$i pic->thumbSize");
+					$row['IMG_THUMB'] = $imageLink;
+				}
 			}
-			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
-				// dumpVar($ratio, "ratio");
-				// dumpVar($pic->thumbSize, "$i pic->thumbSize");
-				$row['img_thumb'] = $imageLink;
-			}
+			else
+				$row['IMG_THUMB'] = $imageLink;
+			
 			$rows[] = $row;
 		}
-		// dumpVar($rows[0], "rows[0]");
-		$loop = new Looper($this->template, array('parent' => 'HEADER_GALLERY', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
-		$loop->do_loop($rows);		
+		return $rows;
 	}
 	
 	function addDollarSign($s)	{ return "&#36;$s"; }
@@ -122,6 +111,79 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		return true;
 	}
 	
+	// ----------------------------------------------------------- Spot type lookup code shared between SpotsListType and SpotsListMap
+
+	var $spotTypes = array(
+		'FS' => 'Forest Service campgrounds', 
+		'NPS' => 'National Park campgrounds', 
+		'BLM' => 'BLM campgrounds', 
+		'ACE' => 'Army Corps of Engineers campgrounds', 
+		'State' => 'State campgrounds', 
+		'County' => 'County/City campgrounds', 
+		'boondock' => 'Parking lots and other boondocking', 
+		'inside' => 'Hotels and Motels', 
+		// not in search
+		'NWR' => 'Wildlife Refuges', 
+		'HOTSPR' => 'Hot Springs', 
+	);
+	function getSpots($key)
+	{
+		$this->caption = $this->spotTypes[$this->key];
+
+		switch ($this->key) {
+			case 'NPS':				$parms = array('type' => 'partof', 'data' => "National Park");	break;
+			case 'FS':				$parms = array('type' => 'partof', 'data' => "National Forest");	break;
+			case 'BLM':				$parms = array('type' => 'partof', 'data' => $this->key);	break;
+			case 'ACE':				$parms = array('type' => 'partof', 'data' => 'Army Corps');	break;
+			case 'State':			$parms = array('type' => 'partof', 'data' => 'State Park');	break;
+			case 'County':		$parms = array('type' => 'partof', 'data' => 'County');	break;
+			case 'inside':		$parms = array('type' => 'type' , 'data' => 'LODGE');	break;
+			case 'boondock':	$parms = array('type' => 'status', 'data' => 'parking');	break;
+			case 'NWR':				$parms = array('type' => 'type', 'data' => 'NWR'); break;
+			case 'HOTSPR':		$parms = array('type' => 'type', 'data' => 'HOTSPR'); break;			
+			default; exit;
+		}
+		$spots = $this->build('DbSpots', $parms);
+		if ($this->key == 'County')
+			$spots->add($this->build('DbSpots', array('type' => 'partof', 'data' => 'City')));
+		if ($this->key == 'boondock')
+			$spots->add($this->build('DbSpots', array('type' => 'status', 'data' => 'roadside')));
+		
+		return $spots;
+	}
+
+	function getSpotsByPlace($key)
+	{
+		$labels = array(
+			"70" => "Oregon Coast", 
+			"108" => "Nevada", 
+			"112" => "Utah", 
+			"111" => "Idaho", 
+			"121" => "Colorado", 
+			"119,120" => "Montana/Wyoming", 
+			"103,173" => "Arizona/NewMexico", 
+			"89" => "Dakotas, Missouri, and the Corn Belt", 
+			"212," => "Texas, Oklahoma, Arkansas", 
+			"128" => "Istanbul Hotels", 
+			"208" => "North Sierras", 
+			"109" => "North Coast", 
+			"107" => "US 395 (Eastern Sierras)", 
+			"211" => "Central Valley", 
+			"106" => "Other Nor Cal", 
+			"105" => "So Cal", 
+			"80" => "Tennessee, North Carolina and South", 
+			"83,88" => "Kentucky, Virginia and North", 
+		);
+		assert(isset($labels[$key]), "unknown key, SpotsListChildren");
+		$this->caption = "Spots in {$labels[$key]}";
+
+		$placeids = explode(',', $key);
+		// dumpVar($placeids, "placeids");
+		return $this->build('DbSpots', array('type' => 'placekids', 'data' => $placeids));	// all spots for thee ids and their descendants
+	}
+	
+	// ----------------------------------------------------------- base utilities
+
 	function makeTripWpLink($trip)
 	{
 		$wplink = $trip->wpReferenceId();	// always return an array 
@@ -334,21 +396,35 @@ class OneSpot extends ViewWhu
 		$this->template->set_var('SPBATH',  	$spot->bath());
 		$this->template->set_var('SPWATER',  	$spot->water());
 		$this->template->set_var('SPDESC',  	$desc = $spot->htmldesc());
+		
+		$this->template->set_var('SEARCH_RADIUS_VAL', $this->props->getDefault('radius', '50'));
 
 		if ($visits == 'never')
 		{
 			$this->template->set_var('DAYS_INFO', 'hideme');								// NO Days!
+		exit;
 		}
 		else
 		{
 			$this->template->set_var('DAYS_INFO', '');											// yes, there are days
-
+			
 			$keys = $spot->keywords();							// -------------------- keywords
-			for ($i = 0, $rows = array(), $keylist = ''; $i < sizeof($keys); $i++) 
+			$attmsg = '';
+			for ($i = 0, $rows = array(); $i < sizeof($keys); $i++) 
 			{
-				// dumpVar($keys[$i], "keys[$i]");
+				if (substr($keys[$i], 0, 4) == 'att=') 
+				{
+					$msgs = array(
+						'good' => "Att cellphone reception was good.",
+						'some' => "Att cellphone reception was wasn't great.",
+						'poor' => "No usable cellphone reception for Att.",
+					);
+					$att = explode('=', $keys[$i]);
+					if (isset($msgs[$att[1]]))
+						$this->template->set_var('ATT_MSG', $msgs[$att[1]]);
+					continue;
+				}
 				$rows[] = array('spot_key' => $keys[$i]);
-				$keylist .= $keys[$i] . ', ';
 			}
 			// dumpVar($rows, "rows");
 			$loop = new Looper($this->template, array('parent' => 'the_content', 'one' => 'keyrow', 'none_msg' => "no keywords", 'noFields' => true));
@@ -365,11 +441,11 @@ class OneSpot extends ViewWhu
 				// collect evening and morning pictures for each day
 				if ($i == 0) {
 					$pics = $this->build('Pics', array('type' => 'night', 'data' => $date));
-					dumpVar($pics->size(), "000 pics->size()");
+					// dumpVar($pics->size(), "000 pics->size()");
 				}
 				else {
 					$pics->add($this->build('Pics', array('type' => 'night', 'data' => $date)));
-					dumpVar($pics->size(), "$i. pics->size()");
+					// dumpVar($pics->size(), "$i. pics->size()");
 				}
 				
 				$row = array('stay_date' => $date = $day->date());
@@ -523,11 +599,12 @@ class SpotsList extends ViewWhu
 	var $searchterms = array('CAMP' => 'wf_spots_types', 'usfs' => 'wf_spots_status', 'usnp' => 'wf_spots_status');
 	var $title = "Spots";
 	var $searchParm = "spots";
+	var $headerClause = '';
 	
 	function showPage()	
 	{
 		$this->template->set_var('PAGE_TITLE', $this->caption);
-		$this->template->set_var('SEARCH_PARM', $this->searchParm);
+		$this->template->set_var('TITLE_CLAUSE', $this->headerClause);
 		
 		// ------------------------------------------------------- caller has already gotten the spots object
 		dumpVar($this->spots->size(), "this->spots->size()");
@@ -602,37 +679,14 @@ class SpotsList extends ViewWhu
 		$loop->do_loop($rows2);				
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'lg3_row'));
 		$loop->do_loop($rows3);
-		
-		// $pics->getSome(12);
-		// $this->headerGallery($pics);
 
 		parent::showPage();
 		return;
-		//////
-					
-		if (null !== ($title = @$spottypes[$this->key])) {
-			$this->searchterms = array($this->key => 'wf_spots_types');
-		}
-		else
-			return;
-
-		$spots = $this->build('DbSpots', $this->searchterms);
-		
-		$maxrows = 60;
-		if ($spots->size() > $maxrows)
-		{
-			shuffle($spots->data);
-			$this->template->set_var("TITLE", "A Random Selection of " . $title);
-		}
-		else
-			$this->template->set_var("TITLE", $title);
-		$this->caption = "Browse " . $this->title;	
-		
-		// $this->template->setFile('MAP_INSET', 'mapInset.ihtml');
 	}
 }
 class SpotsSome extends SpotsList					// list a subset of Camping spots
 {
+	var $headerClause = 'narrow your search on <a href="?page=search&type=home&key=spots">Search page</a>';
 	function showPage()	
 	{
 		$this->caption = "Some Overnights";
@@ -646,28 +700,9 @@ class SpotsListType extends SpotsList					// BLM, Park Service, etc
 {
 	function showPage()
 	{
-		$types = array(
-			'FS' => 'Forest Service campgrounds', 
-			'NPS' => 'National Park campgrounds', 
-			'BLM' => 'BLM campgrounds', 
-			'ACE' => 'Army Corps of Engineers campgrounds', 
-			'State' => 'State campgrounds', 
-			'County' => 'County/City campgrounds', 
-			'boondock' => 'Parking lots and other boondocking', 
-			'inside' => 'Hotels and Motels', 
-		);
-		$this->caption = $types[$this->key];
-
-		switch ($this->key) {
-			case 'FS':	case 'NPS':	case 'BLM':	
-										$parms = array('type' => 'partof', 'data' => $types[$this->key]);	break;
-			case 'ACE':		$parms = array('type' => 'partof', 'data' => 'Army Corps');	break;
-			case 'State':	$parms = array('type' => 'partof', 'data' => 'State Park');	break;
-			case 'inside':	$parms = array('type' => 'types', 'data' => 'LODGE');	break;
-			default; exit;
-		}
-		$this->spots = $this->build('DbSpots', $parms);
-
+		$this->caption = $this->spotTypes[$this->key];
+		$this->headerClause = "<a href='?page=map&type=spottype&key=$this->key'>view as map</a>";
+		$this->spots = $this->getSpots($this->key);
 		parent::showPage();
 	}
 }
@@ -681,6 +716,7 @@ class SpotsType extends SpotsList					// list HOTSPR or NWR
 	function showPage()	
 	{
 		$this->caption = $this->spottypes[$this->type];
+		$this->headerClause = "<a href='?page=map&type=spottype&key=$this->key'>view as map</a>";
 		$this->spots = $this->build('DbSpots', array('type' => 'type', 'data' => $this->type));
 		parent::showPage();
 	}
@@ -711,6 +747,7 @@ class SpotsListChildren extends SpotsList				// Place id(s) and all their descen
 		);
 		assert(isset($labels[$this->key]), "unknown key, SpotsListChildren");
 		$this->caption = "Spots in {$labels[$this->key]}";
+		$this->headerClause = "<a href='?page=map&type=spotplaces&key=$this->key'>view as map</a>";
 
 		$placeids = explode(',', $this->key);
 		// dumpVar($placeids, "placeids");
@@ -753,14 +790,53 @@ class SpotsKeywords extends SpotsList
 		parent::showPage();
 	}
 }
+class SpotsRadius extends SpotsList
+{
+	var $searchParm = "spotkey";
+	function showPage()	
+	{
+		if ($this->props->isProp('spotlist_location'))
+		{
+			$geocode = getGeocode($address = $this->props->get('spotlist_location'));
+			dumpVar($geocode, "lox");
+			$this->caption = sprintf("Spots within <b>%s</b> miles of <i>%s</i>", $radius = $this->props->get('spotlist_radius'), $address);
+			$this->headerClause = sprintf("<a href='?page=map&type=radius&key=%s&lat=%s&lon=%s'>Map them instead</a>", $radius, $geocode['lat'], $geocode['lon']);
+		}
+		else if ($this->key == 'id')
+		{
+			$spot = $this->build('DbSpot', $spotid = $this->props->get('id'));
+			$geocode = array(
+				'lat' => ($lat = $spot->lat()), 
+				'lon' => ($lon = $spot->lon()), 
+			);
+			$this->caption = sprintf("Spots within <b>%s</b> miles of %s", $radius = $this->props->get('radius'), $spot->name());
+			$this->headerClause = sprintf("<a href='?page=map&type=spot&key=%s&search_radius=%s'>Map them instead</a>", $spotid, $radius);
+		}
+		else
+		{
+			$geocode = array(
+				'lat' => $this->props->get('lat'), 
+				'lon' => $this->props->get('lon'), 
+			);
+			$this->caption = sprintf("Spots within <b>%s</b> miles of <i>(%s,%s)</i>", $radius = $this->key, $geocode['lat'], $geocode['lon']);
+			$this->headerClause = sprintf("<a href='?page=map&type=radius&key=%s&lat=%s&lon=%s'>Map them instead</a>", $radius, $geocode['lat'], $geocode['lon']);
+		}
+
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 'lat' => $geocode['lat'], 'lon' => $geocode['lon'], 'radius' => $radius));
+		
+
+		dumpVar($this->spots->size(), "this->spots->size()");		
+		$this->spots->random(21);
+		parent::showPage();
+	}
+}
 
 class OneTripLog extends ViewWhu
 {
 	var $file = "triplog.ihtml";   
 	function showPage()	
 	{
-		$tripid = $this->key;
- 	 	$trip = $this->build('Trip', $tripid);	
+		$trip = $this->build('Trip', array('type' => 'id', 'data' => ($tripid = $this->key)));
 		$days = $this->build('DbDays', $tripid);
 		$this->template->set_var('TRIP_NAME', $this->caption = $trip->name());
 		$this->template->set_var('TRIP_ID', $this->caption = $trip->id());
@@ -843,7 +919,8 @@ class OneTripDays extends OneTripLog
 			$pic = $pics->safeOne($i);
 			if ($pic == NULL) {
 				$row["picshow_0"] = ' hidden';
-				$row["nopic_0"] = '';
+				$row["nopic_0"] = ' hideme';
+				// $row["nopic_0"] = '';
 			}
 			else {
 				$row["picshow_0"] = '';
@@ -1025,6 +1102,10 @@ class OneMap extends ViewWhu
 		$this->template->set_var('MARKER_COLOR', $this->marker_color);
 		$this->template->set_var('WHU_URL', $this->whuUrl());
 
+		$this->template->set_var('TRIP_MAP', '');
+		$this->template->set_var('SPOT_MAP', 'class="hideme"');
+		$this->template->set_var('SPOTLIST_MAP', 'class="hideme"');
+
 		$tripid = $this->trip();		// local function		
  	 	$trip = $this->build('Trip', $tripid);		
 		$this->template->set_var('TRIP_NAME', $this->name = $trip->name());
@@ -1098,6 +1179,138 @@ dumpVar($fullpath, "Mapbox fullpath");
 		return $this->key; 
 	}
 }
+class RadiusMapBase extends OneMap
+{
+	var $radiusMap = '';
+	var $spotlistMap = 'class="hideme"';
+	function showPage()	
+	{
+		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
+		$this->template->set_var("JSON_INSERT", '');
+		$this->template->setFile('LOOP_INSERT', $this->loopfile);
+		$this->template->set_var("CONNECT_DOTS", 'false');		// no polylines
+		$this->template->set_var('PAGE_VAL', 'spot');
+		$this->template->set_var('TYPE_VAL', 'id');
+		$this->template->set_var('WHU_URL', $this->whuUrl());
+
+		$this->template->set_var('TRIP_MAP', 'class="hideme"');
+		$this->template->set_var('SPOT_MAP', $this->radiusMap);
+		$this->template->set_var('SPOTLIST_MAP', $this->spotlistMap);
+		
+		$markers = array('CAMP' => 'campsite', 'LODGE' => 'lodging', 'HOTSPR' => 'swimming', 'PARK' => 'parking', 'NWR' => 'wetland');
+		$hiPriority = array('CAMP', 'LODGE', 'PARK');		// this type wins
+
+		for ($i = 0; $i < $this->spots->size(); $i++)
+		{
+			$spot = $this->spots->one($i);
+		
+			$row = array('point_lon' => $spot->lon(), 'point_lat' => $spot->lat(), 'marker_color' => $this->markerColor($i),
+										'point_name' => addslashes($spot->name()), 'key_val' => $spot->id(), 'link_text' => 'info page');
+			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
+				dumpVar($row, "NO POSITION! $i row");
+				continue;
+			}
+			
+			$types = $spot->prettyTypes();
+			foreach ($types as $k => $v)	{
+				// dumpVar($v, "$i $k v");
+				if ($k == 'CAMP' && $v == 'parking lot')
+					$k = 'PARK';
+				if (!isset($markers[$k]))						// don't show some types (eg HOUSE = friend's house)
+					break;
+				$row['marker_val'] = $markers[$k];
+				if (in_array($k, $hiPriority))			// this means I can control who wins by listing, say LODGE before CAMP
+					break;
+			}
+			if (isset($row['marker_val']))				// don't show if I didn't give it a marker
+				$this->rows[] = $row;										
+			// dumpVar($row, "$i row");
+		}
+		// dumpVar($rows[2], "rows[2]");
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'node_row'));
+		$loop->do_loop($this->rows);
+		
+		ViewWhu::showPage();
+	}
+	function getMetaDesc()	{	return $this->title;	}
+	function markerColor($i)	{	return $this->marker_color;	}
+}
+class RadiusMap extends RadiusMapBase
+{	
+	function showPage()	
+	{
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 
+			'lat' => ($lat = $this->props->get('lat')), 
+			'lon' => ($lon = $this->props->get('lon')), 'radius' => $this->key));
+		dumpVar($this->spots->size(), "NUM spots");
+	
+		// Start the map with a fake point that shows the center
+		$center = array('point_lat' => $lat, 'point_lon' => $lon,
+												'key_val' => 0, 'link_text' => '', 'marker_val' => 'cross', 'marker_color' => '#000');
+		$center['point_name'] = "Spots within $this->key miles of <i>($lat, $lon)</i>";				
+		$this->rows = array($center);
+		
+		$this->template->set_var('TRIP_NAME', $this->title = $center['point_name']);
+		$this->template->set_var('RADIUS', $this->key);
+		$this->template->set_var('LAT', $lat);
+		$this->template->set_var('LON', $lon);
+
+		parent::showPage();
+	}
+}
+class SpotMap extends RadiusMapBase
+{
+	function showPage()	
+	{
+		// get the spot which defines the center of the search
+		$spot = $this->build('DbSpot', $this->key);
+		// $spot = $this->build('DbSpot', array('type' => 'id', 'data' => $this->key));
+		
+		// now get the spots
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 
+			'lat' => ($lat = $spot->lat()), 
+			'lon' => ($lon = $spot->lon()), 
+			'radius' => ($radius = $this->props->get('search_radius'))));
+
+		$this->rows = array();
+
+		$this->title = sprintf("Spots within %s miles of <i>%s</i>", $radius, $spot->name());				
+		$this->template->set_var('TRIP_NAME', $this->title);
+		$this->template->set_var('SPOT_ID', $spot->id());
+		
+		$this->template->set_var('RADIUS', $radius);
+		$this->template->set_var('LAT', $lat);
+		$this->template->set_var('LON', $lon);
+		
+		parent::showPage();
+	}
+	function markerColor($i) { return ($i <= 0) ? '#060059' : $this->marker_color; }
+}
+class SpotTypeMap extends RadiusMapBase
+{
+	var $radiusMap = 'class="hideme"';
+	var $spotlistMap = '';
+	function showPage()	
+	{
+		$this->spots = $this->getSpots($this->key);
+		$this->title = $this->caption = $this->spotTypes[$this->key];
+		$this->template->set_var('TRIP_NAME', $this->title);
+		$this->template->set_var('SPOTLIST_KEY', $this->key);
+		parent::showPage();
+	}
+}
+class SpotPlacesMap extends SpotTypeMap
+{
+	function showPage()	
+	{
+		$this->spots = $this->getSpotsByPlace($this->key);
+		$this->title = $this->caption;
+		// $this->template->set_var('TRIP_NAME', $this->title);
+		// $this->template->set_var('SPOTLIST_KEY', $this->key);
+		
+		parent::showPage();
+	}
+}
 
 class About extends ViewWhu
 {
@@ -1110,6 +1323,7 @@ class About extends ViewWhu
 		$this->template->set_var('N_TXT', $site->numPosts());
 		$this->template->set_var('N_PIC', $site->numPics());
 		$this->template->set_var('N_SPO', $site->numSpots());
+		$this->template->set_var('N_TRI', $site->numTrips());
 
 		parent::showPage();
 	}
@@ -1128,7 +1342,9 @@ class Search extends ViewWhu
 		$this->template->set_var('SHOW_3', ($this->key == 'pics'    ) ? ' show' : '');
 		$this->template->set_var('SHOW_4', ($this->key == 'spotkey' ) ? ' show' : '');
 		
-		return;
+		$this->template->set_var('SPOTLIST_LOCATION_VAL', '');
+		$this->template->set_var('SPOTLIST_RADIUS_VAL', '100');
+
 		// key = spots -- has no code, it's all hard coded links!
 		// key = trips -- populate the Trip categories
 		foreach (AllTrips::$cats as $k => $v) 
@@ -1164,7 +1380,6 @@ class Search extends ViewWhu
 		}
 		$this->template->set_var('SPOT_KEYS', $str);
 		
-
 		parent::showPage();
 	}
 }
@@ -1284,7 +1499,7 @@ class TripPictures extends ViewWhu
 	{
 		parent::showPage();
 		
-		$trip = $this->build('Trip', $this->key);
+		$trip = $this->build('Trip', array('type' => 'id', 'data' => $this->key));
 		$this->template->set_var('GAL_TITLE', $this->caption = $trip->name());
 		$this->template->set_var('TRIP_ID', $this->key);
 		$this->makeTripWpLink($trip);
@@ -1334,7 +1549,6 @@ class TripPictures extends ViewWhu
 				$row['use_binpic'] = 'hideme';
 				$row['use_image']  = '';
 			}		
-
 			$rows[] = $row;
 			$count += $dc;
 		}
@@ -1502,33 +1716,9 @@ class Gallery extends ViewWhu
 		
 		$this->doNav();			// do nav (or not)
 
-		$pics = $this->getPictures($this->key);
-		// dumpVar($pics->data, "picsics->data");
-				
-		for ($i = 0, $rows = array(); $i < $pics->size(); $i++) 
-		{
-			$pic = $pics->one($i);
-			// dumpVar(sprintf("id %s, %s: %s", $pic->id(), $pic->filename(), $pic->caption()), "$i Gallery");
-			
-			$row = array('PIC_ID' => $pic->id(), 'WF_IMAGES_PATH' => $pic->folder(), 'PIC_NAME' => $pic->filename());
-			$row['PIC_DESC'] = htmlspecialchars($pic->caption());
-
-			$imgPath = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
-			$thumb = $pic->thumbImage();
-			$row['img_thumb'] = "data:image/jpg;base64,$thumb";
-			if (strlen($row['img_thumb']) < 100) {																	// hack to use the full image if the thumbnail fails on server
-				dumpVar($row['PIC_NAME'], "binpic fail");
-				$row['img_thumb'] = $imgPath;
-			}
-			else if (($ratio = ($pic->thumbSize[0] / $pic->thumbSize[1])) > 2.) {		// also use the full image for panoramas 'cuz thumb looks terrible
-				dumpVar($ratio, "ratio");
-				// dumpVar($pic->thumbSize, "$i pic->thumbSize");
-				$row['img_thumb'] = $imgPath;
-			}
-			$rows[] = $row;
-		}
+		$pics = $this->getPictures($this->key);				
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'none_msg' => 'no pictures'));
-		$loop->do_loop($rows);
+		$loop->do_loop($this->makeGalleryArray($pics));		
 		
 		parent::showPage();
 	}
@@ -1543,6 +1733,9 @@ class DateGallery extends Gallery
 		$this->template->set_var("DATE_GAL_VIS", '');
 		$this->template->set_var("CAT_GAL_VIS" , 'hideme');
 		$this->template->set_var("CAT_GAL_VIS1" , 'hideme');
+		
+		$trip = $this->build('DbTrip', (array('type' => 'date', 'data' => $this->key)));
+		$this->template->set_var("TRIP_ID" , $trip->id());
 		
 		$this->galTitle = Properties::prettyDate($this->key);
 		$this->meta_desc = sprintf("WHUFU Picture Gallery for %s", $this->galTitle);
@@ -1789,94 +1982,5 @@ class DateMap extends OneMap
 		return $day->tripId();
 	}
 	function getMetaDesc()	{	return sprintf("Local WHUFU Map for the day %s", Properties::prettyDate($this->key));	}
-}
-class SpotMap extends OneMap
-{
-	function showPage()	
-	{
-		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
-		$this->template->set_var('LINK_BAR', '');
-		$this->template->set_var("JSON_INSERT", '');
-		$this->template->setFile('LOOP_INSERT', $this->loopfile);
-		$this->template->set_var("CONNECT_DOTS", 'false');		// no polylines
-		$this->template->set_var('PAGE_VAL', 'spot');
-		$this->template->set_var('TYPE_VAL', 'id');
-		$this->template->set_var('WHU_URL', $t = sprintf("http://%s%s", $_SERVER['HTTP_HOST'], parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH)));
-		// dumpVar($t, "WHU_URL");
-		
-		$this->setTitle($this->rad = $this->props->get('search_radius'));
-		$items = $this->getSpots($this->rad);
-		
-		$markers = array('CAMP' => 'campsite', 'LODGE' => 'lodging', 'HOTSPR' => 'swimming', 'PARK' => 'parking', 'NWR' => 'wetland');	// , 'veterinary', 
-		$hiPriority = array('CAMP', 'LODGE', 'PARK');		// this type wins
-		
-		$rows = $this->initRows();
-		$spots = $this->build('DbSpots', $items);
-		for ($i = 0; $i < $spots->size(); $i++)
-		{
-			$spot = $spots->one($i);
-		
-			$row = array('point_lon' => $spot->lon(), 'point_lat' => $spot->lat(), 
-										'point_name' => addslashes($spot->town()), 'key_val' => $spot->id(), 'link_text' => addslashes($spot->name()));
-
-			$row['marker_color'] = $this->markerColor($i);
-										
-			$types = $spot->prettyTypes();
-			foreach ($types as $k => $v)	{
-				// dumpVar($v, "$i $k v");
-				if ($k == 'CAMP' && $v == 'parking lot')
-					$k = 'PARK';
-				$row['marker_val'] = $markers[$k];
-				if (in_array($k, $hiPriority))			// this means I can control who wins by listing, say LODGE before CAMP
-					break;
-			}
-
-			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
-				dumpVar($row, "NO POSITION! $i row");
-				continue;
-			}
-			$rows[] = $row;
-			// if ($i == 1)	dumpVar($rows, "rows");
-		}
-		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
-		$loop->do_loop($rows);
-		
-		ViewWhu::showPage();
-	}
-	function setTitle($rad) 
-	{ 
- 	 	$this->spot = $this->build('DbSpot', $this->key);		
-		$this->template->set_var('TRIP_NAME', $t = sprintf("Spots in a %s mile radius of %s", $rad, $this->name = $this->spot->name()));
-		$this->caption = $t;
-	}
-	function getSpots($rad) 
-	{ 
-		return $this->spot->getInRadius($rad);
-	}
-	function initRows() { return array(); }
-	function markerColor($i) { return ($i <= 0) ? '#000' : $this->marker_color; }
-	function getMetaDesc()	{	return "Map of all WHUFU Spots in a {$this->rad} of {$this->name}";	}
-}
-class NearMap extends SpotMap
-{
-	function setTitle($rad) 
-	{ 
-		$this->template->set_var('TRIP_NAME', $t = sprintf("Spots in a %s mile radius of \"%s\"", $rad, $this->props->get('search_term')));
-	}
-	function getSpots($rad) 
-	{ 
-		$this->loc = getGeocode($this->props->get('search_term'));
-		dumpVar($this->loc, "lox");
-		
-		$fakeSpot = $this->build('DbSpot', array('wf_spots_id' => 9999, 'wf_spots_lon' => $this->loc['lon'], 'wf_spots_lat' => $this->loc['lat']));
-		return $fakeSpot->getInRadius($rad);
-	}	
-	function initRows() 
-	{
-		$centerRow = array('point_lon' => $this->loc['lon'], 'point_lat' => $this->loc['lat'], 'key_val' => 0, 'link_text' => '', 'marker_val' => 'cross', 'marker_color' => '#000');
-		$centerRow['point_name'] = sprintf("Search from \"%s\"", addslashes($this->loc['name']));
-		return array($centerRow);
-	}
-	function markerColor($i) { return $this->marker_color; }
 }
 ?>

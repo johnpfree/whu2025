@@ -6,7 +6,10 @@
 
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2>{PAGE_TITLE}<span style="font-size: 60%; font-style: italic;">go to <a href="?page=search&type=home&key={SEARCH_PARM}">search page</a> for more browsing</span></h2>
+					<h2>
+						{PAGE_TITLE}
+						<span class="align-middle" style="font-size: 60%; font-style: italic;">{TITLE_CLAUSE}</span>
+					</h2>
 		    </div>
 		  </div>
 			
@@ -63,15 +66,19 @@
 /*		padding: 0 12px;*/
 	}
 	.galrow {
-		height: 100px;
-		margin-bottom: 20px;
+		height: 118px;   /* 136 */
+		margin-bottom: 30px;
 		width: 100%;
 		border-left: 1px solid #017034;
 		border-bottom: 1px solid #017034;
+	  border-bottom-left-radius: 8px;
+		border-top: 1px solid #017034;
+	  border-top-left-radius: 8px;
 		overflow: scroll;
 		overflow-x: hidden;
 /*		border-radius: 6px;*/
 	}
+.galrow .col { padding-top: 4px; }
 .galrow img { width: 100%; }
 .galrow li {
 	list-style-type: none;
@@ -89,7 +96,8 @@
 }
 	
 	.cell_stripe0	{  background-color: #ffe;  }
-	.cell_stripe1	{  background-color: #f0e5e2;  }
+	.cell_stripe1	{  background-color: #e9f5e9;  }
+/*	.cell_stripe1	{  background-color: #f0e5e2;  }*/
 	
 /*
 	.cell_stripe1	{  background-color: #fee;  }

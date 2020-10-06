@@ -120,25 +120,22 @@ Orphans that don't fit into the class structure. Mostly because I don't need to 
 */
 function getGeocode($name)
 {
-	$geocode_pending = true;
-	$delay = 1;
-	$res = array('stat' => 'none', 'name' => $name);
-
-	$request_url = sprintf("http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false", urlencode($name));
-	$raw = @file_get_contents($request_url);
-// dumpVar($raw, "file_get_contents($request_url)");  // exit;
-
-	$json_data=json_decode($raw, true);
-	if ($json_data['status'] == "OK")
-	{
-		$jres = $json_data['results'][0]['geometry'];
-// dumpVar($jres['location'], "res");
-
-		$res['lat'] = $jres['location']['lat'];
-		$res['lon'] = $jres['location']['lng'];
-		$res['stat'] = "yes";
-	}
-	return $res;
+	$coded = str_replace(" ", "%20", $name);
+	dumpVar($coded, "$name ==>");
+	
+	$url =  "https://api.mapbox.com/geocoding/v5/mapbox.places/{$coded}.json?access_token=pk.eyJ1Ijoiam9obnBmcmVlIiwiYSI6ImNpajF5OGk2YjAwY3J1OGx3N3hyNjFvNjUifQ.L8lYX2iaC1iXYY1UXOntzw";
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	$postjson = curl_exec($ch);
+	curl_close($ch);
+	$ret = json_decode($postjson, true);
+	
+	if (sizeof($ret['features']) == 0) 
+		return array('stat' => 'FAIL', 'name' => $name);
+	
+	return array('stat' => 'success', 'name' => $name, 
+		'lat' => $ret['features'][0]['center'][1], 			// the returned values are ***LON,LAT*** not lat,lon
+		'lon' => $ret['features'][0]['center'][0]);
 }
 // ---------------------------------------------------------------------------------------  
 function getAllSpotKeys($db)

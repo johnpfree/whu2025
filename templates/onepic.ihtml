@@ -26,20 +26,20 @@ $(document).ready(function() {
 	</div>
 	
   <div id="underpic" class="row">
-    <div class="col-5">
+    <div class="col-md-4">
 			<dl>
 			  <dt>day gallery:</dt>
 			  <dd><h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3></dd>
 			</dl>
     </div>		
-    <div class="col-5">
+    <div class="col-md-6">
 			<dl>
 			  <dt>trip:</dt>
 			  <dd><h3><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3></dd>
 			</dl>
     </div>
-    <div class="col-2">
-			<nav><a {P_VIS} href="?page=pic&type=id&key={PREVPIC}"><i class="fa fa-arrow-circle-o-left"></i> previous</a></nav>
+    <div class="col-md-2">
+			<nav><a {P_VIS} href="?page=pic&type=id&key={PREVPIC}"><i class="fa fa-arrow-circle-o-left"></i> prev</a></nav>
 			<nav><a {N_VIS} href="?page=pic&type=id&key={NEXTPIC}">next <i class="fa fa-arrow-circle-o-right"></i></a></nav>
     </div>		
 	</div>
@@ -80,11 +80,14 @@ $(document).ready(function() {
 	#underpic {
 		margin: 20px 0 12px;
 	}
+	#underpic nav:nth-child(2) {
+		float: right;
+	}
 	#underpic nav {
+		display: inline-block;
 		border: 2px solid #e3d4c6;
 	  border-radius: 8px;
 		padding: 4px 9px;
-		margin: 0 0 6px 12px;
 		background-color: #f7e8e0;
 		text-align: center;
 	}

@@ -1,19 +1,48 @@
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2><img style="float: left" src="./resources/site-images/logFull.png" width="100" text="W H U F U">A whole lot of stuff in here:</h2>
+					<h2>W H U F U &ndash; My travel blog</h2>
 		    </div>
 		  </div>
-		  <div class="row cardrow">
-				<div class="card text-center col-xs-6 col-md-4">
-	        <h4 class="card-title"><b>{N_PIC}</b> Images.</h4>
-					<img class="card-img-top" src="./resources/site-images/whupix.jpg" alt="pictures">
+		  <div class="row">
+		    <div class="col">
+					<p>I've done road trips since I was a little boy. My mom spent a few years in the west during the war, so every few years she and I would bundle into her bog ole Chevrolet and drive west. A couple of times we included a friend of mine (great fun, memories we still share), once we included a busybody friend of hers and her spoiled daughter (not a success), but usually is was just me and my mom. Staying in mid-range motels, a couple of days to get across the plains, then a few days in Colorado, then on to California.</p>
+					<p>In the late 90's, as computer technology became more personal - the web, word processors, digital cameras - I started thinking about how I could convey travel experiences. </p>
+					<ul>
+						<li>Here is the <a target="_blank" href="http://cloudyhands.com/fall00/fall00.php">first try</a> from 2000.</li>
+					
+						<li>Here is the <a target="_blank" href="http://cloudyhands.com/php/PicOrg/usmap.php">second try</a> from 2002. Google maps wasn't a thing yet so I did a map by hand. :)</li>
+					
+						<li>Here is the massive <a target="_blank" href="http://www.whufu.com/whufu2.4">third try</a>.  It's still pretty cool ... as long as you're viewing on a large device - NOT mobile friendly.</li>
+					</ul>					
+
+					<p style="margin-top: 20px;">The rest of me on the internet:</p>
+					<ul>					
+						<li>My old website, whose domain name I am still paying for for some reason - <a href="http://cloudyhands.com/">cloudyhands</a></li>
+						<li>My non-travel blog, which is mostly my various, ever increasing medical issues - <a href="http://www.cloudyhands.com/wptest/">Other Writing</a></li>
+					</ul>					
 		    </div>
-				<div class="card text-center col-xs-6 col-md-4">
-	        <h4 class="card-title"><b>{N_TXT}</b> Stories.</h4>
-					<img class="card-img-top" src="./resources/site-images/whutxt.jpg" alt="stories">
+		  </div>
+		  <div class="row my-4">
+		    <div class="col">
+					<h4>Credits</h4>
+					<ul>
+						<li>I write my stories <a href="https://wordpress.com/com-vs-org/">Wordpress</a>.</li>
+						<li>I render the maps with <a href="https://www.mapbox.com/">Mapbox</a>.</li>
+						<li>I use <a href="http://miromannino.github.io/Justified-Gallery/" title="Justified Gallery">Justified Gallery</a> for the gallery layout.</li>
+					</ul>
+		    </div>
+		  </div>
+		  <div class="row mt-4">
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_TRI}</b> Trips</h4>
+		    </div>
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_PIC}</b> Images</h4>
+		    </div>
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_TXT}</b> Stories</h4>
 	      </div> <!--/card-->
-				<div class="card text-center col-xs-6 col-md-4">
-	        <h4 class="card-title"><b>{N_SPO}</b> Places.</h4>
-					<img class="card-img-top" src="./resources/site-images/whulog.jpg" alt="spots">
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_SPO}</b> Places</h4>
 				</div> <!--/card-->
 		  </div>

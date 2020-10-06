@@ -32,29 +32,27 @@
 							<!-- BEGIN keyrows -->
 							&bull; <a href="?page=spots&type=key&key={SPOT_KEY}">{SPOT_KEY}</a>		
 							<!-- END keyrows -->	
-							&bull; 
+							&bull;
 						</div>
+						<p>{ATT_MSG}</p>
 					</div>
 				</div>
 				<div class="col-md-5">
 					{MAP_INSET}
 					<div id="formbox">
-					  <form role="form" id="nearform" method="get" data-toggle="validator">
+						<form action="?page=map&type=spot&key={SPOT_ID}" method="post" data-toggle="validator">
 							<div class="headfont" style="font-size: 130%; margin-top: 6px;">Find Spots near here:</div>
 					    <div class="row">
 					      <label for="search_radius" class="col-sm-12 col-form-label">Show all spots within:</label>
 					    </div>
 					    <div class="form-group row">
 					      <div class="col-sm-6">
-					        <input type="number" class="form-control" name="search_radius" id="search_radius" placeholder="Miles" max="200" required>
+					        <input type="number" class="form-control" name="search_radius" id="search_radius"  value="{SEARCH_RADIUS_VAL}" max="200" required>
 					      </div>
 					      <div class="col-sm-6" id="search_near">         
 					        <button type="submit" name="search_near_spot" class="btn btn-primary">&nbsp; Find Spots &nbsp;</button>
 					      </div>
 					    </div>
-							<input type="hidden" name="page" value="map" />
-							<input type="hidden" name="type" value="spot" />
-							<input type="hidden" name="key" value="{SPOT_ID}" />
 					  </form>
 					</div>
 				</div>

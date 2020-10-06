@@ -177,10 +177,17 @@ switch ("$curpage$curtype")
 	case 'spotslistkids': 	$page = new SpotsListChildren($props);			break;
 	case 'spotslisttype': 	$page = new SpotsListType($props);			break;
 	case 'spotskey':				$page = new SpotsKeywords($props);	break;		// for a keyword (from a spot OR the search page)
+	case 'spotsradius':			$page = new SpotsRadius($props);	break;
 	
 	case 'tlogid':				$page = new OneTripLog($props);		break;		
-	case 'logid':			$page = new OneTripDays($props);		break;		
-	case 'daydate':			$page = new OneDay($props);			break;	
+	case 'logid':					$page = new OneTripDays($props);		break;		
+	case 'daydate':				$page = new OneDay($props);			break;	
+
+	case 'mapid':					$page = new OneMap($props);			break;	
+	case 'mapradius':			$page = new RadiusMap($props);	break;	
+	case 'mapspot':				$page = new SpotMap($props);			break;	
+	case 'mapspottype':		$page = new SpotTypeMap($props);			break;	
+	case 'mapspotplaces':	$page = new SpotPlacesMap($props);			break;	
 	
 	case 'searchhome':		$page = new Search($props);					break;
 	case 'searchresults':	$page = new SearchResults($props);	break;
@@ -211,9 +218,7 @@ switch ("$curpage$curtype")
 	case 'vidsdate':		$page = new DateVideos($props);		break;	
 	case 'vidscat':			$page = new CatVideos($props);		break;	
 
-	case 'mapid':				$page = new OneMap($props);			break;	
 	case 'mapdate':			$page = new DateMap($props);			break;	
-	case 'mapspot':			$page = new SpotMap($props);			break;	
 	case 'mapnear':			$page = new NearMap($props);			break;	
 	case 'mapplace':		$page = new PlaceMap($props);			break;	
 	

@@ -11,12 +11,18 @@
 		  <div class="row">
 		    <div class="col cardrowhead">
 					<h2>
-						<img style="float: left" src="./resources/site-images/logFull.png" width="100" text="W H U F U">
 						{TRIP_NAME}
-						<span>
+						<span {TRIP_MAP}>
 							<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
 							<a href="?page=pics&type=id&key={TRIP_ID}">pictures</a> &bull; 
 							<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
+						</span>
+						<span {SPOT_MAP}>
+							<a href="?page=spots&type=radius&key=id&id={SPOT_ID}&radius={RADIUS}">view as list</a> &bull; 
+							<a href="?page=spot&type=id&key={SPOT_ID}&radius={RADIUS}">change radius</a>
+						</span>
+						<span {SPOTLIST_MAP}>
+							<a href="?page=spots&type=listtype&key={SPOTLIST_KEY}">view as list</a> 
 						</span>
 					</h2>
 		    </div>
@@ -34,7 +40,6 @@
 		width: 100%;
 		padding-bottom: 95%;  /*maintain aspect ratio*/
 	}
-
 	.leaflet-popup-content {
 		color: black;
 		background-color: #fdfdd9;

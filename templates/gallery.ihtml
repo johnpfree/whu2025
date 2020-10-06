@@ -6,30 +6,35 @@
 		<div class="container">		
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2 class="{DATE_GAL_VIS}"><a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a></h2>
-					<h2 class="{CAT_GAL_VIS}">{GALLERY_TITLE}<span style="font-size: 60%; font-style: italic;">({RGMSG})</span></h2>
+					<h2 class="{DATE_GAL_VIS}">
+						<a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a>
+					</h2>
+					<h2 class="{CAT_GAL_VIS}">
+						{GALLERY_TITLE}
+						<span style="font-size: 60%; font-style: italic;">({RGMSG})</span>
+					</h2>
 		    </div>
 		  </div>			
 			
 		  <div class="row {CAT_GAL_VIS1}" id="triplists">
-		    <div class="col-6" id="keytext">
+		    <div class="col-md-6" id="keytext">
 					<ul>
 				    <li>Refresh this page to see a different selection of <b>{GALLERY_TITLE}</b> pictures.</li>
 				    <li>Or view <b>{GALLERY_TITLE}</b> pictures that also have these keywords:</li>
 				    <li>Go to <a href="?page=search&type=home&key=pics">Search</a> page to browse all keywords:</li>
 					</ul>
 				</div>
-		    <div class="col-2">
+		    <div class="col-md-2">
 			    <p><a href="?page=pics&type=cat&key={CAT_0}" title="{LISTNAME_0}">{LISTNAME_0}</a></p>
 			    <p><a href="?page=pics&type=cat&key={CAT_1}" title="{LISTNAME_1}">{LISTNAME_1}</a></p>
 			    <p><a href="?page=pics&type=cat&key={CAT_2}" title="{LISTNAME_2}">{LISTNAME_2}</a></p>
 				</div>
-		    <div class="col-2">
+		    <div class="col-md-2">
 			    <p><a href="?page=pics&type=cat&key={CAT_3}" title="{LISTNAME_3}">{LISTNAME_3}</a></p>
 			    <p><a href="?page=pics&type=cat&key={CAT_4}" title="{LISTNAME_4}">{LISTNAME_4}</a></p>
 			    <p><a href="?page=pics&type=cat&key={CAT_5}" title="{LISTNAME_5}">{LISTNAME_5}</a></p>
 				</div>
-		    <div class="col-2">
+		    <div class="col-md-2">
 			    <p><a href="?page=pics&type=cat&key={CAT_6}" title="{LISTNAME_6}">{LISTNAME_6}</a></p>
 			    <p><a href="?page=pics&type=cat&key={CAT_7}" title="{LISTNAME_7}">{LISTNAME_7}</a></p>
 			    <p><a href="?page=pics&type=cat&key={CAT_8}" title="{LISTNAME_8}">{LISTNAME_8}</a></p>

@@ -41,10 +41,10 @@
 <!-- spots / trips / pics -->
   <div id="accordion">
     <div id="buttonRow">
-      <a class="btn btn-outline-success mr-4" data-toggle="collapse" href="#collapse1">Browse Campgrounds</a>
-      <a class="btn btn-outline-success mr-4" data-toggle="collapse" href="#collapse2">Browse Trips</a>
-      <a class="btn btn-outline-success mr-4" data-toggle="collapse" href="#collapse3">Choose Image Keywords</a>
-      <a class="btn btn-outline-success" data-toggle="collapse" href="#collapse4">Browse Spot Keywords</a>
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse1">Browse Campgrounds</a>
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse2">Browse Trips</a>
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse3">Choose Image Keywords</a>
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse4">Browse Spot Keywords</a>
     </div>
     <div id="collapse1" class="collapse{SHOW_1}" data-parent="#accordion">
 		  <div id="spot_search" class="row whu_group">
@@ -187,20 +187,24 @@
 
 	<div id="map_search" class="container mt-3">
 		<h4>Find all spots in an area:</h4>
-	  <p>Enter a location (town,state/zip code/address) and a radius to search for spots within an area.</p>
-	  <form action="/action_page.php">
-	    <div class="input-group mb-3">
-	      <div class="input-group-prepend">
-	        <span class="input-group-text">Starting location:</span>
-	      </div>
-	      <input type="text" class="form-control" name="find_place" id="find_place" placeholder="location" required>
-			
-	      <div class="input-group-prepend ml-4">
-	        <span class="input-group-text">Radius:</span>
-	      </div>
-	      <input type="number" class="form-control" name="radius" id="radius" placeholder="100" required>
-			
-	      <button type="submit" name="spotlist_find_place" class="btn btn-primary ml-4">Locate</button>
+	  <p>Enter a location (town,state/zip code/address) and a radius in miles to search for spots within an area.</p>
+	  <form action="?page=spots&type=radius&key=" method="post" data-toggle="validator">
+			<div class="row">
+			  <div class="col-md-7">
+			    <div class="input-group mb-3">
+		        <span class="input-group-text">Location:</span>
+			      <input type="text" class="form-control" name="spotlist_location" id="spotlist_location"  value="{SPOTLIST_LOCATION_VAL}" placeholder="town, address, zip, lat,lon"required>
+			    </div>
+		    </div>
+			  <div class="col-md-3">
+			    <div class="input-group mb-3">
+						<span class="input-group-text">Radius:</span>
+			      <input type="number" class="form-control" name="spotlist_radius" id="spotlist_radius" value="{SPOTLIST_RADIUS_VAL}" max="300" required>
+			    </div>
+		    </div>
+			  <div class="col-md-2">
+					<button type="submit" name="find_spots_submit" class="btn btn-primary ml-4">Find</button>
+		    </div>
 	    </div>
 	  </form>
 	</div>
@@ -233,7 +237,8 @@
 		line-height: normal;
 	}
 	#text_search {
-		padding: 22px 0 10px;
+		padding-top: 22px;
+		padding-bottom: 10px;
 		margin-bottom: 20px;
 		border-top: 2px solid #017034;
 		border-bottom: 2px solid #017034;

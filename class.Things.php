@@ -238,6 +238,23 @@
 	{
 		function getRecord($key)
 		{
+			// dumpVar($key, "WhuDbTrip");
+			if (is_array($key))
+			{
+				$props = new SubProps(array("type" => ''), $key);
+				switch ($props->get('type')) 					// new style
+				{
+					case 'id':  {
+						return $this->getOne(sprintf("select * from wf_trips where wf_trips_id=%s", $props->get('data')));
+					}
+					case 'date':  {
+						$q = sprintf("select * from wf_trips where CAST('%s' AS date) between wf_trips_start and wf_trips_end", $props->get('data'));
+						// dumpVar($q, "WhuDbTrip");
+						return $this->getOne($q);
+					}
+				}
+			}
+			
 			if ($this->isTripRecord($key))
 				return $key;
 			
@@ -353,8 +370,8 @@
 		function numPics() 	{	return $this->getOne("select count(*) RES from wf_images")['RES'];	}
 		function numVids() 	{	return $this->getOne("select count(*) RES from wf_resources")['RES'];	}
 		function numSpots()	{	return $this->getOne("select count(*) RES from wf_spots" )['RES'];	}
+		function numTrips()	{	return $this->getOne("select count(*) RES from wf_trips" )['RES'];	}
 		function numPosts()	{	return $this->getOne("select count(distinct wp_id) RES from wf_days" )['RES'];	}
-		function numMaps() 	{	return $this->getOne("select count(*) RES from wf_trips where wf_trips_extra !='' OR wf_trips_map_fid !=''")['RES'];	}
 	}
 
 
@@ -689,7 +706,7 @@
 			for ($i = 0, $allkeys = array(); $i < $this->lazyDays->size(); $i++)
 			{
 				$spotDay = $this->lazyDays->one($i);
-				$allkeys = array_merge(array_flip($spotDay->keywords()), $allkeys);		// flipping makes duplicates disappear
+				$allkeys = array_merge(array_flip($spotDay->keywords()), $allkeys);		// flipping overlays duplicates
 				// dumpVar($spotDay->keywords(), "spotDay->keywords()");
 				// dumpVar($allkeys, "$i keys");
 			}
@@ -732,8 +749,7 @@
 	}
 	class WhuDbSpots extends WhuDbSpot 
 	{
-		var $unitClass = 'WhuDbSpot';
-		
+		var $unitClass = 'WhuDbSpot';		
 		function getRecord($parm)
 		{
 			$this->parms = $parm;						// what kind of collection?
@@ -755,6 +771,11 @@
 					dumpVar($q, "q");
 					return $this->getAll($q);
 				}
+				case 'status': {
+					$q = sprintf("select * from wf_spots where wf_spots_status like '%%%s%%'", $parm['data']);
+					dumpVar($q, "q");
+					return $this->getAll($q);
+				}
 				case 'place': {
 					$q = sprintf("select * FROM wf_spots WHERE wf_categories_id=%s", $parm['data']);			// spots for just this one place
 					// dumpVar($q, "q");
@@ -770,7 +791,7 @@
 					}
 					return $ret;
 				}
-				case 'keyword': {				// spots with a day with this keyword					
+				case 'keyword': {					// spots with a day with this keyword					
 					$clean = $this->real_escape_string($parm['data']);
 					$q = "select s.* from wf_spot_days d RIGHT OUTER JOIN wf_spots s ON s.wf_spots_id=d.wf_spots_id WHERE d.wf_spot_days_keywords LIKE '%$clean%' ORDER BY s.wf_spots_id";
 					// dumpVar($parm, "$q, searchterms");
@@ -784,8 +805,7 @@
 					}
 					return $ret;
 				}
-				case 'textsearch':
-				{
+				case 'textsearch': {
 					$parm = $parm['data'];
 					$q = "SELECT * FROM wf_spots s JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE 
 						s.wf_spots_name LIKE '$parm' OR 
@@ -796,6 +816,15 @@
 					// dumpVar($q, "q");
 					return $this->getAll($q);
 				}				
+				case 'radius': {						
+					$q = sprintf("SELECT *, ( 3959 * acos( cos( radians(%s) ) * cos( radians( wf_spots_lat ) ) * 
+					cos( radians( wf_spots_lon ) - radians(%s) ) + sin( radians(%s) ) * 
+					sin( radians( wf_spots_lat ) ) ) ) AS distance 
+					FROM wf_spots HAVING distance < %s 
+					ORDER BY distance ", $parm['lat'], $parm['lon'], $parm['lat'], $parm['radius']);
+					dumpVar($q, "radius search");
+					return $this->getAll($q);
+				}
 			} 
 
 			// assume this is an array of search terms
@@ -857,7 +886,8 @@
 		}
 		function keywords()	
 		{
-			return WhuProps::parseKeys($this->dbValue('wf_spot_days_keywords'));
+			return explode(',', $this->dbValue('wf_spot_days_keywords'));
+			// return WhuProps::parseKeys($this->dbValue('wf_spot_days_keywords'));
 		}
 		function tripId()		// used so far only to detect that it is NOT in a trip (returns 0)
 		{
@@ -1216,7 +1246,7 @@
 
 					$timeQuery = "SELECT * from wf_images  WHERE DATE(wf_images_localtime)='%s' and TIME(wf_images_localtime) %s SEC_TO_TIME(3600 * %s)";
 				 	$q = sprintf($timeQuery, $tonight, ">", $day->dayend());
-					dumpVar($q, "q pm");
+					// dumpVar($q, "q pm");
 					$pmpics = $this->getAll($q);
 
 					$tomorrow = Properties::sqlDate("$tonight +1 day");
@@ -1224,7 +1254,7 @@
 					if (!$day->hasData)			// handle spot_day entries for times I'm not on a trip
 						return $pmpics;
 				 	$q = sprintf($timeQuery, $tomorrow, "<", $day->daystart());
-					dumpVar($q, "q am");
+					// dumpVar($q, "q am");
 					return array_merge($pmpics, $this->getAll($q));
 				}
 				case 'spot':					//	-------------------- pics for an a spot - just evening after 4PM, don't hassle with morning
@@ -1331,7 +1361,7 @@
 					return $faves;
 					break;
 				}
-				case 'tripdates': 		// type=tripdates, start=, end= - favorites for a trip. given start and end (trip obj eists in caller, so use it)
+				case 'tripdates': 		// type=tripdates, start=, end= - favorites for a trip. given start and end (trip obj exists in caller, so use it)
 				{					
 					 $q = sprintf("SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id 
 						 								where DATE(i.wf_images_localtime) between '%s' and '%s'", $props->get('start'), $props->get('end'));
