@@ -886,7 +886,7 @@
 		}
 		function keywords()	
 		{
-			return explode(',', $this->dbValue('wf_spot_days_keywords'));
+			return explode(',', trim($this->dbValue('wf_spot_days_keywords')));
 			// return WhuProps::parseKeys($this->dbValue('wf_spot_days_keywords'));
 		}
 		function tripId()		// used so far only to detect that it is NOT in a trip (returns 0)

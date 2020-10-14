@@ -22,7 +22,6 @@ define('WF_DB', 'whu40');
 
 define('GOOAPIKEY', 'AIzaSyDZfqpTYoilzwPWrJzlIsdKMh3X43pdXeQ');
 // define('GOOAPIKEY', 'ABQIAAAAlIXDdyC97EmuJeZHm9CxgBS_SpYYKkgqa-wX1jPJw-rXk3e4OhRlQoodb26v8cEDzVCEIuzs4UIdyQ');
-define('WUNDERGROUND', '1d24ab90ef8f01c8');
 
 // mapbox
 define('MAPBOX_TOKEN', 'pk.eyJ1Ijoiam9obnBmcmVlIiwiYSI6ImNpajF5OGk2YjAwY3J1OGx3N3hyNjFvNjUifQ.L8lYX2iaC1iXYY1UXOntzw');

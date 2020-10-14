@@ -13,7 +13,7 @@
 		    </div>
 		  </div>			
 			<div class="row">
-				<div class="col-md-7">
+				<div class="col-md-8">
 					<p class="infoitem"><i>Number of visits</i>: {SPOT_NUM}</p>
 					<p class="infoitem"><i>GPS</i>: {SPLAT},{SPLON}</p>
 					<p class="infoitem"><i>Bathroom</i>: {SPBATH} &bull; <i> Water: </i>{SPWATER}</p>
@@ -37,7 +37,7 @@
 						<p>{ATT_MSG}</p>
 					</div>
 				</div>
-				<div class="col-md-5">
+				<div class="col-md-4">
 					{MAP_INSET}
 					<div id="formbox">
 						<form action="?page=map&type=spot&key={SPOT_ID}" method="post" data-toggle="validator">

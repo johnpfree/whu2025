@@ -401,34 +401,38 @@ class OneSpot extends ViewWhu
 
 		if ($visits == 'never')
 		{
-			$this->template->set_var('DAYS_INFO', 'hideme');								// NO Days!
+			$this->template->set_var('DAYS_INFO', 'hideme');							// NO Days!
 		exit;
 		}
 		else
 		{
-			$this->template->set_var('DAYS_INFO', '');											// yes, there are days
+			$this->template->set_var('DAYS_INFO', '');										// yes, there are days
 			
-			$keys = $spot->keywords();							// -------------------- keywords
+			// --------------------------------------------- show spot keywords, and a little special sauce for phone reception
 			$attmsg = '';
+			$keys = $spot->keywords();							
 			for ($i = 0, $rows = array(); $i < sizeof($keys); $i++) 
 			{
-				if (substr($keys[$i], 0, 4) == 'att=') 
+				$key = trim($keys[$i]);
+				if (substr($key, 0, 4) == 'att=') 
 				{
 					$msgs = array(
 						'good' => "Att cellphone reception was good.",
 						'some' => "Att cellphone reception was wasn't great.",
 						'poor' => "No usable cellphone reception for Att.",
 					);
-					$att = explode('=', $keys[$i]);
+					$att = explode('=', $key);
+
 					if (isset($msgs[$att[1]]))
-						$this->template->set_var('ATT_MSG', $msgs[$att[1]]);
+						$attmsg = $msgs[$att[1]];
 					continue;
 				}
-				$rows[] = array('spot_key' => $keys[$i]);
+				$rows[] = array('spot_key' => $key);
 			}
-			// dumpVar($rows, "rows");
 			$loop = new Looper($this->template, array('parent' => 'the_content', 'one' => 'keyrow', 'none_msg' => "no keywords", 'noFields' => true));
 			$loop->do_loop($rows);
+			
+			$this->template->set_var('ATT_MSG', $attmsg);
 
 			// ------------------------------------------------------- collect Day info, AND Pic/Faves info, because pics are by day
 			$days = $this->build('DbSpotDays', $spot->id());								
@@ -839,7 +843,7 @@ class OneTripLog extends ViewWhu
 		$trip = $this->build('Trip', array('type' => 'id', 'data' => ($tripid = $this->key)));
 		$days = $this->build('DbDays', $tripid);
 		$this->template->set_var('TRIP_NAME', $this->caption = $trip->name());
-		$this->template->set_var('TRIP_ID', $this->caption = $trip->id());
+		$this->template->set_var('TRIP_ID', $trip->id());
 		$this->makeTripWpLink($trip);					// Aug 20 use new WP link code for WP cell
 		
 		// whiffle the days for this trip 
@@ -911,41 +915,21 @@ class OneTripDays extends OneTripLog
 	 
 	function picStuff($i, $day, &$row) 
 	{
-		$pics = $day->pics();
-		$pics->randomOne();
-		
-		for ($i = 0; $i < 3; $i++)
-		{
-			$pic = $pics->safeOne($i);
-			if ($pic == NULL) {
-				$row["picshow_0"] = ' hidden';
-				$row["nopic_0"] = ' hideme';
-				// $row["nopic_0"] = '';
-			}
-			else {
-				$row["picshow_0"] = '';
-				$row["nopic_0"] = ' hideme';
-				$row["picid_0"] = $pic->id();
-				$row["pictitle_0"] = $pic->caption();
-				$row["picfilename_0"] = $pic->filename();
-				$row['picfolder'] = $pic->folder();
-			}
-		}		
-		// $pics->random(3);						.. in case I go back to showing more than 1 picture
-		// for ($i = 0; $i < 3; $i++)
-		// {
-		// 	$pic = $pics->safeOne($i);
-		// 	if ((BOOL)$pic == false)
-		// 		$row["picshow_$i"] = ' hidden';
-		// 	else {
-		// 		$row["picshow_$i"] = '';
-		// 		$row["picid_$i"] = $pic->id();
-		// 		$row["pictitle_$i"] = $pic->caption();
-		// 		$row["picfilename_$i"] = $pic->filename();
-		// 		$row['picfolder'] = $pic->folder();
-		// 	}
-		// }
-		
+		$pic = $day->pics()->randomOne();
+		if ($pic == NULL) {
+			$row["picshow_0"] = ' hidden';
+			$row["nopic_0"] = ' hideme';
+			// $row["nopic_0"] = '';
+		}
+		else {
+			$row["picshow_0"] = '';
+			$row["nopic_0"] = ' hideme';
+			$row["picid_0"] = $pic->id();
+			$row["pictitle_0"] = $pic->caption();
+			$row["picfilename_0"] = $pic->filename();
+			$row['picfolder'] = $pic->folder();
+		}
+				
 		$row['day_desc'] = $day->dayDesc();
 		$row['week_day'] = $day->weekday();
 	}
