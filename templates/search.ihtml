@@ -186,7 +186,7 @@
 		
 
 	<div id="map_search" class="container mt-3">
-		<h4>Find all spots in an area:</h4>
+		<h4>Search by Location:</h4>
 	  <p>Enter a location (town,state/zip code/address) and a radius in miles to search for spots within an area.</p>
 	  <form action="?page=spots&type=radius&key=" method="post" data-toggle="validator">
 			<div class="row">

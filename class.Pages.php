@@ -420,6 +420,7 @@ class OneSpot extends ViewWhu
 						'good' => "Att cellphone reception was good.",
 						'some' => "Att cellphone reception was wasn't great.",
 						'poor' => "No usable cellphone reception for Att.",
+						'none' => "Phone says 'No Service'.",
 					);
 					$att = explode('=', $key);
 

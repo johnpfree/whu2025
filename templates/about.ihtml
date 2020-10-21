@@ -26,9 +26,10 @@
 		    <div class="col">
 					<h4>Credits</h4>
 					<ul>
-						<li>I write my stories <a href="https://wordpress.com/com-vs-org/">Wordpress</a>.</li>
-						<li>I render the maps with <a href="https://www.mapbox.com/">Mapbox</a>.</li>
-						<li>I use <a href="http://miromannino.github.io/Justified-Gallery/" title="Justified Gallery">Justified Gallery</a> for the gallery layout.</li>
+						<li>I publish my stories with <a target="_blank" href="https://wordpress.com/com-vs-org/">Wordpress</a>.</li>
+						<li>I render the maps with <a target="_blank" href="https://www.mapbox.com/">Mapbox</a>.</li>
+						<li>I use <a target="_blank" href="http://miromannino.github.io/Justified-Gallery/" title="Justified Gallery">Justified Gallery</a> for the gallery layout.</li>
+						<li>I use <a target="_blank" href="https://getbootstrap.com/">Bootstrap 4</a> for responsive page design.  Have not quite figured out <a href="https://getbootstrap.com/docs/4.4/utilities/flex/">Flex</a>.</li>
 					</ul>
 		    </div>
 		  </div>
