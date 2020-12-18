@@ -1465,6 +1465,7 @@
 				case 'piccats':
 				{
 					$this->traverse($this->build('Category', $this->piccatsRoot));
+					array_shift($this->desc);		// shift away the root
 					return $this->desc;
 				}
 				case 'places':			// data is an array of place ids (often just one, but in an array)

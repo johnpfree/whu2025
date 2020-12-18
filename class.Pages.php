@@ -752,7 +752,8 @@ class SpotsListChildren extends SpotsList				// Place id(s) and all their descen
 		);
 		assert(isset($labels[$this->key]), "unknown key, SpotsListChildren");
 		$this->caption = "Spots in {$labels[$this->key]}";
-		$this->headerClause = "<a href='?page=map&type=spotplaces&key=$this->key'>view as map</a>";
+		// $this->headerClause = "<a href='?page=map&type=spotplaces&key=$this->key'>view as map</a>";
+		$this->headerClause = "<a href='?page=map&type=spotplaces&key=$this->key'>map view</a> &bull; <a href='?page=map&type=spotplaces&key=$this->key'>list view</a>";
 
 		$placeids = explode(',', $this->key);
 		// dumpVar($placeids, "placeids");
@@ -1339,18 +1340,13 @@ class Search extends ViewWhu
 		
 		// key = pics -- build huge string of picture keywords (categories). Not bothering to make it a template loop right now
  	 	$cats = $this->build('Categorys', array('type' => 'piccats'));
-		dumpVar(sizeof($cats->data), "cats->data");
+		// dumpVar(sizeof($cats->data), "cats->data");
 		// dumpVar($cats->data[0], "cats->data[0]");
 		for ($i = 0, $rows = array(), $str = ''; $i < $cats->size(); $i++)
 		{
 			$cat = $cats->one($i);
-
 			$str .= sprintf('<label class="form-check-label"><input class="form-check-input" type="checkbox" name="CHK_%s">%s (%s)</label>', $cat->id(), $cat->name(), $cat->npics());
-			// $row = array(parms);
-			// $rows[] = $row;
 		}
-		// $loop = new Looper($this->template, array('parent' => 'the_content'));
-		// $loop->do_loop($rows);
 		$this->template->set_var('PIC_CATS', $str);
 
 		// key = spotkey -- build huge string of Spot keywords. Again, don;t bothering to make it a template loop right now

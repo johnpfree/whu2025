@@ -22,7 +22,8 @@
 							<a href="?page=spot&type=id&key={SPOT_ID}&radius={RADIUS}">change radius</a>
 						</span>
 						<span {SPOTLIST_MAP}>
-							<a href="?page=spots&type=listtype&key={SPOTLIST_KEY}">view as list</a> 
+							<a href="?page=spots&type=table&key={SPOTLIST_KEY}">list view</a> &bull; 
+							<a href="?page=spots&type=listkids&key={SPOTLIST_KEY}">thumbs view</a> 
 						</span>
 					</h2>
 		    </div>
