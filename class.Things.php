@@ -304,7 +304,7 @@
 			return $count['nposts'] > 0;
 		}
 		
-		//	return the wp category id for this trip, UNLESS there's pnly one post, then return the post id, on FAIL return ('none', 0)
+		//return the wp category id for this trip, UNLESS there's pnly one post, then return the post id, on FAIL return ('none', 0)
 		function wpReferenceId() 
 		{
 			$posts = $this->getAll($q = "select * from wf_days where wp_id>0 AND wf_trips_id=" . $this->id());
@@ -312,7 +312,7 @@
 				return array('none', 0);
 			// dumpVar(sizeof($posts), "$q posts");
 			$wpid = $posts[0]['wp_id'];
-			// dumpVar($wpid, "wpid");
+			dumpVar($wpid, "wpReferenceId() wpid");
 			
 			define('WP_USE_THEMES', false);
 			require(WP_PATH . '/wp-load.php');											// Include WordPress			
@@ -501,7 +501,7 @@
 							OR s.wf_spots_name LIKE '$qterm' OR sd.wf_spot_days_desc LIKE '$qterm'
 							GROUP BY d.wf_days_date 
 							ORDER BY d.wf_days_date";
-				// dumpVar($q, "q");
+				// dumpvar($q, "q");
 				return $this->getAll($q);
 			}
 
@@ -512,7 +512,9 @@
 			}
 			
 			$this->assert($parm > 0);
-			return $this->getAll("select f.*,d.* from wf_days d LEFT OUTER JOIN fl_days f ON d.wf_days_date=f.wf_days_date where d.wf_trips_id=$parm order by d.wf_days_date");
+			$q = "select * from wf_days where wf_trips_id=$parm order by wf_days_date";
+			dumpVar($q, "WhuDbDays($parm)");
+			return $this->getAll($q);
 		}
 	}
 	class WhuDayInfo extends WhuDbDay // WhuDbDay collects all the day, spot, and spot_day shit together

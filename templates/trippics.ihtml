@@ -4,7 +4,7 @@
 			<h2 title="Image Label">{GAL_TITLE}
 				<span>
 					<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
-					<a href="?page=pics&type=map&key={TRIP_ID}">map</a> &bull; 
+					<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 
 					<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
 				</span>
 			</h2>
