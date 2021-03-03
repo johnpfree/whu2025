@@ -2,6 +2,7 @@
 php_error.log
 *.txt
 *.sql
+zz*.html
 libraries
 resources
 css

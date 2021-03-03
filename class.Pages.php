@@ -233,7 +233,7 @@ class HomeHome extends ViewWhu
 {
 	var $file = "homehome.ihtml";
 	var $bannerIds = array(7964, 8062, 8097, 8098, 8111, 8236, 8238, 8294, 8306);
-	var $recents = array(61, 60, 59);
+	var $recents = array(62, 61, 60, 59);
 	var $epics = array(56, 22, 14, 44, 26, 53);
 	function showPage()
 	{
@@ -247,7 +247,7 @@ class HomeHome extends ViewWhu
 
 		shuffle($this->recents);
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'rec_row'));
-		$loop->do_loop($this->oneRow($this->recents));
+		$loop->do_loop($this->oneRow(array_slice($this->recents, 0, 3)));
 
 		shuffle($this->epics);
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'epic_row'));
@@ -262,8 +262,13 @@ class HomeHome extends ViewWhu
 	 	 	$trip = $this->build('Trip', $ids[$i]);
 			
 			$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'landscape'));
+			if ($pics->size() == 0)
+			{
+				$pics = $this->build('Pics', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'lan'));
+				dumpVar($trip->folder(), "Evidently no landscape Favorites for this trip. Look in all pics.");				
+			}
+			// dumpVar(sizeof($pics->data), "pics->data");
 			$pic = $pics->favorite();
-			// $pic->dump("PIC");			
 			$cell = array(
 				'trip_id' 		=> $trip->id(),
 				'trip_title' 	=> $trip->name(),
@@ -271,7 +276,6 @@ class HomeHome extends ViewWhu
 				'pic_folder'	=> $pic->folder(),
 				'pic_file'		=> $pic->filename()
 			);
-			
 			$cell['row_sep'] = ($i == 2) ? '</div><div class="row cardrow">' : '';
 						
 			$cells[] = $cell;

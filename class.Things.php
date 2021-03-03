@@ -1216,6 +1216,14 @@
 			$props = new SubProps(array("type" => ''), $parm);
 			switch ($props->get('type')) 
 			{
+				case 'folder':
+				{
+					$q = sprintf("SELECT * FROM  wf_images WHERE wf_images_path='%s'", $props->get('data'));
+					if ($props->isProp('shape'))
+						$q .= sprintf(" AND wf_images_shape='%s'", $props->get('shape'));
+					// dumpVar($parm, "q=$q, parm");
+					return $this->getAll($q);
+				}
 				case 'tripid':
 				{
 					$trip = $this->build('DbTrip', $parm['data']);
@@ -1314,7 +1322,7 @@
 			return $this->getAll($q = "select * from wf_images where wf_images_path='$folder' order by wf_images_localtime");
 			WhuThing::getRecord($parm);		// FAIL
 		}
-		
+			
 		function favored()					// returns a picture object for a favored picture - a favorite if possible, a non-pano if not
 		{	
 			if ($this->picsDate == '') {		// only ask for favorite for a day's pic
@@ -1338,6 +1346,14 @@
 				}
 				return $one;
 			}
+		}
+		function favorite()
+		{
+			$num = $this->size();
+			assert($num > 0, "At least one favorite!");
+				
+			$one = $this->data[mt_rand(0, $num - 1)];			// select a random one
+			return $this->build('Pic', $one);
 		}
 	}
 	class WhuFaves extends WhuPics						// 2020 addition to easiely grab favored pics
@@ -1390,14 +1406,6 @@
 			$q = "SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id WHERE $where";
 			// dumpVar($parms, "q=$q, parm");
 			return $this->getAll($q);
-		}
-		function favorite()
-		{
-			$num = sizeof($this->data);
-			assert($num > 0, "At least one favorite!");
-				
-			$one = $this->data[mt_rand(0, $num - 1)];			// select a random one
-			return $this->build('Pic', $one);
 		}
 	}
 	
