@@ -513,7 +513,7 @@
 			
 			$this->assert($parm > 0);
 			$q = "select * from wf_days where wf_trips_id=$parm order by wf_days_date";
-			dumpVar($q, "WhuDbDays($parm)");
+			// dumpVar($q, "WhuDbDays($parm)");
 			return $this->getAll($q);
 		}
 	}
@@ -1286,17 +1286,7 @@
 			
 			if (isset($parm['faves'])) 
 			{
-				if ($parm['faves'] == 'panorama') {
-					$q = sprintf("select * from wf_favepics where wf_favepics_shape='%s'", $parm['faves']);
-					return $this->getAll($q);
-				}
-				if (!isset($parm['tripfold']))
-					jfdie('missing parm');
-				
-				$q = sprintf("select * from wf_favepics f JOIN wf_images i 
-												ON f.wf_images_id = i.wf_images_id 
-												WHERE f.wf_favepics_shape='%s' AND i.wf_images_path='%s'", $parm['faves'], $parm['tripfold']);
-				return $this->getAll($q);
+				jfdie('Why am I here?');
 			}
 				
 			if (isset($parm['clone'])) 
@@ -1377,13 +1367,12 @@
 							$faves[] = $pics->one($i)->data;
 					}
 					return $faves;
-					break;
 				}
 				case 'tripdates': 		// type=tripdates, start=, end= - favorites for a trip. given start and end (trip obj exists in caller, so use it)
 				{					
 					 $q = sprintf("SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id 
 						 								where DATE(i.wf_images_localtime) between '%s' and '%s'", $props->get('start'), $props->get('end'));
-					 dumpVar($q, "q");
+					 // dumpVar($q, "q");
 					 return $this->getAll($q);
 				}	
 				case 'oneday':		 		// type=oneday, date= - favorites for a date
@@ -1401,7 +1390,8 @@
 				}				
 			}
 			// can safely assume (??!!?) that there already is a where clause
-			$where .= $props->isProp('shape') ? sprintf(" AND f.wf_favepics_shape='%s'", $props->get('shape')) : '';
+			$where .= $props->isProp('shape') ? sprintf(" AND i.wf_images_shape='%s'", $props->get('shape')) : '';
+			// $where .= $props->isProp('shape') ? sprintf(" AND f.wf_favepics_shape='%s'", $props->get('shape')) : '';
 
 			$q = "SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id WHERE $where";
 			// dumpVar($parms, "q=$q, parm");

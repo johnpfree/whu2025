@@ -25,13 +25,15 @@
 		  <div class="row cardrow">
 <!-- BEGIN rec_rows -->
 		    <div class="col">
-					<a href="?page=trip&type=id&key={TRIP_ID}">						
-						<article>
+					<article>
+						<a href="?page=pic&type=id&key={PIC_ID}">
 							<img src="{REL_PICPATH}/pix/iPhoto/{PIC_FOLDER}/{PIC_FILE}" width="100%" alt="{TRIP_TITLE}">
+						</a>		    
+						<a href="?page=trip&type=id&key={TRIP_ID}">
 							<h4>{TRIP_TITLE}</h4>
 							<h5>{TRIP_DESC}</h5>
-						</article>
-					</a>		    
+						</a>		    
+					</article>
 				</div>
 <!-- END rec_rows -->
 		  </div>
@@ -46,9 +48,13 @@
 		    <div class="col">
 					<a href="?page=trip&type=id&key={TRIP_ID}">						
 						<article>
+						<a href="?page=pic&type=id&key={PIC_ID}">
 							<img src="{REL_PICPATH}/pix/iPhoto/{PIC_FOLDER}/{PIC_FILE}" width="100%" alt="{TRIP_TITLE}">
+						</a>		    
+						<a href="?page=trip&type=id&key={TRIP_ID}">
 							<h4>{TRIP_TITLE}</h4>
 							<h5>{TRIP_DESC}</h5>
+						</a>		    
 						</article>
 					</a>		    
 				</div>

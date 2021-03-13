@@ -239,8 +239,6 @@ class HomeHome extends ViewWhu
 	{
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
 
-		// $panos = $this->build('Pics', array('faves' => 'panorama'));
-		
  	 	$pic = $this->build('Pic', $this->bannerIds[array_rand($this->bannerIds)]);		// Pick a random banner
 		$this->template->set_var('BANNER_FOLDER', $pic->folder());
 		$this->template->set_var('BANNER_FILE', $pic->filename());
@@ -261,7 +259,8 @@ class HomeHome extends ViewWhu
 		{
 	 	 	$trip = $this->build('Trip', $ids[$i]);
 			
-			$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'landscape'));
+			// $pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'landscape'));
+			$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'lan'));
 			if ($pics->size() == 0)
 			{
 				$pics = $this->build('Pics', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'lan'));
@@ -273,6 +272,7 @@ class HomeHome extends ViewWhu
 				'trip_id' 		=> $trip->id(),
 				'trip_title' 	=> $trip->name(),
 				'trip_desc' 	=> $trip->desc(),
+				'pic_id'			=> $pic->id(),
 				'pic_folder'	=> $pic->folder(),
 				'pic_file'		=> $pic->filename()
 			);
@@ -356,7 +356,7 @@ class OneTrip extends ViewWhu
 			if ($day->hasSpot() && !in_array($day->spotId(), $spotIds))
 			{				
 				$spot['spot_id'] = $spotIds[] = $day->spotId();
-				$spot['spot_name'] = $day->nightName();
+				$spot['spot_name'] = $this->nameFilter($day->nightName());
 				$spot['spot_sep'] = ', ';
 				$spotList[] = $spot;
 			}			
@@ -368,7 +368,7 @@ class OneTrip extends ViewWhu
 				$postList[] = array('post_title' => $post->title(), 'post_link' => $this->makeWpPostLink($iPost));
 				$prevPostId = $iPost;
 			}
-		}		
+		}
 
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'stop_row'));
 		$loop->do_loop($spotList);
@@ -378,6 +378,7 @@ class OneTrip extends ViewWhu
 		
 		parent::showPage();
 	}
+	function nameFilter($name) { return str_replace("Campground", "CG", $name); }
 }
 
 class OneSpot extends ViewWhu
@@ -1048,6 +1049,9 @@ class OnePhoto extends ViewWhu
 		}
 		else
 			$this->template->set_var('STORY_VIS', 'hideme');
+		
+		
+		$this->template->set_var('PM_STOP', $day->nightNameUrl());
 		
 		$keys = $this->build('Categorys', array('picid' => $picid));
 		for ($i = 0, $rows = array(); $i < $keys->size(); $i++)

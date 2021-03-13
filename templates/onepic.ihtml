@@ -59,6 +59,7 @@ $(document).ready(function() {
 		<!-- END rows -->
 				</li>
 				<li class="{STORY_VIS}">Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
+				<li>Stop for tonight: <span>{PM_STOP}</a></span></li>
 				<li>{PICFILE_NAME}</li>			
 				<li><a href="?page=map&type=id&key={TRIP_ID}">full map</a></li>			
 			</ul>

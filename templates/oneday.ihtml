@@ -24,18 +24,18 @@
 		  </div>
 	
 		  <div class="row">
+					<p>I started the day at {AM_STOP}. I ended the day at {PM_STOP}.</p>
+		  </div>	
+		  <div class="row">
 					<dl>
 						<dt>Here is a short description of the day:</dt>
 						<dd>{DAY_NAME}<br />{DAY_DESC}</dd>
 					</dl>
-	
-					<p>I started the day at {AM_STOP}. I ended the day at {PM_STOP}.</p>
-	
 					<dl class="{NIGHT_VIS}">
 						<dt>Here is a short description of the evening:</dt>
 						<dd>{NIGHT_DESC}</dd> 
 					</dl>
-
+					
 					<p {VIS_CLASS_TXT}>Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span>.</p>
 		    </div>
 		  </div>
@@ -52,6 +52,7 @@
 	.larger {
 		font-size: 120%;
 	}
+	#daydeets { padding-left: 0; }
 	#daydeets dl { margin-bottom: 0; }
 	#daydeets dt { font-weight: normal; }
 	#daydeets dd {
