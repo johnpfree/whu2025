@@ -48,8 +48,8 @@ $(document).ready(function() {
 		<div class="col-sm-9 col-md-8">
 			<ul id="picdetails">
 				<li>Taken on: <a href="?page=day&type=date&key={DATE}"><b>{PRETTIEST_DATE}</b></a> at <b>{PIC_TIME}</b>,</li>
-				<li>Whu place: <b>{PIC_PLACE}</b></li>
 				<li>With my: <b>{PIC_CAMERA}</b></li>
+				<li>Whu place: <b>{PIC_PLACE}</b></li>
 				<li class="{GPS_VIS}">geolocation: <b>{GPS_LAT}, {GPS_LON}</b></li>
 				<li>
 					Keywords:<br />
@@ -58,8 +58,8 @@ $(document).ready(function() {
 					<a href="?page=pics&type=cat&key={WF_CATEGORIES_ID}">{WF_CATEGORIES_TEXT}</a> &bull; 
 		<!-- END rows -->
 				</li>
-				<li class="{STORY_VIS}">Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
-				<li>Stop for tonight: <span>{PM_STOP}</a></span></li>
+				<li class="{STORY_VIS} flex-title"><div>Story for today:&nbsp;</div> <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
+				<li class="flex-title"><div>Stop for tonight:&nbsp;</div> <span>{PM_STOP}</a></span></li>
 				<li>{PICFILE_NAME}</li>			
 				<li><a href="?page=map&type=id&key={TRIP_ID}">full map</a></li>			
 			</ul>

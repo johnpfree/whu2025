@@ -1700,11 +1700,9 @@ class Gallery extends ViewWhu
 		$this->template->set_var('TODAY', $this->galTitle);
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
 		$this->template->set_var('IPIC', 0);
-		$this->template->set_var('RGMSG', $this->message);	
 		$this->template->set_var('AFTER_MESSAGE', $this->afterMessage);	
+		$this->template->set_var('RGMSG', $this->message);
 		
-		$this->doNav();			// do nav (or not)
-
 		$pics = $this->getPictures($this->key);				
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'none_msg' => 'no pictures'));
 		$loop->do_loop($this->makeGalleryArray($pics));		
@@ -1712,7 +1710,6 @@ class Gallery extends ViewWhu
 		parent::showPage();
 	}
 	// function galleryTitle($key)				{	return "Undefined!";	}
-	function doNav() { }
 }
 class DateGallery extends Gallery
 {
@@ -1726,21 +1723,23 @@ class DateGallery extends Gallery
 		$trip = $this->build('DbTrip', (array('type' => 'date', 'data' => $this->key)));
 		$this->template->set_var("TRIP_ID" , $trip->id());
 		
+		// --  build title bar
 		$this->galTitle = Properties::prettyDate($this->key);
+		
+		$date = $this->build('DbDay', $this->key);
+		if (($place = $date->nightName()) == 'home')
+			$place = "<i class='smallerHead'>last day of trip</i>";
+		$this->template->set_var("GALLERY_PLACE" , $place);
+		
+		$this->message = sprintf("<a href='?page=pics&type=date&key=%s'>previous day</a> | <a href='?page=pics&type=date&key=%s'>next day</a>", $date->previousDayGal(), $date->nextDayGal());
+		// --  end title bar
+		
 		$this->meta_desc = sprintf("WHUFU Picture Gallery for %s", $this->galTitle);
 		parent::showPage();
 	}
 	function getPictures($key)	{ return $this->build('Pics', (array('date' => $key))); }
 	function getCaption()				{	return "Pictures for " . $this->key;	}
 	// function galleryTitle($key)	{	return Properties::prettyDate($key); }
-	function doNav()
-	{
-		// $date = $this->build('DbDay', $this->key);
-		// $pageprops = array('middle' => true);
-		// $pageprops['plab'] = Properties::prettyDate($pageprops['pkey'] = $date->previousDayGal(), "M");
-		// $pageprops['nlab'] = Properties::prettyDate($pageprops['nkey'] = $date->nextDayGal(), "M");
-		// $pageprops['mlab'] = $this->galleryTitle($this->key);
-	}
 }
 class CatGallery extends Gallery
 {
@@ -1795,7 +1794,7 @@ class CatOneGallery extends CatGallery
 		$this->pics = $this->build('Pics', (array('type' => 'cat', 'data' => $this->key)));  //, 'max' => $this->key
 		if (($size = $this->pics->size()) > $this->maxGal)
 		{
-			$this->message = sprintf("A selection of %s images, refresh to reselect", $size);			
+			$this->message = sprintf("A selection of %s images, <a href='?page=pics&type=cat&key=%s'>refresh</a> to reselect", $size, $this->key);			
 			$this->pics->random($this->maxGal);
 		}
 		dumpVar($this->pics->size(), "NEW this->pics->size()");

@@ -437,7 +437,7 @@
 		function tomorrow()  {	return $this->anotherDate("1");	}
 		function anotherDate($offset) { return Properties::sqlDate(sprintf("%s $offset day", $this->date()));	}
 				
-		function previousDayGal() 				// set of functions for day gallery navigation - some days don't have pictures and must be skipped
+		function previousDayGal() 	// set of functions for day gallery navigation - some days don't have pictures and must be skipped
 		{
 			if (is_null($this->prvnxt))
 				$this->getPrvNxtDayGal();

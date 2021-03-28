@@ -2,7 +2,7 @@
 		<div class="container">		
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2>{PAGE_TITLE}<span style="font-size: 60%; font-style: italic;">go to <a href="?page=search&type=home&key=trips">search page</a> for more browsing</span></h2>
+					<h2 class="flex-title">{PAGE_TITLE}<i style="font-size: 60%; font-style: italic;">go to <a href="?page=search&type=home&key=trips">search page</a> to browse</i	></h2>
 		    </div>
 		  </div>
 		  <div class="row">
@@ -41,5 +41,4 @@
 	#tripstable td {
 		padding: 4px 6px;
 	}
-	
 </style>

@@ -67,6 +67,10 @@
 				font-size: 70%;
 				padding-left: 40px;
 			}
+			.flex-title {
+			  display: flex;
+			  flex-wrap: wrap;
+			}
 
 			.navbar {
 				padding: 0;

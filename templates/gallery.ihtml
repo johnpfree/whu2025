@@ -7,11 +7,11 @@
 		  <div class="row">
 		    <div class="col cardrowhead">
 					<h2 class="{DATE_GAL_VIS}">
-						<a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a>
+						<a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a> - {GALLERY_PLACE}
+						<span class="smallerHead">{RGMSG}</span>
 					</h2>
 					<h2 class="{CAT_GAL_VIS}">
 						{GALLERY_TITLE}
-						<span style="font-size: 60%; font-style: italic;">({RGMSG})</span>
 					</h2>
 		    </div>
 		  </div>			
@@ -82,6 +82,10 @@
 </script>
 
 <style type="text/css" media="screen">
+	.smallerHead {
+		font-size: 60%; 
+		font-style: italic;
+	}
 	#triplists {
 		text-align: center;
 		border-bottom: 1px solid black;
