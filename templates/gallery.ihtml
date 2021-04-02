@@ -7,7 +7,7 @@
 		  <div class="row">
 		    <div class="col cardrowhead">
 					<h2 class="{DATE_GAL_VIS}">
-						<a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a> - {GALLERY_PLACE}
+						<a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a> - <oof style="font-size: 70%;">{GALLERY_PLACE}</oof>
 						<span class="smallerHead">{RGMSG}</span>
 					</h2>
 					<h2 class="{CAT_GAL_VIS}">

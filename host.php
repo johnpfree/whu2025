@@ -14,8 +14,8 @@ define('iPhotoURL', "../cloudyhands.com/");
 
 define('PICPATH', 'http://jfmac.local/~jf/cloudyhands.com/pix/');
 
-define('REL_PICPATH', "../cloudyhands.com/");
-define('REL_PICPATH_WF', "../cloudyhands.com/");
+define('XXREL_PICPATH', "../cloudyhands.com/");
+define('XXREL_PICPATH_WF', "../cloudyhands.com/");
 // define('RAWPICPATH', 'galleries');		// 'pc091020'
 
 define('WF_DB', 'whu40');

@@ -856,7 +856,7 @@ class OneTripLog extends ViewWhu
 		// whiffle the days for this trip 
 		for ($i = $iPost = $prevPostId = 0, $nodeList = array(); $i < $days->size(); $i++) 
 		{
-			// $day = new WhuDayInfo($days->one($i));
+			$day = new WhuDayInfo($days->one($i));
 			$day = $this->build('DayInfo', $days->one($i));
 
 			// easy stuff - date mileage name ...
@@ -878,7 +878,7 @@ class OneTripLog extends ViewWhu
 				$row[$v] = $parms[$j++];
 			}
 			$row['stop_name'] = $day->nightName();				
-			$row['stop_desc'] = $day->baseExcerpt($day->nightDesc(), 30);
+			// $row['stop_desc'] = $day->baseExcerpt($day->nightDesc(), 30);   // NOT used in OneTripDays
 			
 			$this->picStuff($i, $day, $row);
 			
@@ -1726,10 +1726,13 @@ class DateGallery extends Gallery
 		// --  build title bar
 		$this->galTitle = Properties::prettyDate($this->key);
 		
-		$date = $this->build('DbDay', $this->key);
-		if (($place = $date->nightName()) == 'home')
-			$place = "<i class='smallerHead'>last day of trip</i>";
-		$this->template->set_var("GALLERY_PLACE" , $place);
+		$date = $this->build('DayInfo', $this->key);
+		// dumpVar($date->data, "date->data");
+		if ($date->spotId() == 143)		// home!
+			$place = "<i>last day of trip</i>";
+		else
+			$place = $date->nightNameUrl();
+		$this->template->set_var("GALLERY_PLACE", $place);
 		
 		$this->message = sprintf("<a href='?page=pics&type=date&key=%s'>previous day</a> | <a href='?page=pics&type=date&key=%s'>next day</a>", $date->previousDayGal(), $date->nextDayGal());
 		// --  end title bar

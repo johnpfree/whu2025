@@ -398,8 +398,8 @@
 		function hasSpot()		{ return $this->spotId() > 0; }
 		function dayName()		{ return $this->dbValue('wf_route_name'); }
 		function dayDesc()		{ return (($desc = $this->dbValue('wf_route_desc')) == '') ? $this->dayName() : $desc; }
-		function nightName()	{ return $this->massageDbText($this->dbValue('wf_stop_name')); }
-		function nightDesc()	{ return $this->dbValue('wf_stop_desc'); }
+		// function nightName()	{ return $this->massageDbText($this->dbValue('wf_stop_name')); }
+		// function nightDesc()	{ return $this->dbValue('wf_stop_desc'); }
 		function postId()			{ return $this->dbValue('wp_id'); }
 		function hasStory()		{ return $this->postId() > 0; }
 		function flickAlbum()			{ jfdie("flickAlbum()"); }
@@ -573,8 +573,10 @@
 			// does it exist?
 			if ($nightDay->hasData)
 				return $nightDay->htmlDesc();
+			
+			$nightDay->dump("last chance in getSpotandDaysArranged($key)");
 			// if not, return the day's night desc
-			return parent::nightDesc();
+			return $this->dbValue('wf_stop_desc');
 		}
 		// function nightDesc()	{
 		// 	$this->dump('zz');

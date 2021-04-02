@@ -1,60 +1,55 @@
 <style type="text/css" media="screen">
-	div {
-/*		border: 1px s /olid green;*/
-	}
 	.listgal img {
 		width: 100%;
-/*		min-height: 70%;
-		max-height: 60%;
-		object-fit: cover;
-*//*		border: 1px solid red;*/
+	}
+	@media (max-width: 700px)  {	
+		#day-deets { display: none; }
 	}
 </style>
 
 		<div class="container">		
 		  <div class="row no-gutters">
 {HEADER_GALLERY}
-		  </div>			
+		  </div>
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2>
+					<h2 class="flex-title">
 						{TRIP_NAME}
-						<span>
+						<i>
 							<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 
 							<a href="?page=pics&type=id&key={TRIP_ID}">pictures</a> &bull; 
 							<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
-						</span>
+						</i>
 					</h2>
 		    </div>
 		  </div>
 			
 <!-- BEGIN rows -->
 		  <div class="row" style="padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid green;">
-		    <div class="col-md-2">
+				<div class="col-7 col-md-2">
 				  <div class="row">
-						<div class="col-5">
-							{DAY_NUMBER}.
-				    </div>
-						<div class="col-7">
-							<span>{MILES} miles</span>
-							<br /><span>{CUM_MILES} total</span>
-				    </div>
-			    </div>
+				    <div class="col-sm">{DAY_NUMBER}.</div>
+						<div class="col-sm">{MILES} miles</div>
+						<div class="col-sm">{CUM_MILES} total</div>
+				  </div>
 		    </div>
-		    <div class="col-md-3">
-					<b><a href="?page=day&type=date&key={DAY_DATE}" title="date">{WEEK_DAY} {SHORT_DATE}</a></b><br />
-					<span><a href="?page={SDPAGE}&type={SDTYPE}&key={SDKEY}" title="today's stop">{STOP_NAME}</a></span>
-		    </div>
-		    <div class="col-md-5">
-					<a style="float:right" {POST_CLASS} href="{STORY_LINK}" title="today's story"><i class="fa fa-wordpress fa-lg" aria-hidden="true"></i></a>
-					<span>{DAY_NAME}</span><br />
-					<span>{DAY_DESC}</span>
-		    </div>
-		    <div class="col-md-2 listgal">	
+				<div class="col-5 col-md-2 listgal">	
 		      <a class="{PICSHOW_0}" href="?page=pic&type=id&key={PICID_0}" max-width="540">
 						<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_0}" title="{PICTITLE_0}" />
 					</a>
 					<img class="{NOPIC_0}" style="opacity: 0.6" src="./resources/site-images/logLandscape.png" alt="no image available">
+		    </div>
+		    <div class="col-10 col-md-3">
+					<b><a href="?page=day&type=date&key={DAY_DATE}" title="date">{WEEK_DAY} {SHORT_DATE}</a></b><br />
+					<span><a href="?page={SDPAGE}&type={SDTYPE}&key={SDKEY}" title="today's stop">{STOP_NAME}</a></span>
+		    </div>
+		    <div class="col-md-4" id="day-deets">
+					<span>{DAY_NAME}</span><br />
+					<span>{DAY_DESC}</span>
+		    </div>
+		    <div class="col">
+					<br />
+					<a style="float:right" {POST_CLASS} href="{STORY_LINK}" title="today's story"><i class="fa fa-wordpress fa-lg" aria-hidden="true"></i></a>
 		    </div>
 		  </div>
 <!-- END rows -->			
