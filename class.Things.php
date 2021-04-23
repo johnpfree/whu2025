@@ -312,7 +312,7 @@
 				return array('none', 0);
 			// dumpVar(sizeof($posts), "$q posts");
 			$wpid = $posts[0]['wp_id'];
-			dumpVar($wpid, "wpReferenceId() wpid");
+			// dumpVar($wpid, "wpReferenceId() wpid");
 			
 			define('WP_USE_THEMES', false);
 			require(WP_PATH . '/wp-load.php');											// Include WordPress			

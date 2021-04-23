@@ -134,7 +134,7 @@
 				<div class="col-sm-3" class="my_name">
 					Whufu 2020 &copy; &nbsp; 2010&ndash;2021
 				</div>
-				<div class="col-sm-3" class="my_name">
+				<div class="col-sm-2" class="my_name">
 					John P Freeman
 				</div>
 				<div class="col-sm-3">
@@ -150,7 +150,8 @@
 					&nbsp;
 		      <a href="https://www.flickr.com/photos/142792707@N04/" target="_blank"><span class="fa fa-flickr"></span></a>
 				</div>
-				<div id="foot-wp" class="col-sm-3">
+				<div id="foot-wp" class="col-sm-4">
+					<a href="http://www.whufu.com/wpwhu/?page_id=1264&page=spot&type=id&key=295">Feedback</a> |  
 					<a href="http://www.whufu.com/wpwhu/?page_id=567">Travel Blog</a> |  
 					<a href="http://www.cloudyhands.com/wptest/">Other Writing</a> 
 				</div>

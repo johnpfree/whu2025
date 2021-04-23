@@ -13,7 +13,7 @@
 		  </div>
 		  <div class="row">
 		    <div class="col cardrowhead">
-					<h2 class="flex-title">
+					<h2 class="flex-title" style="justify-content: space-evenly">
 						{TRIP_NAME}
 						<i>
 							<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 

@@ -18,7 +18,8 @@
 							<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
 						</span>
 						<span {SPOT_MAP}>
-							<a href="?page=spots&type=radius&key=id&id={SPOT_ID}&radius={RADIUS}">view as list</a> &bull; 
+							<!-- <a href="?page=spots&type=radius&key=id&id={SPOT_ID}&radius={RADIUS}">view as list</a> &bull;  -->
+							<a href="?page=spots&type=radius&key=id&radius={RADIUS}&lat={MAP_LAT}&lon={MAP_LON}">view as list</a> &bull; 
 							<a href="?page=spot&type=id&key={SPOT_ID}&radius={RADIUS}">change radius</a>
 						</span>
 						<span {SPOTLIST_MAP}>

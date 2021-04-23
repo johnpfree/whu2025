@@ -16,5 +16,19 @@
 		margins: 0,
 		border: -1,
 		maxRowsCount: 1,
+		// rowHeight: 80
 	});
+
+$(document).ready(function(){
+	
+	var hgt = $(window).width();
+	var rowHgt = 60;
+	if (hgt < 800) {
+    // var txt = "Doc width: " + hgt;
+    // txt += "\nrowHeight=" + rowHgt;
+    // alert(txt);
+		
+		$('#thegallery').justifiedGallery({rowHeight: rowHgt});
+	}
+});
 </script>

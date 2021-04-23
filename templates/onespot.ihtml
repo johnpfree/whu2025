@@ -30,9 +30,8 @@
 						</div>
 						<div class="list_item">
 							<!-- BEGIN keyrows -->
-							&bull; <a href="?page=spots&type=key&key={SPOT_KEY}">{SPOT_KEY}</a>		
-							<!-- END keyrows -->	
-							&bull;
+							{SPOT_SEP}<a href="?page=spots&type=key&key={SPOT_KEY}">{SPOT_KEY}</a>		
+							<!-- END keyrows -->
 						</div>
 						<p>{ATT_MSG}</p>
 					</div>
@@ -47,7 +46,7 @@
 					    </div>
 					    <div class="form-group row">
 					      <div class="col-sm-6">
-					        <input type="number" class="form-control" name="search_radius" id="search_radius"  value="{SEARCH_RADIUS_VAL}" max="200" required>
+					        <input type="number" class="form-control" name="search_radius" id="search_radius"  value="{SEARCH_RADIUS_VAL}" max="250" required>
 					      </div>
 					      <div class="col-sm-6" id="search_near">         
 					        <button type="submit" name="search_near_spot" class="btn btn-primary">&nbsp; Find Spots &nbsp;</button>

@@ -171,8 +171,8 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			"211" => "Central Valley", 
 			"106" => "Other Nor Cal", 
 			"105" => "So Cal", 
-			"80" => "Tennessee, North Carolina and South", 
-			"83,88" => "Kentucky, Virginia and North", 
+			"80" => "the South", 
+			"83" => "Mid Atlantic and Northeast", 
 		);
 		assert(isset($labels[$key]), "unknown key, SpotsListChildren");
 		$this->caption = "Spots in {$labels[$key]}";
@@ -415,15 +415,16 @@ class OneSpot extends ViewWhu
 			
 			// --------------------------------------------- show spot keywords, and a little special sauce for phone reception
 			$attmsg = '';
-			$keys = $spot->keywords();							
+			$keys = $spot->keywords();
+			$sep = "";
 			for ($i = 0, $rows = array(); $i < sizeof($keys); $i++) 
 			{
 				$key = trim($keys[$i]);
 				if (substr($key, 0, 4) == 'att=') 
 				{
 					$msgs = array(
-						'good' => "Att cellphone reception was good.",
-						'some' => "Att cellphone reception was wasn't great.",
+						'good' => "<b>Att</b> cellphone reception was good.",
+						'some' => "<b>Att</b> cellphone reception was wasn't great.",
 						'poor' => "No usable cellphone reception for Att.",
 						'none' => "Phone says 'No Service'.",
 					);
@@ -433,7 +434,8 @@ class OneSpot extends ViewWhu
 						$attmsg = $msgs[$att[1]];
 					continue;
 				}
-				$rows[] = array('spot_key' => $key);
+				$rows[] = array('spot_key' => $key, 'spot_sep' => $sep);
+				$sep = "&bull; ";
 			}
 			$loop = new Looper($this->template, array('parent' => 'the_content', 'one' => 'keyrow', 'none_msg' => "no keywords", 'noFields' => true));
 			$loop->do_loop($rows);
@@ -582,6 +584,8 @@ class SomeTrips extends AllTrips
 			case 'tl_nwst':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'northwest'"; break;}
 			case 'tl_dsrt':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'southwest'"; break;}
 			case 'tl_395e':	{ $qwhere = "WHERE wf_trips_2020 REGEXP '395'"; break;}
+			case 'tl_neva':	{ $qwhere = "WHERE wf_trips_types REGEXP 'nev'"; break;}
+			// case 'tl_oreg':	{ $qwhere = "WHERE wf_trips_types REGEXP 'nev'"; break;}
 			case 'tl_fall':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 9 AND 11;"; break;}
 			case 'tl_sprg':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 2 AND 5;"; break;}
 			case 'tl_alll':	break;
@@ -696,7 +700,7 @@ class SpotsList extends ViewWhu
 }
 class SpotsSome extends SpotsList					// list a subset of Camping spots
 {
-	var $headerClause = 'narrow your search on <a href="?page=search&type=home&key=spots">Search page</a>';
+	var $headerClause = 'browse all Overnights on <a href="?page=search&type=home&key=spots">Search page</a>';
 	function showPage()	
 	{
 		$this->caption = "Some Overnights";
@@ -811,7 +815,7 @@ class SpotsRadius extends SpotsList
 			$geocode = getGeocode($address = $this->props->get('spotlist_location'));
 			dumpVar($geocode, "lox");
 			$this->caption = sprintf("Spots within <b>%s</b> miles of <i>%s</i>", $radius = $this->props->get('spotlist_radius'), $address);
-			$this->headerClause = sprintf("<a href='?page=map&type=radius&key=%s&lat=%s&lon=%s'>Map them instead</a>", $radius, $geocode['lat'], $geocode['lon']);
+			$this->headerClause = sprintf("<a href='?page=map&type=radius&key=%s&lat=%s&lon=%s'>View as Map</a>", $radius, $geocode['lat'], $geocode['lon']);
 		}
 		else if ($this->key == 'id')
 		{
@@ -821,7 +825,7 @@ class SpotsRadius extends SpotsList
 				'lon' => ($lon = $spot->lon()), 
 			);
 			$this->caption = sprintf("Spots within <b>%s</b> miles of %s", $radius = $this->props->get('radius'), $spot->name());
-			$this->headerClause = sprintf("<a href='?page=map&type=spot&key=%s&search_radius=%s'>Map them instead</a>", $spotid, $radius);
+			$this->headerClause = sprintf("<a href='?page=map&type=spot&key=%s&search_radius=%s'>View as Map</a>", $spotid, $radius);
 		}
 		else
 		{
@@ -830,7 +834,7 @@ class SpotsRadius extends SpotsList
 				'lon' => $this->props->get('lon'), 
 			);
 			$this->caption = sprintf("Spots within <b>%s</b> miles of <i>(%s,%s)</i>", $radius = $this->key, $geocode['lat'], $geocode['lon']);
-			$this->headerClause = sprintf("<a href='?page=map&type=radius&key=%s&lat=%s&lon=%s'>Map them instead</a>", $radius, $geocode['lat'], $geocode['lon']);
+			$this->headerClause = sprintf("<a href='?page=map&type=radius&key=%s&lat=%s&lon=%s'>View as Map</a>", $radius, $geocode['lat'], $geocode['lon']);
 		}
 
 		$this->spots = $this->build('DbSpots', array('type' => 'radius', 'lat' => $geocode['lat'], 'lon' => $geocode['lon'], 'radius' => $radius));
@@ -1190,6 +1194,8 @@ class RadiusMapBase extends OneMap
 		$this->template->set_var('TRIP_MAP', 'class="hideme"');
 		$this->template->set_var('SPOT_MAP', $this->radiusMap);
 		$this->template->set_var('SPOTLIST_MAP', $this->spotlistMap);
+		$this->template->set_var('MAP_LAT', $this->props->get('lat'));
+		$this->template->set_var('MAP_LON', $this->props->get('lon'));
 		
 		$markers = array('CAMP' => 'campsite', 'LODGE' => 'lodging', 'HOTSPR' => 'swimming', 'PARK' => 'parking', 'NWR' => 'wetland');
 		$hiPriority = array('CAMP', 'LODGE', 'PARK');		// this type wins
