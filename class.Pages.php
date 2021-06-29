@@ -374,6 +374,11 @@ class OneTrip extends ViewWhu
 		{
 			$day = $this->build('DayInfo', $days->one($i));
 
+			if ($day->noPosition()) {						// skip if no GPS coordinates
+				$eventLog[] = "NO POSITION! $i row";
+				$eventLog[] = $row;
+				continue;
+			}
 
 			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
 										// 'point_name' => addslashes($day->nightName())
@@ -381,13 +386,7 @@ class OneTrip extends ViewWhu
 
 			$spotName = $day->nightName();
 			$row['point_name'] = addslashes($day->hasSpot() ? $this->spotLink($spotName, $day->spotId()) : $spotName);
-						 
 // dumpVar($row, "row $i");
-			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
-				$eventLog[] = "NO POSITION! $i row";
-				$eventLog[] = $row;
-				continue;
-			}
 			if ($spotName == $prevname) {											// skip if I'm at the same place as yesterday
 				// $eventLog[] = "skipping same $i: {$spotName}";
 				continue;                       
@@ -1393,13 +1392,15 @@ class RadiusMapBase extends OneMap
 		for ($i = 0; $i < $this->spots->size(); $i++)
 		{
 			$spot = $this->spots->one($i);
+
+			if ($spot->noPosition()) {						// skip if no GPS coordinates
+				$eventLog[] = "NO POSITION! $i row";
+				$eventLog[] = $row;
+				continue;
+			}
 		
 			$row = array('point_lon' => $spot->lon(), 'point_lat' => $spot->lat(), 'marker_color' => $this->markerColor($i),
 										'point_name' => addslashes($spot->name()), 'key_val' => $spot->id(), 'link_text' => 'info page');
-			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
-				dumpVar($row, "NO POSITION! $i row");
-				continue;
-			}
 			
 			$types = $spot->prettyTypes();
 			foreach ($types as $k => $v)	{

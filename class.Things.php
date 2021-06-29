@@ -417,8 +417,8 @@
 		function miles()			{ return $this->dbValue('wf_days_miles'); }
 		function cumulative()	{ return $this->dbValue('wf_days_cum_miles'); }
 		
-		function lat()				{ return $this->dbValue('wf_days_lat'); }
-		function lon()				{ return $this->dbValue('wf_days_lon'); }		
+		function lat()				{ return (float)$this->dbValue('wf_days_lat'); }
+		function lon()				{ return (float)$this->dbValue('wf_days_lon'); }		
 
 		function pics() 			{	return $this->build('WhuPics', array('type' => 'date', 'data' => $this->date()));	}
 		function hasPics() 		{	return $this->pics()->size() > 0;	}
@@ -541,6 +541,7 @@
 
 		function lat()	{	return $this->getSpotandDaysArranged('lat');	}
 		function lon()	{	return $this->getSpotandDaysArranged('lon');	}
+		function noPosition() { return ($this->lat() * $this->lon() == 0); }
 		// function town()	{	return $this->hasSpot() ? $this;	}
 	
 		function getSpotandDaysArranged($key)
@@ -567,8 +568,7 @@
 				case 'lon':				return $this->spot->lon();
 			}
 		
-			// done with everything else, below is for desc
-			// get the spot day
+			// No key except nightDesc should get here, get the spot day
 			$nightDay = $this->build('DbSpotDay', array('spotId' => $this->spotId(), 'date' => $this->date()));
 			// does it exist?
 			if ($nightDay->hasData)
@@ -720,8 +720,10 @@
 			return array_merge(array_flip($allkeys));			// flipped there may be holes in the array, merge reorders it with no holes
 		}
 
-		function lat()		{ return $this->dbValue('wf_spots_lat'); }
-		function lon()		{ return $this->dbValue('wf_spots_lon'); }
+		function lat()		{ return (float)$this->dbValue('wf_spots_lat'); }
+		function lon()		{ return (float)$this->dbValue('wf_spots_lon'); }
+		function noPosition() {	return (($this->lat() * $this->lon()) == 0); }
+
 		function bath()		{ return $this->dbValue('wf_spots_bath'); }
 		function water()	{ return (($val = $this->dbValue('wf_spots_water')) == '') ? 'no' : $val; }
 		
@@ -1130,8 +1132,8 @@
 		}
 		function kind()			{ return "video"; }
 		function token()		{ return $this->dbValue('wf_resources_token'); }
-		function lat()			{ return $this->dbValue('wf_resources_lat'); }
-		function lon()			{ return $this->dbValue('wf_resources_lon'); }
+		function lat()			{ return (float)$this->dbValue('wf_resources_lat'); }
+		function lon()			{ return (float)$this->dbValue('wf_resources_lon'); }
 		function spotId()		{ return $this->dbValue('wf_resources_spot_id'); }
 	}
 	class WhuVideos extends WhuVideo
