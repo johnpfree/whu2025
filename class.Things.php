@@ -603,6 +603,8 @@
 					'LODGE'		=> 'Hotel/Motel',
 					'PICNIC'	=> 'Picnic Area',
 					'NWR'			=> 'Wildlife Refuge',
+					'HIKE'		=> 'Cool Hike',			// just one, should delete
+					'WALK'		=> 'Nature Walk',		// just one, should delete
 					);
 		public static $CAMPTYPES = array(
 					'usfs'		=> 'Forest Service Campground',

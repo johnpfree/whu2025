@@ -11,16 +11,17 @@
 		  <div class="row no-gutters">
 {HEADER_GALLERY}
 		  </div>
+			
 		  <div class="row">
-		    <div class="col cardrowhead">
-					<h2 class="flex-title" style="justify-content: space-evenly">
+		    <div class="col cardrowhead flex-container">
+					<h2 class="">
 						{TRIP_NAME}
-						<i>
+					</h2>
+					<h4 class="headerclause">
 							<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 
 							<a href="?page=pics&type=id&key={TRIP_ID}">pictures</a> &bull; 
 							<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
-						</i>
-					</h2>
+					</h4>
 		    </div>
 		  </div>
 			

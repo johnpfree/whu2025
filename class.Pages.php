@@ -10,6 +10,7 @@ class ViewWhu extends ViewBase  // ViewDbBase
 	
 	var $caption = '';		// if $caption is non-blank, use it in setCaption(). Otherwise call getCaption()
 	var $meta_desc = 'Pictures, Stories, Custom Maps';		// if $meta_desc is non-blank, use it in setCaption(). Otherwise call getMetaDesc()
+	var $extralink = '';
 
 	function __construct($p)
 	{
@@ -47,7 +48,8 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	function headerGallery($pics)
 	{
 		$this->template->setFile('HEADER_GALLERY', 'headerGallery.ihtml');		
-		$loop = new Looper($this->template, array('parent' => 'HEADER_GALLERY', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
+		$loop = new Looper($this->template, 
+							array('parent' => 'HEADER_GALLERY', 'noFields' => true, 'one' =>'header_row', 'none_msg' => 'no pictures'));
 		$loop->do_loop($this->makeGalleryArray($pics));		
 	}
 	function makeGalleryArray($pics, $useThumbs = false)
@@ -90,7 +92,6 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		return sprintf("http%s://%s%s", (HOST == 'cloudy') ? 's' : '', $_SERVER['HTTP_HOST'], parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH));
 	}
 
-	// 	array('zoom' => 7, 'lat' => $center->lat, 'lon' => $center->lon, 'name' => 'Center of the area for this story');
 	function setLittleMap($coords)
 	{
 // dumpVar($coords, "setLittleMap");
@@ -111,8 +112,60 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		return true;
 	}
 	
-	// ----------------------------------------------------------- Spot type lookup code shared between SpotsListType and SpotsListMap
+	// --------------------------------------- Spot header and type lookup code shared between SpotsListType and SpotsListMap
 
+	function makeSpotsListHeader($title, $listtype, $extralink = false)
+	{
+		$links = array("M" => "map view", "L" => "list view", "T" => "thumbnails");
+		$names = array("M" => "map", "L" => "spots", "T" => "thumbs");
+		dumpVar($this->caption, "this->caption");
+		dumpVar($this->title, "this->title");
+		dumpVar($links[$listtype], "title=$title &bull; extralink=$extralink &bull; links[$listtype]");
+		assert(isset($links[$listtype]), "bad type for makeSpotsListHeader($title, $listtype, $extralink)");
+		
+		$this->template->set_var('PAGE_TITLE', $title);
+		$this->caption = strip_tags($title);
+		
+		extract($this->props->props);			// variablize page,type,key
+		// if ($type == 'lat')
+		// 	$extras = "&lon=$lon&radius=$radius";
+		// else
+		if ($type == 'location')
+			$extras = "&location=$location&radius=$radius";
+		else if ($type == 'spotid')
+			$extras = "&radius=$radius";
+		else
+			$extras = "";
+			
+		$nav = '';
+		foreach ($links as $k => $v) 
+		{
+			if ($k == $listtype)
+				continue;			
+			$nav .= "<a href='?page={$names[$k]}&type=$type&key=$key$extras'>$v</a> &bull; ";
+		}
+		
+		// dumpVar(boolStr($extralink == 'RoundTripSearchDlg'), "$extralink == 'RoundTripSearchDlg'");
+		if ($extralink == 'RoundTripSearchDlg') 
+		{
+			$nav .= sprintf("<a href='?page=search&type=home&key=&addy=%s&rad=%s'>change search</a> &bull; ", 
+					$location, $radius);
+		}
+		else if ($extralink == 'RoundTripSpotDlg') 
+		{
+			$nav .= "<a href='?page=spot&type=id&key=$key'>change radius</a> &bull; ";
+		}
+			
+		$this->template->set_var('TITLE_CLAUSE', substr($nav, 0, -8));
+	}
+	
+	function getSpotsByKeyword()	
+	{
+		$this->title = sprintf("Spots with keyword: %s", str_replace( '_', ' ', $this->key));
+		dumpVar($this->title, "this->title");
+		$this->spots = $this->build('DbSpots', array('type' => 'keyword', 'data' => $this->key));
+	}
+	
 	var $spotTypes = array(
 		'FS' => 'Forest Service campgrounds', 
 		'NPS' => 'National Park campgrounds', 
@@ -126,10 +179,8 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		'NWR' => 'Wildlife Refuges', 
 		'HOTSPR' => 'Hot Springs', 
 	);
-	function getSpots($key)
+	function getSpotsByType($key)
 	{
-		$this->caption = $this->spotTypes[$this->key];
-
 		switch ($this->key) {
 			case 'NPS':				$parms = array('type' => 'partof', 'data' => "National Park");	break;
 			case 'FS':				$parms = array('type' => 'partof', 'data' => "National Forest");	break;
@@ -143,6 +194,9 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			case 'HOTSPR':		$parms = array('type' => 'type', 'data' => 'HOTSPR'); break;			
 			default; exit;
 		}
+		$this->caption = $this->spotTypes[$this->key];
+		$this->title = $this->caption;
+
 		$spots = $this->build('DbSpots', $parms);
 		if ($this->key == 'County')
 			$spots->add($this->build('DbSpots', array('type' => 'partof', 'data' => 'City')));
@@ -176,6 +230,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		);
 		assert(isset($labels[$key]), "unknown key, SpotsListChildren");
 		$this->caption = "Spots in {$labels[$key]}";
+		$this->title = $this->caption;
 
 		$placeids = explode(',', $key);
 		// dumpVar($placeids, "placeids");
@@ -600,9 +655,118 @@ class SomeTrips extends AllTrips
 		parent::showPage();
 	}
 }
+
+// --------------------------------------------- Spot List
+
 class SpotsList extends ViewWhu
 {
 	var $file = "spotslist.ihtml";
+	var $spotListMax = 30;
+	function showPage()	
+	{
+		dumpVar($this->key, "this->key");
+		$this->makeSpotsListHeader($this->title, "L", $this->extralink);
+		
+		dumpVar($this->spots->size(), "this->spots->size()");
+		$this->spots->random($this->spotListMax);
+
+		for ($i = 0, $rows = array(); $i < $this->spots->size(); $i++)
+		{
+			$spot = $this->spots->one($i);
+			$row = array(
+				'spot_id' 		=> $spot->id(), 
+				'spot_short' 	=> $spot->shortName(), 
+				'spot_name' 	=> $spot->name(),
+				'spot_where' 	=> $spot->town(),
+				'spot_type' 	=> $spot->types(),
+				'spot_place' 	=> $spot->place(),
+				'spot_part_of' 	=> $spot->partof(),
+				'spot_sep' 	=> ',',
+			);
+			if ($spot->partof() == 'private') {
+				$row["spot_part_of"] = $row["spot_sep"] = '';
+			}
+			$row["spot_desc"] = $spot->desc();
+			$row["stripeme"] = ($i % 2) ? 'cell_stripe1' : 'cell_stripe0';
+			// dumpVar($row, "$i row");
+			$rows[] = $row;
+		}
+
+		dumpVar(sizeof($rows), "rows");
+		
+		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'one' =>'lg_row'));
+		$loop->do_loop($rows);				
+
+		parent::showPage();
+	}	
+}
+class SpotsListType extends SpotsList
+{
+	function showPage()	
+	{
+		// $this->caption = $this->spotTypes[$this->key];
+		$this->spots = $this->getSpotsByType($this->key);
+		parent::showPage();
+	}
+}
+class SpotsPlaceId extends SpotsList
+{
+	function showPage()	
+	{
+		$this->spots = $this->getSpotsByPlace($this->key);
+		parent::showPage();
+	}
+}
+class SpotsListPlaces extends SpotsPlaceId 
+{}	
+class SpotsKeywords extends SpotsList
+{
+	function showPage()	
+	{
+		$this->getSpotsByKeyword();			// set title and get Spots
+		dumpVar($this->title, "SpotsKeywords this->title");
+		parent::showPage();
+	}
+}
+class SpotsLocation extends SpotsList
+{
+	function showPage()	
+	{
+		$geocode = getGeocode($address = $this->props->get('location'));
+		dumpVar($geocode, "lox");
+		extract($geocode);
+		if ($stat != 'success')
+			jfDie("getGeocode($address) failed with status=" . $lox['stat']);
+		
+		$this->title = sprintf("Spots within <b>%s</b> miles of <i>%s</i>", $radius = $this->props->get('radius'), $address);		
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 'lat' => $lat, 'lon' => $lon, 'radius' => $radius));
+		dumpVar($this->spots->size(), "NUM spots");
+
+		parent::showPage();
+	}
+}
+class SpotsSpotId extends SpotsList
+{
+	var $extralink = 'RoundTripSpotDlg';
+	function showPage()	
+	{
+		$spot = $this->build('DbSpot', $this->key);
+		$this->title = sprintf("Spots within %s miles of <i>%s</i>", $radius = $this->props->get('radius'), $spot->name());
+
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 
+			'lat' => $lat = $spot->lat(), 
+			'lon' => $lon = $spot->lon(), 
+			'radius' => $radius));
+
+		parent::showPage();
+	}
+}
+
+// --------------------------------------------- Spot Thumbs
+
+class SpotsThumbs extends ViewWhu
+{
+	var $file = "spotsthumbs.ihtml";
 	var $spottypes = array(
 					'LODGE'		=> 'Lodging',
 					'HOTSPR'	=> 'Hot Springs',
@@ -617,12 +781,12 @@ class SpotsList extends ViewWhu
 	
 	function showPage()	
 	{
-		$this->template->set_var('PAGE_TITLE', $this->caption);
-		$this->template->set_var('TITLE_CLAUSE', $this->headerClause);
+		$this->makeSpotsListHeader($this->title, "T", $this->extralink);
 		
 		// ------------------------------------------------------- caller has already gotten the spots object
 		dumpVar($this->spots->size(), "this->spots->size()");
-		// for ($i = 0, $rows = array(); $i < min($maxrows, $this->spots->size()); $i++)
+		$this->spots->random(21);
+
 		for ($i = 0, $rows = array(); $i < $this->spots->size(); $i++)
 		{
 			$spot = $this->spots->one($i);
@@ -698,7 +862,7 @@ class SpotsList extends ViewWhu
 		return;
 	}
 }
-class SpotsSome extends SpotsList					// list a subset of Camping spots
+class SpotsSome extends SpotsThumbs					// list a subset of Camping spots
 {
 	var $headerClause = 'browse all Overnights on <a href="?page=search&type=home&key=spots">Search page</a>';
 	function showPage()	
@@ -710,17 +874,17 @@ class SpotsSome extends SpotsList					// list a subset of Camping spots
 		parent::showPage();
 	}
 }
-class SpotsListType extends SpotsList					// BLM, Park Service, etc
+class ThumbsListType extends SpotsThumbs					// BLM, Park Service, etc
 {
 	function showPage()
 	{
-		$this->caption = $this->spotTypes[$this->key];
-		$this->headerClause = "<a href='?page=map&type=spottype&key=$this->key'>view as map</a>";
-		$this->spots = $this->getSpots($this->key);
+		// $this->caption = $this->spotTypes[$this->key];
+		// $this->headerClause = "<a href='?page=map&type=spottype&key=$this->key'>view as map</a>";
+		$this->spots = $this->getSpotsByType($this->key);
 		parent::showPage();
 	}
 }
-class SpotsType extends SpotsList					// list HOTSPR or NWR
+class SpotsType extends SpotsThumbs					// list HOTSPR or NWR
 {
 	function __construct($p, $t)
 	{
@@ -735,11 +899,12 @@ class SpotsType extends SpotsList					// list HOTSPR or NWR
 		parent::showPage();
 	}
 }
-class SpotsListChildren extends SpotsList				// Place id(s) and all their descendents
+class XXSpotsListPlaces extends SpotsThumbs					// Place id(s) and all their descendents EXCEPT for Oregon!
 {
 	function showPage()
 	{
 		$labels = array(
+			"113,153,110" => "Oregon, Washington",
 			"70" => "Oregon Coast", 
 			"108" => "Nevada", 
 			"112" => "Utah", 
@@ -766,46 +931,63 @@ class SpotsListChildren extends SpotsList				// Place id(s) and all their descen
 
 		$placeids = explode(',', $this->key);
 		// dumpVar($placeids, "placeids");
-		$this->spots = $this->build('DbSpots', array('type' => 'placekids', 'data' => $placeids));	// all spots for thee ids and their descendants
+		$isOre = ($this->key == '113,153,110');
+		$this->spots = $this->build('DbSpots', array('type' => ($isOre ? 'place' : 'placekids'), 'data' => $placeids));
+			// all spots for thee ids and their descendants
 		parent::showPage();
 	}
 }
-class SpotsListPlaces extends SpotsList					// just Place id(s), NOT their descendents
-{
-	function showPage()
-	{
-		$labels = array(
-			"113,153,110" => "Oregon, Washington"
-		);
-		assert(isset($labels[$this->key]), "unknown key, SpotsListPlaces");
-		$this->caption = "Spots in {$labels[$this->key]}";
-
-	
-		$placeids = explode(',', $this->key);
-		dumpVar($placeids, "placeids");
-		$this->spots = $this->build('DbSpots', array('type' => 'place', 'data' => $placeids[0]));	// all spots the first id
-		for ($i = 1; $i < sizeof($placeids); $i++) 
-		{
-			$placeid = $placeids[$i];
-			$this->spots->add($this->build('DbSpots', array('type' => 'place', 'data' => $placeids[$i])));		// add spots for other ids
-		}
-		parent::showPage();
-	}
-}
-class SpotsKeywords extends SpotsList
+class ThumbsKeywords extends SpotsThumbs
 {
 	var $searchParm = "spotkey";
 	function showPage()	
 	{
-		dumpVar($this->key, "this->key");
-		$this->caption = sprintf("Spots with keyword: <i>%s</i>", $niceKey = str_replace( '_', ' ', $this->key));
-		$this->spots = $this->build('DbSpots', array('type' => 'keyword', 'data' => $this->key));
-		dumpVar($this->spots->size(), "this->spots->size()");		
-		$this->spots->random(21);
+		$this->getSpotsByKeyword();			// set title, caption, aand gets Spots
 		parent::showPage();
 	}
 }
-class SpotsRadius extends SpotsList
+class ThumbsPlaceId extends SpotsThumbs
+{
+	function showPage()	
+	{
+		$this->spots = $this->getSpotsByPlace($this->key);
+		parent::showPage();
+	}
+}
+class ThumbsLocation extends SpotsThumbs
+{
+	function showPage()	
+	{
+		$geocode = getGeocode($address = $this->props->get('location'));
+		dumpVar($geocode, "lox");
+		extract($geocode);
+		if ($stat != 'success')
+			jfDie("getGeocode($address) failed with status=" . $lox['stat']);
+		
+		$this->title = sprintf("Spots within <b>%s</b> miles of <i>%s</i>", $radius = $this->props->get('radius'), $address);		
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 'lat' => $lat, 'lon' => $lon, 'radius' => $radius));
+		dumpVar($this->spots->size(), "NUM spots");
+
+		parent::showPage();
+	}
+}
+class ThumbsSpotId extends SpotsThumbs
+{
+	var $extralink = 'RoundTripSpotDlg';
+	function showPage()	
+	{
+		$spot = $this->build('DbSpot', $this->key);
+		$this->title = sprintf("Spots within %s miles of <i>%s</i>", $radius = $this->props->get('radius'), $spot->name());
+
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 
+			'lat' => $lat = $spot->lat(), 
+			'lon' => $lon = $spot->lon(), 
+			'radius' => $radius));
+
+		parent::showPage();
+	}
+}
+class XXXSpotsRadius extends SpotsThumbs
 {
 	var $searchParm = "spotkey";
 	function showPage()	
@@ -825,7 +1007,7 @@ class SpotsRadius extends SpotsList
 				'lon' => ($lon = $spot->lon()), 
 			);
 			$this->caption = sprintf("Spots within <b>%s</b> miles of %s", $radius = $this->props->get('radius'), $spot->name());
-			$this->headerClause = sprintf("<a href='?page=map&type=spot&key=%s&search_radius=%s'>View as Map</a>", $spotid, $radius);
+			$this->headerClause = sprintf("<a href='?page=map&type=spot&key=%s&radius=%s'>View as Map</a>", $spotid, $radius);
 		}
 		else
 		{
@@ -1091,6 +1273,10 @@ class OneMap extends ViewWhu
 	var $file = "onemap.ihtml";
 	var $loopfile = 'mapBoundsLoop.js';
 	var $marker_color = '#535900';	// '#8c54ba';
+
+	var $tripMap = '';
+	var $spotlistMap = 'hideme';
+	// var $spotlistMap = 'class="hideme"';
 	function showPage()	
 	{
 		$eventLog = array();
@@ -1100,13 +1286,13 @@ class OneMap extends ViewWhu
 		$this->template->set_var('MARKER_COLOR', $this->marker_color);
 		$this->template->set_var('WHU_URL', $this->whuUrl());
 
-		$this->template->set_var('TRIP_MAP', '');
-		$this->template->set_var('SPOT_MAP', 'class="hideme"');
-		$this->template->set_var('SPOTLIST_MAP', 'class="hideme"');
+		$this->template->set_var('TRIP_MAP'    , $this->tripMap);
+		$this->template->set_var('SPOTLIST_MAP', $this->spotlistMap);
+		dumpVar($this->spotlistMap, "OneMap Title visibility: TRIP_MAP=$this->tripMap, SPOTLIST_MAP");
 
 		$tripid = $this->trip();		// local function		
  	 	$trip = $this->build('Trip', $tripid);		
-		$this->template->set_var('TRIP_NAME', $this->name = $trip->name());
+		$this->template->set_var('PAGE_TITLE', $this->name = $trip->name());
 		$this->template->set_var('TRIP_ID', $tripid);
 		$this->caption = "Map for $this->name";
 		$this->makeTripWpLink($trip);
@@ -1172,17 +1358,20 @@ dumpVar($fullpath, "Mapbox fullpath");
 			dumpVar($eventLog, "Event Log");
 		parent::showPage();
 	}
-	function getMetaDesc()	{	return "Map for the WHUFU trip called '$this->name'";	}
+	// function getMetaDesc()	{	return "Map for the WHUFU trip called '$this->name'";	}
 	function trip()		{ 
 		return $this->key; 
 	}
 }
 class RadiusMapBase extends OneMap
 {
-	var $radiusMap = '';
-	var $spotlistMap = 'class="hideme"';
+	var $tripMap = 'hideme';
+	var $spotlistMap = '';
 	function showPage()	
 	{
+		$this->makeSpotsListHeader($this->title, "M", $this->extralink);
+		$this->caption = "Map of " . $this->title;
+
 		$this->template->set_var('MAPBOX_TOKEN', MAPBOX_TOKEN);
 		$this->template->set_var("JSON_INSERT", '');
 		$this->template->setFile('LOOP_INSERT', $this->loopfile);
@@ -1191,14 +1380,15 @@ class RadiusMapBase extends OneMap
 		$this->template->set_var('TYPE_VAL', 'id');
 		$this->template->set_var('WHU_URL', $this->whuUrl());
 
-		$this->template->set_var('TRIP_MAP', 'class="hideme"');
-		$this->template->set_var('SPOT_MAP', $this->radiusMap);
+		$this->template->set_var('TRIP_MAP'    , $this->tripMap);
 		$this->template->set_var('SPOTLIST_MAP', $this->spotlistMap);
+		dumpVar($this->spotlistMap, "RadiusMapBase Title visibility: TRIP_MAP=$this->tripMap, SPOTLIST_MAP");
+
 		$this->template->set_var('MAP_LAT', $this->props->get('lat'));
 		$this->template->set_var('MAP_LON', $this->props->get('lon'));
 		
 		$markers = array('CAMP' => 'campsite', 'LODGE' => 'lodging', 'HOTSPR' => 'swimming', 'PARK' => 'parking', 'NWR' => 'wetland');
-		$hiPriority = array('CAMP', 'LODGE', 'PARK');		// this type wins
+		$hiPriority = array('CAMP', 'LODGE', 'PARK');		// earliest type wins
 
 		for ($i = 0; $i < $this->spots->size(); $i++)
 		{
@@ -1232,10 +1422,10 @@ class RadiusMapBase extends OneMap
 		
 		ViewWhu::showPage();
 	}
-	function getMetaDesc()	{	return $this->title;	}
+	// function getMetaDesc()	{	return $this->title;	}
 	function markerColor($i)	{	return $this->marker_color;	}
 }
-class RadiusMap extends RadiusMapBase
+class XXXRadiusMap extends RadiusMapBase
 {	
 	function showPage()	
 	{
@@ -1250,7 +1440,7 @@ class RadiusMap extends RadiusMapBase
 		$center['point_name'] = "Spots within $this->key miles of <i>($lat, $lon)</i>";				
 		$this->rows = array($center);
 		
-		$this->template->set_var('TRIP_NAME', $this->title = $center['point_name']);
+		$this->template->set_var('PAGE_TITLE', $this->title = $center['point_name']);
 		$this->template->set_var('RADIUS', $this->key);
 		$this->template->set_var('LAT', $lat);
 		$this->template->set_var('LON', $lon);
@@ -1258,8 +1448,9 @@ class RadiusMap extends RadiusMapBase
 		parent::showPage();
 	}
 }
-class SpotMap extends RadiusMapBase
+class MapSpotId extends RadiusMapBase
 {
+	var $extralink = 'RoundTripSpotDlg';
 	function showPage()	
 	{
 		// get the spot which defines the center of the search
@@ -1268,46 +1459,64 @@ class SpotMap extends RadiusMapBase
 		
 		// now get the spots
 		$this->spots = $this->build('DbSpots', array('type' => 'radius', 
-			'lat' => ($lat = $spot->lat()), 
-			'lon' => ($lon = $spot->lon()), 
-			'radius' => ($radius = $this->props->get('search_radius'))));
+			'lat' => $lat = $spot->lat(), 
+			'lon' => $lon = $spot->lon(), 
+			'radius' => ($radius = $this->props->get('radius'))));
 
 		$this->rows = array();
+		$this->title = $this->caption = sprintf("Spots within %s miles of <i>%s</i>", $radius, $spot->name());
 
-		$this->title = sprintf("Spots within %s miles of <i>%s</i>", $radius, $spot->name());				
-		$this->template->set_var('TRIP_NAME', $this->title);
-		$this->template->set_var('SPOT_ID', $spot->id());
-		
-		$this->template->set_var('RADIUS', $radius);
-		$this->template->set_var('LAT', $lat);
-		$this->template->set_var('LON', $lon);
-		
 		parent::showPage();
 	}
 	function markerColor($i) { return ($i <= 0) ? '#060059' : $this->marker_color; }
 }
-class SpotTypeMap extends RadiusMapBase
+class MapSpotType extends RadiusMapBase
 {
 	var $radiusMap = 'class="hideme"';
 	var $spotlistMap = '';
 	function showPage()	
 	{
-		$this->spots = $this->getSpots($this->key);
-		$this->title = $this->caption = $this->spotTypes[$this->key];
-		$this->template->set_var('TRIP_NAME', $this->title);
-		$this->template->set_var('SPOTLIST_KEY', $this->key);
+		$this->spots = $this->getSpotsByType($this->key);
+		// $this->caption = $this->spotTypes[$this->key];
 		parent::showPage();
 	}
 }
-class SpotPlacesMap extends SpotTypeMap
+class MapPlaceId extends RadiusMapBase
 {
 	function showPage()	
 	{
 		$this->spots = $this->getSpotsByPlace($this->key);
-		$this->title = $this->caption;
-		// $this->template->set_var('TRIP_NAME', $this->title);
-		// $this->template->set_var('SPOTLIST_KEY', $this->key);
+		parent::showPage();
+	}
+}
+class SpotKeywordsMap extends RadiusMapBase
+{
+	function showPage()	
+	{
+		$this->getSpotsByKeyword();			// set title and get Spots
+		parent::showPage();
+	}
+}
+class MapLocation extends RadiusMapBase 
+{
+	var $extralink = 'RoundTripSearchDlg';
+	function showPage()	
+	{
+		$geocode = getGeocode($address = $this->props->get('location'));
+		dumpVar($geocode, "lox");
+		extract($geocode);
+		if ($stat != 'success')
+			jfDie("getGeocode($address) faled with status=" . $lox['stat']);
 		
+		$this->title = sprintf("Spots within <b>%s</b> miles of <i>%s</i>", $radius = $this->props->get('radius'), $address);
+		$this->spots = $this->build('DbSpots', array('type' => 'radius', 'lat' => $lat, 'lon' => $lon, 'radius' => $radius));
+		dumpVar($this->spots->size(), "NUM spots");
+	
+		// Start the map with a fake point that shows the center
+		$center = array('point_lat' => $lat, 'point_lon' => $lon, 'point_name' => $address, 
+												'key_val' => 0, 'link_text' => '', 'marker_val' => 'cross', 'marker_color' => '#000');
+		$this->rows = array($center);
+
 		parent::showPage();
 	}
 }
@@ -1342,8 +1551,8 @@ class Search extends ViewWhu
 		$this->template->set_var('SHOW_3', ($this->key == 'pics'    ) ? ' show' : '');
 		$this->template->set_var('SHOW_4', ($this->key == 'spotkey' ) ? ' show' : '');
 		
-		$this->template->set_var('SPOTLIST_LOCATION_VAL', '');
-		$this->template->set_var('SPOTLIST_RADIUS_VAL', '100');
+		$this->template->set_var('SPOTSEARCH_LOCATION_VAL', $this->props->getDefault('addy', ''));
+		$this->template->set_var('SPOTSEARCH_RADIUS_VAL'  , $this->props->getDefault('rad', '100'));
 
 		// key = spots -- has no code, it's all hard coded links!
 		// key = trips -- populate the Trip categories
@@ -1371,7 +1580,7 @@ class Search extends ViewWhu
 		for ($i = 0, $str = ''; $i < sizeof($keywords); $i++) 
 		{
 			$keyword = $keywords[$i];
-			$str .= sprintf("<a href=?page=spots&type=key&key=%s>%s(%s)</a>, &nbsp;", $keyword[0], str_replace( '_', ' ', $keyword[0]), $keyword[1]);
+			$str .= sprintf("<a href=?page=spots&type=keyword&key=%s>%s(%s)</a>, &nbsp;", $keyword[0], str_replace( '_', ' ', $keyword[0]), $keyword[1]);
 		}
 		$this->template->set_var('SPOT_KEYS', $str);
 		

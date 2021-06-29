@@ -1,114 +1,43 @@
-
+<style>
+/*	#h2clause {
+		padding-top: .3rem;
+		font-size: 70%;
+	}*/
+</style>
 		<div class="container">		
 		  <div class="row no-gutters">
 {HEADER_GALLERY}
  		  </div>			
 
 		  <div class="row">
-		    <div class="col cardrowhead">
-					<h2>
+		    <div class="col cardrowhead flex-container">
+					<h2 class="">
 						{PAGE_TITLE}
-						<span class="align-middle" style="font-size: 60%; font-style: italic;">{TITLE_CLAUSE}</span>
 					</h2>
+					<h4 class="headerclause">
+						{TITLE_CLAUSE}
+					</h4>
 		    </div>
 		  </div>
 			
-		  <div class="row">
-		    <div class="col-12 col-md-4 listgal">
-				<!-- BEGIN lg1_rows -->
-				  <div class="row galrow">
-				    <div class="col {STRIPEME}">
-								<a class="spotpic {PICSHOW_0}" href="?page=pic&type=id&key={PICID_0}">
-									<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_0}" title="{PICTITLE_0}" />
-								</a>
-							<li><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_NAME}</a></li>
-							<li>{SPOT_PART_OF}{SPOT_SEP} {SPOT_WHERE}</li>
-							<p class="spotdesc">{SPOT_DESC}</p>
-						</div>
-					</div>
-				<!-- END lg1_rows -->
-		    </div>
-				
-		    <div class="col-12 col-md-4 listgal">
-				<!-- BEGIN lg2_rows -->
-				  <div class="row galrow">
-				    <div class="col {STRIPEME}">
-								<a class="spotpic {PICSHOW_0}" href="?page=pic&type=id&key={PICID_0}">
-									<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_0}" title="{PICTITLE_0}" />
-								</a>
-							<li><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_NAME}</a></li>
-							<li>{SPOT_PART_OF}{SPOT_SEP} {SPOT_WHERE}</li>
-							<p class="spotdesc">{SPOT_DESC}</p>
-						</div>
-					</div>
-				<!-- END lg2_rows -->
-		    </div>
-				
-		    <div class="col-12 col-md-4 listgal">
-				<!-- BEGIN lg3_rows -->
-				  <div class="row galrow">
-				    <div class="col {STRIPEME}">
-								<a class="spotpic {PICSHOW_0}" href="?page=pic&type=id&key={PICID_0}">
-									<img src="../cloudyhands.com/pix/iPhoto/{PICFOLDER}/{PICFILENAME_0}" title="{PICTITLE_0}" />
-								</a>
-							<li><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_NAME}</a></li>
-							<li>{SPOT_PART_OF}{SPOT_SEP} {SPOT_WHERE}</li>
-							<p class="spotdesc">{SPOT_DESC}</p>
-						</div>
-					</div>
-				<!-- END lg3_rows -->
-		    </div>
-		  </div>
+			<table class="table table-hover" id="spotstable">
+				<thead>
+					<tr>
+						<td align="right">name</td>
+						<td>part of</td>
+						<td>where</td>
+						<td>type</td>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- BEGIN lg_rows -->
+					<tr>
+						<td align="right"><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_NAME}</a></td>
+						<td>{SPOT_PART_OF}</td>
+						<td>{SPOT_WHERE}</td>
+						<td>{SPOT_TYPE}</td>
+					</tr>
+					<!-- END lg_rows -->
+				</tbody>
+			</table>
 		</div>
-
-<style type="text/css" media="screen">
-	.listgal {
-/*		padding: 0 12px;*/
-	}
-	.galrow {
-		height: 118px;   /* 136 */
-		margin-bottom: 30px;
-		width: 100%;
-		border-left: 1px solid #017034;
-		border-bottom: 1px solid #017034;
-	  border-bottom-left-radius: 8px;
-		border-top: 1px solid #017034;
-	  border-top-left-radius: 8px;
-		overflow: scroll;
-		overflow-x: hidden;
-/*		border-radius: 6px;*/
-	}
-.galrow .col { padding-top: 4px; }
-.galrow img { width: 100%; }
-.galrow li {
-	list-style-type: none;
-	list-style-position: inside;
-	line-height: 20px;
-	margin-left: .9em;
-	text-indent: -1em;	
-}
-.spotpic { width: 30%; float:right; }
-.spotdesc {
-	font-style: italic;
-	font-size: 90%;
-	line-height: 1.2em;
-	padding: 0 .4em;
-}
-	
-	.cell_stripe0	{  background-color: #ffe;  }
-	.cell_stripe1	{  background-color: #e9f5e9;  }
-/*	.cell_stripe1	{  background-color: #f0e5e2;  }*/
-	
-/*
-	.cell_stripe1	{  background-color: #fee;  }
-	.cell_stripe1	{  background-color: #abbab3;  }
-	*/
-	
-	.placeholder { display: none; }
-/*	.placeholder { visibility: hidden; }*/
-
-	.container hr {
-		border-top: 4px solid #575;
-		margin: 150px 0 10px;
-	}
-</style>

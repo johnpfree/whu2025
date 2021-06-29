@@ -1,15 +1,18 @@
 <div class="container">			
+	
   <div class="row">
-    <div class="col cardrowhead">
-			<h2 title="Image Label">{GAL_TITLE}
-				<span>
-					<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
-					<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 
-					<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
-				</span>
+    <div class="col cardrowhead flex-container">
+			<h2 class="">
+				{GAL_TITLE}
 			</h2>
+			<h4 class="headerclause">
+				<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
+				<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 
+				<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
+			</h4>
     </div>
   </div>
+	
 	<p>{NUM_DAYS} days &bull; {NUM_PICS} pictures{NUM_VIDS}</p>
 	
 	<div class="clearfix" id="thegal">

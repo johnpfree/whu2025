@@ -6,7 +6,7 @@
 		  </div>			
 
 		  <div class="row">
-		    <div class="col-lg cardrowhead">
+				<div class="col cardrowhead flex-container">
 					<h2 title="Today's Date">{PRETTY_DATE}</h2>
 		    </div>
 		  </div>

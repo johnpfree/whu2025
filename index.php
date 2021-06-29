@@ -120,35 +120,11 @@ $defaults = array(
 $props = new WhuProps($defaults);		// default settings
 $props->set($_POST);						// absorb web parms
 $props->set($_GET);							// ... but REQUEST has too much junk
+$props->dump('props');
 
 $curpage = $props->get('page');
 $curtype = $props->get('type');
 $curkey  = $props->get('key');
-
-// -------------------------------------------- handle submit requests
-$props->dump('props');
-// if ($props->isProp('submit'))	{
-// 	switch ($props->get('submit')) {
-// 		case 'tl_button_show': {
-//
-// 			break;
-// 		}
-// 		default:
-// 		echo "<h3>Unknown submit</h3>";
-// 			break;
-// 	}
-// }
-
-// if ($props->isProp('do_text_search'))	{				// text search
-// 	$props->pagetypekeyX('results', 'text', $props->get('search_text'));
-// }
-
-// END ----------------------------------------- handle submit requests
-
-
-$curpage = $props->get('page');	// again! in case the blocks above modified them
-$curtype = $props->get('type');
-$curkey = $props->get('key');
 
 switch ("$curpage$curtype") 
 {
@@ -158,36 +134,33 @@ switch ("$curpage$curtype")
 
 	case 'tripshome':		$page = new AllTrips($props);				break;
 	case 'tripslist':		$page = new SomeTrips($props);	break;
-
+	case 'tlogid':			$page = new OneTripLog($props);		break;		
+	case 'logid':				$page = new OneTripDays($props);		break;	
+		
 	case 'tripid':			$page = new OneTrip($props);		break;		
+	case 'daydate':			$page = new OneDay($props);			break;	
 	case 'spotid':			$page = new OneSpot($props);			break;	
+	case 'mapid':				$page = new OneMap($props);			break;	
 
-	case 'spotslist': {		//$page = new SpotsList($props);			break;
-		switch ($props->get('key'))
-		{
-			case 'NWR':			$page = new SpotsType($props, 'NWR');		break;
-			case 'HOTSPR':	$page = new SpotsType($props, 'HOTSPR');		break;
-			case 'CMP':			$page = new SpotsList($props);			break;
-			default:
-			case 'home':		$page = new SpotsSome($props);			break;
-		}
-		break;			
-	}
-	case 'spotslistplaces':	$page = new SpotsListPlaces($props);			break;
-	case 'spotslistkids': 	$page = new SpotsListChildren($props);			break;
-	case 'spotslisttype': 	$page = new SpotsListType($props);			break;
-	case 'spotskey':				$page = new SpotsKeywords($props);	break;		// for a keyword (from a spot OR the search page)
-	case 'spotsradius':			$page = new SpotsRadius($props);	break;
-	
-	case 'tlogid':				$page = new OneTripLog($props);		break;		
-	case 'logid':					$page = new OneTripDays($props);		break;		
-	case 'daydate':				$page = new OneDay($props);			break;	
+	case 'maptype':					$page = new MapSpotType($props);			break;	
+	case 'spotstype':				$page = new SpotsListType($props);			break;	
+	case 'thumbstype':			$page = new ThumbsListType($props);			break;	
 
-	case 'mapid':					$page = new OneMap($props);			break;	
-	case 'mapradius':			$page = new RadiusMap($props);	break;	
-	case 'mapspot':				$page = new SpotMap($props);			break;	
-	case 'mapspottype':		$page = new SpotTypeMap($props);			break;	
-	case 'mapspotplaces':	$page = new SpotPlacesMap($props);			break;	
+	case 'mapplaceid':			$page = new MapPlaceId($props);			break;	
+	case 'thumbsplaceid':		$page = new ThumbsPlaceId($props);			break;	
+	case 'spotsplaceid':		$page = new SpotsPlaceId($props);			break;	
+
+	case 'mapspotid':				$page = new MapSpotId($props);			break;	
+	case 'thumbsspotid':		$page = new ThumbsSpotId($props);			break;	
+	case 'spotsspotid':			$page = new SpotsSpotId($props);			break;	
+
+	case 'maplocation':			$page = new MapLocation($props);	break;	
+	case 'thumbslocation':	$page = new ThumbsLocation($props);	break;	
+	case 'spotslocation':		$page = new SpotsLocation($props);	break;	
+
+	case 'mapkeyword':			$page = new SpotKeywordsMap($props);			break;	
+	case 'thumbskeyword':		$page = new ThumbsKeywords($props);			break;	
+	case 'spotskeyword':		$page = new SpotsKeywords($props); break;
 	
 	case 'searchhome':		$page = new Search($props);					break;
 	case 'searchresults':	$page = new SearchResults($props);	break;
@@ -219,8 +192,6 @@ switch ("$curpage$curtype")
 	case 'vidscat':			$page = new CatVideos($props);		break;	
 
 	case 'mapdate':			$page = new DateMap($props);			break;	
-	case 'mapnear':			$page = new NearMap($props);			break;	
-	case 'mapplace':		$page = new PlaceMap($props);			break;	
 	
 	case 'spotshome':		$page = new SpotsHome($props);			break;
 	case 'spotstype':		$page = new SpotsTypes($props);			break;
