@@ -1,10 +1,17 @@
 
 		<div class="container">		
 		  <div class="row">
-		    <div class="col cardrowhead">
-					<h2>{PAGE_TITLE}<span>go to <a href="?page=search&type=home&key=trips">search page</a> to browse</span></h2>
+		    <div class="col cardrowhead flex-container">
+					<h2 class="">
+						{PAGE_TITLE}
+					</h2>
+					<h4 class="headerclause">
+						<a href="?page=search&type=home&key=trips">browse more trips</a>
+					</h4>
 		    </div>
 		  </div>
+
+
 		  <div class="row">
 				<table id="tripstable" border="0" cellspacing="5" cellpadding="5">
 				<!-- BEGIN trip_rows -->
