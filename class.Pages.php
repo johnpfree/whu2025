@@ -635,6 +635,7 @@ class SomeTrips extends AllTrips
 			case 'tl_nwst':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'northwest'"; break;}
 			// case 'tl_epic':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'epic'"; break;}			
 			
+			case 'tl_east':	{ $qwhere = "WHERE wf_trips_types REGEXP 'east'"; break;}
 			case 'tl_euka':	{ $qwhere = "WHERE wf_trips_types REGEXP 'eka'"; break;}
 			case 'tl_soca':	{ $qwhere = "WHERE wf_trips_types REGEXP 'socal'"; break;}
 			case 'tl_neva':	{ $qwhere = "WHERE wf_trips_types REGEXP 'nev'"; break;}
