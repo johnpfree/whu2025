@@ -209,6 +209,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	function getSpotsByPlace($key)
 	{
 		$labels = array(
+			"113,153,110" => "Oregon, Washington",
 			"70" => "Oregon Coast", 
 			"108" => "Nevada", 
 			"112" => "Utah", 
@@ -225,16 +226,17 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			"211" => "Central Valley", 
 			"106" => "Other Nor Cal", 
 			"105" => "So Cal", 
-			"80" => "the South", 
-			"83" => "Mid Atlantic and Northeast", 
+			"80" => "Tennessee, North Carolina and South", 
+			"83,88" => "Kentucky, Virginia and North", 
 		);
-		assert(isset($labels[$key]), "unknown key, SpotsListChildren");
-		$this->caption = "Spots in {$labels[$key]}";
-		$this->title = $this->caption;
+		assert(isset($labels[$this->key]), "unknown key, SpotsListChildren");
+		$this->title = "Spots in {$labels[$this->key]}";
+		$this->headerClause = "<a href='?page=map&type=spotplaces&key=$this->key'>map view</a> &bull; <a href='?page=map&type=spotplaces&key=$this->key'>list view</a>";
 
-		$placeids = explode(',', $key);
+		$placeids = explode(',', $this->key);
 		// dumpVar($placeids, "placeids");
-		return $this->build('DbSpots', array('type' => 'placekids', 'data' => $placeids));	// all spots for thee ids and their descendants
+		// $isOre = ($this->key == '113,153,110');
+		return $this->spots = $this->build('DbSpots', array('type' => 'placekids', 'data' => $placeids));
 	}
 	
 	// ----------------------------------------------------------- base utilities
@@ -567,24 +569,17 @@ class AllTrips extends ViewWhu
 	var $file = "tripslist.ihtml";   
 	static $cats = array(
 			'tl_rcnt' => "Most recent", 
-			'tl_alll' => "All", 
-			'tl_east' => "Cross-country", 
-			'tl_ista' => "Overseas", 
-			'tl_fall' => "Fall", 
-			'tl_sprg' => "Spring", 
-			'tl_395e' => "Eastern Sierras", 
-			'tl_baya' => "Bay Area", 
-			'tl_euka' => "Eureka", 
+			'tl_alll' => "All Trips", 
+			'tl_east' => "Epic Cross-country", 
+			'tl_ista' => "Istanbul", 
+			'tl_fall' => "Fall Colors", 
+			'tl_sprg' => "Spring Flowers", 
+			'tl_395e' => "Eastern Sierras and US 395", 
+			'tl_euka' => "Family Visits to Eureka", 
 			'tl_noca' => "All Norcal", 
-			'tl_soca' => "So Cal", 
+			'tl_soca' => "Southern Cal", 
 			'tl_neva' => "Nevada", 
 			'tl_dsrt' => "All Southwest", 
-			'tl_oreg' => "Oregon", 
-			'tl_utah' => "Utah", 
-			'tl_idah' => "Idaho", 
-			'tl_colo' => "Colorado", 
-			'tl_mont' => "Montana", 
-			'tl_wyom' => "Wyoming", 
 			'tl_nwst' => "All Northwest", 
 		);
 	function showPage()	
@@ -633,16 +628,23 @@ class SomeTrips extends AllTrips
 		$qorder = "ORDER BY wf_trips_start DESC";
 		switch ($this->key) {
 			case 'tl_rcnt':	{ $qorder .= " limit 12"; break;}
-			case 'tl_alll':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'epic'"; break;}
-			case 'tl_noca':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'norcal'"; break;}
-			case 'tl_nwst':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'northwest'"; break;}
-			case 'tl_dsrt':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'southwest'"; break;}
+			case 'tl_alll':	{ $qwhere = ""; break;}
 			case 'tl_395e':	{ $qwhere = "WHERE wf_trips_2020 REGEXP '395'"; break;}
+			case 'tl_noca':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'norcal'"; break;}
+			case 'tl_dsrt':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'southwest'"; break;}
+			case 'tl_nwst':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'northwest'"; break;}
+			// case 'tl_epic':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'epic'"; break;}			
+			
+			case 'tl_euka':	{ $qwhere = "WHERE wf_trips_types REGEXP 'eka'"; break;}
+			case 'tl_soca':	{ $qwhere = "WHERE wf_trips_types REGEXP 'socal'"; break;}
 			case 'tl_neva':	{ $qwhere = "WHERE wf_trips_types REGEXP 'nev'"; break;}
+			case 'tl_ista':	{ $qwhere = "WHERE wf_trips_types REGEXP 'asia'"; break;}
 			// case 'tl_oreg':	{ $qwhere = "WHERE wf_trips_types REGEXP 'nev'"; break;}
+
 			case 'tl_fall':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 9 AND 11;"; break;}
 			case 'tl_sprg':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 2 AND 5;"; break;}
-			case 'tl_alll':	break;
+			
+			default: jfDie("no handler");
 		}
 		
 		$db = $this->build('Trips');		
@@ -1675,27 +1677,6 @@ class SearchResults extends ViewWhu
 }
 
 // Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
-class SpotsHome {}
-class SpotsCamps extends SpotsHome
-{
-	function showPage()	
-	{
-		$this->title = WhuDbSpot::$CAMPTYPES[$this->key];
-		$this->searchterms = array('camp_type' => $this->key);
-		parent::showPage();
-	}
-}
-class SpotsPlaces extends SpotsHome
-{
-	function showPage()	
-	{
-		$this->searchterms = array('wf_categories_id' => $this->key, 'kids' => 1);
-		$cat = $this->build('Category', $this->key);	
-		$this->title = sprintf("Spots in: <i>%s</i>", $cat->name());
-		parent::showPage();
-	}
-}
 
 class TripPictures extends ViewWhu
 {

@@ -122,36 +122,27 @@
     </div>
     <div id="collapse2" class="collapse{SHOW_2}" data-parent="#accordion">
 		  <div id="trip_search" class="row whu_group">
-			    <div class="col-md-3">
-				    <p><a href="?page=trips&type=list&key=tl_rcnt" title="{LISTNAME_rcnt}">{LISTNAME_rcnt}</a></p>
-						<p><a href="?page=trips&type=list&key=tl_alll" title="{LISTNAME_alll}">{LISTNAME_alll}</a> &bull;    
-				    	 <a href="?page=trips&type=list&key=tl_east" title="{LISTNAME_east}">{LISTNAME_east}</a></p>
-							 <a href="?page=trips&type=list&key=tl_ista" title="{LISTNAME_ista}">{LISTNAME_ista}</a></p>
-					</div>
-			    <div class="col-md-2">
-				    <p><a href="?page=trips&type=list&key=tl_fall" title="{LISTNAME_fall}">{LISTNAME_fall}</a></p>
-				    <p><a href="?page=trips&type=list&key=tl_sprg" title="{LISTNAME_sprg}">{LISTNAME_sprg}</a></p>
-				    <p><a href="?page=trips&type=list&key=tl_395e" title="{LISTNAME_395e}">{LISTNAME_395e}</a></p>
-					</div>
-			    <div class="col-md-2">
-				    <p><a href="?page=trips&type=list&key=tl_baya" title="{LISTNAME_baya}">{LISTNAME_baya}</a></p>
-				    <p><a href="?page=trips&type=list&key=tl_euka" title="{LISTNAME_euka}">{LISTNAME_euka}</a></p>
-				    <p><a href="?page=trips&type=list&key=tl_noca" title="{LISTNAME_noca}">{LISTNAME_noca}</a></p>
-					</div>
-			    <div class="col-md-2">
-				    <p><a href="?page=trips&type=list&key=tl_soca" title="{LISTNAME_soca}">{LISTNAME_soca}</a></p>
-				    <p><a href="?page=trips&type=list&key=tl_neva" title="{LISTNAME_neva}">{LISTNAME_neva}</a></p>
-				    <p><a href="?page=trips&type=list&key=tl_dsrt" title="{LISTNAME_dsrt}">{LISTNAME_dsrt}</a></p>
-					</div>
-			    <div class="col-md-3">
-				    <p><a href="?page=trips&type=list&key=tl_oreg" title="{LISTNAME_oreg}">{LISTNAME_oreg}</a> &bull;
-							 <a href="?page=trips&type=list&key=tl_utah" title="{LISTNAME_utah}">{LISTNAME_utah}</a> &bull;
-							 <a href="?page=trips&type=list&key=tl_idah" title="{LISTNAME_idah}">{LISTNAME_idah}</a> &bull;
-						<p><a href="?page=trips&type=list&key=tl_colo" title="{LISTNAME_colo}">{LISTNAME_colo}</a> &bull;
-				       <a href="?page=trips&type=list&key=tl_mont" title="{LISTNAME_mont}">{LISTNAME_mont}</a> &bull;
-							 <a href="?page=trips&type=list&key=tl_wyom" title="{LISTNAME_wyom}">{LISTNAME_wyom}</a></p>
-				    <p><a href="?page=trips&type=list&key=tl_nwst" title="{LISTNAME_nwst}">{LISTNAME_nwst}</a></p>
-					</div>
+		    <div class="col-md-3">
+			    <p><a href="?page=trips&type=list&key=tl_rcnt" title="{LISTNAME_rcnt}">{LISTNAME_rcnt}</a> &bull;
+					   <a href="?page=trips&type=list&key=tl_alll" title="{LISTNAME_alll}">{LISTNAME_alll}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_fall" title="{LISTNAME_fall}">{LISTNAME_fall}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_sprg" title="{LISTNAME_sprg}">{LISTNAME_sprg}</a></p>
+				</div>
+		    <div class="col-md-3">
+			    <p><a href="?page=trips&type=list&key=tl_east" title="{LISTNAME_east}">{LISTNAME_east}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_nwst" title="{LISTNAME_nwst}">{LISTNAME_nwst}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_dsrt" title="{LISTNAME_dsrt}">{LISTNAME_dsrt}</a></p>
+				</div>
+		    <div class="col-md-3">
+					<p><a href="?page=trips&type=list&key=tl_ista" title="{LISTNAME_ista}">{LISTNAME_ista}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_noca" title="{LISTNAME_noca}">{LISTNAME_noca}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_soca" title="{LISTNAME_soca}">{LISTNAME_soca}</a></p>
+				</div>
+		    <div class="col-md-3">
+			    <p><a href="?page=trips&type=list&key=tl_euka" title="{LISTNAME_euka}">{LISTNAME_euka}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_neva" title="{LISTNAME_neva}">{LISTNAME_neva}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_395e" title="{LISTNAME_395e}">{LISTNAME_395e}</a></p>
+				</div>
       </div>
     </div>
 		<div id="collapse3" class="collapse{SHOW_3}" data-parent="#accordion">

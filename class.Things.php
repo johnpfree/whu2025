@@ -344,26 +344,21 @@
 		
 		function getRecord($parms)
 		{
-			// 2020 just do this
+			// 2020 just wrap a dataset you already got
 			if (is_array($parms))
 				return $parms;
+			
+			// little hack to create a database handle in the form of an empty Trips object
+			if ($parms == 0)
+				return array();
+			
+			assert(false, "note how I got here, parms=$parms");
 			return $this->getAll("select * from wf_trips ORDER BY wf_trips_start DESC");	
 
 
-			// little hack to create a Trips object w/o data to hang those numXX() fcns off of. They don't need any trip data.
+			assert(false, "note how I got here2, parms=$parms");
 			if ($parms == '')	
 				return true;
-			
-			$this->assert(is_array($parms), "array expected for WhuTrips(parms)");
-		
-			$defaults = array('order' => "DESC", 'orderby' => 'wf_trips_start', 'where' => '');			// default query parms
-			$qProps = new Properties(array_merge($defaults, $parms));
-			// $qProps->dump('WhuTrips');
-			if (($filter = $qProps->get('filter')) != '')
-			{
-				$qProps->set('where', "WHERE wf_trips_sort='$filter'");
-			}
-			// $q = sprintf("select * from wf_trips WHERE wf_trips_types REGEXP 'show' ORDER BY %s %s", $qProps->get('orderby'), $qProps->get('order'));
 		}
 		
 		// good a place as any to put the global queries for home page

@@ -167,6 +167,8 @@ switch ("$curpage$curtype")
 
 	case 'abouthome':		$page = new About($props);					break;	
 
+	case 'picid':				$page = new OnePhoto($props);		break;
+
 	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 	case 'picsid':			$page = new TripPictures($props);		break;	
@@ -183,21 +185,24 @@ switch ("$curpage$curtype")
 		}
 		break;			
 	}
-	case 'picid':				// legacy, still used in Wordpress e.g.
-	case 'visid':				$page = new OnePhoto($props);		break;	
-	case 'vidshome':		$page = new VideoGallery($props);		break;	
-	case 'vidsid':			$page = new TripVideos($props);		break;	
-	case 'vidid':				$page = new OneVideo($props);		break;	
-	case 'vidsdate':		$page = new DateVideos($props);		break;	
-	case 'vidscat':			$page = new CatVideos($props);		break;	
+
+	
+	// case 'visid':
+	// case 'vidshome':
+	// case 'vidsid':
+	// case 'vidid':
+	// case 'vidsdate':
+	// case 'vidscat':		jfDie("Still USING:$curpage$curtype");
+
+	// case 'picid':				// legacy, still used in Wordpress e.g.
+	// case 'visid':				$page = new OnePhoto($props);		break;
+	// case 'vidshome':		$page = new VideoGallery($props);		break;
+	// case 'vidsid':			$page = new TripVideos($props);		break;
+	// case 'vidid':				$page = new OneVideo($props);		break;
+	// case 'vidsdate':		$page = new DateVideos($props);		break;
+	// case 'vidscat':			$page = new CatVideos($props);		break;
 
 	case 'mapdate':			$page = new DateMap($props);			break;	
-	
-	case 'spotshome':		$page = new SpotsHome($props);			break;
-	case 'spotstype':		$page = new SpotsTypes($props);			break;
-	case 'spotscamp':		$page = new SpotsCamps($props);			break;		// type of campground (usfs, usnp, state)
-	case 'spotsplace':	$page = new SpotsPlaces($props);		break;		// state/region
-	
 
 	default: 
 		dumpVar("$curpage$curtype", "Unknown page/type:");
