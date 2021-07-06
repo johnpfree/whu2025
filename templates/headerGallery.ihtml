@@ -19,10 +19,12 @@
 		// rowHeight: 80
 	});
 
-$(document).ready(function(){
-	
-	var hgt = $(window).width();
+$(document).ready(function()
+{	
+	var wid = $(window).width();
+	var hgt = $(window).height();
 	var rowHgt = 60;
+	console.log("wid=" + wid + ", hgt=" + hgt + ", rowHgt=" + rowHgt);
 	if (hgt < 800) {
     // var txt = "Doc width: " + hgt;
     // txt += "\nrowHeight=" + rowHgt;

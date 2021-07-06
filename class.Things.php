@@ -344,21 +344,22 @@
 		
 		function getRecord($parms)
 		{
+			dumpVar($parms, "WhuTrips parms");
+
 			// 2020 just wrap a dataset you already got
 			if (is_array($parms))
 				return $parms;
 			
-			// little hack to create a database handle in the form of an empty Trips object
-			if ($parms == 0)
+			// 2021 - just slam in the WHERE clause I built in SomeTrips
+			if (is_string($parms) && (substr($parms, 0, 5) == "WHERE"))
+				return $this->getAll("SELECT * FROM wf_trips $parms ORDER BY wf_trips_start DESC");	
+			
+			// create a database handle in the form of an empty Trips object for the About queries
+			if ($parms == 'handle')
 				return array();
 			
-			assert(false, "note how I got here, parms=$parms");
+			// default to: gimme all the trips
 			return $this->getAll("select * from wf_trips ORDER BY wf_trips_start DESC");	
-
-
-			assert(false, "note how I got here2, parms=$parms");
-			if ($parms == '')	
-				return true;
 		}
 		
 		// good a place as any to put the global queries for home page

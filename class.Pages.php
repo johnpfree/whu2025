@@ -625,7 +625,7 @@ class SomeTrips extends AllTrips
 	function showPage()	
 	{
 		$qwhere = '';  
-		$qorder = "ORDER BY wf_trips_start DESC";
+		// $qorder = "ORDER BY wf_trips_start DESC";
 		switch ($this->key) {
 			case 'tl_rcnt':	{ $qorder .= " limit 12"; break;}
 			case 'tl_alll':	{ $qwhere = ""; break;}
@@ -647,12 +647,8 @@ class SomeTrips extends AllTrips
 			
 			default: jfDie("no handler");
 		}
-		
-		$db = $this->build('Trips');		
-		$trips = $db->getAll("SELECT * from wf_trips $qwhere $qorder");
-		dumpVar(sizeof($trips), "key=$this->key, $qwhere $qorder-- trips");
-		
-		$this->trips = $this->build('Trips', $trips);		
+				
+		$this->trips = $this->build('Trips', $qwhere);		
 		
 		parent::showPage();
 	}
@@ -1532,7 +1528,7 @@ class About extends ViewWhu
 	var $meta_desc = "All about WHUFU";		
 	function showPage()	
 	{
-		$site = $this->build('Trips');
+		$site = $this->build('Trips', 'handle');
 		$this->template->set_var('N_TXT', $site->numPosts());
 		$this->template->set_var('N_PIC', $site->numPics());
 		$this->template->set_var('N_SPO', $site->numSpots());
