@@ -1,6 +1,6 @@
 <div class="container">
 
-	<div id="text_search" class="container mt-3">
+	<div class="text_search container mt-3">
 		<h4>Simple word search:</h4>
 		<form class="form-group" action="?page=search&type=results&key=" method="post">
 			<div class="row">
@@ -151,15 +151,15 @@
 				  <form class="form-group" action="?page=pics&type=cat&key=post" method="post">
 					  <div text-search class="input-group form-check-inline">
 							<p style="">
-								Fun Image search - Find images with any set of keywords: &nbsp; &nbsp; 
-					      <button class="btn btn-default float-right" type="reset" name="pic_cats_submit" style="background-color: #fdd;">
+								Fun Image search - Find images with one or two keywords: &nbsp; &nbsp; 
+					      <button class="btn btn-secondary float-right" type="reset" name="pic_cats_reset" style="margin-left: 10px;">
 									reset
 					      </button>
-					      <button class="btn btn-default float-right" type="submit" name="pic_cats_submit" style="background-color: #fdd;">
+					      <button class="btn btn-primary float-right" type="submit" name="pic_cats_submit">
 									Search
 					      </button>
 							</p>
-							<p>{PIC_CATS}</p>
+							<p class="pic_keys">{PIC_CATS}</p>
 					  </div>
 					</form>
 			  </div>	
@@ -201,6 +201,19 @@
 	</div>
 </div>
 
+<script>
+	$(document).ready(function()
+	{
+		$('input[type=checkbox]').on('change', function (e) {
+			console.log('.pic_keys input[type=checkbox]:checked).length', $('.pic_keys input[type=checkbox]:checked').length);
+		    if ($('.pic_keys input[type=checkbox]:checked').length > 2) {
+		        $(this).prop('checked', false);
+		        alert("You can only check two!");
+		    }
+		});
+	});
+</script>
+
 <style type="text/css" media="screen">
 	#main-menu {
 		margin-bottom: 0px;
@@ -227,7 +240,7 @@
 	.fa-lg {
 		line-height: normal;
 	}
-	#text_search {
+	.text_search {
 		padding-top: 22px;
 		padding-bottom: 10px;
 		margin-bottom: 20px;

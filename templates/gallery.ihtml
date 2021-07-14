@@ -5,23 +5,34 @@
 
 		<div class="container">		
 		  <div class="row">
-		    <div class="col cardrowhead">
+		    <div class="col cardrowhead flex-container">
 					<h2 class="{DATE_GAL_VIS}">
-						<a href="?page=pics&type=id&key={TRIP_ID}">{GALLERY_TITLE}</a> - <oof style="font-size: 70%;">{GALLERY_PLACE}</oof>
-						<span class="smallerHead">{RGMSG}</span>
-					</h2>
-					<h2 class="{CAT_GAL_VIS}">
 						{GALLERY_TITLE}
 					</h2>
+					<h2 class="{CAT_GAL_VIS}">
+						<span>{TITLE_PREFIX}</span> "{GALLERY_TITLE}"
+					</h2>
+					<h4 class="headerclause">
+						{RGMSG}
+					</h4>
 		    </div>
-		  </div>			
+		  </div>
+			
+		  <div class="row {DATE_GAL_VIS}">
+		    <div class="col-6">
+					Trip: <a href="?page=pics&type=id&key={TRIP_ID}">{TRIP_NAME}</a>
+		    </div>
+		    <div class="col-6">
+					Tonight: {GALLERY_PLACE}
+		    </div>
+		  </div>
 			
 		  <div class="row {CAT_GAL_VIS1}" id="triplists">
 		    <div class="col-md-6" id="keytext">
 					<ul>
-				    <li>Refresh this page to see a different selection of <b>{GALLERY_TITLE}</b> pictures.</li>
-				    <li>Or view <b>{GALLERY_TITLE}</b> pictures that also have these keywords:</li>
-				    <li>Go to <a href="?page=search&type=home&key=pics">Search</a> page to browse all keywords:</li>
+				    <li>Refresh this page to see a different selection of <b>{GALLERY_TITLE}</b> images.</li>
+				    <li>Or view <b>{GALLERY_TITLE}</b> images that also have these keywords:</li>
+				    <li>Go to <a href="?page=search&type=home&key=pics">Search</a> page to browse other keywords:</li>
 					</ul>
 				</div>
 		    <div class="col-md-2">
@@ -53,7 +64,7 @@
 				</div><!-- content -->
 			</div><!-- thegal -->
 			
-		  <div class="row">
+		  <div class="row {SHOW_AFTER}">
 		    <div class="col">
 		      <button class="float-right">
 						{AFTER_MESSAGE}
@@ -66,7 +77,7 @@
   $("#thegallery").justifiedGallery({
 		margins: 3,
 		border: -1,
-		maxRowsCount: 3,
+		// maxRowsCount: 4,
 		// lastRow: 'hide',
   });
 
@@ -88,10 +99,8 @@
 </script>
 
 <style type="text/css" media="screen">
-	.smallerHead {
-		font-size: 60%; 
-		font-style: italic;
-	}
+	h2 span { font-size: 80%;}
+
 	#triplists {
 		text-align: center;
 		border-bottom: 1px solid black;

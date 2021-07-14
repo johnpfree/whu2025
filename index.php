@@ -93,7 +93,6 @@ class WhuProps extends Properties
 			switch (sizeof($this->checkedCats)) {
 				case '1':			return '1p';
 				case '2':			return '2p';
-				default:			return 3;
 			}
 		}
 		assert(true, "bad search parms");
@@ -181,7 +180,6 @@ switch ("$curpage$curtype")
 			case '1p': 	$page = new CatOnePostGallery($props);			break;
 			case '2g': 	$page = new CatTwoGetGallery($props);			break;
 			case '2p': 	$page = new CatTwoPostGallery($props);			break;
-			case 3: 		$page = new CatPostGallery($props);			break;
 		}
 		break;			
 	}

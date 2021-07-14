@@ -30,7 +30,7 @@
 						</div>
 						<div class="list_item">
 							<!-- BEGIN keyrows -->
-							{SPOT_SEP}<a href="?page=spots&type=key&key={SPOT_KEY}">{SPOT_KEY}</a>		
+							{SPOT_SEP}<a href="?page=spots&type=keyword&key={SPOT_KEY}">{SPOT_KEY}</a>		
 							<!-- END keyrows -->
 						</div>
 						<p>{ATT_MSG}</p>

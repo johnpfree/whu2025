@@ -83,6 +83,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			
 			$rows[] = $row;
 		}
+		dumpVar(sizeof($rows), "makeGalleryArray NPics");
 		return $rows;
 	}
 	
@@ -320,10 +321,9 @@ class HomeHome extends ViewWhu
 			$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'lan'));
 			if ($pics->size() == 0)
 			{
-				$pics = $this->build('Pics', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'lan'));
 				dumpVar($trip->folder(), "Evidently no landscape Favorites for this trip. Look in all pics.");				
+				$pics = $this->build('Pics', array('type' =>'folder', 'data' => $trip->folder(), 'shape' => 'lan'));
 			}
-			// dumpVar(sizeof($pics->data), "pics->data");
 			$pic = $pics->favorite();
 			$cell = array(
 				'trip_id' 		=> $trip->id(),
@@ -798,8 +798,10 @@ class SpotsThumbs extends ViewWhu
 				'spot_part_of' 	=> $spot->partof(),
 				'spot_sep' 	=> ',',
 			);
+
 			if ($spot->partof() == 'private') {
-				$row["spot_part_of"] = $row["spot_sep"] = '';
+				$row["spot_part_of"] = "<i>private business</i>";
+				$row["spot_sep"] = '';
 			}
 			$row["spot_desc"] = $spot->desc();
 			
@@ -882,18 +884,13 @@ class ThumbsListType extends SpotsThumbs					// BLM, Park Service, etc
 		parent::showPage();
 	}
 }
-class SpotsType extends SpotsThumbs					// list HOTSPR or NWR
+class SpotsTypes extends SpotsThumbs					// list HOTSPR or NWR
 {
-	function __construct($p, $t)
-	{
-		$this->type = $t;
-		parent::__construct($p);
-	}
 	function showPage()	
 	{
-		$this->caption = $this->spottypes[$this->type];
+		$this->caption = $this->spottypes[$this->key];
 		$this->headerClause = "<a href='?page=map&type=spottype&key=$this->key'>view as map</a>";
-		$this->spots = $this->build('DbSpots', array('type' => 'type', 'data' => $this->type));
+		$this->spots = $this->build('DbSpots', array('type' => 'type', 'data' => $this->key));
 		parent::showPage();
 	}
 }
@@ -1568,7 +1565,9 @@ class Search extends ViewWhu
 		for ($i = 0, $rows = array(), $str = ''; $i < $cats->size(); $i++)
 		{
 			$cat = $cats->one($i);
-			$str .= sprintf('<label class="form-check-label"><input class="form-check-input" type="checkbox" name="CHK_%s">%s (%s)</label>', $cat->id(), $cat->name(), $cat->npics());
+			if (($num = $cat->npics()) == 0)
+				continue;
+			$str .= sprintf('<label class="form-check-label"><input class="form-check-input" type="checkbox" name="CHK_%s">%s (%s)</label>', $cat->id(), $cat->name(), $num);
 		}
 		$this->template->set_var('PIC_CATS', $str);
 
@@ -1725,13 +1724,13 @@ class TripPictures extends ViewWhu
 			$row['pic_name'] = $pic->filename();
 	 		$row['wf_images_path'] = $pic->folder();
 			$row['binpic'] = $pic->thumbImage();
-			if (strlen($row['binpic']) > 100) {			// hack to slow the slow image if the thumbnail fails on server
-				$row['use_binpic'] = '';
-				$row['use_image']  = 'hideme';
-			} else {
+			// if (strlen($row['binpic']) > 100) {			// hack to show the slow image if the thumbnail fails on server
+			// 	$row['use_binpic'] = '';
+			// 	$row['use_image']  = 'hideme';
+			// } else {
 				$row['use_binpic'] = 'hideme';
 				$row['use_image']  = '';
-			}		
+			// }
 			$rows[] = $row;
 			$count += $dc;
 		}
@@ -1885,6 +1884,7 @@ class Gallery extends ViewWhu
 	var $file = "gallery.ihtml";   
 	var $galtype = "UNDEF";  
 	var $message = '';
+	var $titlePrefix = '';
 	var $afterMessage = '';
 	function showPage()	
 	{
@@ -1894,10 +1894,13 @@ class Gallery extends ViewWhu
 		$this->template->set_var('TODAY', $this->galTitle);
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
 		$this->template->set_var('IPIC', 0);
-		$this->template->set_var('AFTER_MESSAGE', $this->afterMessage);	
 		$this->template->set_var('RGMSG', $this->message);
+
+		$this->template->set_var('SHOW_AFTER', ($this->afterMessage == '') ? ' hideme' : '');	
+		$this->template->set_var('AFTER_MESSAGE', $this->afterMessage);	
 		
-		$pics = $this->getPictures($this->key);				
+		$pics = $this->getPictures($this->key);			
+		dumpVar($pics->size(), "pics->size()");	
 		$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true, 'none_msg' => 'no pictures'));
 		$loop->do_loop($this->makeGalleryArray($pics));		
 		
@@ -1916,6 +1919,7 @@ class DateGallery extends Gallery
 		
 		$trip = $this->build('DbTrip', (array('type' => 'date', 'data' => $this->key)));
 		$this->template->set_var("TRIP_ID" , $trip->id());
+		$this->template->set_var("TRIP_NAME" , $trip->name());
 		
 		// --  build title bar
 		$this->galTitle = Properties::prettyDate($this->key);
@@ -1942,10 +1946,12 @@ class CatGallery extends Gallery
 {
 	var $maxGal = 40; 
 	var $galtype = "cat";
+	var $titlePrefix = '';
 	function showPage()	
 	{
 		$this->template->set_var("DATE_GAL_VIS", 'hideme');
 		$this->template->set_var("CAT_GAL_VIS" , '');
+		$this->template->set_var("TITLE_PREFIX" , $this->titlePrefix);
 		parent::showPage();
 		
 	}
@@ -1953,6 +1959,7 @@ class CatGallery extends Gallery
 }
 class CatOneGallery extends CatGallery
 {
+	var $titlePrefix = 'Image keyword:';
 	function showPage()	
 	{
 		$this->template->set_var("CAT_GAL_VIS1" , '');
@@ -1991,7 +1998,8 @@ class CatOneGallery extends CatGallery
 		$this->pics = $this->build('Pics', (array('type' => 'cat', 'data' => $this->key)));  //, 'max' => $this->key
 		if (($size = $this->pics->size()) > $this->maxGal)
 		{
-			$this->message = sprintf("A selection of %s images, <a href='?page=pics&type=cat&key=%s'>refresh</a> to reselect", $size, $this->key);			
+			dumpVar($this->maxGal, "size=$size this->maxGal");
+			$this->message = sprintf("Showing %s of %s images, <a href='?page=pics&type=cat&key=%s'>refresh</a> to reselect", $this->maxGal, $size, $this->key);			
 			$this->pics->random($this->maxGal);
 		}
 		dumpVar($this->pics->size(), "NEW this->pics->size()");
@@ -2001,6 +2009,7 @@ class CatOneGallery extends CatGallery
 class CatTwoGallery extends CatGallery
 {
 	var $afterMessage = "<a href='?page=search&type=home&key=pics'>Choose other keyword combos</a>";
+	var $titlePrefix = 'Images with both keywords:';
 	function showPage()	
 	{
 		dumpVar($this->keys, "keys");
@@ -2009,6 +2018,7 @@ class CatTwoGallery extends CatGallery
 		$cat = $this->build('Category', $mainkey);
 		$this->template->set_var("TRIP_ID", $mainkey);
 		$this->template->set_var("TODAY", '');
+		$this->message = "";
 		
 		$q = "CREATE TEMPORARY TABLE cat_pics select i.wf_images_id id, im.wf_id_2 cat, substring(i.wf_images_localtime, 1, 16) datetime, wf_images_filename, wf_images_path from wf_images i join wf_idmap im on i.wf_images_id=im.wf_id_1 where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=$mainkey AND i.wf_resources_id=0;";
 		$cat->query($q);
@@ -2024,7 +2034,6 @@ class CatTwoGallery extends CatGallery
 		// dumpVar($otherpics, "otherpics");
 		$this->pics = $this->build('Pics', array('type' => 'pics', 'data' => $otherpics));
 		dumpVar($this->pics->size(), "this->pics->size()");
-		$this->message = "Images with both keywords";
 
 		parent::showPage();
 	}
@@ -2052,101 +2061,6 @@ class CatTwoPostGallery extends CatTwoGallery
 	{
 		$this->keys = $this->props->checkedCats;						// aubmitted from checkboxes in Search
 		parent::showPage();
-	}
-}
-class CatPostGallery extends CatGallery
-{
-	function showPage()	
-	{
-		$catids = array_slice($this->props->checkedCats, 0, 5);		// max of 5 categories
-
-		$this->template->set_var("TRIP_ID", $catids[0]);
-
-		$this->template->set_var("CAT_GAL_VIS1" , 'hideme');
-		
-		for ($i = 0, $cats = array(), $str = ''; $i < sizeof($catids); $i++) 
-		{
-			$cats[] = $cat = $this->build('Category', $catids[$i]);
-			$str .= sprintf(", <a href='?page=pics&type=cat&key=%s'>%s</a>", $cat->id(), $cat->name());
-		}
-		$this->galTitle = substr($str, 2);
-		dumpVar($this->galTitle, "this->galTitle");
-						
-		// do this the slow way
-		// collect picids for each category
-		for ($i = 0, $ids = array(); $i < sizeof($cats); $i++) 
-		{
-			$cat = $cats[$i];
-			// $cat->dump("cat $i");
-			$pics = $this->build('Pics', array('type' =>'cat', 'data' => $cat->id()));
-			for ($j = 0, $picids = array(); $j < sizeof($pics->data); $j++) 
-			{
-				$picids[] = $pics->data[$j]['wf_images_id'];
-				// dumpVar($pic, "$i, $j pic");
-				// exit;
-			}
-			$ids[] = $picids;
-			$str = implode(', ', $picids);
-			dumpVar($str, sprintf("IDs for Category %s, %s", $cat->id(), $cat->name()));
-		}
-		
-		dumpVar(sizeof($ids), "N ids");
-		for ($i = 1, $intersects = array(); $i < sizeof($ids); $i++) 
-		{
-			$intersects[] = array_intersect($ids[$i - 1], $ids[$i]);
-			// $intersects[] = $this->intersect($ids[$i - 1], $ids[$i]);
-		}
-dumpVar($intersects, "intersects");		
-		
-// 12 23 34 13 14 24
-// 12 23 34 45 13 14 15 24 25 35
-// 12 13 14 15 23 24 25 34 35 45
-
-		exit;
-		
-		// dumpVar($ids, "ids");
-		$inter01 = array();
-		for ($i = 0; $i < sizeof($ids[0]); $i++) 
-		{
-			if (in_array($ids[0][$i], $ids[1]))
-				$inter01[] = $ids[0][$i];
-		}
-		dumpVar($inter01, "inter 0-1");
-		$inter12 = array();
-		for ($i = 0; $i < sizeof($inter01); $i++) 
-		{
-			if (in_array($inter01[$i], $ids[2	]))
-				$inter12[] = $inter01[$i];
-		}
-		dumpVar($inter12, "inter 1-2");
-		
-		exit;
-		
-		
-		$search = $ids[0];
-		for ($i = 1; $i < sizeof($ids); $i++) 
-		{
-			$inter = array();
-			for ($j = 0; $j < sizeof($ids[$i]); $j++) 
-			{
-				if (in_array($ids[$i][$j], $search))
-					$inter[] = $ids[$i][$j];
-			}
-			dumpVar($inter, "inter");
-			$inter = $ids[$i];
-		}
-		
-		exit;
-
-		parent::showPage();
-	}
-	function intersect($list1, $list2) {
-		for ($i = 0, $inter = array(); $i < sizeof($list1); $i++) 
-		{
-			if (in_array($list1[$i], $list2))
-				$inter[] = $list1[$i];
-		}
-		return $inter;
 	}
 }
 

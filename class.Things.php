@@ -538,7 +538,10 @@
 		function lat()	{	return $this->getSpotandDaysArranged('lat');	}
 		function lon()	{	return $this->getSpotandDaysArranged('lon');	}
 		function noPosition() { return ($this->lat() * $this->lon() == 0); }
-		// function town()	{	return $this->hasSpot() ? $this;	}
+		function strLatLon($precision = 5)
+		{
+			return sprintf("%s, %s", round($this->lat(), $precision), round($this->lon(), $precision));
+		}
 	
 		function getSpotandDaysArranged($key)
 		{
@@ -573,19 +576,6 @@
 			$nightDay->dump("last chance in getSpotandDaysArranged($key)");
 			// if not, return the day's night desc
 			return $this->dbValue('wf_stop_desc');
-		}
-		// function nightDesc()	{
-		// 	$this->dump('zz');
-		// 	if ($this->hasSpot()) {
-		// 		return $this->spotId()->htmlDesc();
-		// 	}
-		// 	return $this->dbValue('wf_stop_desc');
-		// }
-		
-		
-		function strLatLon($precision = 5)
-		{
-			return sprintf("%s, %s", round($this->lat(), $precision), round($this->lon(), $precision));
 		}
 	}
 
@@ -1236,7 +1226,7 @@
 				{
 					$q = sprintf("select i.* from wf_images i join wf_idmap im on i.wf_images_id=im.wf_id_1 where wf_type_1='pic' and wf_type_2='cat' and wf_id_2=%s AND i.wf_resources_id=0", $parm['data']);
 					$ret = $this->getAll($q);
-					// dumpVar(sizeof($ret), "WhuPics $q N");
+					dumpVar(sizeof($ret), "WhuPics $q N");
 					if (isset($parm['max']))
 						return $this->random($parm['max']);
 					return $ret;
@@ -1348,7 +1338,7 @@
 			return $this->build('Pic', $one);
 		}
 	}
-	class WhuFaves extends WhuPics						// 2020 addition to easiely grab favored pics
+	class WhuFaves extends WhuPics						// 2020 addition to easily grab favored pics
 	{
 		var $folder = NULL;
 		function getRecord($parms)		// July 2020 switch to "type key" model
