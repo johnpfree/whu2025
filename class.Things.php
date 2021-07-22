@@ -294,6 +294,7 @@
 		}
 		function hasVideos()
 		{
+			return 0;		// Whu2020  NO videos for now
 			$q = sprintf("select * from wf_images where wf_images_path='%s' and wf_resources_id>0", $this->folder());
 			// dumpVar($q, "q");
 			$items = $this->getAll($q);
@@ -420,6 +421,7 @@
 		function hasPics() 		{	return $this->pics()->size() > 0;	}
 		function hasVideos()
 		{
+			return 0;		// Whu2020  NO videos for now
 			$q = sprintf("select * from wf_images where DATE(wf_images_localtime)='%s' and wf_resources_id>0", $this->date());
 			$items = $this->getAll($q);
 			return sizeof($items);				// note that I am returning the number of items
@@ -665,7 +667,8 @@
 			return $ret;
 		}
 		
-		function place() { return $this->build('WhuCategory', $this->dbValue('wf_categories_id'))->name(); }
+		function placeId() { return $this->dbValue('wf_categories_id'); }
+		function place()   { return $this->build('WhuCategory', $this->placeId())->name(); }
 		function visits()		{ 
 			$vfld = $this->dbValue('wf_spots_visits');
 			if ($vfld == 'many')
@@ -1374,7 +1377,12 @@
 					 // dumpVar($q, "q");
 					 return $this->getAll($q);
 				}	
-							
+
+				case 'all':	{			// get all of a type (panos for home page)
+				 $q = "SELECT * FROM wf_favepics f JOIN wf_images i ON f.wf_images_id=i.wf_images_id where i.wf_images_shape='pano'";
+				 return $this->getAll($q);
+				}
+
 				case 'folder': 				// cull the favorites our of a collection
 				default:  {			// folder
 					$where = sprintf("i.wf_images_path='%s'", $props->get('data'));

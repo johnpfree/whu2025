@@ -8,13 +8,10 @@
 		    </div>
 		  </div>
 			<div class="row">
-				<div class="col">
-					<p style="font-size: 120%;">{SPOT_TOWN} &ndash; {SPOT_PARTOF} &nbsp; &nbsp;	<i style="font-size: 80%;">({SPOT_TYPES} &bull; {SPOT_PLACE})</i></p>
-		    </div>
-		  </div>			
-			<div class="row">
 				<div class="col-md-8">
-					<p class="infoitem"><i>Number of visits</i>: {SPOT_NUM}</p>
+					<p class="infoitem"><i>Location</i>: <b>{SPOT_TOWN}</b> &bull; <i>part of</i> &nbsp;<b><a href="?page=spots&type=placeid&key={SPOT_PLACEID}">{SPOT_PLACE}</a></b></p>
+					<p class="infoitem"><i>Category</i>: <b>{SPOT_TYPES}</b><span {SHOW_PARTOF}> &bull; <i>part of</i> <b>{SPOT_PARTOF}</b></span></p>
+					<p class="infoitem" style="margin-top: 6px;"><i>Number of visits</i>: {SPOT_NUM}</p>
 					<p class="infoitem"><i>GPS</i>: {SPLAT},{SPLON}</p>
 					<p class="infoitem"><i>Bathroom</i>: {SPBATH} &bull; <i> Water: </i>{SPWATER}</p>
 			

@@ -24,8 +24,8 @@
 				<thead>
 					<tr>
 						<td align="right">name</td>
-						<td>part of</td>
 						<td>where</td>
+						<td>part of</td>
 						<td>type</td>
 					</tr>
 				</thead>
@@ -33,8 +33,8 @@
 					<!-- BEGIN lg_rows -->
 					<tr>
 						<td align="right"><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_NAME}</a></td>
-						<td>{SPOT_PART_OF}</td>
 						<td>{SPOT_WHERE}</td>
+						<td>{SPOT_PART_OF}</td>
 						<td>{SPOT_TYPE}</td>
 					</tr>
 					<!-- END lg_rows -->

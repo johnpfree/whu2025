@@ -230,8 +230,17 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			"80" => "Tennessee, North Carolina and South", 
 			"83,88" => "Kentucky, Virginia and North", 
 		);
-		assert(isset($labels[$this->key]), "unknown key, SpotsListChildren");
-		$this->title = "Spots in {$labels[$this->key]}";
+		
+		// assert(isset($labels[$this->key]), "unknown key, SpotsListChildren");
+		if (isset($labels[$this->key]))
+			$placeName = $labels[$this->key];
+		else {
+			$cat = $this->build('Category', $this->key);
+			$placeName = $cat->name();
+		}
+		$this->title = "Spots in $placeName";
+		
+		
 		$this->headerClause = "<a href='?page=map&type=spotplaces&key=$this->key'>map view</a> &bull; <a href='?page=map&type=spotplaces&key=$this->key'>list view</a>";
 
 		$placeids = explode(',', $this->key);
@@ -290,14 +299,15 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 class HomeHome extends ViewWhu
 {
 	var $file = "homehome.ihtml";
-	var $bannerIds = array(7964, 8062, 8097, 8098, 8111, 8236, 8238, 8294, 8306);
+	// var $bannerIds = array(7964, 8062, 8097, 8098, 8111, 8236, 8238, 8294, 8306);
 	var $recents = array(62, 61, 60, 59);
 	var $epics = array(56, 22, 14, 44, 26, 53);
 	function showPage()
 	{
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
 
- 	 	$pic = $this->build('Pic', $this->bannerIds[array_rand($this->bannerIds)]);		// Pick a random banner
+		$pics = $this->build('Faves', array('type' =>'all', 'shape' => 'pano'));
+		$pic = $pics->favorite();
 		$this->template->set_var('BANNER_FOLDER', $pic->folder());
 		$this->template->set_var('BANNER_FILE', $pic->filename());
 
@@ -448,12 +458,18 @@ class OneSpot extends ViewWhu
 		$this->template->set_var('SPOT_NAME', 	$this->caption = $spot->name());
 		$this->template->set_var('SPOT_ID', 		$spot->id());
 		$this->template->set_var('SPOT_TOWN', 	$spot->town());
-		$this->template->set_var('SPOT_PARTOF', $spot->partof());
 		$this->template->set_var('SPOT_PLACE',  $spot->place());
-		$this->template->set_var('SPOT_NUM',  	$visits = $spot->visits());
+		$this->template->set_var('SPOT_PLACEID', $spot->placeId());
+
+		$this->template->set_var('SPOT_PARTOF', $str = $spot->partof());
+		// dumpVar(boolStr($str == 'private'), "str=$str");		
+		$hideme = array('private', 'Army Corps of Engineers', 'County Park', 'Bureau of Land Management (BLM)');
+		$this->template->set_var('SHOW_PARTOF', in_array($str, $hideme) ? 'class="hideme "' : '');
+
 		
 		$this->template->set_var('SPLAT',  	round($spot->lat(), 4));
 		$this->template->set_var('SPLON',  	round($spot->lon(), 4));
+		$this->template->set_var('SPOT_NUM',  $visits = $spot->visits());
 		$this->template->set_var('SPBATH',  	$spot->bath());
 		$this->template->set_var('SPWATER',  	$spot->water());
 		$this->template->set_var('SPDESC',  	$desc = $spot->htmldesc());
@@ -480,7 +496,7 @@ class OneSpot extends ViewWhu
 				{
 					$msgs = array(
 						'good' => "<b>Att</b> cellphone reception was good.",
-						'some' => "<b>Att</b> cellphone reception was wasn't great.",
+						'some' => "Some <b>Att</b> cellphone reception but not great.",
 						'poor' => "No usable cellphone reception for Att.",
 						'none' => "Phone says 'No Service'.",
 					);
