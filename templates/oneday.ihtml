@@ -36,7 +36,7 @@
 						<dd>{NIGHT_DESC}</dd> 
 					</dl>
 					
-					<p {VIS_CLASS_TXT}>Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span>.</p>
+					<p {VIS_CLASS_TXT}>Story for today: <span><a target="_blank" href="{STORY_LINK}#{DATE}">{STORY}</a></span>.</p>
 		    </div>
 		  </div>
 		</div>

@@ -475,11 +475,11 @@ class OneSpot extends ViewWhu
 		$this->template->set_var('SPDESC',  	$desc = $spot->htmldesc());
 		
 		$this->template->set_var('SEARCH_RADIUS_VAL', $this->props->getDefault('radius', '50'));
-
+		dumpVar($visits, "visits");
 		if ($visits == 'never')
 		{
 			$this->template->set_var('DAYS_INFO', 'hideme');							// NO Days!
-		exit;
+		// exit;
 		}
 		else
 		{
@@ -562,14 +562,14 @@ class OneSpot extends ViewWhu
 			}
 			$loop = new Looper($this->template, array('parent' => 'the_content', 'noFields' => true));
 			$loop->do_loop($rows);
-			
-			$this->setLittleMap(array('lat' => $spot->lat(), 'lon' => $spot->lon(), 'name' => $spot->name(), 'desc' => $spot->town()));
 
 			$faves = $this->build('Faves', array('type' => 'pics', 'data' => $pics));			// cull out the favorites
 			dumpVar($faves->size(), "All N faves->size()");
 			$faves->getSome(12, $pics);	
 			$this->headerGallery($faves);
 		}
+		
+		$this->setLittleMap(array('lat' => $spot->lat(), 'lon' => $spot->lon(), 'name' => $spot->name(), 'desc' => $spot->town()));
 		
 		// ------------------------------------------------------- spot type
 		$str = '';
