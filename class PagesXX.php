@@ -65,7 +65,6 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 
 			$imageLink = sprintf("%s%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			// $imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
-			$imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			if ($useThumbs)
 			{
 				$thumb = $pic->thumbImage();
@@ -643,31 +642,31 @@ class SomeTrips extends AllTrips
 	function showPage()	
 	{
 		$qwhere = '';  
-		// $qorder = "ORDER BY wf_trips_start DESC";
 		switch ($this->key) {
-			case 'tl_rcnt':	{ $qorder .= " limit 12"; break;}
+			case 'tl_rcnt':
 			case 'tl_alll':	{ $qwhere = ""; break;}
 			case 'tl_395e':	{ $qwhere = "WHERE wf_trips_2020 REGEXP '395'"; break;}
 			case 'tl_noca':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'norcal'"; break;}
 			case 'tl_dsrt':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'southwest'"; break;}
 			case 'tl_nwst':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'northwest'"; break;}
-			// case 'tl_epic':	{ $qwhere = "WHERE wf_trips_2020 REGEXP 'epic'"; break;}			
 			
 			case 'tl_east':	{ $qwhere = "WHERE wf_trips_types REGEXP 'east'"; break;}
 			case 'tl_euka':	{ $qwhere = "WHERE wf_trips_types REGEXP 'eka'"; break;}
 			case 'tl_soca':	{ $qwhere = "WHERE wf_trips_types REGEXP 'socal'"; break;}
 			case 'tl_neva':	{ $qwhere = "WHERE wf_trips_types REGEXP 'nev'"; break;}
 			case 'tl_ista':	{ $qwhere = "WHERE wf_trips_types REGEXP 'asia'"; break;}
-			// case 'tl_oreg':	{ $qwhere = "WHERE wf_trips_types REGEXP 'nev'"; break;}
 
-			case 'tl_fall':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 9 AND 11;"; break;}
-			case 'tl_sprg':	{ $qorder = "WHERE MONTH(wf_trips_start) BETWEEN 2 AND 5;"; break;}
+			case 'tl_fall':	{ $qwhere = "WHERE MONTH(wf_trips_start) BETWEEN 9 AND 11"; break;}
+			case 'tl_sprg':	{ $qwhere = "WHERE MONTH(wf_trips_start) BETWEEN 2 AND 5"; break;}
 			
 			default: jfDie("no handler");
 		}
 				
-		$this->trips = $this->build('Trips', $qwhere);		
-		
+		$this->trips = $this->build('Trips', $qwhere);	
+
+		if ($this->key == 'tl_rcnt') 
+			$this->trips->truncate(12);
+
 		parent::showPage();
 	}
 }
@@ -1050,6 +1049,7 @@ class OneTripLog extends ViewWhu
 		$days = $this->build('DbDays', $tripid);
 		$this->template->set_var('TRIP_NAME', $this->caption = $trip->name());
 		$this->template->set_var('TRIP_ID', $trip->id());
+		$this->template->set_var('REL_PICPATH', iPhotoURL);
 		$this->makeTripWpLink($trip);					// Aug 20 use new WP link code for WP cell
 		
 		// whiffle the days for this trip 

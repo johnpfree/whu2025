@@ -174,12 +174,7 @@
 			// dumpVar($data, "data");
 			return $data;
 		}
-		
-		function truncate($length) 
-		{
-			$this->data = array_slice($this->data, 0, $length); 
-		}
-
+	
 		// --------- factory
 		function build($type = '', $key) 
 		{
