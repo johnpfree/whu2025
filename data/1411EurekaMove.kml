@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>1411EurekaMoveMap</name>
+		<Style id='Style2-point-1'>
+			<IconStyle>
+				<color>ff0000ff</color>
+				<scale>1.0</scale>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+				</Icon>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-point-1-hover'>
+			<IconStyle>
+				<color>ff0000ff</color>
+				<scale>1.0</scale>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+				</Icon>
+			</IconStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-point-1-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-point-1</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-point-1-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='Style2-line-2'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>800000ff</color>
+				<width>2</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-2-hover'>
+			<LineStyle>
+				<color>800000ff</color>
+				<width>2</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-2-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-2</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-2-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='Style2-polygon-3'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff666666</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>7f0000ff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-polygon-3-hover'>
+			<LineStyle>
+				<color>ff666666</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>7f0000ff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-polygon-3-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-polygon-3</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-polygon-3-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>we 11/19</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 2<br>
+<b>name:</b> we 11/19
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>2</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-119.818611,39.522581,0.0 -119.81431,39.522953,0.0 -119.818248,39.533918,0.0 -119.996056,39.512084,0.0 -120.047146,39.379842,0.0 -120.14201,39.34942,0.0 -120.60983,39.327367,0.0 -120.928981,39.131293,0.0 -121.087149,38.890866,0.0 -121.364691,38.650033,0.0 -121.556304,38.58774,0.0 -121.784976,38.54042,0.0 -122.143944,38.208513,0.0 -122.25104,38.221126,0.0 -122.303259,38.257419,0.0 -122.496373,38.251664,0.0 -122.508505,38.358828,0.0 -122.560243,38.428808,0.0 -122.657743,38.46589,0.0 -122.702728,38.440585,0.0 -122.714062,38.443775,0.0 -122.719343,38.42347,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>th 20</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 4<br>
+<b>name:</b> th 20
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>4</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.719341,38.42347,0.0 -122.71532,38.425466,0.0 -122.728664,38.466794,0.0 -122.755078,38.496022,0.0 -122.720405,38.50933,0.0 -122.719026,38.547618,0.0 -122.651015,38.551657,0.0 -122.598086,38.580902,0.0 -122.607855,38.590083,0.0 -122.595422,38.60502,0.0 -122.602181,38.63209,0.0 -122.588341,38.667473,0.0 -122.625703,38.736462,0.0 -122.613646,38.75429,0.0 -122.625373,38.772189,0.0 -122.661493,38.79169,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>fr 21</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 5<br>
+<b>name:</b> fr 21
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>5</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.613644,38.75429,0.0 -122.564724,38.790107,0.0 -122.61713,38.862597,0.0 -122.616062,39.007777,0.0 -122.357094,39.011195,0.0 -122.327855,39.104224,0.0 -122.23876,39.152914,0.0 -122.174225,39.153252,0.0 -122.095253,39.194781,0.0 -122.036255,39.196034,0.0 -122.014671,39.214832,0.0 -122.031921,39.248139,0.0 -122.025488,39.251664,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>sa 22</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 6<br>
+<b>name:</b> sa 22
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>6</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.149942,39.157353,0.0 -122.171729,39.191547,0.0 -122.19045,39.225737,0.0 -122.193542,39.52417,0.0 -122.216115,39.523906,0.0 -122.217405,39.525494,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>colusa</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 13<br>
+<b>name:</b> colusa
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>13</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.040982,39.195279,0.0 -122.040424,39.188227,0.0 -122.048535,39.187595,0.0 -122.051625,39.182805,0.0 -122.058663,39.187662,0.0 -122.059178,39.174023,0.0 -122.047119,39.175087,0.0 -122.051239,39.182706,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>sacto nwr</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 14<br>
+<b>name:</b> sacto nwr
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>14</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.192495,39.430078,0.0 -122.188139,39.430028,0.0 -122.186755,39.428503,0.0 -122.188386,39.42639,0.0 -122.191057,39.426357,0.0 -122.191068,39.43002,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>Line 16</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 15<br>
+<b>name:</b> Line 16
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>15</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.19354,39.52417,0.0 -122.196581,39.759723,0.0 -122.178266,39.95607,0.0 -122.198179,39.957122,0.0 -122.29019,40.436495,0.0 -122.37766,40.501257,0.0 -122.389354,40.552923,0.0 -122.427862,40.583192,0.0 -122.666416,40.674399,0.0 -122.739177,40.635921,0.0 -122.844902,40.674471,0.0 -122.942327,40.654587,0.0 -122.942376,40.729578,0.0 -123.122778,40.768731,0.0 -123.428035,40.774652,0.0 -123.633715,40.942146,0.0 -123.766336,40.898415,0.0 -123.89484,40.941703,0.0 -123.941219,40.887688,0.0 -123.986189,40.88348,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>mo 24</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 16<br>
+<b>name:</b> mo 24
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>16</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-124.150999,40.793539,0.0 -124.158642,40.804689,0.0 -124.083874,40.826224,0.0 -124.078359,40.900036,0.0 -124.063165,40.910451,0.0 -123.986189,40.88348,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>28 th</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>1:</b> 17<br>
+<b>name:</b> 28 th
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData>
+				<Data name='1'>
+					<value>17</value>
+				</Data>
+			</ExtendedData><LineString><coordinates>-122.415161,40.574326,0.0 -122.364137,40.585392,0.0 -121.904192,40.491562,0.0 -121.58844,40.540939,0.0 -121.418152,40.701464,0.0 -121.198683,40.647858,0.0 -120.914866,40.452799,0.0 -120.760913,40.411897,0.0 -120.649107,40.42186,0.0 -120.018766,39.937119,0.0 -120.032856,39.72924,0.0 -119.972151,39.647158,0.0 -119.826522,39.584017,0.0 -119.818248,39.533918,0.0</coordinates></LineString></Placemark>
+	</Document>
+</kml>

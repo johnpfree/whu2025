@@ -1,0 +1,266 @@
+<div class="container">
+
+	<div class="text_search container mt-3">
+		<h4>Simple word search:</h4>
+		<form class="form-group" action="?page=search&type=results&key=" method="post">
+			<div class="row">
+			  <div class="col-md-7">
+			    <div class="input-group mb-3">
+				    <input type="text" class="form-control" id="search_text" name="search_text" placeholder="Search for this text">
+			      <button type="submit" name="search_text_btn" class="btn btn-primary">Search</button>
+			    </div>
+		    </div>
+			  <div class="col-md-2">
+			    <div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" name="CHK_pic" checked>search images
+						</label>
+			    </div>
+			    <div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" name="CHK_spo" checked>search spots
+						</label>
+			    </div>
+		    </div>
+			  <div class="col-md-3">
+			    <div class="form-check">
+						<label class="form-check-label" title="Must faster to search stories in Wordpress">
+							<input class="form-check-input" type="checkbox" name="CHK_txt">search stories (very slow)
+						</label>
+			    </div>
+			    <div class="form-check">
+						<label class="form-check-label">
+							<input class="form-check-input" type="checkbox" name="CHK_log" checked>search trip logs
+						</label>
+			    </div>					
+		    </div>
+	    </div>
+	  </form>
+	</div>
+
+<!-- spots / trips / pics -->
+  <div id="accordion">
+    <div id="buttonRow">
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse1">Browse Camping Spots</a>
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse4">Browse Spot Keywords</a>
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse2">Browse Trips</a>
+      <a class="btn btn-outline-success ml-2 mr-2" data-toggle="collapse" href="#collapse3">Browse Image Keywords</a>
+    </div>
+    <div id="collapse1" class="collapse{SHOW_1}" data-parent="#accordion">
+		  <div id="spot_search" class="row whu_group">
+			  <div class="row">
+				  <div class="col">
+							Find Campgrounds ... and a few hotels and parking lots:
+				  </div>
+			  </div>	
+			  <div class="row">
+				  <div class="col-md-4">
+						<ul>
+							<li>Public Campgrounds</li>
+							<ul>
+								<li>Federal (half-price to seniors)
+									<ul>
+										<li><a href="?page=mapspots&type=type&key=FS">Forest Service</a></li>
+										<li><a href="?page=mapspots&type=type&key=NPS">National Park</a></li>
+										<li><a href="?page=map&type=type&key=BLM">BLM</a></li>
+										<li><a href="?page=map&type=type&key=ACE">ACE</a></li>
+									</ul>
+								</li>
+								<li><a href="?page=map&type=type&key=State">State</a></li>
+								<li><a href="?page=map&type=type&key=County">County/City</a></li>
+							</ul>
+							<li><a href="?page=mapspots&type&type==listtype&key=boondock">Parking lots and other boondocking</a></li>
+							<li><a href="?page=mapspots&type=type&key=inside">Hotels and Motels</a></li>
+							<li><a href="?page=map&type=placeid&key=128">Istanbul Hotels</a></li>
+						</ul>	
+				  </div>
+				  <div class="col-md-4">
+						<ul>
+							<li>Regions</li>
+							<ul>
+								<li>California
+									<ul>
+										<li><a href="?page=map&type=placeid&key=208">North Sierras</a></li>
+										<li><a href="?page=map&type=placeid&key=109">North Coast</a></li>
+										<li><a href="?page=map&type=placeid&key=107">US 395 (Eastern Sierras)</a></li>
+										<li><a href="?page=map&type=placeid&key=211">Central Valley</a></li>
+										<li><a href="?page=map&type=placeid&key=106">Other Nor Cal</a></li>
+										<li><a href="?page=map&type=placeid&key=105">So Cal</a></li>
+									</ul>
+								</li>
+								<li>East of the Mississippi
+									<ul>
+										<li><a href="?page=map&type=placeid&key=80">Tennessee, North Carolina and South</a></li>
+										<li><a href="?page=map&type=placeid&key=83,88">Kentucky, Virginia and North</a></li>
+									</ul>
+								</li>
+							</ul>	
+						</ul>	
+				  </div>
+				  <div class="col-md-4">
+						<ul>
+							<li>Regions</li>
+							<ul>
+								<li>West of the Mississippi
+									<ul>
+										<li><a href="?page=map&type=placeid&key=113,153,110">Oregon, Washington</a></li>
+										<li><a href="?page=map&type=placeid&key=70">Oregon Coast</a></li>
+										<li><a href="?page=map&type=placeid&key=108">Nevada</a></li>
+										<li><a href="?page=map&type=placeid&key=112">Utah</a></li>
+										<li><a href="?page=map&type=placeid&key=111">Idaho</a></li>
+										<li><a href="?page=map&type=placeid&key=121">Colorado</a></li>
+										<li><a href="?page=map&type=placeid&key=119,120">Montana/Wyoming</a></li>
+										<li><a href="?page=map&type=placeid&key=103,173">Arizona/NewMexico</a></li>
+										<li><a href="?page=map&type=placeid&key=89">Dakotas, Missouri, and the Corn Belt</a></li>
+										<li><a href="?page=map&type=placeid&key=212,">Texas, Oklahoma, Arkansas</a></li>
+									</ul>
+								</li>
+						</ul>	
+				  </div>
+			  </div>	
+		  </div>	
+    </div>
+    <div id="collapse2" class="collapse{SHOW_2}" data-parent="#accordion">
+		  <div id="trip_search" class="row whu_group">
+		    <div class="col-md-3">
+			    <p><a href="?page=trips&type=list&key=tl_rcnt" title="{LISTNAME_rcnt}">{LISTNAME_rcnt}</a> &bull;
+					   <a href="?page=trips&type=list&key=tl_alll" title="{LISTNAME_alll}">{LISTNAME_alll}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_fall" title="{LISTNAME_fall}">{LISTNAME_fall}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_sprg" title="{LISTNAME_sprg}">{LISTNAME_sprg}</a></p>
+				</div>
+		    <div class="col-md-3">
+			    <p><a href="?page=trips&type=list&key=tl_east" title="{LISTNAME_east}">{LISTNAME_east}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_nwst" title="{LISTNAME_nwst}">{LISTNAME_nwst}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_dsrt" title="{LISTNAME_dsrt}">{LISTNAME_dsrt}</a></p>
+				</div>
+		    <div class="col-md-3">
+					<p><a href="?page=trips&type=list&key=tl_ista" title="{LISTNAME_ista}">{LISTNAME_ista}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_noca" title="{LISTNAME_noca}">{LISTNAME_noca}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_soca" title="{LISTNAME_soca}">{LISTNAME_soca}</a></p>
+				</div>
+		    <div class="col-md-3">
+			    <p><a href="?page=trips&type=list&key=tl_euka" title="{LISTNAME_euka}">{LISTNAME_euka}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_neva" title="{LISTNAME_neva}">{LISTNAME_neva}</a></p>
+			    <p><a href="?page=trips&type=list&key=tl_395e" title="{LISTNAME_395e}">{LISTNAME_395e}</a></p>
+				</div>
+      </div>
+    </div>
+		<div id="collapse3" class="collapse{SHOW_3}" data-parent="#accordion">
+		  <div id="keyword_search" class="row whu_group">
+			  <div class="col">
+				  <form class="form-group" action="?page=pics&type=cat&key=post" method="post">
+					  <div text-search class="input-group form-check-inline">
+							<p style="">
+								Fun Image search - Find images with one or two keywords: &nbsp; &nbsp; 
+					      <button class="btn btn-secondary float-right" type="reset" name="pic_cats_reset" style="margin-left: 10px;">
+									reset
+					      </button>
+					      <button class="btn btn-primary float-right" type="submit" name="pic_cats_submit">
+									Search
+					      </button>
+							</p>
+							<p class="pic_keys">{PIC_CATS}</p>
+					  </div>
+					</form>
+			  </div>	
+		  </div>	
+    </div>
+		<div id="collapse4" class="collapse{SHOW_4}" data-parent="#accordion">
+		  <div id="spotkey_search" class="row whu_group">
+			  <div class="col">
+					Look for spots by keyword:
+					<p>{SPOT_KEYS}</p>
+			  </div>	
+		  </div>	
+    </div>
+  </div>
+		
+
+	<div id="map_search" class="container mt-3">
+		<h4>Search by Location:</h4>
+	  <p>Enter a location (town,state/zip code/address) and a radius in miles to search for spots within an area.</p>
+	  <form action="?page=map&type=location&key=" method="post" data-toggle="validator">
+			<div class="row">
+			  <div class="col-md-7">
+			    <div class="input-group mb-3">
+		        <span class="input-group-text">Location:</span>
+			      <input type="text" class="form-control" name="location" id="location"  value="{SPOTSEARCH_LOCATION_VAL}" placeholder="town, address, zip"required>
+			    </div>
+		    </div>
+			  <div class="col-md-3">
+			    <div class="input-group mb-3">
+						<span class="input-group-text">Radius:</span>
+			      <input type="number" class="form-control" name="radius" id="radius" value="{SPOTSEARCH_RADIUS_VAL}" max="300" required>
+			    </div>
+		    </div>
+			  <div class="col-md-2">
+					<button type="submit" name="find_spots_submit" class="btn btn-primary ml-4">Find</button>
+		    </div>
+	    </div>
+	  </form>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function()
+	{
+		$('input[type=checkbox]').on('change', function (e) {
+			console.log('.pic_keys input[type=checkbox]:checked).length', $('.pic_keys input[type=checkbox]:checked').length);
+		    if ($('.pic_keys input[type=checkbox]:checked').length > 2) {
+		        $(this).prop('checked', false);
+		        alert("You can only check two!");
+		    }
+		});
+	});
+</script>
+
+<style type="text/css" media="screen">
+	#main-menu {
+		margin-bottom: 0px;
+	}
+	
+	#buttonRow {
+		margin-top: 22px; 
+		text-align: center;
+		font-weight: bold;
+	}
+	#buttonRow a {
+    color: #017034;
+    border-color: #017034;
+    border-width: 2px;
+	}
+	.btn-primary {
+    background-color: #017034;
+    border-color: #017034;
+	}	
+	
+	.input-group-btn {
+		border: 1px solid #999;
+	}
+	.fa-lg {
+		line-height: normal;
+	}
+	.text_search {
+		padding-top: 22px;
+		padding-bottom: 10px;
+		margin-bottom: 20px;
+		border-top: 2px solid #017034;
+		border-bottom: 2px solid #017034;
+	}
+
+	.whu_group {
+		margin-top: 20px;
+	}
+	.whu_group .form-check-label {
+		margin-right: 20px;
+	}
+	.whu_group p {
+		width: 100%; 
+	}
+
+	#map_search { 
+		margin-top: 20px; 
+		padding-top: 20px;
+		border-top: 2px solid #017034;
+	}
+</style>

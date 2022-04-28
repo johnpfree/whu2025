@@ -1,0 +1,113 @@
+		<div class="container">
+		  <div class="row no-gutters">
+{HEADER_GALLERY}
+		  </div>			
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>{SPOT_NAME}</h2>
+		    </div>
+		  </div>
+			<div class="row">
+				<div class="col-md-8">
+					<p class="infoitem"><i>nearest town</i>: <b>{SPOT_TOWN}</b></p>
+					<p class="infoitem"><span {SHOW_PARTOF}><i>part of:</i> <b>{SPOT_PARTOF}</b></span></p>
+					<p class="infoitem"><i>A</i> <b>{SPOT_TYPES}</b> <i>in the</i> <b><a href="?page=spots&type=placeid&key={SPOT_PLACEID}">{SPOT_PLACE}</a></b> <i>region</i>.</p>
+
+					<p class="infoitem" style="margin-top: 6px;"><i>Number of visits</i>: {SPOT_NUM}</p>
+					<p class="infoitem"><i>GPS</i>: {SPLAT},{SPLON}</p>
+					<p class="infoitem"><i>Bathroom</i>: {SPBATH} &bull; <i> Water: </i>{SPWATER}</p>
+			
+					<div id="descr">
+						{SPDESC}
+					</div>
+			
+					<div class="{DAYS_INFO}">
+						<div class="list_head">Spot keywords:
+						  <a href="#" data-toggle="popover" data-trigger="click" data-html="true" data-content="<ul>Keywords can be contradictory:<li>They are recorded for each visit, so a spot might be '<em>noisy</em>' during peak season and '<em>quiet</em>' on a winter day.</li><li>A frequent combo is '<em>quiet</em>'and '<em>road noise</em>'. Many places are perfectly serene until a big rig or a train rumbles past.</li></ul>">
+			          <span class="glyphicon glyphicon-info-sign"></span>
+						  </a>
+						</div>
+						<div class="list_item">
+							<!-- BEGIN keyrows -->
+							{SPOT_SEP}<a href="?page=spots&type=keyword&key={SPOT_KEY}">{SPOT_KEY}</a>		
+							<!-- END keyrows -->
+						</div>
+						<p>{ATT_MSG}</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					{MAP_INSET}
+					<div id="formbox">
+						<form action="?page=map&type=spotid&key={SPOT_ID}" method="post" data-toggle="validator">
+							<div class="headfont" style="font-size: 130%; margin-top: 6px;">Find Spots near here:</div>
+					    <div class="row">
+					      <label for="radius" class="col-sm-12 col-form-label">Show all spots within:</label>
+					    </div>
+					    <div class="form-group row">
+					      <div class="col-sm-6">
+					        <input type="number" class="form-control" name="radius" id="radius"  value="{SEARCH_RADIUS_VAL}" max="250" required>
+					      </div>
+					      <div class="col-sm-6" id="search_near">         
+					        <button type="submit" name="search_near_spot" class="btn btn-primary">&nbsp; Find Spots &nbsp;</button>
+					      </div>
+					    </div>
+					  </form>
+					</div>
+				</div>
+			</div>		
+			<div class="row {DAYS_INFO}">
+				<div class="col">			
+						<h4 style="padding-top: 4px; border-top: 1px solid #999;">Notes on each visit <i>(posted cost &bull; senior cost)</i>:</h4>
+						<div id="day_list" class="list_item">
+							<!-- BEGIN rows -->
+								<span class="{USE_LINK}" style="white-space: nowrap;"><a href="?page=day&type=date&key={STAY_DATE}">{NICE_DATE}</a> <i>({SPCOSTS})</i></span>
+								<span class="{NOT_LINK}" style="white-space: nowrap;">{NICE_DATE} ({SPCOSTS})</span>
+								<div class="day_desc">{SPDAYDESC}</div>
+								<!-- END rows -->	
+						</div>
+					</div>
+				</div>		
+			</div>	
+
+<style type="text/css" media="screen">
+	.infoitem {
+		margin-bottom: 0;
+	}
+.list_head {
+	margin: 1em 0 0;
+}
+.list_item {
+	padding: .5em 1em 1em;
+}
+
+#descr {
+	padding: 10px 18px;
+	margin-top: 2px;
+	overflow: scroll;
+	overflow-x: hidden;
+	width: 100%;
+	max-height: 30vw;
+	background-color: #f8f8f8;
+}
+#descr>p {
+	margin-bottom: 0;
+}
+#descr>p:first-letter {
+  text-transform: uppercase;
+}
+#day_list {
+	padding: 8px 1em;
+	margin: 0 0 .6em 0;
+	overflow: scroll;
+	overflow-x: hidden;
+	width: 100%;
+	max-height: 30vw;
+}
+
+.day_desc:last-of-type {
+	border-bottom: inherit;
+}
+.day_desc>p:first-letter {
+  text-transform: uppercase;
+}
+</style>

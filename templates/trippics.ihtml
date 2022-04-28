@@ -1,0 +1,63 @@
+<div class="container">			
+	
+  <div class="row">
+    <div class="col cardrowhead flex-container">
+			<h2 class="">
+				{GAL_TITLE}
+			</h2>
+			<h4 class="headerclause">
+				<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
+				<a href="?page=map&type=id&key={TRIP_ID}">map</a> &bull; 
+				<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
+			</h4>
+    </div>
+  </div>
+	
+	<p>{NUM_DAYS} days &bull; {NUM_PICS} pictures{NUM_VIDS}</p>
+	
+	<div class="clearfix" id="thegal">
+		<!-- BEGIN rows -->
+		<p>
+			<a href="?page=pics&type=date&key={GAL_DATE}">
+				<img class="img-rounded img-responsive squareme {USE_IMAGE}" src='{REL_PICPATH}pix/iPhoto/{WF_IMAGES_PATH}/{PIC_NAME}' border="0" />
+				<img class="img-rounded img-responsive squareme {USE_BINPIC}" src="data:image/jpg;base64,{BINPIC}">
+				<span>{NICE_DATE} ({DATE_COUNT}){VID_LINK}</span>
+			</a>		
+		</p>
+		<!-- END rows -->
+	</div>
+</div>
+
+<style type="text/css" media="screen">
+	.cardrowhead span {
+		font-size: 70%;
+		padding-left: 40px;
+	}
+#thegal>p {
+	float: left;
+	text-align: center;
+	position: relative;
+}
+#thegal>p img {
+	border: 1px solid #3A5950;		
+	border-radius: 8px;
+}
+.squareme {	object-fit: cover; }
+.hideme { display: none; }
+
+@media (max-width: 785px)  {	
+	#thegal>p { width: 78px; height: 128px; }
+	.squareme {
+		width: 76px;
+		height: 76px;
+	}
+}
+@media (min-width: 701px)  {	
+	#thegal>p { width: 166px; }
+	.squareme {
+		width: 160px;
+		height: 160px;
+	}
+}
+
+</style>

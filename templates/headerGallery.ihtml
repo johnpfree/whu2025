@@ -1,0 +1,36 @@
+<!-- Everything you need for header gallery -->
+		<link rel="stylesheet" href="./css/justifiedGallery.min.css" />
+		<script src="./libraries/jquery.justifiedGallery.min.js"></script>
+
+			  <div id="thegallery">
+	<!-- BEGIN header_rows -->
+		      <a href="?page=pic&type=id&key={PIC_ID}" data-title="{PIC_DESC}"  data-max-width="540"
+					data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
+					data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" 
+					title="{PIC_DESC}" /></a>
+	<!-- END header_rows -->
+			  </div>
+
+<script>
+	$("#thegallery").justifiedGallery({
+		margins: 0,
+		border: -1,
+		maxRowsCount: 1,
+		// rowHeight: 80
+	});
+
+$(document).ready(function()
+{	
+	var wid = $(window).width();
+	var hgt = $(window).height();
+	var rowHgt = 60;
+	console.log("wid=" + wid + ", hgt=" + hgt + ", rowHgt=" + rowHgt);
+	if (hgt < 800) {
+    // var txt = "Doc width: " + hgt;
+    // txt += "\nrowHeight=" + rowHgt;
+    // alert(txt);
+		
+		$('#thegallery').justifiedGallery({rowHeight: rowHgt});
+	}
+});
+</script>

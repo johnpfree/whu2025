@@ -1,0 +1,696 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>1009Reunion-JustRoutes</name>
+		<Style id='Style2-point-1'>
+			<IconStyle>
+				<color>ff0000ff</color>
+				<scale>1.0</scale>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+				</Icon>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-point-1-hover'>
+			<IconStyle>
+				<color>ff0000ff</color>
+				<scale>1.0</scale>
+				<Icon>
+					<href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>
+				</Icon>
+			</IconStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-point-1-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-point-1</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-point-1-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='Style2-line-2'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>800000ff</color>
+				<width>2</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-line-2-hover'>
+			<LineStyle>
+				<color>800000ff</color>
+				<width>2</width>
+			</LineStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-line-2-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-line-2</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-line-2-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='Style2-polygon-3'>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff666666</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>7f0000ff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<Style id='Style2-polygon-3-hover'>
+			<LineStyle>
+				<color>ff666666</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>7f0000ff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>$[description]</text>
+			</BalloonStyle>
+		</Style>
+		<StyleMap id='Style2-polygon-3-map'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#Style2-polygon-3</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#Style2-polygon-3-hover</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Placemark>
+			<name>day 1 - gettin to Elko</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> watch 9ers suck, leave 2-ish, eat big at Big Eds, on road 3-ish ... kill lotsa bugs on the road.<br>
+<b>name:</b> day 1 - gettin to Elko
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-119.817338,39.523093,0.0 -119.816394,39.52263,0.0 -119.81648,39.520975,0.0 -119.809957,39.522299,0.0 -119.813132,39.530243,0.0 -119.799142,39.532891,0.0 -119.786353,39.534149,0.0 -119.74421,39.541894,0.0 -119.703784,39.542092,0.0 -119.703956,39.532362,0.0 -119.700608,39.526536,0.0 -119.6628,39.510592,0.0 -119.523239,39.570481,0.0 -119.473801,39.57154,0.0 -119.457321,39.592708,0.0 -119.245834,39.617044,0.0 -118.312683,40.328679,0.0 -118.235779,40.642024,0.0 -117.587586,41.024394,0.0 -116.884461,40.629518,0.0 -116.510925,40.712846,0.0 -116.313171,40.646192,0.0 -116.104431,40.741985,0.0 -115.981293,40.714476,0.0 -115.919495,40.766502,0.0 -115.823708,40.807313,0.0 -115.776672,40.8268,0.0 -115.744057,40.852254,0.0 -115.786972,40.836152,0.0 -115.792809,40.839009,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 2 - over the Great Salt Lake to a quiet creek</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> that SR 30 over the top of the lake is a long boring haul, but soon I am in Mormon farming country, also boring, then Logan UT, which I find delightful.  A college community after all.  These oases of culture in the middle of none seem more in tense about their culture.  Anyway, I am two for two in having very pleasant times in my short stays in Logan, the Ibis Cafe + wifi.<br>
+<b>name:</b> day 2 - over the Great Salt Lake to a quiet creek
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-115.793209,40.837381,0.0 -115.789433,40.835043,0.0 -115.714931,40.882821,0.0 -115.632706,40.949549,0.0 -115.463791,40.958883,0.0 -115.260544,41.088391,0.0 -114.955673,41.10495,0.0 -114.773026,41.115297,0.0 -114.619217,41.072864,0.0 -114.558792,41.07804,0.0 -114.492874,41.035583,0.0 -114.286881,41.150464,0.0 -114.065781,41.372412,0.0 -113.653793,41.463038,0.0 -113.513718,41.759771,0.0 -113.424454,41.824276,0.0 -113.207474,41.822229,0.0 -113.147049,41.841671,0.0 -113.063278,41.967387,0.0 -112.693863,41.962281,0.0 -112.574387,41.89996,0.0 -112.483749,41.885648,0.0 -112.409592,41.819159,0.0 -112.276382,41.789472,0.0 -112.257156,41.743379,0.0 -112.195358,41.718782,0.0 -112.144547,41.717757,0.0 -112.147293,41.787424,0.0 -112.088242,41.785376,0.0 -112.038803,41.797663,0.0 -112.001724,41.758747,0.0 -111.853409,41.738255,0.0 -111.762543,41.741603,0.0 -111.686325,41.76363,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 3 - Star Valley, Jackson WY</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Over the mountain, past Bear Lake, eat in Montpelier, cruise through Jackson<br>
+<b>name:</b> day 3 - Star Valley, Jackson WY
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-111.682205,41.762093,0.0 -111.642494,41.784489,0.0 -111.643181,41.798311,0.0 -111.529198,41.965991,0.0 -111.481018,41.945192,0.0 -111.443939,41.921694,0.0 -111.398621,41.95132,0.0 -111.408234,42.015632,0.0 -111.390381,42.040114,0.0 -111.398621,42.283405,0.0 -111.259918,42.31997,0.0 -111.20224,42.34332,0.0 -111.136322,42.334184,0.0 -111.051178,42.367676,0.0 -111.049805,42.395066,0.0 -110.994873,42.402164,0.0 -110.942688,42.496403,0.0 -110.931702,42.79137,0.0 -110.992126,42.922241,0.0 -111.025085,43.117024,0.0 -111.008606,43.173135,0.0 -110.788193,43.216686,0.0 -110.799866,43.287203,0.0 -110.734634,43.320182,0.0 -110.718842,43.353144,0.0 -110.788193,43.471858,0.0 -110.761414,43.481325,0.0 -110.732231,43.581137,0.0 -110.722961,43.608488,0.0 -110.664597,43.614205,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 4 - Wyoming is wide</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Pretty Tetons, then a long drive<br>
+<b>name:</b> day 4 - Wyoming is wide
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-110.67426,43.6032,0.0 -110.65881,43.62482,0.0 -110.62311,43.62482,0.0 -110.63135,43.67078,0.0 -110.67941,43.67798,0.0 -110.50895,43.84416,0.0 -109.050293,43.237199,0.0 -108.358154,43.020714,0.0 -108.1604,43.277205,0.0 -106.34765,42.84375,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 5 - Sioux Country</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> finally, made to the other side of Wyoming.  Soon came upon Fort Robinson NE, which was very fascination and evokative for an impressionable fellow like me.  <br>Check the blog for 'deets.<br>
+<b>name:</b> day 5 - Sioux Country
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-106.325684,42.851806,0.0 -105.501709,42.779275,0.0 -105.172119,42.674359,0.0 -104.941406,42.730874,0.0 -104.534912,42.738944,0.0 -103.425293,42.658202,0.0 -103.018799,42.827639,0.0 -102.700195,42.674359,0.0 -102.466736,42.724821,0.0 -102.241516,42.795401,0.0 -101.942139,42.807492,0.0 -101.78009,42.920229,0.0 -101.648254,42.910172,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 6 - Nebraska-Iowa</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Unremarkable day, although as I entered Iowa, the rivers were suddenly swollen and overflowing their banks.  Big storms last week evidently.<br>
+<b>name:</b> day 6 - Nebraska-Iowa
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-101.640015,42.906148,0.0 -101.107178,42.936318,0.0 -100.557861,42.884015,0.0 -100.49881,42.887033,0.0 -100.472717,42.939334,0.0 -100.229645,42.937323,0.0 -100.097809,42.870932,0.0 -99.926147,42.86288,0.0 -99.920654,42.829653,0.0 -99.75174,42.824617,0.0 -99.746246,42.895082,0.0 -99.339752,42.917212,0.0 -99.28894,42.963458,0.0 -99.065094,42.958433,0.0 -98.98407,42.917212,0.0 -98.842621,42.913189,0.0 -98.834381,42.886027,0.0 -98.699799,42.885021,0.0 -98.697052,42.966472,0.0 -98.725891,42.984558,0.0 -98.724518,43.00766,0.0 -98.709412,43.031757,0.0 -98.573456,43.044805,0.0 -98.55011,43.082931,0.0 -98.12851,43.083934,0.0 -96.811523,43.078919,0.0 -96.486053,43.086943,0.0 -96.490173,42.996612,0.0 -96.17981,43.002639,0.0 -96.166077,43.187155,0.0 -95.155334,43.185153,0.0 -95.158081,43.129052,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 7 - silo sunset tour</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> ahh farm equipment in the road when you're tired and in a hurry, what fun.<br>
+<b>name:</b> day 7 - silo sunset tour
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-95.158081,43.129052,0.0 -94.559326,43.109004,0.0 -94.240723,43.080925,0.0 -93.598022,43.109004,0.0 -93.361816,43.149094,0.0 -93.35083,43.106999,0.0 -92.746582,43.119029,0.0 -92.69989,43.034768,0.0 -92.548828,42.962453,0.0 -91.796265,42.964463,0.0 -91.650696,43.002639,0.0 -91.613617,43.039787,0.0 -91.594391,43.084937,0.0 -91.39389,43.041794,0.0 -91.330719,43.071897,0.0 -91.271667,43.059858,0.0 -91.194763,43.066881,0.0 -91.171417,43.020714,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 8 - sunday church dinner</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> I took the back way out of the campground, not just state roads, but county roads.<br>One of the little downtown churches was having a Sunday dinner, so I invested.  Not a very good dinner really, but the experience was pretty cool.  Standing in line and all took a long time, so I didn't go as far as I would've liked.<br>
+<b>name:</b> day 8 - sunday church dinner
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-91.171417,43.01971,0.0 -91.17691,42.90816,0.0 -91.104126,42.807492,0.0 -91.115112,42.779275,0.0 -91.071167,42.597576,0.0 -90.791016,42.549034,0.0 -90.653687,42.484251,0.0 -90.43396,42.208176,0.0 -90.219727,42.106374,0.0 -90.197754,41.832735,0.0 -89.653931,41.779505,0.0 -89.44519,41.804078,0.0 -89.13208,41.529142,0.0 -89.055176,41.356196,0.0 -88.549805,41.368564,0.0 -88.395996,41.360319,0.0 -88.308105,41.273678,0.0 -87.973022,41.186922,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 9 - making some miles across some boring countryside</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> great breakfast in a nice Kankakee diner, looking at the Kankakee River :)<br>Some mighty un-memorable driving.<br>
+<b>name:</b> day 9 - making some miles across some boring countryside
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-87.986755,41.188989,0.0 -87.061157,41.137296,0.0 -86.893616,41.062786,0.0 -86.250916,41.05036,0.0 -85.968018,41.002703,0.0 -85.270386,41.008921,0.0 -85.295105,40.95916,0.0 -85.072632,40.963308,0.0 -84.979248,41.071069,0.0 -84.589233,41.07521,0.0 -84.578247,40.86368,0.0 -83.652649,40.842905,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 10 - entering truck-land</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> my first day of rain.  <br>When I hit I-80 in eastern Ohio, the number and aggressiveness of the semis took a quantum leap ... just brutal.  <br>Good call, stopped at the Interstate Info Booth, where the helpful kid wrote down the addy of a Walmart 200 miles away where I could sleep.<br>
+<b>name:</b> day 10 - entering truck-land
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-83.654022,40.843944,0.0 -83.654022,40.82628,0.0 -83.347778,40.825241,0.0 -83.314819,40.855371,0.0 -83.253021,40.846022,0.0 -83.233795,40.809652,0.0 -83.118439,40.807573,0.0 -83.055267,40.824202,0.0 -82.945404,40.825241,0.0 -82.858887,40.759741,0.0 -82.585602,40.780541,0.0 -82.419434,40.778462,0.0 -82.023926,40.990265,0.0 -81.88385,41.029643,0.0 -81.578979,41.042074,0.0 -81.34552,41.100052,0.0 -80.848389,41.112469,0.0 -80.524292,41.178654,0.0 -79.606934,41.186922,0.0 -78.607178,41.112469,0.0 -78.405304,41.031715,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 11 - the stretch run</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> gack - a long, hard day.   <br>80 across Pennsylvania is a horrible road.  84 across the bottom of NY and into Connecticut is much nicer, fewer trucks.  They are both actually quite pretty in the fall, mile after mile after mile of deciduous tree-covered hills.<br>Tony's about an hour after dark - I hate driving at night ... when I'm tired ... in a strange place ...<br>
+<b>name:</b> day 11 - the stretch run
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-78.401184,41.031715,0.0 -77.739258,40.963308,0.0 -77.03064,41.066928,0.0 -76.712036,40.979898,0.0 -76.008911,41.05036,0.0 -75.62439,41.393294,0.0 -74.805908,41.343825,0.0 -73.756714,41.541478,0.0 -73.515015,41.389173,0.0 -72.971191,41.533254,0.0 -72.644348,41.557922,0.0 -72.35321,41.317013,0.0 -72.166443,41.382991,0.0 -71.946716,41.360319,0.0 -71.746216,41.477718,0.0 -71.639099,41.623655,0.0 -71.496277,41.662653,0.0 -71.3974,41.812267,0.0 -71.133728,41.709829,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 13 - Harvard Reunion!</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> up at 7:30 to drive to Cambridge and get 'er done!   I expound at length in the blog, but it was a lotta fun!<br>I did NOT drive.<br>
+<b>name:</b> day 13 - Harvard Reunion!
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-71.133041,41.71188,0.0 -71.018372,41.963575,0.0 -71.073303,42.198004,0.0 -71.209259,42.252918,0.0 -71.253204,42.41636,0.0 -71.155701,42.413318,0.0 -71.101456,42.423963,0.0 -71.05957,42.35347,0.0 -71.027985,42.232585,0.0 -71.07193,42.199021,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 18 - driving on Cape Cod</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> decamped from Tony's, foolishly took the side roads to the Cape, so I sat and traffic lights and got lost.  Drove all the way to P-town, waded in the Atlantic.  No matter what I do I end up doing a lot of driving.<br>
+<b>name:</b> day 18 - driving on Cape Cod
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-71.131668,41.708804,0.0 -71.047211,41.636999,0.0 -70.916061,41.639565,0.0 -70.776672,41.666757,0.0 -70.721741,41.755947,0.0 -70.544586,41.768239,0.0 -70.389404,41.727255,0.0 -70.360565,41.702653,0.0 -70.230103,41.701627,0.0 -70.19577,41.72828,0.0 -70.033722,41.765166,0.0 -69.969177,41.786673,0.0 -69.984283,41.8941,0.0 -70.044708,41.994202,0.0 -70.138092,42.063568,0.0 -70.205841,42.058946,0.0 -70.121613,42.049293,0.0 -70.051575,41.977869,0.0 -70.002136,41.879786,0.0 -69.980164,41.774384,0.0 -70.028229,41.77336,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 19 - back to Tony's</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> took a couple of beautiful hikes in the national park.  First was the Red Cedar Swam trail, great bay views along with the swamp.  Next was the White XX Trail, which was nice, but which I messed up by coming out of a spur and going the wrong direction, so I missed the second swamp.  I was annoyed.<br>
+<b>name:</b> day 19 - back to Tony's
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-70.032349,41.774384,0.0 -69.985657,41.762093,0.0 -70.088654,41.699577,0.0 -70.363312,41.686246,0.0 -70.449829,41.640078,0.0 -70.492401,41.738528,0.0 -70.545959,41.767215,0.0 -70.583038,41.740578,0.0 -70.605011,41.779505,0.0 -70.73822,41.77336,0.0 -70.870056,41.659575,0.0 -71.05751,41.65701,0.0 -71.129608,41.709829,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 20 - Plymouth to Dave's</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> decamped Tony's again, took the main roads this time to get the heck out of there, then when I got to the Atlantic I went back to the country road strategy.  <br>Ate a tasty meal of broiled bluefish at the best Plymouth seafood spot on yelp.  yummie<br>
+<b>name:</b> day 20 - Plymouth to Dave's
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-71.13166,41.70982,0.0 -71.11793,41.68163,0.0 -71.06094,41.66008,0.0 -70.92224,41.65239,0.0 -70.80139,41.68829,0.0 -70.73135,41.78052,0.0 -70.5899,41.74672,0.0 -70.53772,41.78462,0.0 -70.53909,41.85421,0.0 -70.54733,41.91249,0.0 -70.69473,41.97732,0.0 -70.72723,41.99726,0.0 -70.80001,42.09822,0.0 -70.810318,42.114524,0.0 -70.798645,42.131331,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 21 - Daves to Johnny's country home</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Boston traffic still sucks.  Not a relaxing trip, traffic jam in Keene because of a left turn for the Pumpkin Festival for chrissakes!<br>
+<b>name:</b> day 21 - Daves to Johnny's country home
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-70.797272,42.133367,0.0 -70.793152,42.16035,0.0 -70.849457,42.156278,0.0 -70.866623,42.147624,0.0 -70.874863,42.16035,0.0 -71.026611,42.225467,0.0 -71.115875,42.200038,0.0 -71.206512,42.247835,0.0 -71.27243,42.427511,0.0 -71.515503,42.522724,0.0 -71.764069,42.550045,0.0 -71.890411,42.541951,0.0 -71.938477,42.56269,0.0 -72.003021,42.614254,0.0 -72.010574,42.659717,0.0 -72.051086,42.68294,0.0 -72.183609,42.826631,0.0 -72.278366,42.920229,0.0 -72.298965,42.923246,0.0 -72.295532,42.94436,0.0 -72.434921,43.001634,0.0 -72.445221,43.061865,0.0 -72.427368,43.117525,0.0 -72.450714,43.129553,0.0 -72.46582,43.179144,0.0 -72.534485,43.206677,0.0 -72.546158,43.228194,0.0 -72.559891,43.201172,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 24 Johnny's to Dave's work home</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> the colors are past their prime, but still mighty nice.<br>
+<b>name:</b> day 24 Johnny's to Dave's work home
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-72.563324,43.203674,0.0 -72.550964,43.231196,0.0 -72.591476,43.258206,0.0 -72.642975,43.382595,0.0 -72.700653,43.393074,0.0 -72.702713,43.467373,0.0 -72.745972,43.604262,0.0 -72.822876,43.709579,0.0 -72.805023,43.773077,0.0 -72.721252,43.758201,0.0 -72.597656,43.826601,0.0 -72.626495,43.990839,0.0 -72.58255,44.174325,0.0 -72.587013,44.245445,0.0 -72.59551,44.249872,0.0 -72.599545,44.256757,0.0 -72.587013,44.261429,0.0 -72.57637,44.26106,0.0 -72.572765,44.262474,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 26 - scenic but wet and cold</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> took the scenic but slow route, very pretty, but freezing and poor visibility for more of the day.  <br>daylight is coming earlier ... duh, so I ended up again having to hurry at the end of the day, and ended up at yet another Walmart.<br>using the Barnse&amp;Noble wifi right now, ahhh the shopping center life...<br>
+<b>name:</b> day 26 - scenic but wet and cold
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-72.572594,44.262474,0.0 -72.575684,44.260323,0.0 -72.587013,44.262474,0.0 -72.600574,44.257495,0.0 -72.604008,44.260568,0.0 -72.62907,44.268436,0.0 -72.673874,44.292893,0.0 -72.726746,44.286503,0.0 -72.844849,44.176295,0.0 -72.862701,44.096462,0.0 -72.842102,44.019484,0.0 -72.835236,43.914713,0.0 -72.759705,43.772085,0.0 -72.814636,43.76911,0.0 -72.817383,43.737368,0.0 -72.775497,43.660918,0.0 -72.750778,43.600284,0.0 -72.761078,43.565467,0.0 -72.718506,43.501251,0.0 -72.7034,43.394072,0.0 -72.729492,43.351147,0.0 -72.754898,43.35564,0.0 -72.781677,43.343158,0.0 -72.784424,43.325677,0.0 -72.79129,43.259706,0.0 -72.80983,43.228194,0.0 -72.864075,43.235699,0.0 -72.89566,43.231196,0.0 -72.949905,43.204675,0.0 -72.986298,43.205176,0.0 -73.034363,43.173636,0.0 -73.124313,43.069891,0.0 -73.141479,42.992595,0.0 -73.181992,42.935312,0.0 -73.205338,42.920732,0.0 -73.201904,42.904136,0.0 -73.203964,42.829653,0.0 -73.24173,42.778267,0.0 -73.207397,42.731883,0.0 -73.24173,42.654162,0.0 -73.249969,42.578366,0.0 -73.22937,42.518675,0.0 -73.247223,42.467032,0.0 -73.198128,42.463993,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 27 - finding a meeting place</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> i had to make an executive decision for where to meet Dylan<br>
+<b>name:</b> day 27 - finding a meeting place
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-73.19881,42.46323,0.0 -73.369446,42.187829,0.0 -73.517761,42.178671,0.0 -73.530121,42.065607,0.0 -73.569946,41.64521,0.0 -73.76358,41.669834,0.0 -73.82675,41.46845,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 29 - what next</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> some very pretty countryside, Hudson River, etc., but driving through the east is not restful<br>
+<b>name:</b> day 29 - what next
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-73.829498,41.460225,0.0 -73.958588,41.411836,0.0 -73.965454,41.326295,0.0 -74.080811,41.276774,0.0 -74.189301,41.159012,0.0 -74.37927,40.91129,0.0 -74.565582,40.904172,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 30 - when does vacation re-start?</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> more non-restful driving with no noticeable vacation component to it.<br>
+<b>name:</b> day 30 - when does vacation re-start?
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-74.56832,40.90313,0.0 -74.77981,40.72852,0.0 -74.84024,40.70875,0.0 -74.90066,40.64105,0.0 -74.9604,40.58214,0.0 -75.08674,40.5665,0.0 -75.06134,40.41976,0.0 -74.97963,40.40251,0.0 -75.05584,40.3256,0.0 -75.2069,40.28685,0.0 -75.31539,40.14371,0.0 -75.35659,40.0975,0.0 -75.59211,40.03812,0.0 -75.53375,39.7621,0.0 -75.79467,39.6353,0.0 -75.72326,39.45316,0.0 -75.62988,39.45316,0.0 -75.66284,39.33854,0.0 -75.587311,39.263361,0.0 -75.572891,39.209379,0.0 -75.532722,39.181441,0.0 -75.532036,39.172393,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 31 - slowing down on the Eastern Shore</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> coffee and wifi, Chipotle burrito for later, spend the day at Bombay Hook Wildlife Refuge.<br>
+<b>name:</b> day 31 - slowing down on the Eastern Shore
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-75.531349,39.170796,0.0 -75.545082,39.172126,0.0 -75.544395,39.158018,0.0 -75.49221,39.166004,0.0 -75.573578,39.228264,0.0 -75.521393,39.240231,0.0 -75.51899,39.262563,0.0 -75.457191,39.257512,0.0 -75.518303,39.258044,0.0 -75.493584,39.201664,0.0 -75.462341,39.184635,0.0 -75.443115,39.153493,0.0 -75.461311,39.065315,0.0 -75.457878,39.003711,0.0 -75.435219,38.970087,0.0 -75.428009,38.936446,0.0 -75.391273,38.893438,0.0 -75.335999,38.865909,0.0 -75.303726,38.817509,0.0 -75.175323,38.748193,0.0 -75.152664,38.746051,0.0 -75.138245,38.774696,0.0 -75.132065,38.780852,0.0 -75.123138,38.778443,0.0 -75.105972,38.768272,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 32 - not much happening at the wildlife refuges</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> a TWO w.r. day!  very humid and alternately stormy and very still . tornado watch in fact!  bird must not like it, 'cuz I didn;t see many<br>
+<b>name:</b> day 32 - not much happening at the wildlife refuges
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-75.108032,38.767469,0.0 -75.211716,38.819381,0.0 -75.360718,38.784599,0.0 -75.417023,38.808146,0.0 -75.601044,38.809751,0.0 -75.666275,38.780852,0.0 -75.629883,38.757831,0.0 -75.688934,38.743373,0.0 -75.726013,38.73641,0.0 -75.777512,38.691941,0.0 -75.789871,38.684974,0.0 -75.918274,38.597017,0.0 -76.000671,38.554609,0.0 -76.050797,38.555146,0.0 -76.06041,38.546017,0.0 -76.102638,38.545212,0.0 -76.15448,38.499549,0.0 -76.117744,38.481276,0.0 -76.119804,38.486382,0.0 -76.14109,38.491757,0.0 -76.152763,38.500893,0.0 -76.107445,38.541452,0.0 -76.086159,38.546017,0.0 -76.078262,38.561858,0.0 -76.066933,38.55971,0.0 -76.044617,38.599164,0.0 -76.05423,38.61687,0.0 -76.057663,38.671037,0.0 -76.069336,38.741766,0.0 -76.057663,38.774161,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 33 - rural to urban</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> the eastern shore is really a different world.  explore a little more on the way out, take my van to the truck place for its first 10000 mile checkup (it's first milestone), drive into the heart of DC to reminisce at my very first homeowning experience, dinner with Peggy at the Burmese restaurant.<br>
+<b>name:</b> day 33 - rural to urban
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-76.05011,38.781922,0.0 -76.07803,38.95456,0.0 -76.16317,38.98659,0.0 -76.188812,38.962612,0.0 -76.220398,38.963146,0.0 -76.227264,38.951933,0.0 -76.227264,38.96635,0.0 -76.392059,38.995707,0.0 -76.411285,39.018117,0.0 -76.46553,39.022918,0.0 -76.549988,38.985033,0.0 -76.598053,38.98183,0.0 -76.677704,38.955671,0.0 -76.881638,38.94152,0.0 -76.921463,38.917483,0.0 -76.972618,38.916414,0.0 -76.985664,38.898915,0.0 -76.986008,38.890766,0.0 -77.008667,38.898114,0.0 -77.00901,38.921623,0.0 -77.0224,38.927099,0.0 -77.027893,38.963413,0.0 -77.030296,39.001043,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 37 - culture shock</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> escape DC just ahead of rush hour, see a lot of pretty leaves, drive down the middle of the Shenandoah Valley to the town of Buchanan, rebel flags a-flying.<br>
+<b>name:</b> day 37 - culture shock
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-77.033386,39.008513,0.0 -77.03476,39.010648,0.0 -77.055359,39.065048,0.0 -77.078705,39.026652,0.0 -77.154236,39.007446,0.0 -77.218781,38.888895,0.0 -77.389069,38.85682,0.0 -77.529144,38.80547,0.0 -77.861481,38.855751,0.0 -77.921906,38.900652,0.0 -77.989197,38.909202,0.0 -78.196564,38.913476,0.0 -78.357239,38.810821,0.0 -78.458862,38.670501,0.0 -78.575592,38.631891,0.0 -78.673096,38.649053,0.0 -78.905182,38.403025,0.0 -78.961487,38.248966,0.0 -79.07135,38.099983,0.0 -79.210052,37.952861,0.0 -79.360428,37.850459,0.0 -79.443512,37.720763,0.0 -79.60968,37.607704,0.0 -79.667358,37.550021,0.0 -79.685898,37.556554,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 38 - blue ridge to Chapel Hill</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> beautiful tree-covered hills, 5 miles of the Blue Ridge Parkway, quaint Virginia towns, Tri-Cities rush hour<br>
+<b>name:</b> day 38 - blue ridge to Chapel Hill
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-79.68864,37.55818,0.0 -79.66941,37.52715,0.0 -79.66873,37.48303,0.0 -79.57878,37.43288,0.0 -79.52796,37.3374,0.0 -79.51835,37.30737,0.0 -79.45861,37.21173,0.0 -79.43664,37.21228,0.0 -79.42909,37.14335,0.0 -79.38926,37.11871,0.0 -79.31236,37.14444,0.0 -79.30892,37.13021,0.0 -79.33296,37.10283,0.0 -79.35836,37.04202,0.0 -79.35424,36.97951,0.0 -79.37759,36.95098,0.0 -79.4078,36.87907,0.0 -79.38102,36.82907,0.0 -79.39407,36.78674,0.0 -79.36866,36.69595,0.0 -79.35836,36.58245,0.0 -79.40162,36.54384,0.0 -79.37347,36.46381,0.0 -79.33845,36.40028,0.0 -79.26841,36.38867,0.0 -79.2485,36.33504,0.0 -79.22241,36.31678,0.0 -79.18739,36.22655,0.0 -79.14413,36.19607,0.0 -79.1043,36.0885,0.0 -79.10842,36.06741,0.0 -79.076328,35.996341,0.0 -79.062424,35.969949,0.0 -79.057789,35.957583,0.0 -79.055386,35.93507,0.0 -79.042683,35.935209,0.0 -79.039078,35.938822,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 43 - heading east</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> get lost yet again in the Durham megapolis, pretty busy drive til the last few miles<br>
+<b>name:</b> day 43 - heading east
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-79.038563,35.938683,0.0 -79.028778,35.935209,0.0 -78.96904,35.965781,0.0 -78.966293,35.952442,0.0 -78.960629,35.961196,0.0 -78.934193,35.958695,0.0 -78.919773,35.942436,0.0 -78.889561,35.930622,0.0 -78.894024,35.90671,0.0 -78.859863,35.894196,0.0 -78.73764,35.815029,0.0 -78.748627,35.777157,0.0 -78.703308,35.752642,0.0 -78.582458,35.753199,0.0 -78.576279,35.761,0.0 -78.570786,35.777714,0.0 -78.478088,35.764343,0.0 -78.427277,35.803892,0.0 -78.366852,35.827278,0.0 -78.305054,35.834515,0.0 -78.033142,35.766015,0.0 -77.965851,35.681841,0.0 -77.787323,35.668454,0.0 -77.700806,35.627163,0.0 -77.593689,35.617116,0.0 -77.509918,35.607068,0.0 -77.183075,35.623815,0.0 -77.070465,35.55234,0.0 -76.980858,35.536976,0.0 -76.906271,35.511898,0.0 -76.904984,35.48807,0.0 -76.904211,35.484086,0.0 -76.904984,35.48793,0.0 -76.901636,35.48178,0.0 -76.911507,35.472764,0.0 -76.923437,35.473532,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 44 - struggling through the estuaries</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> great country restaurant in lovely Bath NC, very annoying road closure, get in a hurry again, sigh, pretty drive through the lowlands<br>
+<b>name:</b> day 44 - struggling through the estuaries
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-76.92318,35.473253,0.0 -76.910906,35.472414,0.0 -76.908417,35.478006,0.0 -76.901464,35.482689,0.0 -76.905413,35.511828,0.0 -76.893396,35.51078,0.0 -76.874514,35.496596,0.0 -76.850567,35.491215,0.0 -76.823015,35.476818,0.0 -76.810226,35.477447,0.0 -76.800442,35.465214,0.0 -76.792374,35.451371,0.0 -76.75169,35.432421,0.0 -76.73624,35.431162,0.0 -76.70723,35.450043,0.0 -76.685429,35.451721,0.0 -76.673241,35.483737,0.0 -76.674099,35.511688,0.0 -76.664143,35.522447,0.0 -76.684055,35.537115,0.0 -76.708088,35.540608,0.0 -76.691093,35.571332,0.0 -76.662598,35.587248,0.0 -76.632214,35.547591,0.0 -76.618996,35.555412,0.0 -76.546555,35.558205,0.0 -76.482353,35.580547,0.0 -76.437721,35.564071,0.0 -76.446991,35.493381,0.0 -76.427078,35.464585,0.0 -76.379356,35.459831,0.0 -76.314812,35.423189,0.0 -76.25576,35.455357,0.0 -76.175766,35.441652,0.0 -76.117058,35.476328,0.0 -76.042557,35.486952,0.0 -76.021957,35.511549,0.0 -75.995865,35.509313,0.0 -75.928574,35.573566,0.0 -75.921021,35.630512,0.0 -75.878448,35.645579,0.0 -75.81459,35.607627,0.0 -75.785065,35.62828,0.0 -75.778885,35.685745,0.0 -75.767899,35.785513,0.0 -75.809097,35.838968,0.0 -75.762634,35.892314,0.0 -75.677261,35.880149,0.0 -75.662155,35.888494,0.0 -75.673141,35.905737,0.0 -75.655975,35.886825,0.0 -75.592346,35.896764,0.0 -75.545425,35.787741,0.0 -75.52002,35.762672,0.0 -75.481567,35.681841,0.0 -75.468092,35.589202,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 45 - two ferries and some hurryin'</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> had a relaxing time dawdling in a beach parking lot, but then the noon ferry was full (I was on time!), so I had 17 minutes to race the length of Ocracoke Island to catch the other ferry.<br>
+<b>name:</b> day 45 - two ferries and some hurryin'
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-75.469208,35.588085,0.0 -75.520706,35.265804,0.0 -75.60585,35.248984,0.0 -75.671082,35.218137,0.0 -75.756683,35.193413,0.0 -75.960159,35.105866,0.0 -75.988312,35.11373,0.0 -76.313095,35.017626,0.0 -76.303482,34.972626,0.0 -76.349487,34.935482,0.0 -76.403046,34.884804,0.0 -76.420898,34.84424,0.0 -76.460724,34.798581,0.0 -76.490936,34.802528,0.0 -76.528015,34.764179,0.0 -76.619339,34.788431,0.0 -76.634789,34.737945,0.0 -76.654358,34.719604,0.0 -76.727829,34.721297,0.0 -76.806965,34.735688,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 46 - around the Marine base</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> nice easy day - start late, eat, drive 100 miles of mostly unpleasant but uneventful traffic, settle into my campground with plenty of time to walk around and enjoy it.<br>
+<b>name:</b> day 46 - around the Marine base
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-76.806707,34.735829,0.0 -76.805077,34.737451,0.0 -76.795549,34.735335,0.0 -76.762419,34.724895,0.0 -76.735382,34.72158,0.0 -76.738129,34.702953,0.0 -77.060165,34.661452,0.0 -77.069778,34.687993,0.0 -77.103424,34.678958,0.0 -77.186508,34.717347,0.0 -77.275085,34.707187,0.0 -77.406235,34.746126,0.0 -77.424774,34.729198,0.0 -77.453613,34.737098,0.0 -77.480392,34.710009,0.0 -77.479019,34.589128,0.0 -77.510605,34.520701,0.0 -77.620468,34.447972,0.0 -77.658577,34.40691,0.0 -77.786121,34.304166,0.0 -77.827492,34.263459,0.0 -77.832298,34.219326,0.0 -77.827148,34.217338,0.0 -77.832985,34.216912,0.0 -77.837276,34.210383,0.0 -77.881737,34.209531,0.0 -77.861137,34.184258,0.0 -77.894783,34.087924,0.0 -77.898903,34.054651,0.0 -77.913666,34.050668,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 46 - Fort Fisher and one more ferry</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Fort Fisher is awesome!  A fort made of sand, that laughed off a furious Union assault (20,000) cannonballs (bomb our sand all you want!), and which was the end of the South when it finally went down in Jan 1865.<br>
+<b>name:</b> day 46 - Fort Fisher and one more ferry
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-77.914,34.04924,0.0 -77.90062,34.05038,0.0 -77.89238,34.03729,0.0 -77.91435,33.97539,0.0 -77.91933,33.96827,0.0 -77.93048,33.96386,0.0 -77.93821,33.96044,0.0 -77.99177,33.93538,0.0 -78.00602,33.93267,0.0 -78.00962,33.9237,0.0 -78.01872,33.918,0.0 -78.02593,33.93994,0.0 -78.04481,33.94962,0.0 -78.26934,34.01738,0.0 -78.39157,33.98607,0.0 -78.41629,33.96101,0.0 -78.6058,33.92797,0.0 -78.61885,33.87782,0.0 -78.65524,33.86414,0.0 -78.65318,33.84646,0.0 -78.79119,33.77743,0.0 -78.866558,33.707633,0.0 -78.945694,33.643349,0.0 -78.90758,33.67949,0.0 -78.91582,33.69606,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 48 - finding poorly marked stuf with the sun in your face</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> they are not much for signs in this part of the country.  Every site said this is a National Forest, and there is a campground around here, but where???<br>
+<b>name:</b> day 48 - finding poorly marked stuf with the sun in your face
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-78.915825,33.69578,0.0 -78.906555,33.674069,0.0 -78.953075,33.637489,0.0 -78.995304,33.598607,0.0 -79.030495,33.572723,0.0 -79.070663,33.517641,0.0 -79.093494,33.526227,0.0 -79.072208,33.515494,0.0 -79.126453,33.439177,0.0 -79.150829,33.42786,0.0 -79.17675,33.41998,0.0 -79.200268,33.403931,0.0 -79.205933,33.384296,0.0 -79.22327,33.365087,0.0 -79.274082,33.367954,0.0 -79.278545,33.363223,0.0 -79.28936,33.370105,0.0 -79.293137,33.374119,0.0 -79.29554,33.368671,0.0 -79.295883,33.362363,0.0 -79.289017,33.352326,0.0 -79.343948,33.290934,0.0 -79.373474,33.251321,0.0 -79.381714,33.213414,0.0 -79.40918,33.182675,0.0 -79.468918,33.099595,0.0 -79.539642,33.058745,0.0 -79.531403,33.046659,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 49 - explore Charleston</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> livin' large!  Lovely day walking around town, early evening dining in the student quarter, then head out to the burbs to my quiet walmart parking lot.<br>
+<b>name:</b> day 49 - explore Charleston
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-79.531746,33.046083,0.0 -79.547882,33.054141,0.0 -79.620667,33.034571,0.0 -79.648132,32.989084,0.0 -79.640236,32.974684,0.0 -79.696884,32.920808,0.0 -79.71611,32.918215,0.0 -79.748383,32.885354,0.0 -79.824944,32.833731,0.0 -79.816704,32.823923,0.0 -79.856873,32.793913,0.0 -79.879532,32.791027,0.0 -79.899788,32.80055,0.0 -79.93721,32.802859,0.0 -79.93,32.782368,0.0 -79.954033,32.77977,0.0 -79.959183,32.758985,0.0 -79.969482,32.749456,0.0 -79.967766,32.72722,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 49 - seven weeks! - wandering aimlessly</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> I'm kinda tired of the beach thing, so for no particularly strong reason I went 120 miles out of my way to head inland to spend the night at Congareee National Park, which I had never heard of.<br>
+<b>name:</b> day 49 - seven weeks! - wandering aimlessly
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-79.96982,32.72722,0.0 -79.96845,32.73602,0.0 -79.98184,32.73386,0.0 -79.98458,32.7444,0.0 -79.99883,32.75523,0.0 -80.02922,32.75133,0.0 -80.03866,32.74339,0.0 -80.04655,32.75393,0.0 -80.06698,32.76562,0.0 -80.08998,32.77616,0.0 -80.10543,32.77861,0.0 -80.10921,32.80228,0.0 -80.11814,32.80372,0.0 -80.14183,32.7916,0.0 -80.17307,32.74974,0.0 -80.28842,32.7275,0.0 -80.41374,32.68099,0.0 -80.39382,32.72028,0.0 -80.39657,32.75898,0.0 -80.45013,32.76764,0.0 -80.58059,32.83344,0.0 -80.6575,32.90149,0.0 -80.61767,32.94069,0.0 -80.6369,32.95106,0.0 -80.6163,33.05241,0.0 -80.56366,33.1961,0.0 -80.59982,33.19617,0.0 -80.55038,33.31561,0.0 -80.82229,33.5597,0.0 -80.77972,33.66606,0.0 -80.66024,33.70606,0.0 -80.64514,33.82023,0.0 -80.69046,33.837912,0.0 -80.78659,33.8476,0.0 -80.829163,33.843616,0.0 -80.828133,33.833777,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 50 - just hang out in a strange place</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> so this is what permanent van-life would be like.  The "plan" called for a campground with a shower tonight, but I want to watch the Skins game!  So hang out in Columbia SC all day.<br>
+<b>name:</b> day 50 - just hang out in a strange place
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-80.828562,33.83392,0.0 -80.829849,33.84333,0.0 -80.846071,33.840122,0.0 -80.861435,33.841905,0.0 -80.964775,33.928263,0.0 -80.923233,33.953328,0.0 -80.946236,33.96842,0.0 -80.978508,33.990911,0.0 -81.01284,34.007135,0.0 -81.050606,33.995181,0.0 -81.048889,33.987495,0.0 -81.002541,33.986926,0.0 -80.979195,33.986641,0.0 -80.945206,33.972976,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 51 - easy drive to a real nice campsite</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> yet another Panera, got my wifi-ing done drove to my campground<br>
+<b>name:</b> day 51 - easy drive to a real nice campsite
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-80.945549,33.972406,0.0 -80.988121,33.984933,0.0 -81.037216,33.984648,0.0 -81.050606,33.985787,0.0 -81.075325,33.975823,0.0 -81.077042,33.935385,0.0 -81.060562,33.894927,0.0 -81.099701,33.815666,0.0 -81.103821,33.722055,0.0 -81.146393,33.699208,0.0 -81.22261,33.61176,0.0 -81.286469,33.440609,0.0 -81.272736,33.351753,0.0 -81.300545,33.329668,0.0 -81.30729,33.33137,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 52 - Savannah</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> lotta walking around this very pretty city with many, many squares, and SCAD!<br>
+<b>name:</b> day 52 - Savannah
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-81.307068,33.330241,0.0 -81.304665,33.326225,0.0 -81.333847,33.294378,0.0 -81.363029,33.245579,0.0 -81.353073,33.197902,0.0 -81.23497,33.130651,0.0 -81.213684,33.08809,0.0 -81.219177,33.017876,0.0 -81.23703,32.960858,0.0 -81.24115,32.75321,0.0 -81.245956,32.606411,0.0 -81.199265,32.585585,0.0 -81.107941,32.469799,0.0 -81.08505,32.29115,0.0 -81.079788,32.181424,0.0 -81.180038,32.155269,0.0 -81.166306,32.116312,0.0 -81.129913,32.093046,0.0 -81.086311,32.079375,0.0 -81.099014,32.074429,0.0 -81.106567,32.052899,0.0 -81.11412,32.054645,0.0 -81.141586,32.052608,0.0 -81.214199,32.037912,0.0 -81.248703,31.999633,0.0 -81.258574,31.998177,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 53 - Georgia to Florida</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> the Georgia lowands are very pretty, but not many places to stop.  Strange lunch in a little town.<br>
+<b>name:</b> day 53 - Georgia to Florida
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-81.25926,31.998323,0.0 -81.270676,31.995411,0.0 -81.284237,32.004437,0.0 -81.336937,31.95158,0.0 -81.330414,31.926815,0.0 -81.381226,31.766705,0.0 -81.393585,31.662733,0.0 -81.499329,31.244508,0.0 -81.511688,31.206929,0.0 -81.536407,31.211627,0.0 -81.559753,31.278551,0.0 -81.686096,31.203405,0.0 -81.764374,31.235114,0.0 -81.986847,31.20223,0.0 -82.007446,30.832087,0.0 -81.9841,30.770159,0.0 -82.036972,30.676306,0.0 -81.997833,30.597139,0.0 -81.989594,30.52323,0.0 -82.03788,30.52646,0.0 -82.044525,30.484776,0.0 -82.136536,30.37406,0.0 -82.12715,30.28484,0.0 -82.42652,30.20535,0.0 -82.429047,30.212795,0.0 -82.4366,30.213388,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 54 - central Florida</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> very pretty drive around Ocala, big horse farms.<br>
+<b>name:</b> day 54 - central Florida
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-82.4366,30.211608,0.0 -82.4263,30.203301,0.0 -82.428017,30.192915,0.0 -82.410851,30.172734,0.0 -82.401237,30.146909,0.0 -82.363129,30.083949,0.0 -82.354889,30.0263,0.0 -82.109756,29.94244,0.0 -82.133102,29.913876,0.0 -82.167778,29.835879,0.0 -82.168465,29.787323,0.0 -82.139969,29.759609,0.0 -82.140999,29.724732,0.0 -82.084007,29.587789,0.0 -82.11204,29.40578,0.0 -82.152328,29.341481,0.0 -82.13676,29.17462,0.0 -82.135849,29.063372,0.0 -82.11731,29.017748,0.0 -82.12165,28.96577,0.0 -82.104263,28.930646,0.0 -82.121429,28.927641,0.0 -82.11937,28.898189,0.0 -82.10105,28.89967,0.0 -82.08847,28.770669,0.0 -82.165375,28.638171,0.0 -82.236443,28.562512,0.0 -82.237129,28.523304,0.0 -82.20726,28.518478,0.0 -82.195244,28.506712,0.0 -82.196617,28.481366,0.0 -82.193699,28.473067,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 58 - middle of Florida</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> endless bad traffic, but got to my state park early enough to enjoy it!<br>
+<b>name:</b> day 58 - middle of Florida
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-82.191467,28.474124,0.0 -82.196274,28.398649,0.0 -82.190094,28.323725,0.0 -82.179794,28.214264,0.0 -82.124176,28.03441,0.0 -82.044525,28.038046,0.0 -82.030792,28.011377,0.0 -81.989594,27.992582,0.0 -81.899643,27.997433,0.0 -81.833038,27.892494,0.0 -81.805115,27.784336,0.0 -81.830292,27.640957,0.0 -81.800079,27.498527,0.0 -81.552887,27.414443,0.0 -81.518555,27.413224,0.0 -81.516495,27.471115,0.0 -81.535034,27.472334,0.0 -81.532288,27.480253,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 59 - Everglades</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Florida = a lot of driving.  Everglades are amazing, but it's hard to get a feel going 60 mph down Alligator Alley.<br>
+<b>name:</b> day 59 - Everglades
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-81.533661,27.482081,0.0 -81.512375,27.472943,0.0 -81.444397,27.471724,0.0 -81.421051,27.446134,0.0 -81.412125,27.390059,0.0 -81.352386,27.275992,0.0 -81.33316,27.210671,0.0 -81.346893,27.030994,0.0 -81.307068,26.925743,0.0 -81.187592,26.837551,0.0 -81.085968,26.827747,0.0 -81.083221,26.755421,0.0 -80.914307,26.750516,0.0 -80.713806,26.673232,0.0 -80.70694,26.557822,0.0 -80.46524,26.236766,0.0 -80.433655,25.943227,0.0 -80.48996,25.88023,0.0 -80.48172,25.761557,0.0 -80.825043,25.761557,0.0 -80.923233,25.846865,0.0 -81.110001,25.871581,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 60 - back to Milly's in t-day traffic</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> I foolishly decided to do the 26 mile Loop Road in the Everglades - very bumpy and hard driving in my top-heavy vehicle, cojldn't really see very much since i was watching the road the whole time - dumb idea.<br>
+<b>name:</b> day 60 - back to Milly's in t-day traffic
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-81.112061,25.867874,0.0 -81.083221,25.85737,0.0 -81.085281,25.799891,0.0 -81.044769,25.778871,0.0 -80.843582,25.776397,0.0 -80.926666,25.846865,0.0 -81.304321,25.895056,0.0 -81.587219,25.992612,0.0 -81.76712,26.128316,0.0 -81.77124,26.162834,0.0 -81.736908,26.173927,0.0 -81.738739,26.226254,0.0 -81.826172,26.72108,0.0 -82.098541,27.08293,0.0 -82.41394,27.122702,0.0 -82.448273,27.382743,0.0 -82.516937,27.591066,0.0 -82.379608,27.720005,0.0 -82.343903,27.879142,0.0 -82.320557,27.972572,0.0 -82.352142,28.051985,0.0 -82.31163,28.056227,0.0 -82.251892,28.103481,0.0 -82.181168,28.21487,0.0 -82.191467,28.406501,0.0 -82.169495,28.508522,0.0 -82.196274,28.506712,0.0 -82.196274,28.475331,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 65 - Ocean Pond again</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> got here in the dark, which is too bad, but $6 for such an excellent place?! way better than a walmart :)<br>
+<b>name:</b> day 65 - Ocean Pond again
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-82.195587,28.471106,0.0 -82.235413,28.535068,0.0 -82.08847,28.764048,0.0 -82.151642,29.023752,0.0 -82.122803,29.012944,0.0 -82.151642,29.339685,0.0 -82.202454,29.398927,0.0 -82.225113,29.47009,0.0 -82.287598,29.51372,0.0 -82.295837,29.500573,0.0 -82.464066,29.712507,0.0 -82.505264,29.766166,0.0 -82.562943,29.94006,0.0 -82.638474,30.090484,0.0 -82.634354,30.178967,0.0 -82.540283,30.191431,0.0 -82.437286,30.210421,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 66 - headin west</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> narrow road but pretty drive<br>
+<b>name:</b> day 66 - headin west
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-82.446899,30.197366,0.0 -82.699585,30.178373,0.0 -82.955017,30.157002,0.0 -83.145905,30.164126,0.0 -83.17749,30.089296,0.0 -83.276367,30.123749,0.0 -83.380737,30.124937,0.0 -83.50708,30.078601,0.0 -83.579865,30.110682,0.0 -83.666382,30.086919,0.0 -83.765259,30.139189,0.0 -83.95752,30.14394,0.0 -84.15802,30.198553,0.0 -84.137421,30.145127,0.0 -84.177246,30.076225,0.0 -84.147034,30.138002,0.0 -84.171753,30.197366,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 67 - redneck riviera</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> prettiest drive of the whole trip<br>
+<b>name:</b> day 67 - redneck riviera
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-84.1745,30.19974,0.0 -84.37774,30.11305,0.0 -84.41894,29.92399,0.0 -84.53704,29.90732,0.0 -84.65148,29.8381,0.0 -84.88586,29.73934,0.0 -85.30197,29.68686,0.0 -85.2951,29.81681,0.0 -85.60958,30.09404,0.0 -85.60958,30.1475,0.0 -85.71807,30.18312,0.0 -85.81832,30.18787,0.0 -86.01333,30.28278,0.0 -86.09848,30.3551,0.0 -86.41708,30.3859,0.0 -86.84967,30.402491,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 68 - Mobile Bay Ferry</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> failed to make a turn, lost time, missed my ferry again, rushing down I-10<br>
+<b>name:</b> day 68 - Mobile Bay Ferry
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-86.84967,30.403675,0.0 -86.86615,30.401307,0.0 -86.86615,30.385907,0.0 -87.135315,30.332583,0.0 -87.166901,30.353916,0.0 -87.197113,30.41848,0.0 -87.249298,30.404268,0.0 -87.272644,30.381761,0.0 -87.270584,30.352139,0.0 -87.42691,30.312984,0.0 -87.656479,30.248984,0.0 -87.583008,30.275672,0.0 -87.580261,30.292275,0.0 -87.63176,30.288125,0.0 -87.687378,30.263812,0.0 -87.780075,30.249577,0.0 -88.018341,30.229408,0.0 -88.074646,30.246611,0.0 -88.114471,30.257288,0.0 -88.138504,30.311838,0.0 -88.117218,30.358656,0.0 -88.16185,30.378207,0.0 -88.234634,30.380576,0.0 -88.246994,30.398345,0.0 -88.242187,30.426769,0.0 -88.311539,30.47294,0.0 -88.403549,30.469981,0.0 -88.536072,30.434466,0.0 -88.674774,30.433282,0.0 -88.773651,30.458144,0.0 -89.096832,30.440939,0.0 -89.105301,30.490693,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 69 - cruising the Mississippi coast</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> met Annie for lunch, drove to the edge of Mississippi for a wildlife refuge, watch the W's in Gulfport sports bars<br>
+<b>name:</b> day 69 - cruising the Mississippi coast
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-89.108734,30.487143,0.0 -89.097061,30.468798,0.0 -89.026337,30.473532,0.0 -89.044189,30.419072,0.0 -89.043846,30.391534,0.0 -89.028053,30.390646,0.0 -89.028053,30.382649,0.0 -88.893585,30.400675,0.0 -88.857422,30.394199,0.0 -88.835449,30.41315,0.0 -88.605194,30.379352,0.0 -88.533325,30.369321,0.0 -88.500366,30.389461,0.0 -88.459167,30.410782,0.0 -88.437653,30.365134,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 70 - more bayous</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> didn't start till 2:30, got to CG too late again<br>
+<b>name:</b> day 70 - more bayous
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-89.018784,30.397605,0.0 -89.01638,30.385315,0.0 -89.079895,30.369321,0.0 -89.14238,30.346806,0.0 -89.280052,30.304428,0.0 -89.288292,30.315099,0.0 -89.334641,30.320137,0.0 -89.398499,30.299389,0.0 -89.504242,30.300575,0.0 -89.608612,30.243646,0.0 -89.67865,30.228221,0.0 -89.732208,30.175999,0.0 -89.753494,30.188464,0.0 -89.745255,30.228221,0.0 -89.782333,30.263219,0.0 -89.806366,30.278044,0.0 -89.798813,30.294646,0.0 -89.937515,30.314209,0.0 -90.017166,30.342658,0.0 -90.03067,30.334322,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 71 - even more swamps</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> hung out at my expensive state park till 2-ish, it really was quite nice, with its wifi, swamp hike, beach, etc.  Lucked into the best old N'awlins breakfast house not in N'awlins.  Drive I-10 across the Atchalafaya Basin, which is otherworldly.<br>
+<b>name:</b> day 71 - even more swamps
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-90.02883,30.32665,0.0 -90.05905,30.35391,0.0 -90.09201,30.39183,0.0 -90.21286,30.43091,0.0 -90.31036,30.44157,0.0 -90.33233,30.47945,0.0 -90.8171,30.47353,0.0 -91.1,30.41551,0.0 -91.28952,30.45222,0.0 -91.774292,30.330213,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>Line 50</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>name:</b> Line 50
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-91.792374,30.300259,0.0 -91.92009,30.295516,0.0 -91.884384,30.235024,0.0 -91.904984,30.221972,0.0 -91.902237,30.206545,0.0 -91.81984,30.137685,0.0 -91.836891,30.113493,0.0 -91.841698,30.125372,0.0 -91.882896,30.136062,0.0 -91.898003,30.156844,0.0 -91.983833,30.177028,0.0 -92.061424,30.232216,0.0 -92.067604,30.24764,0.0 -92.259178,30.101019,0.0 -92.273026,30.173308,0.0 -93.173904,30.20061,0.0 -93.304367,30.226718,0.0 -93.728714,30.122244,0.0 -93.936081,29.887963,0.0 -93.938828,29.868911,0.0 -93.741074,29.947478,0.0 -93.587265,30.017659,0.0 -93.585892,29.929627,0.0 -93.508987,30.143623,0.0 -93.633957,30.099673,0.0 -93.467789,30.021226,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 72 - swamps to flatlands</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Spent the morning tootling around cajun country, which really is quite distinctive.  Oyster po-boy at the sports bar.<br>Entered Texas, eek.<br>
+<b>name:</b> day 72 - swamps to flatlands
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-91.797638,30.321915,0.0 -91.930504,30.28931,0.0 -91.894112,30.266481,0.0 -91.879864,30.232968,0.0 -91.904926,30.221992,0.0 -91.89703,30.211905,0.0 -91.901321,30.203301,0.0 -91.868362,30.186683,0.0 -91.862183,30.15344,0.0 -91.825104,30.139783,0.0 -91.83403,30.121373,0.0 -91.878662,30.135032,0.0 -91.974792,30.17125,0.0 -92.035217,30.205081,0.0 -92.066803,30.246611,0.0 -93.131104,30.242459,0.0 -93.210754,30.240086,0.0 -93.304138,30.223475,0.0 -93.526611,30.19974,0.0 -93.751831,30.118997,0.0 -93.935852,29.931135,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 72 - Port Arthur walmart</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> <br>
+<b>name:</b> day 72 - Port Arthur walmart
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-91.782532,30.326064,0.0 -91.917114,30.294646,0.0 -91.880722,30.236527,0.0 -91.903381,30.221695,0.0 -91.897202,30.202114,0.0 -91.867676,30.191431,0.0 -91.866989,30.157596,0.0 -91.827164,30.140971,0.0 -91.83197,30.12553,0.0 -91.880722,30.134439,0.0 -91.895142,30.15344,0.0 -91.979599,30.172437,0.0 -92.06749,30.246018,0.0 -92.331848,30.240086,0.0 -93.162689,30.240086,0.0 -93.271179,30.2389,0.0 -93.324394,30.216949,0.0 -93.409538,30.215465,0.0 -93.565407,30.18609,0.0 -93.686829,30.134359,0.0 -93.729858,30.117809,0.0 -93.729515,30.093158,0.0 -93.765564,30.095831,0.0 -93.866844,30.00103,0.0 -93.877144,29.959694,0.0 -93.913193,29.91715,0.0 -93.969154,29.954637,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 73 - refinery-land</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> another sandy peninsula, another ferry.  Galveston was real nice!<br>
+<b>name:</b> day 73 - refinery-land
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-93.969498,29.95434,0.0 -93.98632,29.95434,0.0 -93.992844,29.946903,0.0 -93.924866,29.895722,0.0 -93.955421,29.862083,0.0 -93.943748,29.850769,0.0 -93.957825,29.812051,0.0 -93.977737,29.853746,0.0 -93.962975,29.865954,0.0 -93.985634,29.882625,0.0 -94.037476,29.890067,0.0 -94.084854,29.860892,0.0 -94.234543,29.826348,0.0 -94.384232,29.825753,0.0 -94.371185,29.631368,0.0 -94.401398,29.569874,0.0 -94.384918,29.551956,0.0 -94.627304,29.461123,0.0 -94.706268,29.418068,0.0 -94.776306,29.360633,0.0 -94.772873,29.31095,0.0 -95.117569,29.087377,0.0 -95.285797,28.949875,0.0 -95.398407,29.005138,0.0 -95.427933,29.011743,0.0 -95.455399,29.040563,0.0 -95.450592,29.184538,0.0 -95.476685,29.20312,0.0 -95.449905,29.306759,0.0 -95.462952,29.352853,0.0 -95.642853,29.353452,0.0 -95.640793,29.370208,0.0 -95.608521,29.369011,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 74 - flat land</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> so this is south central texas.  Nice mexican lunch in Rosenberg<br>
+<b>name:</b> day 74 - flat land
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-95.59753,29.3726,0.0 -95.69091,29.42883,0.0 -95.73211,29.39414,0.0 -95.81726,29.46231,0.0 -95.80902,29.56151,0.0 -96.076813,29.529255,0.0 -96.08367,29.62838,0.0 -96.156464,29.759609,0.0 -96.53961,29.69282,0.0 -96.790924,29.896615,0.0 -96.920013,29.910901,0.0 -97.06695,29.95017,0.0 -97.294922,30.108306,0.0 -97.410278,30.114246,0.0 -97.551727,30.192618,0.0 -97.706909,30.215168,0.0 -97.81402,30.23771,0.0 -97.866211,30.189057,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 77 - Texas bottomlands</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Escaping Austin was easy, suburbs quickly gave way to endless rolling hills.  LBJ land (Lyndon Josnson, not Lebron!)<br>
+<b>name:</b> day 77 - Texas bottomlands
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-97.864838,30.181935,0.0 -97.875824,30.227035,0.0 -97.930756,30.237713,0.0 -97.992554,30.198553,0.0 -98.12851,30.205674,0.0 -98.37249,30.20084,0.0 -98.396301,30.2733,0.0 -98.805542,30.218729,0.0 -98.87146,30.28516,0.0 -99.552612,30.299389,0.0 -99.63089,30.396569,0.0 -99.705048,30.440386,0.0 -99.769592,30.504301,0.0 -99.779205,30.47945,0.0 -99.803925,30.42973,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 78 - endless I-10</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> not many choices around here, get on the interstate, set cruise control to 78, and watch the miles and diesel melt away.<br>
+<b>name:</b> day 78 - endless I-10
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-99.80621,30.42373,0.0 -99.773712,30.510217,0.0 -99.853363,30.519681,0.0 -99.93988,30.509033,0.0 -100.239258,30.434466,0.0 -101.20147,30.72169,0.0 -101.359863,30.670991,0.0 -101.634521,30.751278,0.0 -101.8222,30.73113,0.0 -102.17376,30.90096,0.0 -102.5354,30.859795,0.0 -102.88787,30.90096,0.0 -103.746643,31.00704,0.0 -103.75579,30.96222,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 79 - pretty mountains</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> geez, this was like Nevada, for pure wide-open nothingness.  McDonald Observatory however, was something!<br>
+<b>name:</b> day 79 - pretty mountains
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-103.754883,30.956413,0.0 -103.801575,30.8539,0.0 -103.74115,30.784318,0.0 -103.776855,30.728851,0.0 -103.796082,30.661541,0.0 -103.83499,30.64673,0.0 -103.9009,30.58291,0.0 -103.99704,30.61837,0.0 -104.026794,30.675715,0.0 -104.081726,30.688707,0.0 -104.136658,30.717046,0.0 -104.15062,30.76158,0.0 -104.15336,30.93018,0.0 -104.21241,31.0632,0.0 -104.83177,31.04085,0.0 -104.81254,31.14316,0.0 -104.82353,31.35449,0.0 -104.85374,31.79557,0.0 -104.82605,31.832066,0.0 -104.8447,31.8634,0.0 -104.81655,31.86399,0.0 -104.82341,31.89197,0.0 -104.81723,31.89897,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 80(!) - into the New Mexico mountains</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> easy drive, recuperative stop in Carlsbad for restaurant and library wifi, then up and over to Cloudcroft NM, which a classic funky little mountain town.<br>
+<b>name:</b> day 80(!) - into the New Mexico mountains
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-104.81231,31.89388,0.0 -104.49371,32.02204,0.0 -104.2218,32.39387,0.0 -104.40948,32.54094,0.0 -104.39758,32.84267,0.0 -104.73266,32.81728,0.0 -105.176239,32.889966,0.0 -105.321808,32.952216,0.0 -105.474243,32.896885,0.0 -105.66925,32.961434,0.0 -105.747528,32.964891,0.0 -105.779114,32.88766,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 81 - New Mexico desert</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> I wasn't quite ready for the real desert again<br>
+<b>name:</b> day 81 - New Mexico desert
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-105.78208,32.87928,0.0 -105.76011,32.9761,0.0 -105.86723,32.95075,0.0 -105.97023,32.95075,0.0 -106.02516,33.08548,0.0 -106.08169,33.41249,0.0 -105.86746,33.65288,0.0 -106.34262,33.88805,0.0 -106.88095,33.93363,0.0 -106.89743,34.04977,0.0 -106.998596,33.99575,0.0 -107.182617,34.129995,0.0 -107.444,34.07708,0.0 -107.874756,34.143635,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 81 - pretty highlands in high wind</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> 100 miles of rolling grasslands and juniper trees, then the Mogollon Rim.  scared of snow<br>
+<b>name:</b> day 81 - pretty highlands in high wind
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-107.87475,34.13908,0.0 -107.96264,34.26629,0.0 -108.54583,34.33769,0.0 -108.88,34.21975,0.0 -109.26544,34.12878,0.0 -109.329071,34.178861,0.0 -109.57214,34.26629,0.0 -109.81933,34.28218,0.0 -110.01709,34.25494,0.0 -110.169525,34.283319,0.0 -110.3302,34.360443,0.0 -110.460663,34.369511,0.0 -110.60485,34.43636,0.0 -110.665283,34.411442,0.0 -110.71334,34.34683,0.0 -110.86303,34.2992,0.0 -111.10336,34.32302,0.0 -111.20224,34.264026,0.0 -111.32171,34.23905,0.0 -111.32926,34.22713,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 82 - snow avoidance</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> I pleasant drive through the rain, watching the external temp thermometer get down to 37, but no further!<br>
+<b>name:</b> day 82 - snow avoidance
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-111.33064,34.22656,0.0 -111.328583,34.281049,0.0 -111.41784,34.32756,0.0 -111.50848,34.4307,0.0 -111.44119,34.45221,0.0 -111.49063,34.51674,0.0 -111.698685,34.487882,0.0 -111.88339,34.57329,0.0 -111.907425,34.558597,0.0 -111.906052,34.541066,0.0 -111.971283,34.53145,0.0 -111.99737,34.51447,0.0 -112.16354,34.54615,0.0 -112.240448,34.528056,0.0 -112.259674,34.564252,0.0 -112.315979,34.585736,0.0 -112.366104,34.577822,0.0 -112.38601,34.54954,0.0 -112.47665,34.54502,0.0 -112.480087,34.512781,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 83 - Colorado River valley</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> Off the central Az plateau, down, down, down to a place that's very hot in the summer<br>
+<b>name:</b> day 83 - Colorado River valley
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-112.478714,34.51561,0.0 -112.468414,34.544459,0.0 -112.482147,34.560859,0.0 -112.478027,34.588563,0.0 -112.432709,34.628688,0.0 -112.462,34.9056,0.0 -112.38739,35.000754,0.0 -112.475281,35.216454,0.0 -112.689514,35.241133,0.0 -112.905121,35.324089,0.0 -113.109741,35.283743,0.0 -113.328094,35.190645,0.0 -113.70895,35.15973,0.0 -113.908997,35.196256,0.0 -114.06326,35.20239,0.0 -114.09896,35.14626,0.0 -114.281158,35.027747,0.0 -114.378662,35.037868,0.0 -114.422607,34.982753,0.0 -114.414368,34.953493,0.0 -114.47525,34.78388,0.0 -114.518738,34.862271,0.0 -114.59999,34.86985,0.0 -114.59587,35.08702,0.0 -114.55879,35.20717,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 84 - greater Las Vegas</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> cruise past Lake Meade, did not do the new bridge, southside LV, Old Spanish Trail to Tecopa<br>
+<b>name:</b> day 84 - greater Las Vegas
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-114.550323,35.206355,0.0 -114.56153,35.18697,0.0 -114.68513,35.19146,0.0 -114.691772,35.169318,0.0 -114.85267,35.19483,0.0 -114.92408,35.47155,0.0 -114.915619,35.586968,0.0 -114.96666,35.686,0.0 -114.89662,35.9677,0.0 -114.798889,36.013561,0.0 -114.824982,36.094609,0.0 -114.90348,36.10984,0.0 -114.980164,36.041326,0.0 -115.114746,36.018004,0.0 -115.17952,36.05324,0.0 -115.264435,36.023557,0.0 -115.382538,36.032442,0.0 -115.4528,35.99326,0.0 -115.523987,36.021336,0.0 -115.655823,36.004673,0.0 -115.76728,36.07544,0.0 -115.86319,35.975783,0.0 -115.993652,35.969115,0.0 -116.025238,35.892388,0.0 -116.10237,35.88764,0.0 -116.23146,35.8498,0.0 -116.23832,35.8843,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 85 - Death Valley and rain</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> jsut had to do a drive-trhu on Death Valley as long as I'm in the hood.  Did not disappoint, just beautiful.  Drive thru Panamint Springs is pretty lonely.<br>
+<b>name:</b> day 85 - Death Valley and rain
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-116.239471,35.882374,0.0 -116.257324,35.89795,0.0 -116.28067,35.994674,0.0 -116.33995,36.18414,0.0 -116.423492,36.228766,0.0 -116.41822,36.30819,0.0 -116.51001,36.305165,0.0 -116.685791,36.375962,0.0 -116.713257,36.363799,0.0 -116.85905,36.45081,0.0 -116.900024,36.558188,0.0 -117.037354,36.638672,0.0 -117.189789,36.575835,0.0 -117.31086,36.3458,0.0 -117.47406,36.332828,0.0 -117.596283,36.374856,0.0 -117.680054,36.314019,0.0 -117.773437,36.350527,0.0 -117.82585,36.4254,0.0 -118.00437,36.28716,0.0 -117.88353,35.84757,0.0 -117.86979,35.66704,0.0</coordinates></LineString></Placemark>
+		<Placemark>
+			<name>day 86 - Martha's</name>
+			<snippet></snippet>
+			<description><![CDATA[<div class="googft-info-window">
+<b>description:</b> long rainy day, but actually a pretty easy drive ... after 12 weeks of practice!<br>
+<b>name:</b> day 86 - Martha's
+</div>]]></description>
+			<styleUrl>#Style2-line-2-map</styleUrl>
+			<ExtendedData/><LineString><coordinates>-117.872314,35.665107,0.0 -117.983551,35.431582,0.0 -117.986298,35.312884,0.0 -118.125,35.123278,0.0 -118.311768,35.103058,0.0 -118.460541,35.146264,0.0 -118.622131,35.260198,0.0 -118.715515,35.273653,0.0 -118.813019,35.333053,0.0 -119.038239,35.353216,0.0 -119.045105,35.404722,0.0 -119.181061,35.51099,0.0 -119.216766,35.601486,0.0 -119.657593,35.616,0.0 -119.803162,35.813359,0.0 -119.980316,36.00023,0.0 -120.108032,36.082402,0.0 -120.422516,36.468785,0.0 -120.609283,36.62655,0.0 -120.771332,36.847758,0.0 -121.077576,37.199706,0.0 -121.191559,37.478128,0.0 -121.559601,37.744657,0.0 -121.735382,37.708813,0.0 -122.094269,37.687588,0.0 -122.151489,37.759859,0.0 -122.292023,37.833071,0.0 -122.317657,37.914951,0.0 -122.497559,37.944198,0.0 -122.538757,38.005902,0.0 -122.522278,38.00482,0.0</coordinates></LineString></Placemark>
+	</Document>
+</kml>
