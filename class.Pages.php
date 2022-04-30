@@ -63,8 +63,11 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			$row = array('PIC_ID' => $pic->id(), 'WF_IMAGES_PATH' => $pic->folder(), 'PIC_NAME' => $pic->filename());
 			$row['PIC_DESC'] = htmlspecialchars($pic->caption());
 
+<<<<<<< HEAD
 			$imageLink = sprintf("%s%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			// $imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
+=======
+>>>>>>> 5751c65c4197d47fa181c6c5ffbf5612076fbe82
 			$imageLink = sprintf("%spix/iPhoto/%s/%s", iPhotoURL, $row['WF_IMAGES_PATH'], $row['PIC_NAME']);
 			if ($useThumbs)
 			{
