@@ -119,7 +119,7 @@ $defaults = array(
 $props = new WhuProps($defaults);		// default settings
 $props->set($_POST);						// absorb web parms
 $props->set($_GET);							// ... but REQUEST has too much junk
-$props->dump('props');
+// $props->dump('props');
 
 $curpage = $props->get('page');
 $curtype = $props->get('type');
@@ -183,22 +183,6 @@ switch ("$curpage$curtype")
 		}
 		break;			
 	}
-
-	
-	// case 'visid':
-	// case 'vidshome':
-	// case 'vidsid':
-	// case 'vidid':
-	// case 'vidsdate':
-	// case 'vidscat':		jfDie("Still USING:$curpage$curtype");
-
-	// case 'picid':				// legacy, still used in Wordpress e.g.
-	// case 'visid':				$page = new OnePhoto($props);		break;
-	// case 'vidshome':		$page = new VideoGallery($props);		break;
-	// case 'vidsid':			$page = new TripVideos($props);		break;
-	// case 'vidid':				$page = new OneVideo($props);		break;
-	// case 'vidsdate':		$page = new DateVideos($props);		break;
-	// case 'vidscat':			$page = new CatVideos($props);		break;
 
 	case 'mapdate':			$page = new DateMap($props);			break;	
 

@@ -255,7 +255,6 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	function makeTripWpLink($trip)
 	{
 		$wplink = $trip->wpReferenceId();	// always return an array 
-		// dumpVar($wplink, "wplink");
 		$this->template->set_var('WP_VIS', '');			// assume visible
 		switch ($wplink[0]) {
 			case 'cat':			$link = ViewWhu::makeWpCatLink($wplink[1]);		$txt = 'stories';	break;
@@ -263,8 +262,10 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			case 'none':		$this->template->set_var('WP_VIS', "class='hidden'");	$link = $txt = '';	break;			
 			default:				dumpVar($wplink, "BAD RETURN! wp_ref");	exit;
 		}
+		// dumpVar($wplink, "wplink -> $link");
 		$this->template->set_var('WP_LINK', $link);
 		$this->template->set_var('WP_TEXT', $txt);
+		return array($link, $txt);				// hack-a-rama, return these values also, for the fucking trips look
 	}
 	
 	static function makeWpPostLink($wpid, $namelink = '') 
@@ -625,7 +626,10 @@ class AllTrips extends ViewWhu
 			$row['MAP_LINK' ] = (new WhumapidLink ($trip))->url();
 			$row['PICS_LINK'] = (new WhupicsidLink($trip))->url();
 			$row['VIDS_LINK'] = (new WhuvidsidLink($trip))->url();
-			$this->makeTripWpLink($trip);					// Aug 20 use new WP link code for WP cell
+
+			$wpinfo = $this->makeTripWpLink($trip);					// Aug 20 use new WP link code for WP cell
+			$row['WP_LINK'] = $wpinfo[0];
+			$row['WP_TXT']  = $wpinfo[1];
 
 			// dumpVar($row, "row"); exit;
 			$rows[] = $row;
