@@ -319,7 +319,7 @@
 			$wpid = $posts[0]['wp_id'];
 			// dumpVar($wpid, "wpReferenceId() wpid");
 			
-			define('WP_USE_THEMES', false);
+			if (!defined('WP_USE_THEMES')) define('WP_USE_THEMES', false);
 			require(WP_PATH . '/wp-load.php');											// Include WordPress			
 			$cats = get_the_category($wpid);
 			// dumpVar($cats, "cats");
@@ -334,6 +334,7 @@
 		
 		function hasMap()				{	return ($this->hasMapboxMap() || $this->hasGoogleMap()); }
 		function gMapPath()			{ return sprintf("data/%s", $this->folder()); }
+		// function gMapPath()			{ return sprintf("%s/%s", KMLPATH, $this->folder()); } 
 		function hasMapboxMap()	{	return (substr($this->mapboxId(), 0, 10) == 'johnpfree.');	}		
 		function hasGoogleMap()	
 		{
@@ -713,8 +714,8 @@
 			return array_merge(array_flip($allkeys));			// flipped there may be holes in the array, merge reorders it with no holes
 		}
 
-		function lat()		{ return (float)$this->dbValue('wf_spots_lat'); }
-		function lon()		{ return (float)$this->dbValue('wf_spots_lon'); }
+		function lat()		{ return round((float)$this->dbValue('wf_spots_lat')); }
+		function lon()		{ return round((float)$this->dbValue('wf_spots_lon')); }
 		function noPosition() {	return (($this->lat() * $this->lon()) == 0); }
 
 		function bath()		{ return $this->dbValue('wf_spots_bath'); }
@@ -808,12 +809,14 @@
 				}
 				case 'textsearch': {
 					$parm = $parm['data'];
-					$q = "SELECT * FROM wf_spots s JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE 
-						s.wf_spots_name LIKE '$parm' OR 
-						s.wf_spots_partof LIKE '$parm' OR 
-						s.wf_spots_town LIKE '$parm' OR 
-						d.wf_spot_days_desc LIKE '$parm' 
-						GROUP BY s.wf_spots_id";
+//					$q = "SELECT * FROM wf_spots s JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE 
+					$q = "SELECT s.wf_spots_id, s.wf_spots_name FROM wf_spots s 
+									wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE
+										s.wf_spots_name LIKE '$parm' OR 
+										s.wf_spots_partof LIKE '$parm' OR 
+										s.wf_spots_town LIKE '$parm' OR 
+										d.wf_spot_days_desc LIKE '$parm' 
+										GROUP BY s.wf_spots_id";
 					// dumpVar($q, "q");
 					return $this->getAll($q);
 				}				
