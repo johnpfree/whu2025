@@ -1,0 +1,64 @@
+		<style type="text/css" media="screen">
+			a h4,a h5 {
+				color: black;
+			}
+			a:hover h4,a:hover h5 {
+			}
+			
+			#homebanner {
+				margin-bottom: 30px;
+				text-decoration: none;
+			}
+		</style>				
+		<div id="the_content" class="container">
+		  <div class="row">
+		    <div id="homebanner" class="col">
+					<img src="{REL_PICPATH}/{BANNER_FOLDER}/{BANNER_FILE}" width="100%" alt="Whu Banner">
+		    </div>
+		  </div>
+		
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>Recent Trips</h2>
+		    </div>
+		  </div>
+		  <div class="row cardrow">
+<!-- BEGIN rec_rows -->
+		    <div class="col">
+					<article>
+						<a href="?page=pic&type=id&key={PIC_ID}">
+							<img src="{REL_PICPATH}/{PIC_FOLDER}/{PIC_FILE}" width="100%" alt="{TRIP_TITLE}">
+						</a>		    
+						<a href="?page=trip&type=id&key={TRIP_ID}">
+							<h4>{TRIP_TITLE}</h4>
+							<h5>{TRIP_DESC}</h5>
+						</a>		    
+					</article>
+				</div>
+<!-- END rec_rows -->
+		  </div>
+		
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>Epic Trips</h2>
+		    </div>
+		  </div>
+		  <div class="row cardrow">
+<!-- BEGIN epic_rows -->
+		    <div class="col">
+					<a href="?page=trip&type=id&key={TRIP_ID}">						
+						<article>
+						<a href="?page=pic&type=id&key={PIC_ID}">
+							<img src="{REL_PICPATH}/{PIC_FOLDER}/{PIC_FILE}" width="100%" alt="{TRIP_TITLE}">
+						</a>		    
+						<a href="?page=trip&type=id&key={TRIP_ID}">
+							<h4>{TRIP_TITLE}</h4>
+							<h5>{TRIP_DESC}</h5>
+						</a>		    
+						</article>
+					</a>		    
+				</div>
+				{ROW_SEP}
+<!-- END epic_rows -->
+		  </div>		
+		</div> <!-- #the_content -->

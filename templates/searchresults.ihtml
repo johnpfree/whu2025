@@ -1,0 +1,35 @@
+
+		<div class="container">
+		  <div class="row no-gutters">
+{HEADER_GALLERY}
+		  </div>
+			
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>Search Results for "{SEARCHTERM}"</h2>
+		    </div>
+		  </div>
+
+			<dl {SHOW_spo}>
+			  <dt>Spots:</dt>
+			  <dd>{SPOTLIST}</dd>
+			</dl>	
+			<dl {SHOW_txt}>
+			  <dt>Stories:</dt>
+			  <dd>{TXTLIST}</dd>
+			</dl>
+			<dl {SHOW_pic}> 
+			  <dt>Day Galleries (<i>images with <b>{SEARCHTERM}</b></i>):</dt>
+			  <dd>{PICLIST}</dd>
+			</dl>	
+			<dl {SHOW_log}> 
+			  <dt>Trip Logs:</dt>
+			  <dd>{DAYLIST}</dd>
+			</dl>	
+		</div>
+
+<style type="text/css" media="screen">
+dt {
+	margin-top: .6em;
+}
+</style>
