@@ -19,7 +19,7 @@
 		<!-- BEGIN rows -->
 		<p>
 			<a href="?page=pics&type=date&key={GAL_DATE}">
-				<img class="img-rounded img-responsive squareme {USE_IMAGE}" src='{WF_IMAGES_PATH}/{PIC_NAME}' border="0" />
+				<img class="img-rounded img-responsive squareme {USE_IMAGE}" src='{REL_PICPATH}/{WF_IMAGES_PATH}/{PIC_NAME}' border="0" />
 				<img class="img-rounded img-responsive squareme {USE_BINPIC}" src="data:image/jpg;base64,{BINPIC}">
 				<span>{NICE_DATE} ({DATE_COUNT}){VID_LINK}</span>
 			</a>		
