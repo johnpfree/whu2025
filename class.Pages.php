@@ -1745,6 +1745,8 @@ class TripPictures extends ViewWhu
 
 			$row['pic_name'] = $pic->filename();
 	 		$row['wf_images_path'] = $pic->folder();
+			// dumpVar($row, "row day $i");
+			// exit;
 			$row['binpic'] = $pic->thumbImage();
 			// if (strlen($row['binpic']) > 100) {			// hack to show the slow image if the thumbnail fails on server
 			// 	$row['use_binpic'] = '';

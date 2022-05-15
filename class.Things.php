@@ -388,8 +388,8 @@
 				return $key;
 
 			if ($this->isDate($key))		// $key == date?
-				return $this->getOne("select f.*,d.* from wf_days d LEFT OUTER JOIN fl_days f ON d.wf_days_date=f.wf_days_date where d.wf_days_date='$key'");	
-				// return $this->getOne("select * from wf_days where wf_days_date='$key'");	
+				// return $this->getOne("select f.*,d.* from wf_days d LEFT OUTER JOIN fl_days f ON d.wf_days_date=f.wf_days_date where d.wf_days_date='$key'");	
+				return $this->getOne("select * from wf_days where wf_days_date='$key'");
 
 			WhuThing::getRecord($key);		// FAIL
 		}
@@ -811,7 +811,7 @@
 					$parm = $parm['data'];
 //					$q = "SELECT * FROM wf_spots s JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE 
 					$q = "SELECT s.wf_spots_id, s.wf_spots_name FROM wf_spots s 
-									wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE
+									JOIN wf_spot_days d ON s.wf_spots_id=d.wf_spots_id WHERE
 										s.wf_spots_name LIKE '$parm' OR 
 										s.wf_spots_partof LIKE '$parm' OR 
 										s.wf_spots_town LIKE '$parm' OR 
