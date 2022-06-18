@@ -714,8 +714,9 @@
 			return array_merge(array_flip($allkeys));			// flipped there may be holes in the array, merge reorders it with no holes
 		}
 
-		function lat()		{ return round((float)$this->dbValue('wf_spots_lat')); }
-		function lon()		{ return round((float)$this->dbValue('wf_spots_lon')); }
+		// June 2022 - for some reason I was using round() here, which was wrong. Must have had some reason though
+		function lat()		{ return (float)$this->dbValue('wf_spots_lat'); }
+		function lon()		{ return (float)$this->dbValue('wf_spots_lon'); }
 		function noPosition() {	return (($this->lat() * $this->lon()) == 0); }
 
 		function bath()		{ return $this->dbValue('wf_spots_bath'); }
@@ -959,6 +960,8 @@
 				$wpdb = new DbWpNewBlog();
 				$item = $wpdb->getOne($q = sprintf("select * from %sposts where ID=%s", $wpdb->tablepref, $wpid = $parm['quickid']));
 				// dumpVar($q, "q-DbWpNewBlog");
+				if (!$item)
+					return array(array());
 				return array(array(
 					'wpid'		=> $wpid,
 					'title' 	=> $item['post_title'],	
