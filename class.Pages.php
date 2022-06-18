@@ -488,24 +488,27 @@ class OneSpot extends ViewWhu
 			$this->template->set_var('DAYS_INFO', '');										// yes, there are days
 			
 			// --------------------------------------------- show spot keywords, and a little special sauce for phone reception
-			$attmsg = '';
+			$phonemsg = '';
 			$keys = $spot->keywords();
+			// dumpVar($keys, "keys");
 			$sep = "";
 			for ($i = 0, $rows = array(); $i < sizeof($keys); $i++) 
 			{
 				$key = trim($keys[$i]);
-				if (substr($key, 0, 4) == 'att=') 
+				if (substr($key, 3, 1) == '=') 
 				{
+					$providers = array('att' => 'ATT', 'ver' => 'Verizon', 'tmo' => 'T-Mobile', );
 					$msgs = array(
-						'good' => "<b>Att</b> cellphone reception was good.",
-						'some' => "Some <b>Att</b> cellphone reception but not great.",
-						'poor' => "No usable cellphone reception for Att.",
-						'none' => "Phone says 'No Service'.",
+						'good' => "<b>%s</b> cellphone reception was good.",
+						'some' => "Some <b>%s</b> cellphone reception but not great.",
+						'poor' => "No usable cellphone reception for %s.",
+						'none' => "No <b>%s</b> service here.",
 					);
-					$att = explode('=', $key);
-
-					if (isset($msgs[$att[1]]))
-						$attmsg = $msgs[$att[1]];
+					$phoneStat = explode('=', $key);
+					dumpVar($phoneStat, "phoneStat");
+					
+					if (isset($msgs[$phoneStat[1]]) && isset($providers[$phoneStat[0]]))
+						$phonemsg = sprintf($msgs[$phoneStat[1]], $providers[$phoneStat[0]]);
 					continue;
 				}
 				$rows[] = array('spot_key' => $key, 'spot_sep' => $sep);
@@ -514,7 +517,8 @@ class OneSpot extends ViewWhu
 			$loop = new Looper($this->template, array('parent' => 'the_content', 'one' => 'keyrow', 'none_msg' => "no keywords", 'noFields' => true));
 			$loop->do_loop($rows);
 			
-			$this->template->set_var('ATT_MSG', $attmsg);
+			dumpVar($phonemsg, "phonemsg");
+			$this->template->set_var('ATT_MSG', $phonemsg);
 
 			// ------------------------------------------------------- collect Day info, AND Pic/Faves info, because pics are by day
 			$days = $this->build('DbSpotDays', $spot->id());								
@@ -1339,7 +1343,7 @@ dumpVar($fullpath, "Mapbox fullpath");
 			$this->template->set_var("JSON_INSERT", '');
 			$this->template->set_var("CONNECT_DOTS", 'true');		// there is no route map, so connect the dots with polylines
 		}
-		
+		dumpVar($this->loopfile, "this->loopfile");
 		$this->template->setFile('LOOP_INSERT', $this->loopfile);
 		
  	 	$days = $this->build('DbDays', $tripid);
