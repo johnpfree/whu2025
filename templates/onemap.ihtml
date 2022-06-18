@@ -81,9 +81,9 @@ var markersLayer = L.mapbox.featureLayer().addTo(map);
 markersLayer.setGeoJSON(markers);
 
 pline.push([markers[0].geometry.coordinates[1], markers[0].geometry.coordinates[0]]);
-if ({CONNECT_DOTS})
-var polyline = L.polyline(pline, { color: '#3A5950', 'weight' : 6 }).addTo(map);		// default weight = 5
-
+if ({CONNECT_DOTS}) {			// (Jun 22) it appears this isn't used anymore!
+	var polyline = L.polyline(pline, { color: '#3A5950', 'weight' : 6 }).addTo(map);		// default weight = 5
+}
 map.on('click', function(e) {
 	console.log(e.latlng);
 });
