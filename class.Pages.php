@@ -8,8 +8,12 @@ class ViewWhu extends ViewBase  // ViewDbBase
 	var $sansFont = "font-family: Roboto, Arial, sans-serif";
 	// var $sansFont = "font-family: 'Montserrat', sans-serif";
 	
-	var $caption = '';		// if $caption is non-blank, use it in setCaption(). Otherwise call getCaption()
-	var $meta_desc = 'Pictures, Stories, Custom Maps';		// if $meta_desc is non-blank, use it in setCaption(). Otherwise call getMetaDesc()
+	// if $caption is non-blank, use it in setCaption(). Otherwise call getCaption()
+	var $caption = '';
+	
+	// what to plug into <meta name="description" /> tag
+	var $meta_desc = 'Pictures, Stories, Overnights, Custom Maps';		
+	
 	var $extralink = '';
 
 	function __construct($p)
@@ -29,6 +33,8 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	
 	function setCaption()		// also handy place for bookkeeping shared for all pages
 	{
+		// dumpVar($this->getCaption(), "this->getCaption()");
+		// dumpVar($this->caption, "this->caption");
 		$this->template->set_var('CAPTION'  , ($this->caption != '') ? $this->caption : $this->getCaption());		
 		$this->template->set_var('META_DESC', $this->getMetaDesc());
 		dumpVar($this->getMetaDesc(), "this->getMetaDesc()");
@@ -113,6 +119,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		}
 		return true;
 	}
+	function markerIndex($i) { return ($i+1) % 100; }		// do I still run out of maarkers at 100?
 	
 	// --------------------------------------- Spot header and type lookup code shared between SpotsListType and SpotsListMap
 
@@ -384,7 +391,7 @@ class OneTrip extends ViewWhu
 		$this->template->setFile('LOOP_INSERT', $this->loopfile);
 				
  	 	$days = $this->build('DbDays', $tripid);
-		for ($i = 0, $rows = array(), $prevname = '@'; $i < $days->size(); $i++)
+		for ($i = 1, $rows = array(), $prevname = '@'; $i < $days->size(); $i++)
 		{
 			$day = $this->build('DayInfo', $days->one($i));
 
@@ -394,8 +401,7 @@ class OneTrip extends ViewWhu
 				continue;
 			}
 
-			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
-										// 'point_name' => addslashes($day->nightName())
+			$row = array('marker_val' => $this->markerIndex($i), 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
 										'key_val' => $day->date(), 'link_text' => Properties::prettyDate($day->date()));
 
 			$spotName = $day->nightName();
@@ -1319,9 +1325,9 @@ class OneMap extends ViewWhu
 		$this->makeTripWpLink($trip);
 
 		// - - - Header PICS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		$pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder()));
-		$pics->getSome(12);
-		$this->headerGallery($pics);
+		// $pics = $this->build('Faves', array('type' =>'folder', 'data' => $trip->folder()));
+		// $pics->getSome(12);
+		// $this->headerGallery($pics);
 		
 		if ($trip->hasMapboxMap())
 		{
@@ -1351,8 +1357,7 @@ dumpVar($fullpath, "Mapbox fullpath");
 		{
 			$day = $this->build('DayInfo', $days->one($i));
 
-			$row = array('marker_val' => ($i+1) % 100, 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
-										// 'point_name' => addslashes($day->nightName())
+			$row = array('marker_val' => $this->markerIndex($i), 'point_lon' => $day->lon(), 'point_lat' => $day->lat(), 
 										'key_val' => $day->date(), 'link_text' => Properties::prettyDate($day->date()));
 
 			$spotName = $day->nightName();
@@ -1384,6 +1389,7 @@ dumpVar($fullpath, "Mapbox fullpath");
 		return $this->key; 
 	}
 }
+
 class RadiusMapBase extends OneMap
 {
 	var $tripMap = 'hideme';
@@ -1685,6 +1691,7 @@ class SearchResults extends ViewWhu
 			for ($i = 0, $str = '', $rows = array(); $i < $txts->size(); $i++)
 			{
 				$txt = $txts->one($i);
+				// dumpVar($txt->wpid(), "txt->wpid()");
 				$str .= sprintf("<li><a href='%s'>%s &ndash; %s</a></li>", $this->makeWpPostLink($txt->wpid()), $txt->date(), $txt->title());
 				// $str .= sprintf("<a href='%s'>%s</a> &bull; ", $this->makeWpPostLink($txt->wpid()), $txt->title());
 			}	
@@ -2065,7 +2072,7 @@ class CatTwoGallery extends CatGallery
 
 		parent::showPage();
 	}
-	function getCaption()				{	return "Pictures for category: " . $this->galTitle;	}
+	function getCaption()				{	return "Pictures for category: " . strip_tags($this->galTitle);	}
 }
 class CatTwoGetGallery extends CatTwoGallery
 {
