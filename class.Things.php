@@ -982,7 +982,7 @@
 		function date()				{ return $this->data[0]['date']; }			// NOTE! this is the wordpress date, NOT the dates that ref this post
 		function firstDate()	{	return $this->dates()[0]['wf_days_date'];	}	// first date for post - this is the one ypu want		
 		
-		function next()			{																					// if this wpid is not used, don't show it!
+		function next()			{														// if this wpid is not used, don't show it!
 			$wpid = explode('=', $this->data[0]['next'])[1];	
 			$posts = $this->getAll("SELECT * from wf_days where wp_id=$wpid");
 			return (sizeof($posts) > 0) ? $wpid : 0;
@@ -998,28 +998,30 @@
 		function doWPQuery($wpa)
 		{
 			// invoke the WP loop right here and now!
-			define('WP_USE_THEMES', false);
-			dumpVar($wpa, "doWPQuery IN");
+			if (!defined('WP_USE_THEMES')) define('WP_USE_THEMES', false);
+			// dumpVar($wpa, "doWPQuery IN");
 			require(WP_PATH . '/wp-load.php');											// Include WordPress			
 			$the_query = new WP_Query( $wpa );
+			// dumpVar($the_query, "the_query");
 
 			$posts = array();
 			while ( $the_query->have_posts() ) : $the_query->the_post();									// The Loop
 			{
 				$c= $this->the_content();						// the_content() does NOT return a string, so copy/modify below to do so
+				
+				// dumpVar(get_the_ID(), 'get_the_ID');
+				// dumpVar(the_title('', '', false), 'the_title');
+				// dumpVar(the_date('Y-m-d', '', '', false), 'the_date');
+				
 				$posts[] = array(
 					'wpid'		=> get_the_ID(),
 					'title' 	=> the_title('', '', false),					// false == return a string
-					// Sept 2020, try to speed this up a bit by only getting what I really need
 					'date'		=> the_date('Y-m-d', '', '', false), 	// false == return a string
-					// 'content' => $c,
-					// // 'excerpt'	=> wp_trim_words($c, 60, ' ...' ),
-					// 'excerpt'	=> get_the_excerpt(),
-					// 'prev' 	 	=> get_permalink(get_adjacent_post(false,'',true)),			// remember, WP's default is newest to oldest
-					// 'next' 	 	=> get_permalink(get_adjacent_post(false,'',false)),
 				);
 			}
 			endwhile;
+					// dumpVar($posts, "posts");
+				// exit;
 			return $posts;
 		}
 		// straight outta Wordpress:
@@ -1039,6 +1041,9 @@
 		{	
 			if ($parm['type'] == 'textsearch')							// for text search
 			{
+				// dumpVar(get_class($this), "this");
+				// dumpVar(class_parents($this), "this");
+				// exit;				
 				return $this->doWPQuery("s={$parm['data']}");
 			}
 			// if ($this->isWpCatSearch($parm))						// for text search
