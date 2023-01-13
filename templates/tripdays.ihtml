@@ -29,7 +29,7 @@
 		  <div class="row" style="padding-bottom: 6px; margin-bottom: 6px; border-bottom: 1px solid green;">
 				<div class="col-7 col-md-2">
 				  <div class="row">
-				    <div class="col-sm">{DAY_NUMBER}.</div>
+				    <div class="col-sm">{DAY_NUMBER}</div>
 						<div class="col-sm">{MILES} miles</div>
 						<div class="col-sm">{CUM_MILES} total</div>
 				  </div>
