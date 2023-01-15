@@ -1070,6 +1070,7 @@
 		function id()				{ return $this->dbValue('wf_images_id'); }
 		function caption()	{ return $this->dbValue('wf_images_text'); }
 		function name()			{ return $this->caption(); }
+		function rawshape()	{ return $this->dbValue('wf_images_shape'); }
 		function datetime()	{ return $this->dbValue('wf_images_localtime'); }
 		function date()			{ return substr($this->datetime(), 0, 10); }
 		function time()			{ return substr($this->datetime(), 10); }
@@ -1077,9 +1078,10 @@
 		function camera()		{ return $this->dbValue('wf_images_origin'); }
 		function cameraDesc()
 		{
+			// dumpVar($this->data, "this->data");
 			$names = array('Canon650' => 'good ole Canon 650', 'Ericsson' => 'Ericsson W350i phone', 
-											'CanonG9X' => 'state of the art Powershot G9X', 
-											'iPhone4S' => 'iPhone 4S', 'iPhone6S' => 'iPhone 6S', 'iPhone7' => 'iPhone 7' );
+											'CanonG9X' => 'state of the art Powershot G9X', 'iPhone4S' => 'iPhone 4S', 
+											'iPhone6S' => 'iPhone 6S', 'iPhone7' => 'iPhone 7', 'iPhone13' => 'iPhone 13' );
 			return (isset($names[$this->camera()])) ? $names[$this->camera()] : "unknown";
 		}
 		function cameraDoesGeo() { return (strpos($this->camera(), 'iPhone') !== false); }		// only iPhones do geolocation
@@ -1087,6 +1089,18 @@
 			if (($pid = $this->dbValue('wf_place_id')) == 0)
 				return '';
 			return $this->build('WhuCategory', $pid)->name(); 
+		}
+		function shape() {
+			$str = $this->rawshape();
+			if ($str == 'lan')				return 'lan';
+			if ($str == 'por')				return 'por';
+			if ($str == 'pano')				return 'pano';
+			if ($str == 'screen')			return 'por';
+			$str1 = substr($str, 0, 2);
+			if ($str1 == 'p,')				return 'por';
+			if ($str1 == 'l,')				return 'lan';
+			jfDie("troublesome shape=$str");
+			return '';
 		}
 		function vidId()		{ return $this->dbValue('wf_resources_id'); }
 		function isImage() 	{ return ($this->vidId() == 0); }
@@ -1179,9 +1193,9 @@
 		// image FILE stuff - extract GPS, extract thumbnail
 		function latlon($precision = 5)
 		{
-			$fullpath = $this->fullpath();		
-			$exif = @exif_read_data($fullpath);
-
+			$fullpath = $this->fullpath();					
+			$exif = exif_read_data($fullpath);
+			// dumpVar($exif, "exif $fullpath");
 			if (isset($exif["GPSLongitude"]))
 			{
 				return array(
@@ -1211,7 +1225,7 @@
 	
 		function thumbImage()
 		{
-			$xb = @exif_thumbnail($this->fullpath(), $xw, $xh, $xm);
+			$xb = exif_thumbnail($this->fullpath(), $xw, $xh, $xm);
 			$this->thumbSize = array($xw, $xh);
 			return base64_encode($xb);
 		}
@@ -1266,7 +1280,6 @@
 
 					$timeQuery = "SELECT * from wf_images  WHERE DATE(wf_images_localtime)='%s' and TIME(wf_images_localtime) %s SEC_TO_TIME(3600 * %s)";
 				 	$q = sprintf($timeQuery, $tonight, ">", $day->dayend());
-					// dumpVar($q, "q pm");
 					$pmpics = $this->getAll($q);
 
 					$tomorrow = Properties::sqlDate("$tonight +1 day");
