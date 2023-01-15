@@ -317,6 +317,7 @@ class HomeHome extends ViewWhu
 
 		$pics = $this->build('Faves', array('type' =>'all', 'shape' => 'pano'));
 		$pic = $pics->favorite();
+		$this->template->set_var('BANNER_ID', $pic->id());
 		$this->template->set_var('BANNER_FOLDER', $pic->folder());
 		$this->template->set_var('BANNER_FILE', $pic->filename());
 
@@ -1247,6 +1248,12 @@ class OnePhoto extends ViewWhu
 		$this->template->set_var('REL_PICPATH', iPhotoURL);
 		$this->template->set_var('VID_SPOT_VIS', 'hideme');
 		
+		$shape = $pic->shape();
+		dumpVar($pic->rawshape(), "shape = $shape --- pic->rawshape()");
+		$colwids = array('por' => 5, 'lan' => 7, 'pano' => 12, 'xx' => 6);
+		$this->template->set_var('PIC_COL_WID', $colwids[$shape]);
+
+		
  	 	$trip = $this->build('Trip', $date);
 		$this->template->set_var('TRIP_NAME', $trip->name());
 		$this->template->set_var('TRIP_ID', $trip->id());
@@ -1279,6 +1286,7 @@ class OnePhoto extends ViewWhu
 		$gps = $pic->latlon();
 		if ($pic->cameraDoesGeo())
 			$gps['geo'] = true;
+		dumpVar($gps, "gps");
 		if ($this->setLittleMap(array_merge($gps, array('name' => Properties::prettyDate($pic->date()), 'desc' => $name))))
 		{
 			$this->template->set_var('GPS_VIS', '');
@@ -1294,7 +1302,10 @@ class OnePhoto extends ViewWhu
 		$this->template->set_var('N_VIS', ($id == 0) ? 'class="hidden"' : '');
 	}
 }
-
+class OneNewStylePhoto extends OnePhoto
+{
+	var $file = "oneNewStylepic.ihtml";
+}
 class OneMap extends ViewWhu
 {
 	var $file = "onemap.ihtml";
@@ -1364,7 +1375,7 @@ dumpVar($fullpath, "Mapbox fullpath");
 			$row['point_name'] = addslashes($day->hasSpot() ? $this->spotLink($spotName, $day->spotId()) : $spotName);
 						 
 // dumpVar($row, "row $i");
-			if ($row['point_lat'] * $row['point_lon'] == 0) {						// skip if no position
+			if ((float)$row['point_lat'] * (float)$row['point_lon'] == 0) {						// skip if no position
 				$eventLog[] = "NO POSITION! $i row";
 				$eventLog[] = $row;
 				continue;
@@ -1941,7 +1952,6 @@ class Gallery extends ViewWhu
 		
 		parent::showPage();
 	}
-	// function galleryTitle($key)				{	return "Undefined!";	}
 }
 class DateGallery extends Gallery
 {
@@ -1976,6 +1986,10 @@ class DateGallery extends Gallery
 	function getPictures($key)	{ return $this->build('Pics', (array('date' => $key))); }
 	function getCaption()				{	return "Pictures for " . $this->key;	}
 	// function galleryTitle($key)	{	return Properties::prettyDate($key); }
+}
+class DateNoJustifyGallery extends DateGallery
+{
+	var $file = "galleryNoJustify.ihtml";   
 }
 class CatGallery extends Gallery
 {
