@@ -54,11 +54,13 @@
 
 			<div class="clearfix" id="thegal">
 				<div class="content">
-				  <div id="thegallery">
+				  <div id="thegal">
 <!-- BEGIN rows -->
-				      <a href="?page=pic&type=id&key={PIC_ID}" data-title="{PIC_DESC}"  data-max-width="540"
-							data-footer="<a href='?page=pic&type=id&key={PIC_ID}' title='{PIC_DESC}'> (details)</a>" 
-							data-toggle="lightbox" data-gallery="pic_set"><img src="{IMG_THUMB}" title="{PIC_DESC}" /></a>
+							<p>
+								<a href="?page=pic&type=id&key={PIC_ID}">
+									<img class="img-rounded img-responsive squareme" src='{REL_PICPATH}/{WF_IMAGES_PATH}/{PIC_NAME}' border="0" />
+								</a>		
+							</p>
 <!-- END rows -->
 				  </div>
 				</div><!-- content -->
@@ -120,8 +122,31 @@
 		padding-top: 6px;
 		margin-bottom: 10px;
 	}
-	.justified-gallery > a > .caption {
-		line-height: 1.3em;
+
+	#thegal>p {
+		float: left;
+		text-align: center;
+		position: relative;
+	}
+	#thegal>p img {
+		border: 1px solid #3A5950;		
+		border-radius: 8px;
+	}
+	.squareme {	object-fit: cover; }
+
+	@media (max-width: 785px)  {	
+		#thegal>p { width: 78px; heixght: 128px; }
+		.squareme {
+			width: 76px;
+			height: 76px;
+		}
+	}
+	@media (min-width: 701px)  {	
+		#thegal>p { width: 166px; }
+		.squareme {
+			width: 160px;
+			height: 160px;
+		}
 	}
 </style>
 
