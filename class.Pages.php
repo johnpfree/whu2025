@@ -309,7 +309,7 @@ class HomeHome extends ViewWhu
 {
 	var $file = "homehome.ihtml";
 	// var $bannerIds = array(7964, 8062, 8097, 8098, 8111, 8236, 8238, 8294, 8306);
-	var $recents = array(62, 61, 60, 59);
+	var $recents = array(65, 64, 63, 62, 61, 59);
 	var $epics = array(56, 22, 14, 44, 26, 53);
 	function showPage()
 	{
@@ -1927,7 +1927,7 @@ class DateVideos extends OneVideo
 
 class Gallery extends ViewWhu
 {
-	var $file = "gallery.ihtml";   
+	var $file = "gallery.ihtml";
 	var $galtype = "UNDEF";  
 	var $message = '';
 	var $titlePrefix = '';
@@ -1989,7 +1989,7 @@ class DateGallery extends Gallery
 }
 class DateNoJustifyGallery extends DateGallery
 {
-	var $file = "galleryNoJustify.ihtml";   
+	// var $file = "galleryNoJustify.ihtml";
 }
 class CatGallery extends Gallery
 {
