@@ -1,0 +1,154 @@
+<link rel="stylesheet" href="./css/justifiedGallery.min.css" />
+<script src="./libraries/jquery.justifiedGallery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
+
+		<div class="container">		
+		  <div class="row">
+		    <div class="col cardrowhead flex-container">
+					<h2 class="{DATE_GAL_VIS}">
+						{GALLERY_TITLE}
+					</h2>
+					<h2 class="{CAT_GAL_VIS}">
+						<span>{TITLE_PREFIX}</span> "{GALLERY_TITLE}"
+					</h2>
+					<h4 class="headerclause">
+						{RGMSG}
+					</h4>
+		    </div>
+		  </div>
+			
+		  <div class="row {DATE_GAL_VIS}">
+		    <div class="col-6">
+					Trip: <a href="?page=pics&type=id&key={TRIP_ID}">{TRIP_NAME}</a>
+		    </div>
+		    <div class="col-6">
+					Tonight: {GALLERY_PLACE}
+		    </div>
+		  </div>
+			
+		  <div class="row {CAT_GAL_VIS1}" id="triplists">
+		    <div class="col-md-6" id="keytext">
+					<ul>
+				    <li>Refresh this page to see a different selection of <b>{GALLERY_TITLE}</b> images.</li>
+				    <li>Or view <b>{GALLERY_TITLE}</b> images that also have these keywords:</li>
+				    <li>Go to <a href="?page=search&type=home&key=pics">Search</a> page to browse other keywords:</li>
+					</ul>
+				</div>
+		    <div class="col-md-2">
+			    <p><a href="?page=pics&type=cat&key={CAT_0}" title="{LISTNAME_0}">{LISTNAME_0}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_1}" title="{LISTNAME_1}">{LISTNAME_1}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_2}" title="{LISTNAME_2}">{LISTNAME_2}</a></p>
+				</div>
+		    <div class="col-md-2">
+			    <p><a href="?page=pics&type=cat&key={CAT_3}" title="{LISTNAME_3}">{LISTNAME_3}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_4}" title="{LISTNAME_4}">{LISTNAME_4}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_5}" title="{LISTNAME_5}">{LISTNAME_5}</a></p>
+				</div>
+		    <div class="col-md-2">
+			    <p><a href="?page=pics&type=cat&key={CAT_6}" title="{LISTNAME_6}">{LISTNAME_6}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_7}" title="{LISTNAME_7}">{LISTNAME_7}</a></p>
+			    <p><a href="?page=pics&type=cat&key={CAT_8}" title="{LISTNAME_8}">{LISTNAME_8}</a></p>
+				</div>
+		  </div>
+
+			<div class="clearfix" id="thegal">
+				<div class="content">
+				  <div id="thegal">
+<!-- BEGIN rows -->
+							<p>
+								<a href="?page=pic&type=id&key={PIC_ID}">
+									<img class="img-rounded img-responsive squareme" src='{REL_PICPATH}/{WF_IMAGES_PATH}/{PIC_NAME}' border="0" />
+								</a>		
+							</p>
+<!-- END rows -->
+				  </div>
+				</div><!-- content -->
+			</div><!-- thegal -->
+			
+		  <div class="row {SHOW_AFTER}">
+		    <div class="col">
+		      <button class="float-right">
+						{AFTER_MESSAGE}
+		      </button>					
+		    </div>
+		  </div>			
+		</div>
+
+<script>
+  $("#thegallery").justifiedGallery({
+		margins: 3,
+		border: -1,
+		// maxRowsCount: 4,
+		// lastRow: 'hide',
+  });
+
+	$(document).ready(function()
+	{	
+		var wid = $(window).width();
+		var hgt = $(window).height();
+		var rowHgt = 60;
+		console.log("wid=" + wid + ", hgt=" + hgt + ", rowHgt=" + rowHgt);
+		if (hgt < 800) {
+	    // var txt = "Doc width: " + hgt;
+	    // txt += "\nrowHeight=" + rowHgt;
+	    // alert(txt);
+		
+			$('#thegallery').justifiedGallery({rowHeight: rowHgt});
+		}
+	});
+
+</script>
+
+<style type="text/css" media="screen">
+	h2 span { font-size: 80%;}
+
+	#triplists {
+		text-align: center;
+		border-bottom: 1px solid black;
+		padding-bottom: 6px;
+		margin-bottom: 16px;
+	}
+	#triplists p {
+		margin-bottom: 1px;
+	}
+	#triplists li {
+		text-align: left;
+		list-style: none;
+	}
+
+	#main_item {
+		border-top: 2px solid #464;
+		padding-top: 6px;
+		margin-bottom: 10px;
+	}
+
+	#thegal>p {
+		float: left;
+		text-align: center;
+		position: relative;
+	}
+	#thegal>p img {
+		border: 1px solid #3A5950;		
+		border-radius: 8px;
+	}
+	.squareme {	object-fit: cover; }
+
+	@media (max-width: 785px)  {	
+		#thegal>p { width: 78px; heixght: 128px; }
+		.squareme {
+			width: 76px;
+			height: 76px;
+		}
+	}
+	@media (min-width: 701px)  {	
+		#thegal>p { width: 166px; }
+		.squareme {
+			width: 160px;
+			height: 160px;
+		}
+	}
+</style>
+
+
+
