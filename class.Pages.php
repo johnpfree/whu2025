@@ -14,7 +14,9 @@ class ViewWhu extends ViewBase  // ViewDbBase
 	// what to plug into <meta name="description" /> tag
 	var $meta_desc = 'Pictures, Stories, Overnights, Custom Maps';		
 	
-	var $extralink = '';
+	// all these decls are shut up the 'dynamic property deprecated' message
+	var $extralink, $props, $key, $title, $spots, $pagetitle;
+	var $galTitle, $trips;
 
 	function __construct($p)
 	{
@@ -192,6 +194,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 	{
 		switch ($this->key) {
 			case 'NPS':				$parms = array('type' => 'partof', 'data' => "National Park");	break;
+			default;
 			case 'FS':				$parms = array('type' => 'partof', 'data' => "National Forest");	break;
 			case 'BLM':				$parms = array('type' => 'partof', 'data' => $this->key);	break;
 			case 'ACE':				$parms = array('type' => 'partof', 'data' => 'Army Corps');	break;
@@ -201,7 +204,6 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			case 'boondock':	$parms = array('type' => 'status', 'data' => 'parking');	break;
 			case 'NWR':				$parms = array('type' => 'type', 'data' => 'NWR'); break;
 			case 'HOTSPR':		$parms = array('type' => 'type', 'data' => 'HOTSPR'); break;			
-			default; exit;
 		}
 		$this->caption = $this->spotTypes[$this->key];
 		$this->title = $this->caption;
@@ -308,6 +310,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 class HomeHome extends ViewWhu
 {
 	var $file = "homehome.ihtml";
+	 
 	// var $bannerIds = array(7964, 8062, 8097, 8098, 8111, 8236, 8238, 8294, 8306);
 	var $recents = array(65, 64, 63, 62, 61, 59);
 	var $epics = array(56, 22, 14, 44, 26, 53);
@@ -735,6 +738,7 @@ class SpotsListType extends SpotsList
 	function showPage()	
 	{
 		// $this->caption = $this->spotTypes[$this->key];
+		dumpVar($this->key, "this->key");
 		$this->spots = $this->getSpotsByType($this->key);
 		parent::showPage();
 	}
@@ -1304,7 +1308,7 @@ class OnePhoto extends ViewWhu
 }
 class OneNewStylePhoto extends OnePhoto
 {
-	var $file = "oneNewStylepic.ihtml";
+	var $file = "oneNewStylepic.";
 }
 class OneMap extends ViewWhu
 {
@@ -1770,13 +1774,13 @@ class TripPictures extends ViewWhu
 			// dumpVar($row, "row day $i");
 			// exit;
 			$row['binpic'] = $pic->thumbImage();
-			// if (strlen($row['binpic']) > 100) {			// hack to show the slow image if the thumbnail fails on server
-			// 	$row['use_binpic'] = '';
-			// 	$row['use_image']  = 'hideme';
-			// } else {
+			if (strlen($row['binpic']) > 100) {			// hack to show the slow image if the thumbnail fails on server
+				$row['use_binpic'] = '';
+				$row['use_image']  = 'hideme';
+			} else {
 				$row['use_binpic'] = 'hideme';
 				$row['use_image']  = '';
-			// }
+			}
 			$rows[] = $row;
 			$count += $dc;
 		}
@@ -1927,7 +1931,7 @@ class DateVideos extends OneVideo
 
 class Gallery extends ViewWhu
 {
-	var $file = "gallery.ihtml";
+	var $file = "gallery.ihtml";   
 	var $galtype = "UNDEF";  
 	var $message = '';
 	var $titlePrefix = '';
@@ -1989,7 +1993,7 @@ class DateGallery extends Gallery
 }
 class DateNoJustifyGallery extends DateGallery
 {
-	// var $file = "galleryNoJustify.ihtml";
+	var $file = "galleryNoJustify.ihtml";   
 }
 class CatGallery extends Gallery
 {

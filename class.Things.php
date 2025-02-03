@@ -5,6 +5,9 @@
 		var $unitClass = '';
 		var $data = NULL;
 		var $hasData = true;
+
+		var $spot, $desc, $parms;			// to shut up the 'dynamic property deprecated' message
+		
 		function __construct($p, $key = NULL)
 		{
 			// new hack!  Single parameter means I'm casting to a child class
@@ -322,7 +325,13 @@
 			if (!defined('WP_USE_THEMES')) define('WP_USE_THEMES', false);
 			require(WP_PATH . '/wp-load.php');											// Include WordPress			
 			$cats = get_the_category($wpid);
-			// dumpVar($cats, "cats");
+
+			// for ($i=0, $s=''; $i < sizeof($cats); $i++) {
+			// 	$s .= $i . ": " . $cats[$i]->cat_ID . "=" . $cats[$i]->name . ", ";
+			// }
+			// global $noDbg;			$noDbg = 0;			dumpVar($s, "cats");
+			if (is_null($cats[0])) 						// Jan 2025 - strange empty cats
+				return array('none', 0);
 
 			if ($cats[0]->name == 'Nor Cal' || $cats[0]->name == '395')
 				return array('post', $wpid);
@@ -881,6 +890,7 @@
 		function spotId()			{ return $this->dbValue('wf_spots_id'); }
 		function date()		{ return $this->dbValue('wf_spot_days_date'); }
 		function cost()		{ return $this->dbValue('wf_spot_days_cost'); }
+		function site()		{ return $this->dbValue('wf_spot_days_site'); }
 		function senior()		{ return $this->dbValue('wf_spot_days_senior'); }
 		function desc()	
 		{ 
@@ -1094,8 +1104,9 @@
 			$str = $this->rawshape();
 			if ($str == 'lan')				return 'lan';
 			if ($str == 'por')				return 'por';
-			if ($str == 'pano')				return 'pano';
 			if ($str == 'screen')			return 'por';
+			if ($str == 'pano')				return 'pano';
+			if ($str == 'square')			return 'pano';		// can't decide lan vs por, so punt -> pano :)
 			$str1 = substr($str, 0, 2);
 			if ($str1 == 'p,')				return 'por';
 			if ($str1 == 'l,')				return 'lan';
