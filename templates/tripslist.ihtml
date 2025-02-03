@@ -1,0 +1,51 @@
+
+		<div class="container">		
+		  <div class="row">
+		    <div class="col cardrowhead flex-container">
+					<h2 class="">
+						{PAGE_TITLE}
+					</h2>
+					<h4 class="headerclause">
+						<a href="?page=search&type=home&key=trips">browse more trips</a>
+					</h4>
+		    </div>
+		  </div>
+
+
+		  <div class="row">
+				<table id="tripstable" border="0" cellspacing="5" cellpadding="5">
+				<!-- BEGIN trip_rows -->
+					<tr>
+						<td align="right"><a href="?page=log&type=id&key={TRIP_ID}" title="Trip Log">{TRIP_NAME}</a></td>
+						<td> &nbsp; </td>		
+						<td><a {WP_VIS} href="{WP_LINK}" title="{WP_TXT}"><i class="fa fa-wordpress fa" aria-hidden="true"></i></a></td>
+						<td>{MAP_LINK}</td>
+						<td>{PICS_LINK} {VIDS_LINK}</td>
+					</tr>
+				<!-- END trip_rows -->
+				</table>
+	    </div>
+		</div>
+				
+
+<style type="text/css" media="screen">
+	#triplists {
+		text-align: center;
+		border-bottom: 1px solid black;
+		padding-bottom: 6px;
+		margin-bottom: 16px;
+	}
+	#triplists p {
+		margin-bottom: 1px;
+	}
+
+	#tripstable {
+		margin: 0 auto;
+	}
+	#tripstable a {
+		color: #304f2a;
+	}
+	#tripstable td {
+		padding: 4px 6px;
+	}
+</style>
