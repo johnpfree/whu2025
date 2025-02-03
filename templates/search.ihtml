@@ -60,8 +60,8 @@
 							<ul>
 								<li>Federal (half-price to seniors)
 									<ul>
-										<li><a href="?page=mapspots&type=type&key=FS">Forest Service</a></li>
-										<li><a href="?page=mapspots&type=type&key=NPS">National Park</a></li>
+										<li><a href="?page=spots&type=type&key=FS">Forest Service</a></li>
+										<li><a href="?page=spots&type=type&key=NPS">National Park</a></li>
 										<li><a href="?page=map&type=type&key=BLM">BLM</a></li>
 										<li><a href="?page=map&type=type&key=ACE">ACE</a></li>
 									</ul>
@@ -69,8 +69,8 @@
 								<li><a href="?page=map&type=type&key=State">State</a></li>
 								<li><a href="?page=map&type=type&key=County">County/City</a></li>
 							</ul>
-							<li><a href="?page=mapspots&type&type==listtype&key=boondock">Parking lots and other boondocking</a></li>
-							<li><a href="?page=mapspots&type=type&key=inside">Hotels and Motels</a></li>
+							<li><a href="?page=map&type=type&key=boondock">Parking lots and other boondocking</a></li>
+							<li><a href="?page=spots&type=type&key=inside">Hotels and Motels</a></li>
 							<li><a href="?page=map&type=placeid&key=128">Istanbul Hotels</a></li>
 						</ul>	
 				  </div>
