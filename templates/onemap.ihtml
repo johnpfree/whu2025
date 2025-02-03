@@ -1,0 +1,92 @@
+
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+
+		<div class="container">		
+		  <div class="row no-gutters">
+{HEADER_GALLERY}
+		  </div>			
+
+		  <div class="row">
+		    <div class="col cardrowhead flex-container">
+					<h2 class="">
+						{PAGE_TITLE}
+					</h2>
+					<h4 class="headerclause {TRIP_MAP}">
+						<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
+						<a href="?page=pics&type=id&key={TRIP_ID}">pictures</a> &bull; 
+						<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
+					</h4>
+					<h4 class="headerclause {SPOTLIST_MAP}">
+						{TITLE_CLAUSE}
+					</h4>
+		    </div>
+		  </div>
+
+		  <div class="row">
+		    <div class="col">
+					<div id='map'></div>
+		    </div>
+		  </div>
+	  </div>
+
+<style type="text/css" media="screen">
+	#map {
+		width: 100%;
+		padding-bottom: 95%;  /*maintain aspect ratio*/
+	}
+	.leaflet-popup-content {
+		color: black;
+		background-color: #fdfdd9;
+		padding: 10px;
+		border: 1px solid #c0c291;
+		border-radius: 8px;
+	}
+	.leaflet-popup-content a			 {	color: #56591e;	font-weight: bold; }
+	.leaflet-popup-content a:hover {	color: #db644c; text-decoration: underline;	}
+</style>
+<script>
+L.mapbox.accessToken = '{MAPBOX_TOKEN}';
+/*var map = L.mapbox.map('map', '');*/
+
+var map = L.mapbox.map('map')
+.addLayer(L.mapbox.styleLayer('mapbox://styles/johnpfree/ckapev8jm05g41jlnxn69u2pt')); /* my outdoors style */
+
+console.log('map', map);
+
+{JSON_INSERT}
+
+var markers = [
+<!-- BEGIN node_rows -->
+	{
+		type: 'Feature',
+		geometry: {
+				type: 'Point',
+				coordinates: [{POINT_LON}, {POINT_LAT}]
+		},
+		properties: {
+				title: '{POINT_NAME}',
+				description: '<a href="{WHU_URL}?page={PAGE_VAL}&type={TYPE_VAL}&key={KEY_VAL}">{LINK_TEXT}</a>',
+				'marker-symbol': '{MARKER_VAL}',
+				'marker-color': '{MARKER_COLOR}'
+		}
+	},
+<!-- END node_rows -->
+];
+
+{LOOP_INSERT}
+
+var markersLayer = L.mapbox.featureLayer().addTo(map);
+markersLayer.setGeoJSON(markers);
+
+pline.push([markers[0].geometry.coordinates[1], markers[0].geometry.coordinates[0]]);
+if ({CONNECT_DOTS}) {			// (Jun 22) it appears this isn't used anymore!
+	var polyline = L.polyline(pline, { color: '#3A5950', 'weight' : 6 }).addTo(map);		// default weight = 5
+}
+map.on('click', function(e) {
+	console.log(e.latlng);
+});
+
+</script>
+	
