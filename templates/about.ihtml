@@ -1,0 +1,58 @@
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2>W H U F U &ndash; My travel blog</h2>
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="col">
+					<p>I've done road trips since I was a little boy. My parents were stationed in Long Beach after the war for a couple of years. When Pop was mustered out they returned to their ancestral homeland in the midwest. Evidently my mom really liked California, because every few years thereafter she and I would load ourselves into her big ole Chevrolet sedan and drive west. A couple of times I was allowed to bring a friend (great fun, memories we still share). Once we brought a friend of hers, a busybody neighbor with her spoiled daughter. That trip was not a success. Most trips it was just me and my mom.</p> 
+					<p>Those days were highlights of my youth &ndash; Staying in mid-range motel, a couple of days to get across the plains, a few days visiting her Army buddy in Colorado, then on to California!</p>
+					<p>Those days left me with a serious case of the cross-country travel bug.</p>
+					<p>In the late 90's, as computer technology became more personal - the web, word processors, digital cameras - I started thinking about how I could convey travel experiences. </p>
+					<ul>
+						<li>Here is the <a target="_blank" href="http://cloudyhands.com/fall00/fall00.php">first try</a> from 2000.</li>
+					
+						<li>Here is the <a target="_blank" href="http://cloudyhands.com/php/PicOrg/usmap.php">second try</a> from 2002. Google maps wasn't a thing yet so I did a map by hand. :)</li>
+					
+						<li>Here is the massive <a target="_blank" href="http://www.whufu.com/whufu2.4">third try</a>.  It's still pretty cool ... as long as you're viewing on a large device - NOT mobile friendly.</li>
+
+						<li>The <a target="_blank" href="http://www.whufu.com/whufu4.0">fourth try</a> is finally mobile friendly (i.e. Bootstrap). Cool functionality. I fell in love with the changing color palettes, but it's just not very inviting.</li>
+						<li>Trying to do better this time. Finally have a (I hope) engaging page design. You be the judge.</li>
+					</ul>					
+
+					<p style="margin-top: 20px;">The rest of me on the internet:</p>
+					<ul>		
+						<li>My old website was called <strong>cloudyhands.com</strong> for a shocking 12 years or so.
+							<br />But here in early 2023 I have finally decided to give up the domain and release it back into the wild.
+							<br />The site may still be found here: 
+									<a target="_blank" href="https://cloudyhands.whufu.com">cloudyhands.whufu.com</a></li>
+						<li>My non-travel blog, which is mostly my various ever-increasing medical issues: 
+									<a target="_blank" href="http://www.cloudyhands.com/wptest/">Life for an increasingly old bachelor</a></li>
+					</ul>					
+		    </div>
+		  </div>
+		  <div class="row my-4">
+		    <div class="col">
+					<h4>Credits</h4>
+					<ul>
+						<li>I publish my stories with <a target="_blank" href="https://wordpress.com/com-vs-org/">Wordpress</a>.</li>
+						<li>I render the maps with <a target="_blank" href="https://www.mapbox.com/">Mapbox</a>.</li>
+						<li>I use <a target="_blank" href="http://miromannino.github.io/Justified-Gallery/" title="Justified Gallery">Justified Gallery</a> for the gallery layout.</li>
+						<li>I use <a target="_blank" href="https://getbootstrap.com/">Bootstrap 4</a> for responsive page design.  Have not quite figured out <a href="https://getbootstrap.com/docs/4.4/utilities/flex/">Flex</a>.</li>
+					</ul>
+		    </div>
+		  </div>
+		  <div class="row mt-4">
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_TRI}</b> Trips</h4>
+		    </div>
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_PIC}</b> Images</h4>
+		    </div>
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_TXT}</b> Stories</h4>
+	      </div> <!--/card-->
+				<div class="text-center col-xs-6 col-md-3">
+	        <h4 class=""><b>{N_SPO}</b> Places</h4>
+				</div> <!--/card-->
+		  </div>
