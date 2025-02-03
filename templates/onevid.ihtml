@@ -1,0 +1,81 @@
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$(document).keydown(function(event) {
+		console.log("keyCode:", event.keyCode);
+		if (event.keyCode == 37)
+			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={P_KEY}";
+		else if (event.keyCode == 39)
+			window.location="?page={PAGER_PAGE}&type={PAGER_TYPE}&key={N_KEY}";
+	});
+});
+</script>
+
+<div class="jumbotron jumbotron-fluid" id="main_item">
+
+	<div class="row" id="pichead">
+		<div class="col-sm-8">
+			<h3>{VIS_NAME}</h3>
+		</div>
+		<div class="col-sm-4">
+			<h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3>
+		</div>
+	</div>	
+	<div class="row" id="thepic">
+		<iframe class="{USE_VID}"
+			src="https://www.youtube.com/embed/{VID_TOKEN}?list=PLSQR0xDCyqtn4pZPocx92bcmrOBYS-wmi&controls=0&showinfo=0" frameborder="0" allowfullscreen>
+		</iframe>
+	</div>
+
+{PAGER_BAR}
+
+	<div class="row">
+		<div class="col-sm-12">
+			Taken on: <a href="?page=day&type=date&key={DATE}"><b>{PRETTIEST_DATE}</b></a> at <b>{PIC_TIME}</b>, on this trip: <a  href="?page=log&id=date&key={TRIPID}"><b>{PIC_TRIP}</b></a>,
+ with my: <b>{PIC_CAMERA}</b>.
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-9">
+			<ul id="picdetails">
+				<li class="{PICS_VIS}"><a href="?page=pics&type=date&key={DATE}">Pictures for today.</a></li>
+				<li class="{STORY_VIS}">Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
+				<li class="{SPOT_VIS}">At this spot: <a href="?page=spot&type=id&key={SPOT_ID}">{SPOT_NAME}.</a></li>
+				<li class="{GPS_VIS}">geo coordinates: <b>{GPS_LAT}, {GPS_LON}</b></li>
+				<li>
+					keywords: 
+		<!-- BEGIN rows -->
+				 {K_SEP} <a href="?page=pics&type=cat&key={WF_CATEGORIES_ID}">{WF_CATEGORIES_TEXT}</a>
+		<!-- END rows -->
+				</li>
+			</ul>
+    </div>
+		<div class="col-sm-3">
+			{MAP_INSET}
+		</div>
+	</div>
+</div>
+
+<style type="text/css" media="screen">
+	#thepic {
+		padding: 1em;
+	}
+	#pichead div {
+		Xborder: 1px solid #99F;	
+	}
+	#pichead div:nth-child(2) {	
+		text-align: right;	
+		vertical-align: middle;
+	}
+	#main_item img {
+		margin: 0 auto;
+		width: 100%;
+	}
+	#main_item iframe {
+		width: 100%;
+		min-height: 700px;
+	}
+/*	ul { padding-left: 1em; }*/
+	#picdetails b { white-space: nowrap; }
+</style>
