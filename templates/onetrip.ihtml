@@ -1,0 +1,56 @@
+
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+
+
+		<style type="text/css" media="screen">
+			.pbanner>img {
+				width: 100%;
+			}
+			#trip {
+				margin-top: 30px;
+			}
+			#postlist, #camplist {
+				max-height: 320px;
+				overflow: auto;
+			}
+			#postlist {
+				padding-left: 16px;
+			}
+		</style>				
+
+		<div class="container">		
+		  <div class="row no-gutters">
+{HEADER_GALLERY}
+ 		  </div>			
+
+		  <div class="row">
+		    <div class="col cardrowhead">
+					<h2><a href="?page=log&type=id&key={TRIP_ID}">{TRIP_TITLE}</a></h2>
+		    </div>
+		  </div>
+
+		  <div id="trip" class="row cardrow">
+		    <div class="col-md-7">
+{TRIP_MAP}
+					<div style="float: right"><a href="?page=map&type=id&key={TRIP_ID}">full map</a></div>
+		    </div>
+				
+		    <div class="col-md-5">
+					<h5>Stories</h5>	
+					<ul id="postlist">
+<!-- BEGIN post_rows -->
+						<li><a href="{POST_LINK}">{POST_TITLE}</a></li>
+<!-- END post_rows -->
+					</ul>
+					<h5>Stops</h5>
+					<div id=camplist>
+						&bull; 
+<!-- BEGIN stop_rows -->
+						<a href="?page=spot&type=id&key={SPOT_ID}">{SPOT_NAME}</a> &bull;
+<!-- END stop_rows -->
+					</div>
+		    </div>
+	    </div>
+		</div>
