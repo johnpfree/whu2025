@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	{GOOGLE_ANALYTICS}		
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<meta name="description" content="{META_DESC}" />
+		<meta name="keywords" content="travel" />
+		<title>WHUFU: {CAPTION}</title>
+
+		<link rel="icon" type="image/png" sizes="16x16 32x32" href="resources/favicon/boxes.png">
+
+		<link rel="stylesheet" href="css/normalize.min.css">		
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>		
+		<script src="js/main.js"></script>    
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+		
+		<link href="css/whuBase.css" rel="stylesheet">
+		<link rel="stylesheet" href="libraries/font-awesome-4.7.0/css/font-awesome.min.css">
+
+		<link rel="apple-touch-icon" href="apple-touch-icon.png">
+				
+		<style type="text/css" media="screen">
+			
+			h2,h3,h4,h5,.headfont {
+/*				font-family: Montserrat, sans-serif;*/
+				font-family: skolar-1, skolar-2, Georgia, "Times New Roman", serif;
+			}
+			
+			a { color: #017034; }
+			a:hover { color: #db644c; text-decoration: none; }
+			h2 a { color: #2d537d; }
+			h2 a:hover { color: #db644c; }			
+			
+			.hidden { display: none; }
+			
+			#whubanner {
+				color: black;
+				font-size: 18pt;
+				text-align: center;
+				padding-top: 30px;
+				margin-bottom: 8px;
+			}
+			a:hover #whubanner {
+				color: #db644c;
+			}
+			#main-menu {
+				text-align: center;
+				margin-bottom: 20px;
+				border-top: 2px solid black;
+			}
+			.cardrowhead {
+				text-align: center;
+				margin: 12px 0 20px;
+				border-top: 1px solid black;
+				border-bottom: 1px solid black;
+			}
+			.cardrowhead h2 {
+				margin: 6px 0;
+			}
+/*	
+			.cardrowhead span {
+				font-size: 70%;
+				padding-left: 40px;
+			}
+			.flex-title {
+			  display: flex;
+			  flex-wrap: wrap;
+			}
+*/			
+			.flex-container {
+			  display: flex;
+			  flex-flow: row wrap;
+			  justify-content: space-around;
+  
+			  padding: 0;
+/*			  margin: 0;*/
+			}
+			.headerclause {
+				margin: auto 0;
+			}
+			.headerclause a {
+				color: #2d537d;
+				font-style: italic;
+			}
+
+			.navbar {
+				padding: 0;
+			}
+			
+			footer {
+				color: #a7c5bc;
+				padding: 1rem 0;
+				text-align: center;
+			}
+		  footer a { opacity: 0.9; }
+			#foot-wp a { opacity: 1; }
+			#main-footer {
+				border-top: 2px solid black;
+				margin-top: 8px;
+				padding-top: 8px;
+			}
+			#main-footer>div:nth-child(1) { color: #f75035; }
+			#main-footer>div:nth-child(2) { color: #f75035; }
+		</style>
+				
+	</head>
+	<body>
+	<header>	
+		<div class="container">
+			<a href="?page=home&type=home">
+				<div id="whubanner" class="row" >
+			    <div class="col">W</div>
+			    <div class="col">H</div>
+			    <div class="col">U</div>
+			    <div class="col">F</div>
+			    <div class="col">U</div>
+			    <div class="col">2023</div>
+		  	</div>
+			</a>
+			<nav id="main-menu" class="navbar navbar-expand-sm justify-content-center navbar-light" style="">
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="collapsibleNavbar">				
+				  <div class="row collapse navbar-collapse" id="collapsibleNavbar">				
+				    <div class="col nav-item"><a class="nav-link" href="?page=trips&type=home">Trips</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=spots&type=type&key=home">Overnights</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=spots&type=type&key=HOTSPR">Hot Springs</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=spots&type=type&key=NWR">Wildlife Refuges</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=about&type=home">About</a></div>
+				    <div class="col nav-item"><a class="nav-link" href="?page=search&type=home">Search</a></div>
+		  		</div>
+		  	</div>
+			</nav>
+		</div>
+	</header>
+
+	<div id="the_content" class="container">
+{THE_CONTENT}
+	</div> <!-- #the_content -->
+
+	<footer>
+	  <div class="container">
+			<div class="row" id="main-footer">
+				<div class="col-sm-3" class="my_name">
+					Whufu 2020 &copy; &nbsp; 2010&ndash;2023
+				</div>
+				<div class="col-sm-2" class="my_name">
+					John P Freeman
+				</div>
+				<div class="col-sm-3">
+		      <a href="https://twitter.com/johnpfreem" target="_blank"><span class="fa fa-twitter"></span></a>
+						&nbsp;
+		      <a href="https://www.facebook.com/johnpfree" target="_blank"><span class="fa fa-facebook"></span></a>
+					&nbsp;
+		      <a href="http://www.whufu.com/wpwhu/" target="_blank"><span class="fa fa-wordpress"></span></a>
+					&nbsp;
+		      <a href="https://www.youtube.com/channel/UC9TfELP0fNmd49-cwLJHgRg" target="_blank"><span class="fa fa-youtube-play"></span></a>
+					&nbsp;
+		      <a href="https://www.instagram.com/johnpfree/" target="_blank"><span class="fa fa-instagram"></span></a>
+					&nbsp;
+		      <a href="https://www.flickr.com/photos/142792707@N04/" target="_blank"><span class="fa fa-flickr"></span></a>
+				</div>
+				<div id="foot-wp" class="col-sm-4">
+					<a href="http://www.whufu.com/wpwhu/?page_id=567">Travel Blog</a> |  
+					<a href="http://www.cloudyhands.com/wptest/">Other Writing</a> 
+				</div>
+			</div>
+		</div>
+	</footer> 
+	<script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-1.12.0.min.js"><\/script>')</script>
+</body>
+</html>
