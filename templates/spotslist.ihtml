@@ -1,0 +1,43 @@
+<style>
+/*	#h2clause {
+		padding-top: .3rem;
+		font-size: 70%;
+	}*/
+</style>
+		<div class="container">		
+		  <div class="row no-gutters">
+{HEADER_GALLERY}
+ 		  </div>			
+
+		  <div class="row">
+		    <div class="col cardrowhead flex-container">
+					<h2 class="">
+						{PAGE_TITLE}
+					</h2>
+					<h4 class="headerclause">
+						{TITLE_CLAUSE}
+					</h4>
+		    </div>
+		  </div>
+			
+			<table class="table table-hover" id="spotstable">
+				<thead>
+					<tr>
+						<td align="right">name</td>
+						<td>where</td>
+						<td>part of</td>
+						<td>type</td>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- BEGIN lg_rows -->
+					<tr>
+						<td align="right"><a href="?page=spot&type=id&key={SPOT_ID}" title="Spot Name">{SPOT_NAME}</a></td>
+						<td>{SPOT_WHERE}</td>
+						<td>{SPOT_PART_OF}</td>
+						<td>{SPOT_TYPE}</td>
+					</tr>
+					<!-- END lg_rows -->
+				</tbody>
+			</table>
+		</div>
