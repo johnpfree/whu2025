@@ -1,0 +1,166 @@
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.js"></script>
+
+		<div class="container">		
+		  <div class="row no-gutters">
+{HEADER_GALLERY}
+		  </div>			
+
+		  <div class="row">
+		    <div class="col cardrowhead flex-container">
+					<h2 class="">
+						{PAGE_TITLE}
+					</h2>
+					<h4 class="headerclause {TRIP_MAP}">
+						<a href="?page=log&type=id&key={TRIP_ID}">details</a> &bull; 
+						<a href="?page=pics&type=id&key={TRIP_ID}">pictures</a> &bull; 
+						<a {WP_VIS} href="{WP_LINK}" title="go to Wordpress">{WP_TEXT}</a>
+					</h4>
+					<h4 class="headerclause {SPOTLIST_MAP}">
+						{TITLE_CLAUSE}
+					</h4>
+		    </div>
+		  </div>
+
+		  <div class="row">
+		    <div class="col">
+					<div id='map'></div>
+		    </div>
+		  </div>
+	  </div>
+<style>
+	#map {
+		width: 100%;
+		padding-bottom: 95%;  /*maintain aspect ratio*/
+	}
+	.mapboxgl-popup-content {
+		color: black;
+		background-color: #fdfdd9;
+		padding: 10px;
+		border: 3px solid #b5b87e;
+/*		border: 3px solid #c0c291;*/
+		border-radius: 8px;
+	}
+	.mapboxgl-popup-content a	{	
+		color: #56591e;	
+		font-weight: bold; 
+		# font-size: 8pt;
+		# border: none;
+	}
+	.mapboxgl-popup-content a:hover {	color: #db644c; text-decoration: underline;	}
+	.markdes { border-bottom: 5px; }
+	.markTxt { font-size: 20px; color: red; }
+	.whuMark {}
+	
+</style>
+
+<script>
+
+mapboxgl.accessToken = '{MAPBOX_TOKEN}';
+
+var markers = [
+<!-- BEGIN node_rows -->
+	{
+		type: 'Feature',
+		geometry: {
+				type: 'Point',
+				coordinates: [{POINT_LON}, {POINT_LAT}]
+		},
+		properties: {
+				title: '{POINT_NAME}',
+				description: '<a href="{WHU_URL}?page={PAGE_VAL}&type={TYPE_VAL}&key={KEY_VAL}">{LINK_TEXT}</a>',
+				'marker-symbol': '{MARKER_VAL}',
+				'marker-color': '{MARKER_COLOR}'
+		}
+	},
+
+<!-- END node_rows -->
+];
+
+console.log("markers.length", markers.length);
+
+// gl
+	var bounds = [
+	  markers[0].geometry.coordinates,
+	  markers[1].geometry.coordinates
+	];
+	console.log('bounds', bounds);
+	
+	const llb = new mapboxgl.LngLatBounds(bounds);
+	console.log('llb', llb);
+	
+	for (var i = 0; i < markers.length; i++) {
+		llb.extend(markers[i].geometry.coordinates);
+		// console.log(i, 'markers[i].geometry.coordinates', markers[i].geometry.coordinates, llb);
+	}
+	
+  const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        style: 'mapbox://styles/johnpfree/ckapev8jm05g41jlnxn69u2pt'
+    })
+		.fitBounds(llb, { padding: 60 } );
+
+	map.on('load', function() {
+		map.addSource('points', {
+		  'type': 'geojson',
+		  'data': {
+	      'type': 'FeatureCollection',
+	      'features': markers
+				}
+	  })
+	});
+	
+	for (var i = 0; i < markers.length; i++) {
+		console.log('title', markers[0].properties['title']);
+
+		// const label = markers[i].properties['description'] + "<br>" + markers[i].properties['title']
+		
+		const label = "<div class='markdes'>" + markers[i].properties['description'] + "</div><div class='marktit'>" + markers[i].properties['title'] + "</div>";
+
+	  var el = document.createElement('div');
+	  el.className = 'markTxt';
+	  el.innerHTML = '<span><b>' + markers[i].properties['marker-symbol'] + '</b></span>'
+
+		// const el = document.createElement('div');
+		// el.className = 'whuMark';
+		// el.style.backgroundImage = 'url(./mapbox-marker-icon-20px-orange.png)';
+		// el.style.backgroundSize = '100%';
+		// const width = marker.properties.iconSize[0];
+		// const height = marker.properties.iconSize[1];
+		// el.style.width = `${width}px`;
+		// el.style.height = `${height}px`;
+
+		if (i == 3)	console.log("element", i, el);
+		
+		new mapboxgl.Marker({
+			element: el,
+			color: "#cc0000"
+		})
+		// new mapboxgl.Marker({
+		// 	color: markers[i].properties['marker-color'],
+		// 	// color: "#FF0000",
+		// })
+	    .setLngLat(markers[i].geometry.coordinates)
+	    .setPopup(new mapboxgl.Popup({ offset: 25 }).setHTML(label))
+	    .addTo(map);
+		// console.log(i, 'markers[i].geometry.coordinates', markers[i].geometry.coordinates, llb);
+	}
+	
+
+	const nav = new mapboxgl.NavigationControl({
+	    showCompass: false
+	});
+	map.addControl(nav, 'bottom-right');
+	console.log('bbb');
+	
+	map.scrollZoom.disable();		// scroll zoom is annoying
+
+
+console.log('map', map);
+map.on('click', function(e) {
+	console.log('click', e);
+});
+
+</script>
+	
