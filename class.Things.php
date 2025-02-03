@@ -84,7 +84,6 @@
 		}
 		function baseExcerpt($str, $chop=400)
 		{
-	// dumpVar($str, "str");
 			$str = strip_tags($str);
 			if (strlen($str) < $chop)											// don't need to truncate?
 				return $str;
