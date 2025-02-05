@@ -199,6 +199,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		switch ($this->key) {
 			case 'NPS':				$parms = array('type' => 'partof', 'data' => "National Park");	break;
 			default;
+			case 'home':
 			case 'FS':				$parms = array('type' => 'partof', 'data' => "National Forest");	break;
 			case 'BLM':				$parms = array('type' => 'partof', 'data' => $this->key);	break;
 			case 'ACE':				$parms = array('type' => 'partof', 'data' => 'Army Corps');	break;
@@ -213,8 +214,8 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		//  $noDbg = 0;
 		// dumpVar($key, "key");
 		// dumpVar($this->key, "this->key");
-		$this->caption = $this->spotTypes[$this->key];
-		$this->title = $this->caption;
+		// $this->caption = $this->spotTypes[$this->key];
+		// $this->title = $this->caption;
 
 		$spots = $this->build('DbSpots', $parms);
 		if ($this->key == 'County')
