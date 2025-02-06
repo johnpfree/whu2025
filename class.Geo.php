@@ -20,14 +20,10 @@ class WhuLink
 	var $params = '';
 	var $albumList = false;
 	// Can really overload param 3 with whatever you want based on the first two
-<<<<<<< HEAD
-=======
 
 	var $props = '';				 // shut up the 'dynamic property deprecated' message
 	var $trip = '';
 
-
->>>>>>> refs/remotes/origin/master
 	function __construct($p, $t, $kparm = '', $txt = '-', $title = '')
 	{
 		$defaults = array('classes' => '', 'params' => '', 'txt' => $txt, 'page' => $p, 'type' => $t, 'key' => $kparm, 'title' => $title);
