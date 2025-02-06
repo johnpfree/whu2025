@@ -20,6 +20,14 @@ class WhuLink
 	var $params = '';
 	var $albumList = false;
 	// Can really overload param 3 with whatever you want based on the first two
+<<<<<<< HEAD
+=======
+
+	var $props = '';				 // shut up the 'dynamic property deprecated' message
+	var $trip = '';
+
+
+>>>>>>> refs/remotes/origin/master
 	function __construct($p, $t, $kparm = '', $txt = '-', $title = '')
 	{
 		$defaults = array('classes' => '', 'params' => '', 'txt' => $txt, 'page' => $p, 'type' => $t, 'key' => $kparm, 'title' => $title);
@@ -174,6 +182,40 @@ function getAllSpotKeys($db)
 
 // ---------------------------------------------------------------------------------------  
 
+<<<<<<< HEAD
+=======
+class SaveForm
+{
+	function __construct($p)
+	{
+		$this->props = $p;
+		
+		$file = getcwd() . '/feedback.csv';
+		dumpVar($file, "file");include 'class.Geo.php';
+		
+		$this->out = new FileWrite($file, 'a');
+		$this->out->dodump = false;
+	}
+	function write($post, $src)
+	{
+		// date time, purpose, name, email, topic, content, url
+		$str = sprintf("%s,%s,%s,%s,%s,%s,%s", date("Y-m-d H:i:s"),
+						$this->props->get('choose_purpose'), $this->massageForCsv('f_ndata'), $this->props->get('f_edata'), 
+						$this->massageForCsv('f_topic'), $this->massageForCsv('f_comment'), $this->props->get('f_url'));
+		
+		$this->out->write("$str");
+	}
+	function massageForCsv($prop)
+	{
+		$txt = $this->props->get($prop);          // specialized, get the prop here
+		$txt = str_ireplace('"', '"""', $txt);    // double quotes in text are doubled
+		return '"' . $txt . '"';
+	}
+}
+
+// ---------------------------------------------------------------------------------------  
+
+>>>>>>> refs/remotes/origin/master
 class AjaxCode 
 {
 	var $colWid = 2;

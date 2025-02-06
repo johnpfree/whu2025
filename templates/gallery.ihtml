@@ -122,6 +122,7 @@
 		padding-top: 6px;
 		margin-bottom: 10px;
 	}
+<<<<<<< HEAD
 
 	#thegal>p {
 		float: left;
@@ -147,6 +148,10 @@
 			width: 160px;
 			height: 160px;
 		}
+=======
+	.justified-gallery > a > .caption {
+		line-height: 1.3em;
+>>>>>>> refs/remotes/origin/master
 	}
 </style>
 

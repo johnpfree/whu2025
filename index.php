@@ -1,4 +1,5 @@
 <?php
+
 include_once("host.php");
 include_once(INCPATH . "template.inc");
 include_once(INCPATH . "class.Properties.php");
@@ -10,7 +11,9 @@ include_once("class.Pages.php");
 include_once("class.Geo.php");				// after Pages
 
 include_once(INCPATH . "jfdbg.php");
-$noDbg = NODBG_DFLT;
+
+$noDbg = NODBG_DFLT;	// don't see warnings
+// $noDbg = 0;						// see warnings
 if (isset($_GET['dbg'])) 
 	$noDbg = !$_GET['dbg'];				// force debugging (or not)
 
@@ -22,6 +25,8 @@ date_default_timezone_set('America/Los_Angeles');		// now required by PHP
 
 class WhuProps extends Properties
 {
+	var $checkedCats;
+
 	function __construct($props, $over = array())		// do overrides in one call
 	{
 		parent::__construct(array_merge($props, $over));
@@ -127,8 +132,6 @@ $curkey  = $props->get('key');
 
 switch ("$curpage$curtype") 
 {
-	// New stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 	case 'homehome':		$page = new HomeHome($props);			break;		
 
 	case 'tripshome':		$page = new AllTrips($props);				break;
@@ -143,6 +146,13 @@ switch ("$curpage$curtype")
 
 	case 'maptype':					$page = new MapSpotType($props);			break;	
 	case 'spotstype':				$page = new SpotsListType($props);			break;	
+
+	case 'spotshome':
+	$curtype = $props->set('type', 'type');	// coming from Whublog
+	$curkey  = $props->set('key', 'FS');		// hack in forest service
+	case 'spotstype':				$page = new SpotsListType($props);			break;	
+
+	case 'maptype':					$page = new MapSpotType($props);			break;
 	case 'thumbstype':			$page = new ThumbsListType($props);			break;	
 
 	case 'mapplaceid':			$page = new MapPlaceId($props);			break;	
@@ -167,11 +177,9 @@ switch ("$curpage$curtype")
 	case 'abouthome':		$page = new About($props);					break;	
 
 	case 'picid':				$page = new OnePhoto($props);		break;
-
-	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 	case 'picsid':			$page = new TripPictures($props);		break;	
 	case 'picsdate':		$page = new DateGallery($props);		break;
+
 	case 'picscat': {
 		switch ($props->decodeSearchParms($props->get('key')))
 		{
@@ -192,7 +200,9 @@ switch ("$curpage$curtype")
 		exit;
 }
 $savepage = $page;									// hack for Wordpress pages
+
 $page->key = $props->get('key');		// just for convenience, everyone needs it
+$savepage = $page;									// hack for Wordpress pages
 
 $templates = array("main" => 'container.ihtml', "the_content" => $page->file);
 $page->startPage($templates);
