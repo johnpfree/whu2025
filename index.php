@@ -1,5 +1,4 @@
 <?php
-// echo "AA";
 
 include_once("host.php");
 include_once(INCPATH . "template.inc");
@@ -134,8 +133,6 @@ $curkey  = $props->get('key');
 
 switch ("$curpage$curtype") 
 {
-	// New stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 	case 'homehome':		$page = new HomeHome($props);			break;		
 
 	case 'tripshome':		$page = new AllTrips($props);				break;
@@ -178,14 +175,8 @@ switch ("$curpage$curtype")
 	case 'abouthome':		$page = new About($props);					break;	
 
 	case 'picid':				$page = new OnePhoto($props);		break;
-	// case 'picid':				$page = new OneNewStylePhoto($props);		break;
-
-	// Old stuff =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
 	case 'picsid':			$page = new TripPictures($props);		break;	
-
 	case 'picsdate':		$page = new DateGallery($props);		break;
-	// case 'picsdate':		$page = new DateNoJustifyGallery($props);		break;
 
 	case 'picscat': {
 		switch ($props->decodeSearchParms($props->get('key')))
