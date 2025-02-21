@@ -26,7 +26,7 @@ date_default_timezone_set('America/Los_Angeles');		// now required by PHP
 class WhuProps extends Properties
 {
 	var $checkedCats;
-
+	
 	function __construct($props, $over = array())		// do overrides in one call
 	{
 		parent::__construct(array_merge($props, $over));
@@ -144,9 +144,6 @@ switch ("$curpage$curtype")
 	case 'spotid':			$page = new OneSpot($props);			break;	
 	case 'mapid':				$page = new OneMap($props);			break;	
 
-	case 'maptype':					$page = new MapSpotType($props);			break;	
-	case 'spotstype':				$page = new SpotsListType($props);			break;	
-
 	case 'spotshome':
 	$curtype = $props->set('type', 'type');	// coming from Whublog
 	$curkey  = $props->set('key', 'FS');		// hack in forest service
@@ -201,8 +198,8 @@ switch ("$curpage$curtype")
 }
 $savepage = $page;									// hack for Wordpress pages
 
-$page->key = $props->get('key');		// just for convenience, everyone needs it
-$savepage = $page;									// hack for Wordpress pages
+$key = $props->get('key');		// just for convenience, everyone needs it
+$page->key = $key;
 
 $templates = array("main" => 'container.ihtml', "the_content" => $page->file);
 $page->startPage($templates);
