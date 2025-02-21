@@ -84,10 +84,6 @@
 		}
 		function baseExcerpt($str, $chop=400)
 		{
-<<<<<<< HEAD
-	// dumpVar($str, "str");
-=======
->>>>>>> refs/remotes/origin/master
 			$str = strip_tags($str);
 			if (strlen($str) < $chop)											// don't need to truncate?
 				return $str;
