@@ -135,15 +135,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		assert(isset($links[$listtype]), "bad type for makeSpotsListHeader($title, $listtype, $extralink)");
 		
 		$this->template->set_var('PAGE_TITLE', $title);
-<<<<<<< HEAD
-		$this->caption = strip_tags($title);
-=======
-		// global $noDbg;
-		//  $noDbg = 0;
-		// dumpVar($title, "title");
-		// dumpVar(gettype($title), "gettype title");
 		$this->caption = is_null($title) ? "" : strip_tags($title);
->>>>>>> refs/remotes/origin/master
 		
 		extract($this->props->props);			// variablize page,type,key
 		// if ($type == 'lat')
@@ -203,10 +195,7 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		switch ($this->key) {
 			case 'NPS':				$parms = array('type' => 'partof', 'data' => "National Park");	break;
 			default;
-<<<<<<< HEAD
-=======
 			case 'home':
->>>>>>> refs/remotes/origin/master
 			case 'FS':				$parms = array('type' => 'partof', 'data' => "National Forest");	break;
 			case 'BLM':				$parms = array('type' => 'partof', 'data' => $this->key);	break;
 			case 'ACE':				$parms = array('type' => 'partof', 'data' => 'Army Corps');	break;
@@ -215,12 +204,6 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 			case 'inside':		$parms = array('type' => 'type' , 'data' => 'LODGE');	break;
 			case 'boondock':	$parms = array('type' => 'status', 'data' => 'parking');	break;
 			case 'NWR':				$parms = array('type' => 'type', 'data' => 'NWR'); break;
-<<<<<<< HEAD
-			case 'HOTSPR':		$parms = array('type' => 'type', 'data' => 'HOTSPR'); break;			
-		}
-		$this->caption = $this->spotTypes[$this->key];
-		$this->title = $this->caption;
-=======
 			case 'HOTSPR':		$parms = array('type' => 'type', 'data' => 'HOTSPR'); break;		
 		}
 		// global $noDbg;
@@ -229,7 +212,6 @@ dumpVar(get_class($this), "View class, <b>$pagetype</b> --> <b>{$this->file}</b>
 		// dumpVar($this->key, "this->key");
 		// $this->caption = $this->spotTypes[$this->key];
 		// $this->title = $this->caption;
->>>>>>> refs/remotes/origin/master
 
 		$spots = $this->build('DbSpots', $parms);
 		if ($this->key == 'County')
@@ -702,13 +684,7 @@ class SomeTrips extends AllTrips
 			
 			default: jfDie("no handler");
 		}
-<<<<<<< HEAD
-				
 		$this->trips = $this->build('Trips', $qwhere);	
-
-=======
-		$this->trips = $this->build('Trips', $qwhere);	
->>>>>>> refs/remotes/origin/master
 		if ($this->key == 'tl_rcnt') 
 			$this->trips->truncate(12);
 
@@ -1335,11 +1311,7 @@ class OnePhoto extends ViewWhu
 }
 class OneNewStylePhoto extends OnePhoto
 {
-<<<<<<< HEAD
-	var $file = "oneNewStylepic.";
-=======
 	var $file = "oneNewStylepic.ihtml";
->>>>>>> refs/remotes/origin/master
 }
 class OneMap extends ViewWhu
 {
@@ -1347,11 +1319,7 @@ class OneMap extends ViewWhu
 	var $loopfile = 'mapBoundsLoop.js';
 	var $marker_color = '#535900';	// '#8c54ba';
 
-<<<<<<< HEAD
-	var $tripMap = '';
-=======
 	var $tripMap = '', $name;
->>>>>>> refs/remotes/origin/master
 	var $spotlistMap = 'hideme';
 	// var $spotlistMap = 'class="hideme"';
 	function showPage()	
