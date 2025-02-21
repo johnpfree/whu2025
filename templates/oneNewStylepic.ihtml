@@ -19,32 +19,36 @@ $(document).ready(function() {
     </div>
   </div>
 	
-	<div class="row" id="thepic">
-    <div class="col">
+	<div class="row">
+    <div class="col-md-{PIC_COL_WID}" id="thepic">
 			<img class="img-rounded img-responsive" src='{REL_PICPATH}/{WF_IMAGES_PATH}/{WF_IMAGES_FILENAME}' />	
 		</div>
-	</div>
-	
-  <div id="underpic" class="row">
+
     <div class="col-md-4">
 			<dl>
 			  <dt>day gallery:</dt>
 			  <dd><h3><a href="?page=pics&type=date&key={DATE}">{COLLECTION_NAME}</a></h3></dd>
 			</dl>
-    </div>		
-    <div class="col-md-6">
+
 			<dl>
 			  <dt>trip:</dt>
 			  <dd><h3><a href="?page=trip&type=id&key={TRIP_ID}">{TRIP_NAME}</a></h3></dd>
 			</dl>
-    </div>
-    <div class="col-md-2">
-			<nav><a {P_VIS} href="?page=pic&type=id&key={PREVPIC}"><i class="fa fa-arrow-circle-o-left"></i> prev</a></nav>
-			<nav><a {N_VIS} href="?page=pic&type=id&key={NEXTPIC}">next <i class="fa fa-arrow-circle-o-right"></i></a></nav>
+
+			<div style="padding: 10px 0 0 20px;">				
+				<a href="?page=pic&type=id&key={PREVPIC}"><i class="fa fa-arrow-circle-o-left"></i> prev</a>
+				 &nbsp; &nbsp; &nbsp; &nbsp; 
+				<a href="?page=pic&type=id&key={NEXTPIC}">next <i class="fa fa-arrow-circle-o-right"></i></a>
+			</div>
+			
+			<div id="mapcell">
+				{MAP_INSET}
+				<p align=center><a href="?page=map&type=id&key={TRIP_ID}">full map</a></p>			
+	    </div>
     </div>		
 	</div>
 	
-	<div class="row">
+	<div class="row" style="margin-top: 30px;">
 		<div class="col-sm-9 col-md-8">
 			<ul id="picdetails">
 				<li>Taken on: <a href="?page=day&type=date&key={DATE}"><b>{PRETTIEST_DATE}</b></a> at <b>{PIC_TIME}</b>,</li>
@@ -52,26 +56,22 @@ $(document).ready(function() {
 				<li>Whu place: <b>{PIC_PLACE}</b></li>
 				<li class="{GPS_VIS}">geolocation: <b>{GPS_LAT}, {GPS_LON}</b></li>
 				<li>
-					Keywords:<br />
+					Keywords:
 					&bull; 
 		<!-- BEGIN rows -->
 					<a href="?page=pics&type=cat&key={WF_CATEGORIES_ID}">{WF_CATEGORIES_TEXT}</a> &bull; 
 		<!-- END rows -->
 				</li>
-				<li class="{STORY_VIS} flex-title"><div>Story for today:&nbsp;</div> <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
-				<li class="flex-title"><div>Stop for tonight:&nbsp;</div> <span>{PM_STOP}</a></span></li>
-				<li>{PICFILE_NAME}</li>			
-				<li><a href="?page=map&type=id&key={TRIP_ID}">full map</a></li>			
+				<li class="{STORY_VIS} flex-title">Story for today: <span><a href="{STORY_LINK}#{DATE}">{STORY}</a></span></li>
+				<li class="flex-title">Stop for tonight: <span>{PM_STOP}</a></span></li>
 			</ul>
-    </div>
-		<div id="mapcell" class="col-sm-3 col-md-4">
-			{MAP_INSET}
     </div>
 	</div>
 </div>
 
 <style type="text/css" media="screen">
 	#mapcell {
+		margin-top: 20px;
 	}
 	#thepic img {
 		width: 100%;
