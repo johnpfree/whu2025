@@ -24,6 +24,7 @@ class WhuLink
 	var $props = '';				 // shut up the 'dynamic property deprecated' message
 	var $trip = '';
 
+
 	function __construct($p, $t, $kparm = '', $txt = '-', $title = '')
 	{
 		$defaults = array('classes' => '', 'params' => '', 'txt' => $txt, 'page' => $p, 'type' => $t, 'key' => $kparm, 'title' => $title);
@@ -178,8 +179,6 @@ function getAllSpotKeys($db)
 
 // ---------------------------------------------------------------------------------------  
 
-<<<<<<< HEAD
-=======
 class SaveForm
 {
 	function __construct($p)
@@ -211,7 +210,6 @@ class SaveForm
 
 // ---------------------------------------------------------------------------------------  
 
->>>>>>> refs/remotes/origin/master
 class AjaxCode 
 {
 	var $colWid = 2;
